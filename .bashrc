@@ -29,6 +29,15 @@ if test "x${TEMP}" = "x" ; then
     export TEMP=${HOME}/tmp
 fi
 
+#
+# ~/local/
+#
+if test -a ~/local ; then
+    export PATH=${PATH}:${HOME}/local/bin
+    export MANPATH=${MANPATH:${MANPATH}:}${HOME}/man
+    export INFOPATH=${INFOPATH:+${INFOPATH}:}${HOME}/info
+fi
+
 ##########
 #  local stuff (should be before aliases)
 ##########

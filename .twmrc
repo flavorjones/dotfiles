@@ -40,3 +40,4 @@ Button2 = m : window : f.resize
 Button3 = m : window | title : f.move
 "quoteleft" = m : all : f.warpring "next"
 "quoteleft" = m | s : all : f.warpring "prev"
+RightTitleButton ":delete" = f.delete
