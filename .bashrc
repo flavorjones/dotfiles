@@ -167,6 +167,7 @@ function fork {
 function forkx {
     (xterm -e "$@" &)
 }
+
 function findsrc {
     if [[ "x$1" == "x" ]] ; then
         dir="."
