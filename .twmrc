@@ -2,6 +2,7 @@
 #  variables
 #
 NoGrabServer
+RandomPlacement
 
 Color
 {
@@ -10,7 +11,7 @@ Color
         TitleForeground "black"
 }
 
-BorderWidth 4
+BorderWidth 2
 TitleFont "-adobe-helvetica-medium-r-*-*-14-*-*-*-*-*-hp-*"
 IconFont "-adobe-helvetica-medium-r-*-*-12-*-*-*-*-*-hp-*"
 
@@ -18,8 +19,6 @@ MoveDelta 3
 Function "move-or-lower" { f.move f.deltastop f.lower }
 Function "move-or-raise" { f.move f.deltastop f.raise }
 Function "move-or-iconify" { f.move f.deltastop f.iconify }
-
-RandomPlacement
 
 WindowRing
 {
