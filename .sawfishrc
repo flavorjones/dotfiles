@@ -2,7 +2,7 @@
 
 (bind-keys window-keymap
            "Button1-Click" 'raise-and-pass-through-click
-           "M-F2" 'toggle-window-shaded
+           "M-F2" 'toggle-window-iconified
            "M-Up" 'maximize-window-vertically-toggle
            "M-Right" 'maximize-window-horizontally-toggle
            "M-Down" 'maximize-window-toggle
