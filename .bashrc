@@ -34,8 +34,8 @@ fi
 if test -a ${HOME}/local ; then
     export PATH=${HOME}/local/bin:${PATH}
     export LD_LIBRARY_PATH=${HOME}/local/lib:${LD_LIBRARY_PATH}
-#    export MANPATH=${MANPATH}:${HOME}/local/man
-#    export INFOPATH=${INFOPATH:+${INFOPATH}:}${HOME}/local/info
+    export MANPATH=${MANPATH}:${HOME}/local/man
+    export INFOPATH=${INFOPATH:+${INFOPATH}:}${HOME}/local/info
 fi
 
 ##########

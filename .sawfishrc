@@ -1,0 +1,2 @@
+;; fix the "Error: menu already active" bug
+(define-special-variable menu-program-stays-running nil)

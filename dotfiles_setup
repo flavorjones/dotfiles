@@ -2,29 +2,39 @@
 
 cd $HOME
 
-rm .bashrc
+rm -f .bashrc
 ln -s dotfiles/.bashrc .
 
-rm bin/clup
+rm -f bin/clup
 ln -s ../dotfiles/clup bin
 
-rm .emacs
+rm -f .emacs
 ln -s dotfiles/.emacs .
 
-rm .exrc
+rm -f .exrc
 ln -s dotfiles/.exrc .
 
-rm .mwmrc
+rm -f .mwmrc
 ln -s dotfiles/.mwmrc .
 
-rm .twmrc
+rm -f .twmrc
 ln -s dotfiles/.twmrc .
 
-rm .Xdefaults
+rm -f .Xdefaults
 ln -s dotfiles/.Xdefaults .
 
-rm .xmodmap4win
+rm -f .xmodmap4win
 ln -s dotfiles/.xmodmap4win .
 
-rm .inputrc
+rm -f .inputrc
 ln -s dotfiles/.inputrc .
+
+rm -f .sawfishrc
+ln -s dotfiles/.sawfishrc
+
+if [[ -d .sawfish ]] ; then
+    rm -f .sawfish/custom
+else
+    mkdir .sawfish
+fi
+ln -s dotfiles/sawfish_custom sawfish/custom
