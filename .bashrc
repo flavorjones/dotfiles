@@ -12,6 +12,8 @@ export VISUAL=emacs
 export CVSEDITOR="emacs -nw"
 export PS1="\w/\$ "
 
+export VALGRIND_OPTS="--num-callers=50"
+
 ## sample prefix so machine and env var are displayed in xterm title
 #export PS1="\[\e]0;\h | \${DEFAULT_MWSERVICE}\a\]${PS1}"
 
