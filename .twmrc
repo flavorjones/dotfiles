@@ -12,7 +12,7 @@ Color
 }
 
 BorderWidth 2
-TitleFont "-adobe-helvetica-medium-r-*-*-14-*-*-*-*-*-hp-*"
+TitleFont "-adobe-helvetica-medium-r-*-*-12-*-*-*-*-*-hp-*"
 IconFont "-adobe-helvetica-medium-r-*-*-12-*-*-*-*-*-hp-*"
 
 MoveDelta 3
