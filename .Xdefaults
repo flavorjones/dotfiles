@@ -68,7 +68,8 @@ XTerm*background: wheat1
 XTerm*foreground: Black
 
 !! "White" are unused. This is so if they are used somewhere, I'll notice.
-XTerm*color0: White
+! recview background (moneyline)
+XTerm*color0: wheat1
 ! ls zipped files (suse) and vi notice background (suse)
 XTerm*color1: Black
 ! ls executables (suse)
@@ -84,15 +85,16 @@ XTerm*color8: White
 XTerm*color9: Black
 ! ls executables
 XTerm*color10: Blue
-XTerm*color11: White
+! recview status line (moneyline)
+XTerm*color11: Red
 ! ls directories
 XTerm*color12: ForestGreen
 ! ls images (suse)
 XTerm*color13: Black
 ! ls symlinks
 XTerm*color14: grey50
-! vi notice foreground (suse)
-XTerm*color15: White
+! vi notice foreground (suse), recview image (moneyline)
+XTerm*color15: Red
 
 !!!!!!!!!!
 !  other misc apps
