@@ -11,6 +11,7 @@ stty erase ^?
 #
 export PS1="\[\e]0;\h\a\e[31;1m\]\w/\$ \[\e[0m\]"
 export TZ="America/New_York"
+export PATH=${PATH}:${HOME}/bin
 
 #
 #  cached values (for use in scripts?)
