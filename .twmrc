@@ -30,6 +30,7 @@ WindowRing
 #  bindings
 #
 "F1" =  m : window : f.raiselower
+"F1" =  s : window : f.fullzoom
 "F2" =  m : window : f.iconify
 "F2" =  m : icon : f.deiconify
 Button1 = m : icon | window : f.raiselower
