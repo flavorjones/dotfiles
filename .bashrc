@@ -45,12 +45,13 @@ export INPUTRC="~/.inputrc"
 #
 #  tmp directory
 #
-if test "x${TEMP}" = "x" ; then
-    if ! test -d /tmp/${USER} ; then
-        mkdir /tmp/${USER}
-    fi
-    export TEMP=/tmp/${USER}
-fi
+# can't remember why i need this.
+# if test "x${TEMP}" = "x" ; then
+#     if ! test -d /tmp/${USER} ; then
+#         mkdir /tmp/${USER}
+#     fi
+#     export TEMP=/tmp/${USER}
+# fi
 
 #
 # ~/local/
