@@ -31,10 +31,3 @@ ln -s ${HOME}/dotfiles/.inputrc .
 
 rm -f .sawfishrc
 ln -s ${HOME}/dotfiles/.sawfishrc
-
-if [[ -d .sawfish ]] ; then
-    rm -f .sawfish/custom
-else
-    mkdir .sawfish
-fi
-ln -s ${HOME}/dotfiles/sawfish_custom .sawfish/custom
