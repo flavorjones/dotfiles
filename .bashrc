@@ -30,9 +30,10 @@ export VALGRIND_OPTS="--num-callers=50 --error-limit=no"
 export MY_LSARGS="-F"
 
 #
-#  cvs environments
+#  svn, cvs environments
 #
 export MONKEYCVS=":ext:mike@monkey.csa.net:/home/mike/cvsrep"
+export MONKEYSVN="svn+ssh://mike@monkey.csa.net/home/mike/svnrep"
 
 #
 #  bash options
