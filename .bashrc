@@ -19,8 +19,9 @@ export VALGRIND_OPTS="--num-callers=50 --error-limit=no --workaround-gcc296-bugs
 export X=xterm
 export MY_LSARGS="-F"
 
+export IGNOREEOF=2
+
 set -o emacs
-set -o ignoreeof
 set -o notify  #  asynchronous job notification
 
 export INPUTRC="~/.inputrc"
@@ -81,6 +82,8 @@ alias  fyeo="chmod g-r-w-x,o-r-w-x"
 
 alias  pu="pushd"
 alias  po="popd"
+
+alias  valgrind-m="valgrind --leak-check=yes --show-reachable=yes"
 
 function mykill {
 	sig=${1}
