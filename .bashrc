@@ -14,7 +14,7 @@ export PS1="\w/\$ "
 ## sample prefix so machine and env var are displayed in xterm title
 #export PS1="\[\e]0;\h | \${DEFAULT_MWSERVICE}\a\]${PS1}"
 
-export VALGRIND_OPTS="--num-callers=50 --error-limit=no"
+export VALGRIND_OPTS="--num-callers=50 --error-limit=no --workaround-gcc296-bugs=yes"
 
 export X=xterm
 export MY_LSARGS="-F"
@@ -172,10 +172,10 @@ function mydiffu {
 }
 
 function cvsdiff {
-  cvs diff -w -b ${@}
+  cvs -q diff -w -b ${@}
 }
 function cvsdiffu {
-  cvs diff -w -b -u ${@}
+  cvs -q diff -w -b -u ${@}
 }
 function cvsconflict {
     ## needs to be tested
