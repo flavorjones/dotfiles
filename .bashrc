@@ -10,9 +10,7 @@ export LESS="-i -j5 -M -x4"
 export EDITOR=emacs
 export VISUAL=emacs
 export CVSEDITOR="emacs -nw"
-export PS1="\w/\$ "
-## sample prefix so machine and env var are displayed in xterm title
-#export PS1="\[\e]0;\h | \${DEFAULT_MWSERVICE} | \${BUILD_ROOT}\a\e[31;1m\]${PS1}\[\e[0m\]"
+export PS1="\[\e]0;\h\a\e[31;1m\]\w/\$ \[\e[0m\]"
 
 export VALGRIND_OPTS="--num-callers=50 --error-limit=no"
 
