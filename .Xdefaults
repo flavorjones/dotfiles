@@ -80,8 +80,8 @@ XTerm*color5: White
 XTerm*color6: grey50
 XTerm*color7: White
 XTerm*color8: White
-! ls zipped files, vi misc (suse)
-XTerm*color9: Orange
+! ls zipped files, vi misc (suse), man bold (suse)
+XTerm*color9: Black
 ! ls executables
 XTerm*color10: Blue
 XTerm*color11: White
