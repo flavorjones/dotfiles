@@ -3,38 +3,38 @@
 cd $HOME
 
 rm -f .bashrc
-ln -s dotfiles/.bashrc .
+ln -s ${HOME}/dotfiles/.bashrc .
 
 rm -f bin/clup
-ln -s ../dotfiles/clup bin
+ln -s ${HOME}/dotfiles/clup bin
 
 rm -f .emacs
-ln -s dotfiles/.emacs .
+ln -s ${HOME}/dotfiles/.emacs .
 
 rm -f .exrc
-ln -s dotfiles/.exrc .
+ln -s ${HOME}/dotfiles/.exrc .
 
 rm -f .mwmrc
-ln -s dotfiles/.mwmrc .
+ln -s ${HOME}/dotfiles/.mwmrc .
 
 rm -f .twmrc
-ln -s dotfiles/.twmrc .
+ln -s ${HOME}/dotfiles/.twmrc .
 
 rm -f .Xdefaults
-ln -s dotfiles/.Xdefaults .
+ln -s ${HOME}/dotfiles/.Xdefaults .
 
 rm -f .xmodmap4win
-ln -s dotfiles/.xmodmap4win .
+ln -s ${HOME}/dotfiles/.xmodmap4win .
 
 rm -f .inputrc
-ln -s dotfiles/.inputrc .
+ln -s ${HOME}/dotfiles/.inputrc .
 
 rm -f .sawfishrc
-ln -s dotfiles/.sawfishrc
+ln -s ${HOME}/dotfiles/.sawfishrc
 
 if [[ -d .sawfish ]] ; then
     rm -f .sawfish/custom
 else
     mkdir .sawfish
 fi
-ln -s dotfiles/sawfish_custom sawfish/custom
+ln -s ${HOME}/dotfiles/sawfish_custom .sawfish/custom
