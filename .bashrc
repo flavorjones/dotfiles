@@ -9,6 +9,7 @@ export LESS="-i -j5 -M"
 
 export EDITOR=emacs
 export VISUAL=emacs
+export CVSEDITOR="emacs -nw"
 export PS1="\w/\$ "
 
 ## sample prefix so machine and env var are displayed in xterm title
