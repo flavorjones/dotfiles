@@ -79,6 +79,9 @@ alias  dlock="chmod 555"
 alias  dunlock="chmod 775"  #  755
 alias  fyeo="chmod g-r-w-x,o-r-w-x"
 
+alias  pu="pushd"
+alias  po="popd"
+
 function mykill {
 	sig=${1}
 	shift
