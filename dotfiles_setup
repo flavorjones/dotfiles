@@ -2,6 +2,7 @@
 
 DOTDIR=${HOME}/.dotfiles
 BINDIR=${HOME}/bin
+SVNDIR=${HOME}/.subversion
 
 if ! test -d $BINDIR ; then
     mkdir $BINDIR
@@ -16,32 +17,35 @@ fi
 
 cd $HOME
 
-rm -f .bashrc
+rm -f ${HOME}/.bashrc
 ln ${DOTDIR}/.bashrc ${HOME}
 
-rm -f bin/clup
+rm -f ${BINDIR}/clup
 ln ${DOTDIR}/clup ${BINDIR}
 
-rm -f .emacs
+rm -f ${HOME}/.emacs
 ln ${DOTDIR}/.emacs ${HOME}
 
-rm -f .exrc
+rm -f ${HOME}/.exrc
 ln ${DOTDIR}/.exrc ${HOME}
 
-rm -f .mwmrc
+rm -f ${HOME}/.mwmrc
 ln ${DOTDIR}/.mwmrc ${HOME}
 
-rm -f .twmrc
+rm -f ${HOME}/.twmrc
 ln ${DOTDIR}/.twmrc ${HOME}
 
-rm -f .Xdefaults
+rm -f ${HOME}/.Xdefaults
 ln ${DOTDIR}/.Xdefaults ${HOME}
 
-rm -f .xmodmap4win
+rm -f ${HOME}/.xmodmap4win
 ln ${DOTDIR}/.xmodmap4win ${HOME}
 
-rm -f .inputrc
+rm -f ${HOME}/.inputrc
 ln ${DOTDIR}/.inputrc ${HOME}
 
-rm -f .sawfishrc
+rm -f ${HOME}/.sawfishrc
 ln ${DOTDIR}/.sawfishrc ${HOME}
+
+rm -f ${SVNDIR}/config
+ln ${DOTDIR}/config ${SVNDIR}
