@@ -25,3 +25,6 @@ ln -s dotfiles/.Xdefaults .
 
 rm .xmodmap4win
 ln -s dotfiles/.xmodmap4win .
+
+rm .inputrc
+ln -s dotfiles/.inputrc .
