@@ -24,9 +24,6 @@
            "M-C-`" 'cycle-windows-backwards
            "W-Right" 'next-workspace
            "W-Left" 'previous-workspace)
-(bind-keys iconify-button-keymap
-           "Button1-Off" 'toggle-window-shaded
-           "Button3-Click" 'popup-window-menu)
 
 ;; fix the "Error: menu already active" bug
 (define-special-variable menu-program-stays-running nil)
