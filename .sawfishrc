@@ -1,2 +1,32 @@
+;; -*-lisp-*-
+
+(bind-keys window-keymap
+           "Button1-Click" 'raise-and-pass-through-click
+           "M-F2" 'toggle-window-shaded
+           "M-Up" 'maximize-window-vertically-toggle
+           "M-Right" 'maximize-window-horizontally-toggle
+           "M-Down" 'maximize-window-toggle
+           "W-Button2-Click" 'resize-window-interactively
+           "M-F1" 'raise-lower-window
+           "W-Button3-Click" 'move-window-interactively)
+(bind-keys title-keymap
+           "Button1-Move" 'move-window-interactively
+           "C-Button3-Off" 'popup-root-menu
+           "M-F2" 'toggle-window-shaded
+           "Button1-Off2" 'toggle-window-shaded
+           "Button2-Off" 'popup-window-list
+           "Button3-Off" 'popup-window-menu)
+(bind-keys root-window-keymap
+           "Button3-Off" 'popup-root-menu)
+(bind-keys global-keymap
+           "M-`" 'cycle-windows
+           "M-C-Home" 'restart
+           "M-C-`" 'cycle-windows-backwards
+           "W-Right" 'next-workspace
+           "W-Left" 'previous-workspace)
+(bind-keys iconify-button-keymap
+           "Button1-Off" 'toggle-window-shaded
+           "Button3-Click" 'popup-window-menu)
+
 ;; fix the "Error: menu already active" bug
 (define-special-variable menu-program-stays-running nil)
