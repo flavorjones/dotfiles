@@ -24,6 +24,7 @@ export X=xterm
 export EDITOR=emacs
 export VISUAL=emacs
 export CVSEDITOR="emacs -nw"
+export CVS_RSH=ssh
 export LESS="-i -j5 -M -x4"
 export VALGRIND_OPTS="--num-callers=50 --error-limit=no"
 
