@@ -5,7 +5,7 @@
 stty erase ^?
 
 export HOST=$(hostname)
-export LESS="-i -j5 -M"
+export LESS="-i -j5 -M -x4"
 
 export EDITOR=emacs
 export VISUAL=emacs
@@ -14,7 +14,7 @@ export PS1="\w/\$ "
 ## sample prefix so machine and env var are displayed in xterm title
 #export PS1="\[\e]0;\h | \${DEFAULT_MWSERVICE}\a\]${PS1}"
 
-export VALGRIND_OPTS="--num-callers=50 --error-limit=no --workaround-gcc296-bugs=yes"
+export VALGRIND_OPTS="--num-callers=50 --error-limit=no"
 
 export X=xterm
 export MY_LSARGS="-F"
@@ -34,7 +34,7 @@ fi
 # ~/local/
 #
 if test -a ~/local ; then
-    export PATH=${PATH}:${HOME}/local/bin
+    export PATH=${HOME}/local/bin:${PATH}
 #    export MANPATH=${MANPATH}:${HOME}/local/man
 #    export INFOPATH=${INFOPATH:+${INFOPATH}:}${HOME}/local/info
 fi
