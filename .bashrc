@@ -117,8 +117,8 @@ function  getenv {
   env | grep ${*};
 }
 
-function  l {
-  eval ${*} | $PAGER;
+function rl {
+  ${*} 2>&1 | $PAGER;
 }
 
 function  pids {
@@ -214,5 +214,10 @@ function rx {
   ( xterm -si -title "${MACH}" -geometry 82x24 ${@} -e ssh ${MACH} & )
 
   return 0
+}
+
+function dtime {
+    # "info date" for more info
+    date -d "1970-01-01 UTC $1 seconds" +"%Y-%m-%d %T %z"
 }
 
