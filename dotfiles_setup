@@ -10,6 +10,9 @@ if ! test -d ${HOME}/.elisp ; then
     mkdir ${HOME}/.elisp
     touch ${HOME}/.elisp/mylocal.el
 fi
+if ! test -d ${HOME}/tmp ; then
+	mkdir ${HOME}/tmp
+fi
 
 cd $HOME
 
