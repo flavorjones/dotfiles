@@ -16,6 +16,8 @@ function cleanup_
 }
 
 NOARG=1
+DO_EMACS=0
+DO_COMPILED=0
 
 while getopts "ec" OPTION ; do
     case $OPTION in
@@ -37,15 +39,15 @@ done
 shift $(( $OPTIND - 1 ))
 
 #  default behavior
-if [[ $NOARG == 1 ]] ; then
+if test $NOARG -eq 1  ; then
     DO_EMACS=1 
 fi
 
-if [[ $DO_EMACS == 1 ]] ; then
+if test $DO_EMACS -eq 1  ; then
     RE="$RE *~ .*~ \#*\#"
 fi
 
-if [[ $DO_COMPILED == 1 ]] ; then
+if test $DO_COMPILED -eq 1 ; then
     RE="$RE *.o *.s *.err *.class"
 fi
 
