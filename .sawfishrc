@@ -1,5 +1,9 @@
 ;; -*-lisp-*-
 
+;;  this should be "~/.sawfish/lisp/sawfishrc_local.jl"
+;;  optional arg t is to not raise error if no file is found
+(load "sawfishrc_local" t)
+
 (bind-keys window-keymap
            "Button1-Click" 'raise-and-pass-through-click
            "M-F2" 'toggle-window-shaded
