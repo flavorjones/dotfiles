@@ -48,7 +48,7 @@ if test $DO_EMACS -eq 1  ; then
 fi
 
 if test $DO_COMPILED -eq 1 ; then
-    RE="$RE *.o *.s *.err *.class"
+    RE="$RE *.o *.s *.d *.err *.class"
 fi
 
 if test $# -gt 0 ; then
