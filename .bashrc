@@ -238,3 +238,6 @@ function rx {
 }
 
 
+function fork {
+    ($@ &)
+}
