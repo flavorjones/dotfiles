@@ -12,10 +12,14 @@ function usage_
 function cleanup_
 {
     DIR=$1
-    pushd $DIR > /dev/null
+    if test x$DIR != "x" ; then
+        pushd $DIR > /dev/null
+    fi
     echo "[$PWD]"
     rm -v -f $RE 2> /dev/null
-    popd > /dev/null
+    if test x$DIR != "x" ; then
+        popd > /dev/null
+    fi
 }
 
 NOARG=1
@@ -62,11 +66,13 @@ if test $# -gt 0 ; then
     for dir in $@ ; do
         if test -d $dir ; then
             if test $RECURSE -eq 1 ; then
+                #  will include $dir
                 for d in $( find $dir -type d -print ) ; do
                     cleanup_ $d
                 done
+            else
+                cleanup_ $dir
             fi
-            cleanup_ $dir
         else
             echo "could not find directory '$dir'"
         fi
