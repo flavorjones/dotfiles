@@ -30,9 +30,9 @@ Mwm*iconDecoration: activelabel label
 Mwm*useClientIcon: True
 Mwm*iconPlacementMargin: 5
 
-Mwm*menu*fontList: -adobe-helvetica-medium-r-*-*-14-*-*-*-*-*-hp-*
-Mwm*title*fontList: -adobe-helvetica-medium-r-*-*-14-*-*-*-*-*-hp-*
-Mwm*icon*fontList: -adobe-helvetica-medium-r-*-*-12-*-*-*-*-*-hp-*
+Mwm*menu*fontList: -adobe-helvetica-medium-r-*-*-14-*-*-*-*-*-*-*
+Mwm*title*fontList: -adobe-helvetica-medium-r-*-*-14-*-*-*-*-*-*-*
+Mwm*icon*fontList: -adobe-helvetica-medium-r-*-*-12-*-*-*-*-*-*-*
 
 Mwm*Emacs*iconImage: /usr/include/X11/bitmaps/terminal
 Mwm*XClock.clientDecoration: menu border
@@ -43,17 +43,18 @@ Mwm*XBiff.clientDecoration: menu border
 !!!!!!!!!!
 !  xterm
 !!!!!!!!!!
-XTerm*geometry: 100x55
+!XTerm*geometry: 100x55
+XTerm*geometry: 80x50
 XTerm*saveLines: 2048
 XTerm*scrollBar: on
 XTerm*scrollKey: on
 
-XTerm*font: -adobe-courier-medium-r-*-*-12-*-*-*-*-*-hp-*
-XTerm*font2: -adobe-courier-medium-r-*-*-8-*-*-*-*-*-hp-*
-XTerm*font3: -adobe-courier-medium-r-*-*-10-*-*-*-*-*-hp-*
-XTerm*font4: -adobe-courier-medium-r-*-*-14-*-*-*-*-*-hp-*
-XTerm*font5: -adobe-courier-medium-r-*-*-18-*-*-*-*-*-hp-*
-XTerm*font6: -adobe-courier-medium-r-*-*-24-*-*-*-*-*-hp-*
+XTerm*font: -adobe-courier-medium-r-*-*-12-*-*-*-*-*-*-*
+XTerm*font2: -adobe-courier-medium-r-*-*-8-*-*-*-*-*-*-*
+XTerm*font3: -adobe-courier-medium-r-*-*-10-*-*-*-*-*-*-*
+XTerm*font4: -adobe-courier-medium-r-*-*-14-*-*-*-*-*-*-*
+XTerm*font5: -adobe-courier-medium-r-*-*-18-*-*-*-*-*-*-*
+XTerm*font6: -adobe-courier-medium-r-*-*-24-*-*-*-*-*-*-*
 
 !! needed for Meta to work right in bash's cmdline editing
 XTerm*eightBitInput: false
@@ -87,13 +88,33 @@ Rxvt*color13: White
 Rxvt*color14: grey50
 Rxvt*color15: White
 
+XTerm*color0: White
+XTerm*color1: White
+XTerm*color2: White
+XTerm*color3: White
+XTerm*color4: White
+XTerm*color5: White
+XTerm*color6: White
+XTerm*color7: White
+XTerm*color8: White
+XTerm*color9: White
+! ls: executables
+XTerm*color10: Blue
+XTerm*color11: White
+! ls: directories
+XTerm*color12: ForestGreen
+XTerm*color13: White
+! ls: symlinks
+XTerm*color14: grey50
+XTerm*color15: White
+
 !!!!!!!!!!
 !  other misc apps
 !!!!!!!!!!
 *Background: wheat1
 *Foreground: Black
 
-Emacs.font: -adobe-courier-medium-r-*-*-12-*-*-*-*-*-hp-*
+Emacs.font: -adobe-courier-medium-r-*-*-12-*-*-*-*-*-*-*
 Emacs.geometry: 85x60+0+0
 
 XClock.geometry: 100x95+0-0
@@ -106,7 +127,7 @@ XBiff.mailbox.flip: false
 XBiff*Motif.SelectColor: yellow
 
 Mxdb*background: slategray3
-Mxdb*fontList: -adobe-courier-medium-r-*-*-10-*-*-*-*-*-hp-*=normal, -adobe-courier-bold-r-*-*-10-*-*-*-*-*-hp-*=bold, -adobe-courier-medium-o-*-*-10-*-*-*-*-*-hp-*=italic
+Mxdb*fontList: -adobe-courier-medium-r-*-*-10-*-*-*-*-*-*-*=normal, -adobe-courier-bold-r-*-*-10-*-*-*-*-*-hp-*=bold, -adobe-courier-medium-o-*-*-10-*-*-*-*-*-hp-*=italic
 
 !  <Key>Up: string("") \n\
 !  <Key>Down: string("") \n\
