@@ -11,11 +11,13 @@ export EDITOR=emacs
 export VISUAL=emacs
 export CVSEDITOR="emacs -nw"
 export PS1="\w/\$ "
-
-export VALGRIND_OPTS="--num-callers=50"
-
 ## sample prefix so machine and env var are displayed in xterm title
 #export PS1="\[\e]0;\h | \${DEFAULT_MWSERVICE}\a\]${PS1}"
+
+export VALGRIND_OPTS="--num-callers=50 --error-limit=no"
+
+export X=xterm
+export MY_LSARGS="-F"
 
 set -o emacs
 set -o ignoreeof
@@ -26,19 +28,20 @@ if test "x${TEMP}" = "x" ; then
 fi
 
 ##########
-#  local stuff
+#  local stuff (should be before aliases)
 ##########
 if test -a ~/.bashrc_local ; then
     . ~/.bashrc_local
 fi
 
+
 ##########
 #  aliases
 ##########
-alias  ls="ls -F"
-alias  lsa="ls -aF"
-alias  lsal="ls -alF"
-alias  lsl="ls -lF"
+alias  ls="ls \${MY_LSARGS}"
+alias  lsa="ls -a \${MY_LSARGS}"
+alias  lsal="ls -al \${MY_LSARGS}"
+alias  lsl="ls -l \${MY_LSARGS}"
 
 alias  cp="cp -i"
 alias  mv="mv -i"

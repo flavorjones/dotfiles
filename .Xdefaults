@@ -4,15 +4,6 @@
 ! This file contains user defaults resources which are applied to
 ! all X-clients.
 !
-
-*lookAndFeel: motif
-
-?*Background: wheat1
-*Background: wheat1
-
-?*Foreground: Black
-*Foreground: Black
-
 !!!!!!!!!!
 !  motif stuff
 !!!!!!!!!!
@@ -50,20 +41,38 @@ Mwm*XBiff.clientDecoration: menu border
 
 
 !!!!!!!!!!
-!  regular X
+!  xterm
 !!!!!!!!!!
-XTerm.VT100.geometry: 100x55
-XTerm.VT100.saveLines: 2048
+XTerm*geometry: 100x55
 XTerm*saveLines: 2048
-XTerm.VT100.scrollBar: on
-XTerm.VT100.scrollKey: on
+XTerm*scrollBar: on
+XTerm*scrollKey: on
 
-XTerm.VT100.font: -adobe-courier-medium-r-*-*-12-*-*-*-*-*-hp-*
-XTerm.VT100.font2: -adobe-courier-medium-r-*-*-8-*-*-*-*-*-hp-*
-XTerm.VT100.font3: -adobe-courier-medium-r-*-*-10-*-*-*-*-*-hp-*
-XTerm.VT100.font4: -adobe-courier-medium-r-*-*-14-*-*-*-*-*-hp-*
-XTerm.VT100.font5: -adobe-courier-medium-r-*-*-18-*-*-*-*-*-hp-*
-XTerm.VT100.font6: -adobe-courier-medium-r-*-*-24-*-*-*-*-*-hp-*
+XTerm*font: -adobe-courier-medium-r-*-*-12-*-*-*-*-*-hp-*
+XTerm*font2: -adobe-courier-medium-r-*-*-8-*-*-*-*-*-hp-*
+XTerm*font3: -adobe-courier-medium-r-*-*-10-*-*-*-*-*-hp-*
+XTerm*font4: -adobe-courier-medium-r-*-*-14-*-*-*-*-*-hp-*
+XTerm*font5: -adobe-courier-medium-r-*-*-18-*-*-*-*-*-hp-*
+XTerm*font6: -adobe-courier-medium-r-*-*-24-*-*-*-*-*-hp-*
+
+!! needed for Meta to work right in bash's cmdline editing
+XTerm*eightBitInput: false
+
+!  Character re-mapping ?
+XTerm*VT100.Translations: \
+  <Key>F4: string("exit\n") \n\
+  <Key>F5: string("exit\n")
+
+XTerm*background: wheat1
+XTerm*foreground: Black
+
+Rxvt*color10: Cyan4
+
+!!!!!!!!!!
+!  other misc apps
+!!!!!!!!!!
+*Background: wheat1
+*Foreground: Black
 
 Emacs.font: -adobe-courier-medium-r-*-*-12-*-*-*-*-*-hp-*
 Emacs.geometry: 85x60+0+0
@@ -79,18 +88,6 @@ XBiff*Motif.SelectColor: yellow
 
 Mxdb*background: slategray3
 Mxdb*fontList: -adobe-courier-medium-r-*-*-10-*-*-*-*-*-hp-*=normal, -adobe-courier-bold-r-*-*-10-*-*-*-*-*-hp-*=bold, -adobe-courier-medium-o-*-*-10-*-*-*-*-*-hp-*=italic
-
-!! needed for Meta to work right in bash's cmdline editing
-XTerm*eightBitInput: false
-
-!!!!!!!!!!
-!  Character re-mapping ?
-!!!!!!!!!!
-XTerm*VT100.Translations: #override \
-  <Key>F5: string("exec ksh\n") \n\
-  <Key>F6: string("set -o emacs ; set -o ignoreeof ; alias ls='ls -F'\n") \n\
-  <Key>F7: string(". informix.7.0\n") \n\
-  <Key>F4: string("conoff ; exit\n")
 
 !  <Key>Up: string("") \n\
 !  <Key>Down: string("") \n\
