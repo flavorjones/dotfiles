@@ -59,7 +59,7 @@ XTerm*font6: -adobe-courier-medium-r-*-*-24-*-*-*-*-*-hp-*
 XTerm*eightBitInput: false
 
 !  Character re-mapping ?
-XTerm*VT100.Translations: \
+XTerm*VT100.Translations: #override \n\
   <Key>F4: string("exit\n") \n\
   <Key>F5: string("exit\n")
 
