@@ -2,11 +2,6 @@
 #  bashrc file
 ##########
 #
-#  terminal stuff
-#
-stty erase ^?
-
-#
 #  prompts, environment, etc.
 #
 export PS1="\[\e]0;\h\a\e[31;1m\]\w/\$ \[\e[0m\]"
@@ -22,8 +17,8 @@ export HOST=$(hostname)
 #  application-related
 #
 export X=xterm
-export EDITOR=emacs
-export VISUAL=emacs
+export EDITOR="emacs -nw"
+export VISUAL="emacs -nw"
 export CVSEDITOR="emacs -nw"
 export CVS_RSH=ssh
 export LESS="-i -j5 -M -x4"
@@ -51,7 +46,10 @@ export INPUTRC="~/.inputrc"
 #  tmp directory
 #
 if test "x${TEMP}" = "x" ; then
-    export TEMP=${HOME}/tmp
+    if ! test -d /tmp/${USER} ; then
+        mkdir /tmp/${USER}
+    fi
+    export TEMP=/tmp/${USER}
 fi
 
 #
@@ -152,6 +150,10 @@ function cvsconflict {
     fgrep "Result" $FILES
 }
 
+function svndiff {
+    svn diff --diff-cmd diff -x "-uwb" ${@}
+}
+
 function dtime {
     # "info date" for more info
     date -d "1970-01-01 UTC $1 seconds" +"%Y-%m-%d %T %z"
@@ -240,4 +242,9 @@ function rx {
 
 function fork {
     ($@ &)
+}
+
+
+function forkx {
+    (xterm -e "$@" &)
 }

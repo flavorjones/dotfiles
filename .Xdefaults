@@ -66,34 +66,34 @@ XTerm*VT100.Translations: #override \n\
 XTerm*background: wheat1
 XTerm*foreground: Black
 
-!! "White" are unused. This is so if they are used somewhere, I'll notice.
-! recview background (moneyline)
-XTerm*color0: wheat1
-! ls zipped files (suse) and vi notice background (suse)
-XTerm*color1: Black
-! ls executables (suse)
-XTerm*color2: Blue
-XTerm*color3: White
-XTerm*color4: White
-XTerm*color5: White
-! ls symlinks (suse)
-XTerm*color6: grey50
-XTerm*color7: White
-XTerm*color8: White
-! ls zipped files, vi misc (suse), man bold (suse)
-XTerm*color9: Black
-! ls executables
-XTerm*color10: Blue
-! recview status line (moneyline)
-XTerm*color11: Red
-! ls directories
-XTerm*color12: ForestGreen
-! ls images (suse)
-XTerm*color13: Black
-! ls symlinks
-XTerm*color14: grey50
-! vi notice foreground (suse), recview image (moneyline)
-XTerm*color15: Red
+!!! "White" are unused. This is so if they are used somewhere, I'll notice.
+!! recview background (moneyline)
+!XTerm*color0: wheat1
+!! ls zipped files (suse) and vi notice background (suse)
+!XTerm*color1: Black
+!! ls executables (suse)
+!XTerm*color2: Blue
+!XTerm*color3: White
+!XTerm*color4: White
+!XTerm*color5: White
+!! ls symlinks (suse)
+!XTerm*color6: grey50
+!XTerm*color7: White
+!XTerm*color8: White
+!! ls zipped files, vi misc (suse), man bold (suse)
+!XTerm*color9: Black
+!! ls executables
+!XTerm*color10: Blue
+!! recview status line (moneyline)
+!XTerm*color11: Red
+!! ls directories
+!XTerm*color12: ForestGreen
+!! ls images (suse)
+!XTerm*color13: Black
+!! ls symlinks
+!XTerm*color14: grey50
+!! vi notice foreground (suse), recview image (moneyline)
+!XTerm*color15: Red
 
 !!!!!!!!!!
 !  other misc apps
