@@ -1,0 +1,19 @@
+#! /bin/bash
+
+#
+#  version 11/24/03
+#
+
+if test $# -gt 0 ; then
+	if test -d $1 ; then
+		cd $1
+	else
+		echo "could not find directory '$1'"
+        exit 1
+    fi
+fi
+
+RE="*~ .*~ \#*\#"
+
+ls $RE 2> /dev/null
+rm -f $RE 2> /dev/null

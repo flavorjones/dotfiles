@@ -1,0 +1,101 @@
+!
+! $HOME/.Xdefaults
+!
+! This file contains user defaults resources which are applied to
+! all X-clients.
+!
+
+*lookAndFeel: motif
+
+?*Background: wheat1
+*Background: wheat1
+
+?*Foreground: Black
+*Foreground: Black
+
+!!!!!!!!!!
+!  motif stuff
+!!!!!!!!!!
+! set false to move only rectangle when window moves
+Mwm.screen0.moveOpaque: true
+Mwm.screen0.buttonBindings:	DefaultButtonBindings
+Mwm.screen0.keyBindings:	DefaultKeyBindings
+Mwm.keyboardFocusPolicy:	pointer
+Mwm*focusAutoRaise:      False
+Mwm*autoRaiseDelay:             400
+Mwm.doubleClickTime:	500
+
+Mwm*background: slategray3
+Mwm*foreground: black
+Mwm*activeBackground: blue
+Mwm*activeForeground: white
+
+! Mwm*iconPlacement: top left tight
+Mwm*iconPlacement: top left
+Mwm*showFeedback: quit restart
+Mwm*iconImage: /usr/include/X11/bitmaps/xlogo32
+! Mwm*iconDecoration: activelabel label image
+Mwm*iconDecoration: activelabel label
+Mwm*useClientIcon: True
+Mwm*iconPlacementMargin: 5
+
+Mwm*menu*fontList: -adobe-helvetica-medium-r-*-*-14-*-*-*-*-*-hp-*
+Mwm*title*fontList: -adobe-helvetica-medium-r-*-*-14-*-*-*-*-*-hp-*
+Mwm*icon*fontList: -adobe-helvetica-medium-r-*-*-12-*-*-*-*-*-hp-*
+
+Mwm*Emacs*iconImage: /usr/include/X11/bitmaps/terminal
+Mwm*XClock.clientDecoration: menu border
+Mwm*XLoad.clientDecoration: menu border
+Mwm*XBiff.clientDecoration: menu border
+
+
+!!!!!!!!!!
+!  regular X
+!!!!!!!!!!
+XTerm.VT100.geometry: 100x55
+XTerm.VT100.saveLines: 2048
+XTerm*saveLines: 2048
+XTerm.VT100.scrollBar: on
+XTerm.VT100.scrollKey: on
+
+XTerm.VT100.font: -adobe-courier-medium-r-*-*-12-*-*-*-*-*-hp-*
+XTerm.VT100.font2: -adobe-courier-medium-r-*-*-8-*-*-*-*-*-hp-*
+XTerm.VT100.font3: -adobe-courier-medium-r-*-*-10-*-*-*-*-*-hp-*
+XTerm.VT100.font4: -adobe-courier-medium-r-*-*-14-*-*-*-*-*-hp-*
+XTerm.VT100.font5: -adobe-courier-medium-r-*-*-18-*-*-*-*-*-hp-*
+XTerm.VT100.font6: -adobe-courier-medium-r-*-*-24-*-*-*-*-*-hp-*
+
+Emacs.font: -adobe-courier-medium-r-*-*-12-*-*-*-*-*-hp-*
+Emacs.geometry: 85x60+0+0
+
+XClock.geometry: 100x95+0-0
+XLoad.geometry: 100x95
+XBiff.geometry: 60x60+0-40
+
+XBiff.mailbox.emptyPixmap: noletters
+XBiff.mailbox.fullPixmap: letters
+XBiff.mailbox.flip: false
+XBiff*Motif.SelectColor: yellow
+
+Mxdb*background: slategray3
+Mxdb*fontList: -adobe-courier-medium-r-*-*-10-*-*-*-*-*-hp-*=normal, -adobe-courier-bold-r-*-*-10-*-*-*-*-*-hp-*=bold, -adobe-courier-medium-o-*-*-10-*-*-*-*-*-hp-*=italic
+
+!! needed for Meta to work right in bash's cmdline editing
+XTerm*eightBitInput: false
+
+!!!!!!!!!!
+!  Character re-mapping ?
+!!!!!!!!!!
+XTerm*VT100.Translations: #override \
+  <Key>F5: string("exec ksh\n") \n\
+  <Key>F6: string("set -o emacs ; set -o ignoreeof ; alias ls='ls -F'\n") \n\
+  <Key>F7: string(". informix.7.0\n") \n\
+  <Key>F4: string("conoff ; exit\n")
+
+!  <Key>Up: string("") \n\
+!  <Key>Down: string("") \n\
+!  <Key>Left: string("") \n\
+!  <Key>Right: string("") \n\
+!  <Key>Tab: string("")
+
+!!!!!!!!!!!!!!!!!!!!

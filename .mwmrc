@@ -1,0 +1,54 @@
+#
+# Default Window Menu Description
+#
+Menu DefaultWindowMenu
+{
+  "Restore"     _R      Alt<Key>F5      f.normalize
+  "Refresh"     _f                      f.refresh_win
+  "Move"        _M      Alt<Key>F7      f.move
+  "Size"        _S      Alt<Key>F8      f.resize
+  "Minimize"    _n      Alt<Key>F9      f.minimize
+  "Maximize"    _x      Alt<Key>F10     f.maximize
+  #  "Lower"    _L      Alt<Key>F3      f.lower
+  no-label                              f.separator
+  "Close"       _C      Alt<Key>F4      f.kill
+}
+
+#
+# key binding descriptions
+#
+Keys DefaultKeyBindings
+{
+  Shift<Key>Escape            icon|window             f.post_wmenu
+  Meta<Key>space              icon|window             f.post_wmenu
+  Meta<Key>Tab                root|icon|window        f.next_key
+  Meta Shift<Key>Tab          root|icon|window        f.prev_key
+  Meta<Key>Escape             root|icon|window        f.next_key
+  Meta Shift<Key>Escape       root|icon|window        f.prev_key
+  Meta<Key>F6                 window                  f.next_key transient
+  Meta Ctrl Shift<Key>exclam  root|icon|window        f.set_behavior
+
+  Meta<Key>Down               root|icon|window        f.circle_down
+  Meta<Key>Up                 root|icon|window        f.circle_up
+  
+  Meta<Key>F1			window			f.raise_lower
+  Meta<Key>F2			window			f.minimize
+  Meta<Key>F2			icon		f.restore  # f.restore_and_raise
+}
+
+#
+# button binding descriptions
+#
+Buttons DefaultButtonBindings
+{
+    <Btn1Down>          frame|icon      f.raise
+    <Btn1Down>          root            f.menu  RootMenu
+    <Btn2Down>          frame|icon      f.post_wmenu
+    Meta<Btn1Down>      icon|window     f.raise_lower
+    Meta<Btn2Down>      window|icon     f.resize
+    Meta<Btn3Down>      window          f.move
+}
+
+#
+#  END OF mwm RESOURCE DESCRIPTION FILE
+#
