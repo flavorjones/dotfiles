@@ -87,7 +87,7 @@ alias  df="df -k"
 
 alias  em="( emacs & )"
 alias  edit="emacs"
-alias  ed="/usr/bin/ed -p '*'"
+alias  ed="ed -p '*'"
 
 alias  mypids="ps -fu ${LOGNAME}"
 alias  allpids="ps -ef"

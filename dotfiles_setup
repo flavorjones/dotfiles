@@ -3,10 +3,10 @@
 DOTDIR=${HOME}/.dotfiles
 BINDIR=${HOME}/bin
 
-if [[ ! -d $BINDIR ]] ; then
+if ! test -d $BINDIR ; then
     mkdir $BINDIR
 fi
-if [[ ! -d ${HOME}/.elisp ]] ; then
+if ! test -d ${HOME}/.elisp ; then
     mkdir ${HOME}/.elisp
     touch ${HOME}/.elisp/mylocal.el
 fi
