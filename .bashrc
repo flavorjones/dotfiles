@@ -160,6 +160,21 @@ function dtime {
     date -d "1970-01-01 UTC $1 seconds" +"%Y-%m-%d %T %z"
 }
 
+function fork {
+    ($@ &)
+}
+
+function forkx {
+    (xterm -e "$@" &)
+}
+function findsrc {
+    if [[ "x$1" == "x" ]] ; then
+        dir="."
+    else
+        dir="$1"
+    fi
+    find $dir -name '*.h' -or -name '*.hpp' -name '*.c' -or -name '*.cpp'
+}
 
 #
 #  ############### defunct functions and aliases below here ###############
@@ -238,14 +253,4 @@ function rx {
   ( xterm -si -title "${MACH}" -geometry 82x24 ${@} -e ssh ${MACH} & )
 
   return 0
-}
-
-
-function fork {
-    ($@ &)
-}
-
-
-function forkx {
-    (xterm -e "$@" &)
 }
