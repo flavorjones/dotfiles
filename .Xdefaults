@@ -77,7 +77,8 @@ XTerm*color5: White
 XTerm*color6: White
 XTerm*color7: White
 XTerm*color8: White
-XTerm*color9: White
+! ls: zipped files
+XTerm*color9: Orange
 ! ls: executables
 XTerm*color10: Blue
 XTerm*color11: White

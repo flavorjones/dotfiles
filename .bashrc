@@ -23,6 +23,8 @@ set -o emacs
 set -o ignoreeof
 set -o notify  #  asynchronous job notification
 
+export INPUTRC="~/.inputrc"
+
 if test "x${TEMP}" = "x" ; then
     export TEMP=${HOME}/tmp
 fi
