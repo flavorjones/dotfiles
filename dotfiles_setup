@@ -1,33 +1,36 @@
 #! /bin/bash
 
+DOTDIR=${HOME}/.dotfiles
+BINDIR=${HOME}/bin
+
 cd $HOME
 
 rm -f .bashrc
-ln -s ${HOME}/dotfiles/.bashrc .
+ln ${DOTDIR}/.bashrc ${HOME}
 
 rm -f bin/clup
-ln -s ${HOME}/dotfiles/clup bin
+ln ${DOTDIR}/clup ${BINDIR}
 
 rm -f .emacs
-ln -s ${HOME}/dotfiles/.emacs .
+ln ${DOTDIR}/.emacs ${HOME}
 
 rm -f .exrc
-ln -s ${HOME}/dotfiles/.exrc .
+ln ${DOTDIR}/.exrc ${HOME}
 
 rm -f .mwmrc
-ln -s ${HOME}/dotfiles/.mwmrc .
+ln ${DOTDIR}/.mwmrc ${HOME}
 
 rm -f .twmrc
-ln -s ${HOME}/dotfiles/.twmrc .
+ln ${DOTDIR}/.twmrc ${HOME}
 
 rm -f .Xdefaults
-ln -s ${HOME}/dotfiles/.Xdefaults .
+ln ${DOTDIR}/.Xdefaults ${HOME}
 
 rm -f .xmodmap4win
-ln -s ${HOME}/dotfiles/.xmodmap4win .
+ln ${DOTDIR}/.xmodmap4win ${HOME}
 
 rm -f .inputrc
-ln -s ${HOME}/dotfiles/.inputrc .
+ln ${DOTDIR}/.inputrc ${HOME}
 
 rm -f .sawfishrc
-ln -s ${HOME}/dotfiles/.sawfishrc
+ln ${DOTDIR}/.sawfishrc ${HOME}
