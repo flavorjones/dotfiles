@@ -68,26 +68,6 @@ XTerm*background: wheat1
 XTerm*foreground: Black
 
 !! "White" are unused. This is so if they are used somewhere, I'll notice.
-Rxvt*color0: White
-Rxvt*color1: White
-Rxvt*color2: White
-Rxvt*color3: White
-Rxvt*color4: White
-Rxvt*color5: White
-Rxvt*color6: White
-Rxvt*color7: White
-Rxvt*color8: White
-Rxvt*color9: White
-! ls: executables
-Rxvt*color10: Blue
-Rxvt*color11: White
-! ls: directories
-Rxvt*color12: ForestGreen
-Rxvt*color13: White
-! ls: symlinks
-Rxvt*color14: grey50
-Rxvt*color15: White
-
 XTerm*color0: White
 XTerm*color1: White
 XTerm*color2: White
