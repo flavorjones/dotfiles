@@ -34,8 +34,8 @@ fi
 #
 if test -a ~/local ; then
     export PATH=${PATH}:${HOME}/local/bin
-    export MANPATH=${MANPATH:${MANPATH}:}${HOME}/man
-    export INFOPATH=${INFOPATH:+${INFOPATH}:}${HOME}/info
+#    export MANPATH=${MANPATH}:${HOME}/local/man
+#    export INFOPATH=${INFOPATH:+${INFOPATH}:}${HOME}/local/info
 fi
 
 ##########
