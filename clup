@@ -2,24 +2,28 @@
 
 function usage_
 {
-    echo "usage: clup [-e] [-c] [directory1 [ ... [directoryN]]]"
+    echo "usage: clup [-e][-c] [-R] [directory1 [ ... [directoryN]]]"
     echo "  where -e (default mode) will clean up emacs files (*~, etc.)"
     echo "  where -c will clean up intermediate compiled files (*.o, etc.)"
+    echo "  where -R will recurse through all directories"
 }
 
 #  needs $RE to be set
 function cleanup_
 {
+    DIR=$1
+    pushd $DIR > /dev/null
     echo "[$PWD]"
-    ls $RE 2> /dev/null
-    rm -f $RE 2> /dev/null
+    rm -v -f $RE 2> /dev/null
+    popd > /dev/null
 }
 
 NOARG=1
 DO_EMACS=0
 DO_COMPILED=0
+RECURSE=0
 
-while getopts "ec" OPTION ; do
+while getopts "ecR" OPTION ; do
     case $OPTION in
         e)
         NOARG=0
@@ -28,6 +32,9 @@ while getopts "ec" OPTION ; do
         c)
         NOARG=0
         DO_COMPILED=1
+        ;;
+        R)
+        RECURSE=1
         ;;
         ?)
         usage_
@@ -53,12 +60,13 @@ fi
 
 if test $# -gt 0 ; then
     for dir in $@ ; do
-        if test -a $dir ; then
-            if test -d $dir ; then
-                pushd $dir > /dev/null
-                cleanup_
-                popd > /dev/null
+        if test -d $dir ; then
+            if test $RECURSE -eq 1 ; then
+                for d in $( find $dir -type d -print ) ; do
+                    cleanup_ $d
+                done
             fi
+            cleanup_ $dir
         else
             echo "could not find directory '$dir'"
         fi
