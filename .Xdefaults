@@ -87,7 +87,8 @@ XTerm*color10: Blue
 XTerm*color11: White
 ! ls directories
 XTerm*color12: ForestGreen
-XTerm*color13: White
+! ls images (suse)
+XTerm*color13: Black
 ! ls symlinks
 XTerm*color14: grey50
 ! vi notice foreground (suse)
