@@ -38,3 +38,4 @@ Button1 = : icon : f.function "move-or-iconify"
 Button2 = m : window : f.resize
 Button3 = m : window : f.move
 "quoteleft" = m : all : f.warpring "next"
+"quoteleft" = m | s : all : f.warpring "prev"
