@@ -1,19 +1,19 @@
 ;; sawfish user customization -- do not edit by hand!
-;; sawfish version 1.3, written Wed May  5 16:22:32 2004
+;; sawfish version 1.3, written Wed May  5 19:05:11 2004
 
-(custom-set-typed-variable (quote Crux:button-theme) (quote default) (quote (choice (default "Default") (platinum "Mac OS Platinum") (macos-x "Mac OS X") (windows "MS Windows") (next "NeXTSTEP"))))
-(custom-set-typed-variable (quote tooltips-enabled) (quote ()) (quote boolean) (quote sawfish.wm.ext.tooltips))
-(custom-set-typed-variable (quote tooltips-show-doc-strings) (quote t) (quote boolean))
+(custom-set-typed-variable (quote simple:active-color) (quote "#bbba66666666") (quote color))
 (custom-set-typed-variable (quote default-frame-style) (quote simple) (quote frame-style))
+(custom-set-typed-variable (quote simple:normal-color) (quote "#88878887bbba") (quote color))
+(custom-set-keymap (quote window-keymap) (quote (keymap (raise-and-pass-through-click . "Button1-Click") (toggle-window-shaded . "M-F2") (maximize-window-vertically-toggle . "M-Up") (maximize-window-horizontally-toggle . "M-Right") (maximize-window-toggle . "M-Down") (resize-window-interactively . "W-Button2-Click") (raise-lower-window . "M-F1") (move-window-interactively . "W-Button3-Click"))))
+(custom-set-typed-variable (quote tooltips-enabled) (quote ()) (quote boolean) (quote sawfish.wm.ext.tooltips))
+(custom-set-typed-variable (quote Crux:button-theme) (quote default) (quote (choice (default "Default") (platinum "Mac OS Platinum") (macos-x "Mac OS X") (windows "MS Windows") (next "NeXTSTEP"))))
+(custom-set-typed-variable (quote tooltips-show-doc-strings) (quote t) (quote boolean))
 (custom-set-keymap (quote title-keymap) (quote (keymap (move-window-interactively . "Button1-Move") (popup-root-menu . "C-Button3-Off") (toggle-window-shaded . "M-F2") (toggle-window-shaded . "Button1-Off2") (popup-window-list . "Button2-Off") (popup-window-menu . "Button3-Off"))))
 (custom-set-keymap (quote root-window-keymap) (quote (keymap (popup-root-menu . "Button3-Off"))))
 (custom-set-typed-variable (quote cycle-all-viewports) (quote t) (quote boolean))
 (custom-set-typed-variable (quote cycle-all-workspaces) (quote t) (quote boolean))
 (custom-set-keymap (quote global-keymap) (quote (keymap (cycle-windows . "M-`") (restart . "M-C-Home") (cycle-windows-backwards . "M-C-`") (next-workspace . "W-Right") (previous-workspace . "W-Left"))))
 (custom-set-keymap (quote iconify-button-keymap) (quote (keymap (toggle-window-shaded . "Button1-Off") (popup-window-menu . "Button3-Click"))))
-(custom-set-typed-variable (quote simple:active-color) (quote "#e1e032313231") (quote color))
-(custom-set-typed-variable (quote simple:normal-color) (quote "#64636463e1e0") (quote color))
-(custom-set-keymap (quote window-keymap) (quote (keymap (raise-and-pass-through-click . "Button1-Click") (toggle-window-shaded . "M-F2") (maximize-window-vertically-toggle . "M-Up") (maximize-window-horizontally-toggle . "M-Right") (maximize-window-toggle . "M-Prior") (resize-window-interactively . "W-Button2-Click") (raise-lower-window . "M-F1") (move-window-interactively . "W-Button3-Click"))))
 (custom-set-typed-variable (quote error-destination) (quote standard-error) (quote (choice nowhere screen standard-error)))
 (custom-set-typed-variable (quote focus-windows-when-mapped) (quote ()) (quote boolean))
 (custom-set-typed-variable (quote focus-mode) (quote enter-exit) (quote symbol))

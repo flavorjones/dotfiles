@@ -19,6 +19,8 @@ export MY_LSARGS="-F"
 
 export IGNOREEOF=1
 
+export TZ="America/New_York"
+
 set -o emacs
 set -o notify  #  asynchronous job notification
 
