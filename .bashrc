@@ -19,7 +19,7 @@ export VALGRIND_OPTS="--num-callers=50 --error-limit=no --workaround-gcc296-bugs
 export X=xterm
 export MY_LSARGS="-F"
 
-export IGNOREEOF=2
+export IGNOREEOF=1
 
 set -o emacs
 set -o notify  #  asynchronous job notification

@@ -69,27 +69,28 @@ XTerm*foreground: Black
 
 !! "White" are unused. This is so if they are used somewhere, I'll notice.
 XTerm*color0: White
-! ls: zipped files (suse)
-XTerm*color1: Orange
-! ls: executables (suse)
+! ls zipped files (suse) and vi notice background (suse)
+XTerm*color1: Black
+! ls executables (suse)
 XTerm*color2: Blue
 XTerm*color3: White
 XTerm*color4: White
 XTerm*color5: White
-! ls: symlinks (suse)
+! ls symlinks (suse)
 XTerm*color6: grey50
 XTerm*color7: White
 XTerm*color8: White
-! ls: zipped files
+! ls zipped files, vi misc (suse)
 XTerm*color9: Orange
-! ls: executables
+! ls executables
 XTerm*color10: Blue
 XTerm*color11: White
-! ls: directories
+! ls directories
 XTerm*color12: ForestGreen
 XTerm*color13: White
-! ls: symlinks
+! ls symlinks
 XTerm*color14: grey50
+! vi notice foreground (suse)
 XTerm*color15: White
 
 !!!!!!!!!!
