@@ -1,31 +1,53 @@
 ##########
 #  bashrc file
 ##########
-
+#
+#  terminal stuff
+#
 stty erase ^?
 
-export HOST=$(hostname)
-export LESS="-i -j5 -M -x4"
+#
+#  prompts, environment, etc.
+#
+export PS1="\[\e]0;\h\a\e[31;1m\]\w/\$ \[\e[0m\]"
+export TZ="America/New_York"
 
+#
+#  cached values (for use in scripts?)
+#
+export HOST=$(hostname)
+
+#
+#  application-related
+#
+export X=xterm
 export EDITOR=emacs
 export VISUAL=emacs
 export CVSEDITOR="emacs -nw"
-export PS1="\[\e]0;\h\a\e[31;1m\]\w/\$ \[\e[0m\]"
-
+export LESS="-i -j5 -M -x4"
 export VALGRIND_OPTS="--num-callers=50 --error-limit=no"
 
-export X=xterm
+#
+#  custom stuff
+#
 export MY_LSARGS="-F"
 
+#
+#  cvs environments
+#
+export MONKEYCVS=":ext:mike@monkey.csa.net:/home/mike/cvsrep"
+
+#
+#  bash options
+#
 export IGNOREEOF=1
-
-export TZ="America/New_York"
-
 set -o emacs
 set -o notify  #  asynchronous job notification
-
 export INPUTRC="~/.inputrc"
 
+#
+#  tmp directory
+#
 if test "x${TEMP}" = "x" ; then
     export TEMP=${HOME}/tmp
 fi
@@ -60,12 +82,6 @@ alias  cp="cp -i"
 alias  mv="mv -i"
 alias  jobs="jobs -l"
 alias  df="df -k"
-alias  whence="whence -v"
-
-alias  al="alias"
-alias  unal="unalias"
-alias  fun="functions"
-alias  unfun="unset -f"
 
 alias  em="( emacs & )"
 alias  edit="emacs"
@@ -87,42 +103,22 @@ alias  po="popd"
 alias  valgrind-m="valgrind --leak-check=yes --show-reachable=yes"
 
 function mykill {
+# arg1: signal, arg2: proc name
 	sig=${1}
 	shift
 	pkill -${sig} -u ${LOGNAME} ${@}
-}
-
-function see {
-  #
-  #  my version of lookat that takes full pathname
-  #  also keeps recently looked-at files in ${MY_TEMP}
-  #
-  if [[ ! -a ${1},v ]] ; then
-    print "see: cannot find file ${1},v"
-  else
-    file=$( basename ${1} )
-    rm -f ${MY_TEMP}/${file}
-    co -p ${1} > ${MY_TEMP}/${file}
-    vi -R ${MY_TEMP}/${file}
-  fi
-}
-
-function seep {
-  #
-  #  puts copy of checked-in file to stdout
-  #
-  co -p ${1}
 }
 
 function  getenv {
   env | grep ${*};
 }
 
+#  pipe output into pager
 function rl {
   ${*} 2>&1 | $PAGER;
 }
 
-function  pids {
+function pids {
   ps -fu ${1}
 }
 
@@ -134,8 +130,43 @@ function  lse {
   ##########
   #  Function to 'ls -l' an executable in search path via 'which'.
   ##########
-  ls -lF $( which ${@} )
+  foo=$( which ${@} )
+  if test "x${foo}" != "x" ; then
+    ls -lF $foo
+  else
+    echo "${@} not found"
+  fi
 }
+
+function cvsdiff {
+  cvs -q diff -w -b ${@}
+}
+function cvsdiffu {
+  cvs -q diff -w -b -u ${@}
+}
+function cvsconflict {
+    ## needs to be tested
+    FILES=$(find . -regex '.*/CVS/Entries' -print)
+    fgrep "Result" $FILES
+}
+
+function dtime {
+    # "info date" for more info
+    date -d "1970-01-01 UTC $1 seconds" +"%Y-%m-%d %T %z"
+}
+
+
+#
+#  ############### defunct functions and aliases below here ###############
+#
+
+alias  al="alias"
+alias  unal="unalias"
+
+# these leftover from my ksh days
+alias  whence="whence -v"
+alias  fun="functions"
+alias  unfun="unset -f"
 
 function  backup {
   ##########
@@ -189,19 +220,6 @@ function mydiffu {
   return 0
 }
 
-function cvsdiff {
-  cvs -q diff -w -b ${@}
-}
-function cvsdiffu {
-  cvs -q diff -w -b -u ${@}
-}
-function cvsconflict {
-    ## needs to be tested
-    FILES=$(find . -regex '.*/CVS/Entries' -print)
-    fgrep "Result" $FILES
-}
-
-
 function rx {
   #
   #  opens xterm on any machine.
@@ -217,8 +235,4 @@ function rx {
   return 0
 }
 
-function dtime {
-    # "info date" for more info
-    date -d "1970-01-01 UTC $1 seconds" +"%Y-%m-%d %T %z"
-}
 
