@@ -1,19 +1,68 @@
 #! /bin/bash
 
-#
-#  version 11/24/03
-#
+function usage_
+{
+    echo "usage: clup [-e] [-c] [directory1 [ ... [directoryN]]]"
+    echo "  where -e (default mode) will clean up emacs files (*~, etc.)"
+    echo "  where -c will clean up intermediate compiled files (*.o, etc.)"
+}
 
-if test $# -gt 0 ; then
-	if test -d $1 ; then
-		cd $1
-	else
-		echo "could not find directory '$1'"
+#  needs $RE to be set
+function cleanup_
+{
+    echo "[$PWD]"
+    ls $RE 2> /dev/null
+    rm -f $RE 2> /dev/null
+}
+
+NOARG=1
+
+while getopts "ec" OPTION ; do
+    case $OPTION in
+        e)
+        NOARG=0
+        DO_EMACS=1
+        ;;
+        c)
+        NOARG=0
+        DO_COMPILED=1
+        ;;
+        ?)
+        usage_
         exit 1
-    fi
+        ;;
+    esac
+done
+
+shift $(( $OPTIND - 1 ))
+
+#  default behavior
+if [[ $NOARG == 1 ]] ; then
+    DO_EMACS=1 
 fi
 
-RE="*~ .*~ \#*\#"
+if [[ $DO_EMACS == 1 ]] ; then
+    RE="$RE *~ .*~ \#*\#"
+fi
 
-ls $RE 2> /dev/null
-rm -f $RE 2> /dev/null
+if [[ $DO_COMPILED == 1 ]] ; then
+    RE="$RE *.o *.s *.err *.class"
+fi
+
+if test $# -gt 0 ; then
+    for dir in $@ ; do
+        if test -a $dir ; then
+            if test -d $dir ; then
+                pushd $dir > /dev/null
+                cleanup_
+                popd > /dev/null
+            fi
+        else
+            echo "could not find directory '$dir'"
+        fi
+    done
+else
+    cleanup_
+fi
+
+exit 0
