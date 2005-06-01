@@ -64,6 +64,16 @@ if test -a ${HOME}/local ; then
     export INFOPATH=${INFOPATH:+${INFOPATH}:}${HOME}/local/info
 fi
 
+#
+#  overrides for cygwin
+#
+if [[ $OSTYTPE -eq "cygwin" ]] ; then
+    export PS1="\e]0;\$PWD\e\007\$PWD \$ "
+    export EDITOR="emacs"
+    export VISUAL="emacs"
+    export CVSEDITOR="emacs"
+fi
+
 ##########
 #  local stuff (should be before aliases)
 ##########
