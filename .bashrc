@@ -18,8 +18,8 @@ export HOST=$(hostname)
 #
 export X=xterm
 export EDITOR="emacs -nw"
-export VISUAL="emacs -nw"
-export CVSEDITOR="emacs -nw"
+export VISUAL=$EDITOR
+export CVSEDITOR=$EDITOR
 export CVS_RSH=ssh
 export LESS="-i -j5 -M -x4"
 export VALGRIND_OPTS="--num-callers=50 --error-limit=no"
@@ -68,10 +68,10 @@ fi
 #  overrides for cygwin
 #
 if [[ $OSTYPE == "cygwin" ]] ; then
-    export PS1="\e]0;\$PWD\e\007\$PWD \$ "
+    export PS1="\e]0;\$PWD\e\007\e[31;1m\]\w/\$ \[\e[0m\]"
     export EDITOR="emacs"
-    export VISUAL="emacs"
-    export CVSEDITOR="emacs"
+    export VISUAL=$EDITOR
+    export CVSEDITOR=$EDITOR
 fi
 
 ##########
@@ -96,7 +96,7 @@ alias  jobs="jobs -l"
 alias  df="df -k"
 
 alias  em="( emacs & )"
-alias  edit="emacs"
+alias  edit=$EDITOR
 alias  ed="ed -p '*'"
 
 alias  mypids="ps -fu ${LOGNAME}"
