@@ -67,7 +67,7 @@ fi
 #
 #  overrides for cygwin
 #
-if [[ $OSTYTPE -eq "cygwin" ]] ; then
+if [[ $OSTYPE == "cygwin" ]] ; then
     export PS1="\e]0;\$PWD\e\007\$PWD \$ "
     export EDITOR="emacs"
     export VISUAL="emacs"
