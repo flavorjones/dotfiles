@@ -96,6 +96,13 @@ XTerm*foreground: Black
 !XTerm*color15: Red
 
 !!!!!!!!!!
+!  rxvt (for cygwin)
+!!!!!!!!!!
+Rxvt*geometry: 90x32
+Rxvt*font: Courier New
+Rxvt*background: lightblue1
+
+!!!!!!!!!!
 !  other misc apps
 !!!!!!!!!!
 *Background: wheat1

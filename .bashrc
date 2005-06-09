@@ -68,7 +68,7 @@ fi
 #  overrides for cygwin
 #
 if [[ $OSTYPE == "cygwin" ]] ; then
-    export PS1="\e]0;\$PWD\e\007\e[31;1m\]\w/\$ \[\e[0m\]"
+    export PS1="\e]0;\$PWD@$HOSTNAME\e\007\e[31;1m\]\w/\$ \[\e[0m\]"
     export EDITOR="emacs"
     export VISUAL=$EDITOR
     export CVSEDITOR=$EDITOR
