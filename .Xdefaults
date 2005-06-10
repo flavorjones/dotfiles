@@ -103,7 +103,8 @@ Rxvt*font: Courier New-15
 Rxvt*background: lightblue1
 ! VIM-like colors
 Rxvt*color0:    #000000
-Rxvt*color1:    #FFFFFF
+!Rxvt*color1:    #FFFFFF
+Rxvt*color1:    #000000
 Rxvt*color2:    #00A800
 Rxvt*color3:    #FFFF00
 Rxvt*color4:    #0000A8
@@ -111,6 +112,7 @@ Rxvt*color5:    #A800A8
 Rxvt*color6:    #00A8A8
 Rxvt*color7:    #D8D8D8
 Rxvt*color8:    #000000
+!Rxvt*color9:    #FFFFFF
 Rxvt*color9:    #000000
 Rxvt*color10:   #00A800
 Rxvt*color11:   #FFFF00
