@@ -43,7 +43,7 @@ Mwm*XBiff.clientDecoration: menu border
 !!!!!!!!!!
 !  xterm
 !!!!!!!!!!
-XTerm*geometry: 80x45
+XTerm*geometry: 90x40
 XTerm*saveLines: 2048
 XTerm*scrollBar: on
 XTerm*scrollKey: on
