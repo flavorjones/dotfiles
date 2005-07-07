@@ -2,9 +2,10 @@
 
 function usage_
 {
-    echo "usage: clup [-e][-c] [-R] [directory1 [ ... [directoryN]]]"
+    echo "usage: clup [-e][-c][-x] [-R] [directory1 [ ... [directoryN]]]"
     echo "  where -e (default mode) will clean up emacs files (*~, etc.)"
     echo "  where -c will clean up intermediate compiled files (*.o, etc.)"
+    echo "  where -x will clean up intermediate TeX/LaTeX files (*.toc, etc.)"
     echo "  where -R will recurse through all directories"
 }
 
@@ -27,7 +28,7 @@ DO_EMACS=0
 DO_COMPILED=0
 RECURSE=0
 
-while getopts "ecR" OPTION ; do
+while getopts "ecxR" OPTION ; do
     case $OPTION in
         e)
         NOARG=0
@@ -36,6 +37,10 @@ while getopts "ecR" OPTION ; do
         c)
         NOARG=0
         DO_COMPILED=1
+        ;;
+        x)
+        NOARG=0
+        DO_LATEX=1
         ;;
         R)
         RECURSE=1
@@ -60,6 +65,10 @@ fi
 
 if test $DO_COMPILED -eq 1 ; then
     RE="$RE *.o *.s *.d *.err *.class"
+fi
+
+if test $DO_LATEX -eq 1 ; then
+    RE="$RE *.aux *.dvi *.out *.toc *.log"
 fi
 
 if test $# -gt 0 ; then
