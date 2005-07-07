@@ -26,6 +26,7 @@ function cleanup_
 NOARG=1
 DO_EMACS=0
 DO_COMPILED=0
+DO_LATEX=0
 RECURSE=0
 
 while getopts "ecxR" OPTION ; do
