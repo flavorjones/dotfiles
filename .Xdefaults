@@ -99,7 +99,8 @@ XTerm*foreground: Black
 !  rxvt (for cygwin)
 !!!!!!!!!!
 Rxvt*geometry: 90x32
-Rxvt*font: Courier New-15
+!Rxvt*font: Courier New-15
+Rxvt*font: Lucida Console-14
 Rxvt*background: lightblue1
 ! VIM-like colors
 Rxvt*color0:    #000000
