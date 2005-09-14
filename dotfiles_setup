@@ -3,6 +3,7 @@
 DOTDIR=${HOME}/.dotfiles
 BINDIR=${HOME}/bin
 SVNDIR=${HOME}/.subversion
+VNCDIR=${HOME}/.vnc
 
 if ! test -d $BINDIR ; then
     mkdir $BINDIR
@@ -12,7 +13,10 @@ if ! test -d ${HOME}/.elisp ; then
     touch ${HOME}/.elisp/mylocal.el
 fi
 if ! test -d ${HOME}/tmp ; then
-	mkdir ${HOME}/tmp
+    mkdir ${HOME}/tmp
+fi
+if ! test -d $VNCDIR ; then
+    mkdir $VNCDIR
 fi
 
 cd $HOME
@@ -49,3 +53,6 @@ ln ${DOTDIR}/.sawfishrc ${HOME}
 
 rm -f ${SVNDIR}/config
 ln ${DOTDIR}/config ${SVNDIR}
+
+rm -f ${VNCDIR}/xstartup
+ln ${DOTDIR}/xstartup ${VNCDIR}

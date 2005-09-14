@@ -1,0 +1,6 @@
+#!/bin/sh
+
+# Red Hat Linux VNC session startup script
+unset SESSION_MANAGER
+xrdb -merge ${HOME}/.Xdefaults
+exec /etc/X11/xinit/xinitrc
