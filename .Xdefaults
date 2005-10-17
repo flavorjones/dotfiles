@@ -143,6 +143,8 @@ XBiff*Motif.SelectColor: yellow
 Mxdb*background: slategray3
 Mxdb*fontList: -adobe-courier-medium-r-*-*-10-*-*-*-*-*-*-*=normal, -adobe-courier-bold-r-*-*-10-*-*-*-*-*-hp-*=bold, -adobe-courier-medium-o-*-*-10-*-*-*-*-*-hp-*=italic
 
+#include ".Xdefaults_local"
+
 !  <Key>Up: string("") \n\
 !  <Key>Down: string("") \n\
 !  <Key>Left: string("") \n\
