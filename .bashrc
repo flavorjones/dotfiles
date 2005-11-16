@@ -69,7 +69,7 @@ fi
 #
 if [[ $OSTYPE == "cygwin" ]] ; then
     export PS1="\[\e]0;\w@\h\a\e[31;1m\]\w/\$ \[\e[0m\]"
-    export EDITOR="emacs"
+    export EDITOR="emacs -nw"
     export VISUAL=$EDITOR
     export CVSEDITOR=$EDITOR
 fi
