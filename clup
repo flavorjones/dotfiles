@@ -4,6 +4,7 @@ function usage_
 {
     echo "usage: clup [-e][-c][-x] [-R] [directory1 [ ... [directoryN]]]"
     echo "  where -e (default mode) will clean up emacs files (*~, etc.)"
+    echo "  where -s will clean up source code revision files (svn-commit*tmp, etc.)"
     echo "  where -c will clean up intermediate compiled files (*.o, etc.)"
     echo "  where -x will clean up intermediate TeX/LaTeX files (*.toc, etc.)"
     echo "  where -R will recurse through all directories"
@@ -28,8 +29,9 @@ DO_EMACS=0
 DO_COMPILED=0
 DO_LATEX=0
 RECURSE=0
+DO_SVN=0
 
-while getopts "ecxR" OPTION ; do
+while getopts "ecxRs" OPTION ; do
     case $OPTION in
         e)
         NOARG=0
@@ -45,6 +47,10 @@ while getopts "ecxR" OPTION ; do
         ;;
         R)
         RECURSE=1
+        ;;
+        s)
+        NOARG=0
+        DO_SVN=1
         ;;
         ?)
         usage_
@@ -70,6 +76,10 @@ fi
 
 if test $DO_LATEX -eq 1 ; then
     RE="$RE *.aux *.dvi *.out *.toc *.log"
+fi
+
+if test $DO_SVN -eq 1 ; then
+    RE="$RE svn-commit*.tmp"
 fi
 
 if test $# -gt 0 ; then
