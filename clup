@@ -71,7 +71,7 @@ if test $DO_EMACS -eq 1  ; then
 fi
 
 if test $DO_COMPILED -eq 1 ; then
-    RE="$RE *.o *.s *.d *.err *.class"
+    RE="$RE *.o *.s *.d *.err *.class *.obj"
 fi
 
 if test $DO_LATEX -eq 1 ; then
