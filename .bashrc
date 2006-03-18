@@ -99,7 +99,7 @@ alias  edit=$EDITOR
 alias  ed="ed -p '*'"
 
 alias  mypids="ps -fu ${LOGNAME}"
-alias  allpids="ps -ef"
+alias  mp="ps -fu ${LOGNAME}"
 alias  pingme="ping -s ${DISPLAY%:*}"
 
 alias  flock="chmod 444"
