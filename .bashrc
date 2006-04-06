@@ -184,7 +184,7 @@ function findsrc {
     else
         dir="$1"
     fi
-    find $dir -name '*.h' -or -name '*.hpp' -or -name '*.c' -or -name '*.cpp' -or -name '*.f' -or -name '*.f90'
+    find $dir -name '*.h' -or -name '*.hpp' -or -name '*.c' -or -name '*.cpp' -or -name '*.f' -or -name '*.f90' -or -name '*.cc' -or -name '*.H' -or -name '*.C'
 }
 
 #
