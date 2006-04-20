@@ -18,6 +18,7 @@ fi
 if ! test -d $VNCDIR ; then
     mkdir $VNCDIR
 fi
+touch $HOME/.Xdefaults_local
 
 cd $HOME
 
@@ -42,8 +43,9 @@ ln ${DOTDIR}/.twmrc ${HOME}
 rm -f ${HOME}/.Xdefaults
 ln ${DOTDIR}/.Xdefaults ${HOME}
 
-rm -f ${HOME}/.xmodmap4win
-ln ${DOTDIR}/.xmodmap4win ${HOME}
+# removed because i never use it anymore
+#rm -f ${HOME}/.xmodmap4win
+#ln ${DOTDIR}/.xmodmap4win ${HOME}
 
 rm -f ${HOME}/.inputrc
 ln ${DOTDIR}/.inputrc ${HOME}
@@ -56,3 +58,6 @@ ln ${DOTDIR}/config ${SVNDIR}
 
 rm -f ${VNCDIR}/xstartup
 ln ${DOTDIR}/xstartup ${VNCDIR}
+
+rm -f ${BINDIR}/sshconf
+ln ${DOTDIR}/sshconf ${BINDIR}

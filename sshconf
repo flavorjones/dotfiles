@@ -1,0 +1,186 @@
+#! /bin/bash
+
+#
+#  TODO: This doesn't handle full hostfiles, just single hosts.
+#  This could be a problem in some environments where home directories
+#  are not cross-mounted.
+#
+
+TASK=$(basename $0)
+localhost=$(hostname)
+
+function _usage {
+    echo ""
+#todo    echo "USAGE: $TASK [-v] [-h <hostname> | -f <hostfile>]"
+    echo "USAGE: $TASK [-v] [-h <hostname>] [-t <spawntype>]"
+    echo ""
+    echo " where: '-h'    will run configuration tests for a single host,"
+    echo "                specified by <hostname>, attempting to fix"
+    echo "                detected problems when possible"
+#todo    echo "        '-f'    will run configuration tests for all hosts in"
+#todo    echo "                the hostfile <hostfile>, attempting to fix"
+#todo    echo "                detected problems when possible"
+    echo "        '-v'    print verbose debugging messages"
+    echo ""
+    echo "        '-t'  the type for example ssh or rsh or ssh"
+    echo "              the default is ssh"
+}
+
+function _verbose {
+    if [[ $verbose -ne 0 ]] ; then
+        echo "$1"
+    fi
+}
+
+function _fail_1 {
+    echo "ERROR: $1"
+}
+
+function _fail_tail {
+    echo ""
+    echo "Please correct errors and run '$TASK' again."
+    echo "If you are not sure how to resolve this issue,"
+    echo "please send an email containing this output"
+    echo "to 'support@aspeed.com'"
+    echo "** CONFIGURATION VALIDATION TEST FAILED **"
+    exit 1
+}
+
+function _fail_nf {
+    _fail_1 "$1"
+    _fail_1 "$TASK is not able to fix this error."
+    _fail_tail
+}
+
+function _fail {
+    _fail_1 "$1"
+    _fail_1 "$TASK attempted to fix this error and failed."
+    _fail_tail
+}
+
+#
+#  arguments
+#
+hostfile=""
+remhost=""
+#todo while getopts ":vh:f:" option ; do
+while getopts ":vh:t:" option ; do
+    case $option in
+        v)
+           verbose=1
+           ;;
+        h)
+           if [[ "x$hostfile" != "x" ]] ; then
+             _usage
+             exit 1
+           fi
+           remhost=$OPTARG
+           ;;
+        t)
+           remote_type=$OPTARG
+           if [[ "x$remote_type" == "x" ]] ; then
+             _usage
+             exit 1
+           fi
+           ;;
+        ?) _usage
+           exit 1
+           ;;
+    esac
+done
+shift $(( $OPTIND - 1 ))
+
+if [[ "x$remote_type" == "x" ]] ; then
+	remote_type="ssh"
+fi
+
+#todo if [[ "x$remhost" == "x" && "x$hostfile" == "x" ]] ; then
+if [[ "x$remhost" == "x" ]] ; then
+    _usage
+    exit 1
+fi
+
+echo "$TASK -  $remote_type configuration test for ASPEED ACCELLERANT"
+
+ssharg=""
+if [[ $verbose -ne 0 ]] ; then
+    ssharg="-v"
+fi
+
+if [[ "$remote_type" == "ssh" ]] ; then
+	remote_arg="-o BatchMode=yes "
+fi
+#
+#  first check if it works OK
+#
+result=$($remote_type $ssharg $remote_arg  $remhost 'echo "aspeed"')
+if [[ "$result" == "aspeed" ]] ; then
+    echo "$remote_type is configured for remote invocation from $localhost to $remhost"
+    exit 0
+fi
+
+#
+#  make sure we have a key generated, and that it's in our authorized hosts
+#
+if [[ ! -e ${HOME}/.ssh/id_dsa ]] ; then
+    ssh-keygen -t dsa -N '' -f ${HOME}/.ssh/id_dsa
+fi
+if [[ ! -e ${HOME}/.ssh/authorized_keys ]] ; then
+    touch ${HOME}/.ssh/authorized_keys
+fi
+chmod go-rwx ${HOME}/.ssh/authorized_keys
+if ! fgrep "$(< ${HOME}/.ssh/id_dsa.pub)" ${HOME}/.ssh/authorized_keys >/dev/null ; then
+    echo "Adding to authorized_keys ..."
+    cat ${HOME}/.ssh/id_dsa.pub >> ${HOME}/.ssh/authorized_keys
+fi
+
+#
+#  now make sure host is added to known_hosts
+#
+echo ""
+echo "If you are prompted to approve authentication, please answer 'yes' ..."
+echo "If you are prompted to provide password, please do so ..."
+echo ""
+
+result=$($remote_type $ssharg $remhost "echo 'aspeed'")
+
+#
+#  now verify that we don't need a password
+#
+result=$($remote_type $ssharg $remote_arg $remhost "echo 'aspeed'")
+
+if [[ "$result" == "aspeed" ]] ; then
+    echo "$remote_type is configured for remote invocation from $localhost to $remhost"
+    exit 0
+fi
+
+#
+#  ok - let's assume the worst, which is that the target machine
+#  doesn't share the same home directory, meaning we need to add
+#  the local host's key to the remote host's authorized_keys list.
+#
+echo ""
+echo "Additional configuration of $remhost is necessary."
+echo "If prompted for your password, please provide it ..."
+echo ""
+# this syntax works for all major shells (csh, tcsh, ksh, bash, ash)
+$remote_type $ssharg $remhost "mkdir ~/.ssh ; chmod 700 ~/.ssh" 2>/dev/null
+scp ${HOME}/.ssh/id_dsa.pub $remhost:~/.ssh/id_dsa.$localhost
+# this syntax works for all major shells (csh, tcsh, ksh, bash, ash)
+ssh $remhost "cat ~/.ssh/id_dsa.$localhost >> ~/.ssh/authorized_keys ; chmod go-rwx ~/.ssh/authorized_keys"
+
+#
+#  now verify that we don't need a password
+#
+result=$(ssh $ssharg -o "BatchMode yes" $remhost "echo 'aspeed'")
+
+if [[ "$result" == "aspeed" ]] ; then
+    echo "ssh is configured for remote invocation from $localhost to $remhost"
+    exit 0
+else
+    _fail_1 "ssh still failing."
+    _fail_1 "ssh version: $(ssh -V 2>&1)"
+    _fail_1 "This may have failed for one of the following reasons:"
+    _fail_1 "* directory '${HOME}/.ssh' may not be writable"
+    _fail
+fi
