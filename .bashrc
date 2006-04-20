@@ -1,6 +1,10 @@
 ##########
 #  bashrc file
 ##########
+if [ -f /etc/bashrc ]; then
+    . /etc/bashrc
+fi
+
 #
 #  prompts, environment, etc.
 #
