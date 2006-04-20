@@ -2,7 +2,10 @@
 #  bashrc file
 ##########
 if [ -f /etc/bashrc ]; then
-    . /etc/bashrc
+    . /etc/bashrc # redhat
+fi
+if [[ -e /etc/SuSE-release ]] ; then
+    test -z "$PROFILEREAD" && . /etc/profile # suse, obviously
 fi
 
 #
