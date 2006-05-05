@@ -53,6 +53,9 @@ ln ${DOTDIR}/.inputrc ${HOME}
 rm -f ${HOME}/.sawfishrc
 ln ${DOTDIR}/.sawfishrc ${HOME}
 
+rm -f ${HOME}/.gdbinit
+ln ${DOTDIR}/.gdbinit ${HOME}
+
 rm -f ${SVNDIR}/config
 ln ${DOTDIR}/config ${SVNDIR}
 
