@@ -120,7 +120,8 @@ alias  po="popd"
 
 alias  valgrind-m="valgrind --leak-check=yes --show-reachable=yes"
 
-alias  mywget="wget -rkp -l inf -c --html-extension --no-parent $1"
+alias  mywget="wget -rkp -l inf -c --html-extension --no-parent '$1'"
+alias  mywgetfull="wget -m -c -r -p -k --html-extension '$1'"
 
 function mykill {
 # arg1: signal, arg2: proc name
