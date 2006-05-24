@@ -64,6 +64,7 @@ shift $(( $OPTIND - 1 ))
 #  default behavior
 if test $NOARG -eq 1  ; then
     DO_EMACS=1 
+    DO_SVN=1 
 fi
 
 if test $DO_EMACS -eq 1  ; then
@@ -87,7 +88,7 @@ if test $# -gt 0 ; then
         if test -d $dir ; then
             if test $RECURSE -eq 1 ; then
                 #  will include $dir
-                for d in $( find $dir -type d -print ) ; do
+                for d in $( find $dir -type d -print | fgrep -v '.svn' ) ; do
                     cleanup_ $d
                 done
             else
