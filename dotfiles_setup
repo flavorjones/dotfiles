@@ -64,3 +64,6 @@ ln ${DOTDIR}/xstartup ${VNCDIR}
 
 rm -f ${BINDIR}/sshconf
 ln ${DOTDIR}/sshconf ${BINDIR}
+
+rm -f ${BINDIR}/rsync_portable
+ln ${DOTDIR}/rsync_portable ${BINDIR}
