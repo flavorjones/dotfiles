@@ -275,3 +275,8 @@ function rx {
 
   return 0
 }
+
+function awkp {
+    narg=$1
+    awk "{print \$$1}"
+}
