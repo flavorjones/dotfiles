@@ -15,7 +15,7 @@ if [[ -a /etc/debian_version ]] ; then
     export PS1="\[\e]0;\h:\w\a\e[31;1m\]\W|\$?\[\e[0m\]\n\$ "
 else
     export PS1="\[\e]0;\h:\w\a\e[31;1m\]\W|\$?\$ \[\e[0m\]"
-end
+fi
 export TZ="America/New_York"
 export PATH=${PATH}:${HOME}/bin
 
