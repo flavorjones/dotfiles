@@ -284,3 +284,9 @@ function awkp {
     narg=$1
     awk "{print \$$1}"
 }
+
+function find-no-svn {
+    path=$1
+    shift
+    find $path -not -path "*/.svn*" $@
+}
