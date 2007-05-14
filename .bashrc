@@ -33,6 +33,7 @@ export VISUAL=$EDITOR
 export CVSEDITOR=$EDITOR
 export CVS_RSH=ssh
 export LESS="-i -j5 -M -x4"
+export LESSCHARSET="latin1"
 export VALGRIND_OPTS="--num-callers=50 --error-limit=no"
 
 #
