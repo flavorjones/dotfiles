@@ -145,10 +145,3 @@ Mxdb*fontList: -adobe-courier-medium-r-*-*-10-*-*-*-*-*-*-*=normal, -adobe-couri
 
 #include ".Xdefaults_local"
 
-!  <Key>Up: string("") \n\
-!  <Key>Down: string("") \n\
-!  <Key>Left: string("") \n\
-!  <Key>Right: string("") \n\
-!  <Key>Tab: string("")
-
-!!!!!!!!!!!!!!!!!!!!
