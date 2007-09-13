@@ -39,7 +39,7 @@ export VALGRIND_OPTS="--num-callers=50 --error-limit=no"
 #
 #  custom stuff
 #
-export MY_LSARGS="-F"
+export MY_LSARGS="-F --color=auto"
 
 #
 #  svn, cvs environments
