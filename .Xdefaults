@@ -129,7 +129,7 @@ Rxvt*color15:   #D8D8D8
 *Foreground: Black
 
 Emacs.font: -adobe-courier-medium-r-*-*-12-*-*-*-*-*-*-*
-Emacs.geometry: 85x45+0+0
+Emacs.geometry: 95x55-0+0
 
 XClock.geometry: 100x95+0-0
 XLoad.geometry: 100x95
