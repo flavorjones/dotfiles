@@ -27,12 +27,12 @@ export HOST=$(hostname)
 #
 #  application-related
 #
-export X=xterm
+# export X=xterm # this is short enough to be bad. commented out.
 export EDITOR="emacs -nw"
 export VISUAL=$EDITOR
 export CVSEDITOR=$EDITOR
 export CVS_RSH=ssh
-export LESS="-i -j5 -M -x4"
+export LESS="-i -j5 -M -x4 -R"
 # export LESSCHARSET="latin1"
 export VALGRIND_OPTS="--num-callers=50 --error-limit=no"
 
