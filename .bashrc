@@ -1,4 +1,4 @@
-##########
+########## -*- sh -*-
 #  bashrc file
 ##########
 if [ -f /etc/bashrc ]; then
@@ -12,7 +12,7 @@ fi
 #  prompts, environment, etc.
 #
 if [[ -a /etc/debian_version ]] ; then
-    export PS1="\e]0;\h:\w\a\e[31;1m\W|\$?\e[0m \$ "
+    export PS1='\[\e]0;\h:\w\a\e[31;1m\]\W|$?\$ \[\e[0m\]'
 else
     export PS1="\[\e]0;\h:\w\a\e[31;1m\]\W|\$?\$ \[\e[0m\]"
 fi
