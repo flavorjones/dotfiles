@@ -1,0 +1,8 @@
+[user]
+	name = Mike Dalessio
+	email = mike@csa.net
+[core]
+	compression = 1
+	loosecompression = 1
+[merge]
+	tool = meld

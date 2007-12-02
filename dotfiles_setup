@@ -56,6 +56,9 @@ ln ${DOTDIR}/.sawfishrc ${HOME}
 rm -f ${HOME}/.gdbinit
 ln ${DOTDIR}/.gdbinit ${HOME}
 
+rm -f ${HOME}/.gitconfig
+ln ${DOTDIR}/.gitconfig ${HOME}
+
 rm -f ${SVNDIR}/config
 ln ${DOTDIR}/config ${SVNDIR}
 
