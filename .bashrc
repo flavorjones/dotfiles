@@ -287,8 +287,9 @@ function awkp {
     awk "{print \$$1}"
 }
 
-function find-no-svn {
+# find "no scm"
+function findns {
     path=$1
     shift
-    find $path -not -path "*/.svn*" $@
+    find $path -not -path "*/.svn*" -not -path '*/.git*' $@
 }
