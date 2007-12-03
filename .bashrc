@@ -12,7 +12,12 @@ fi
 #  prompts, environment, etc.
 #
 if [[ -a /etc/debian_version ]] ; then
-    export PS1='\[\e]0;\h:\w\a\e[31;1m\]\W|$?\$ \[\e[0m\]'
+    if [[ ${BASH_VERSION} == "3.1.17(1)-release" ]] ; then
+        # bash 3.1.17's non-printing character tokens \[\e ... \] are (apparently) broken
+        export PS1="\e]0;\h:\w\a\e[31;1m\W|\$?\e[0m \$ "
+    else
+        export PS1='\[\e]0;\h:\w\a\e[31;1m\]\W|$?\[\e[0m\]\$ '
+    fi
 else
     export PS1="\[\e]0;\h:\w\a\e[31;1m\]\W|\$?\$ \[\e[0m\]"
 fi
