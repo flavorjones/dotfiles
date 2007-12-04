@@ -6,3 +6,5 @@
 	loosecompression = 1
 [merge]
 	tool = meld
+[branch]
+        autosetupmerge = true
