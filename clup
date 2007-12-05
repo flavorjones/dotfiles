@@ -88,7 +88,7 @@ if test $# -gt 0 ; then
         if test -d $dir ; then
             if test $RECURSE -eq 1 ; then
                 #  will include $dir
-                for d in $( find $dir -type d -print | fgrep -v '.svn' ) ; do
+                for d in $( find $dir -type d -print | egrep -v '.svn|.git' ) ; do
                     cleanup_ $d
                 done
             else
