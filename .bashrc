@@ -296,5 +296,5 @@ function awkp {
 function findns {
     path=$1
     shift
-    find $path -not -path "*/.svn*" -not -path '*/.git*' $@
+    find $path -not -path "*/.svn/" -not -path '*/.git/' $@
 }
