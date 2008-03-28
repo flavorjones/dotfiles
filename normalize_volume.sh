@@ -10,9 +10,9 @@ fi
 
 echo "normalizing files modified since $(stat -c '%y' ${TIMESTAMP})"
 
-find ${MUSICDIR} -iname '*mp3' \
+find ${MUSICDIR}/itunes -iname '*mp3' \
      -newer ${MUSICDIR}/.normalize_volume_timestamp \
-     -exec nice mp3gain \{\} \;
+     -exec nice mp3gain -r -k \{\} \;
 
 touch $TIMESTAMP
 
