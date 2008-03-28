@@ -4,6 +4,7 @@ DOTDIR=${HOME}/.dotfiles
 BINDIR=${HOME}/bin
 SVNDIR=${HOME}/.subversion
 VNCDIR=${HOME}/.vnc
+MUSICDIR=${HOME}/Music
 
 if ! test -d $BINDIR ; then
     mkdir $BINDIR
@@ -17,6 +18,9 @@ if ! test -d ${HOME}/tmp ; then
 fi
 if ! test -d $VNCDIR ; then
     mkdir $VNCDIR
+fi
+if ! test -d $MUSICDIR ; then
+    mkdir $MUSICDIR
 fi
 touch $HOME/.Xdefaults_local
 
@@ -70,3 +74,6 @@ ln ${DOTDIR}/sshconf ${BINDIR}
 
 rm -f ${BINDIR}/rsync_portable
 ln ${DOTDIR}/rsync_portable ${BINDIR}
+
+rm -f ${MUSICDIR}/normalize_volume.sh
+ln ${DOTDIR}/normalize_volume.sh ${MUSICDIR}
