@@ -8,6 +8,12 @@ if [[ ! -a $TIMESTAMP ]] ; then
     exit 1
 fi
 
+pid=$(pgrep rhythmbox)
+if [[ "$pid" -ne "" ]] ; then
+    echo "WARNING: please shut down rhythmbox before running this script."
+    exit 1
+fi
+
 echo "normalizing files modified since $(stat -c '%y' ${TIMESTAMP})"
 
 find ${MUSICDIR}/itunes -iname '*mp3' \
