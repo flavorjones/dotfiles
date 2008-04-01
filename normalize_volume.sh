@@ -8,7 +8,7 @@ if [[ ! -a $TIMESTAMP ]] ; then
     exit 1
 fi
 
-pid=$(pgrep rhythmbox)
+pid=$(pgrep rhythmbox | head -1)
 if [[ "$pid" -ne "" ]] ; then
     echo "WARNING: please shut down rhythmbox before running this script."
     exit 1
