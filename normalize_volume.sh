@@ -4,15 +4,19 @@ MUSICDIR=${HOME}/Music
 TIMESTAMP=${MUSICDIR}/.normalize_volume_timestamp
 
 if [[ ! -a $TIMESTAMP ]] ; then
-    echo "ERROR: no timestamp file present."
-    exit 1
+    echo "WARNING: no timestamp file present."
+    sleep 2
+    echo "continuing ..."
+    newerarg=""
+else
+    echo "normalizing files modified since $(stat -c '%y' ${TIMESTAMP})"
+    newerarg="-newer ${MUSICDIR}/.normalize_volume_timestamp"
 fi
 
-echo "normalizing files modified since $(stat -c '%y' ${TIMESTAMP})"
 
 find ${MUSICDIR}/itunes -iname '*mp3' \
-     -newer ${MUSICDIR}/.normalize_volume_timestamp \
-     -exec nice mp3gain -T -r -k \{\} \;
+    $newerarg \
+    -exec nice mp3gain -T -r -k \{\} \;
 
 touch $TIMESTAMP
 
