@@ -77,3 +77,6 @@ ln ${DOTDIR}/rsync_portable ${BINDIR}
 
 rm -f ${MUSICDIR}/normalize_volume.sh
 ln ${DOTDIR}/normalize_volume.sh ${MUSICDIR}
+
+rm -f ${BINDIR}/wvdialer
+ln ${DOTDIR}/wvdialer ${BINDIR}
