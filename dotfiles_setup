@@ -80,3 +80,6 @@ ln ${DOTDIR}/normalize_volume.sh ${MUSICDIR}
 
 rm -f ${BINDIR}/wvdialer
 ln ${DOTDIR}/wvdialer ${BINDIR}
+
+rm -f ${BINDIR}/m2h
+ln ${DOTDIR}/m2h ${BINDIR}
