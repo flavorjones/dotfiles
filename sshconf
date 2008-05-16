@@ -39,9 +39,6 @@ function _fail_1 {
 function _fail_tail {
     echo ""
     echo "Please correct errors and run '$TASK' again."
-    echo "If you are not sure how to resolve this issue,"
-    echo "please send an email containing this output"
-    echo "to 'support@aspeed.com'"
     echo "** CONFIGURATION VALIDATION TEST FAILED **"
     exit 1
 }
@@ -100,7 +97,7 @@ if [[ "x$remhost" == "x" ]] ; then
     exit 1
 fi
 
-echo "$TASK -  $remote_type configuration test for ASPEED ACCELLERANT"
+echo "$TASK -  $remote_type configuration test"
 
 ssharg=""
 if [[ $verbose -ne 0 ]] ; then
@@ -113,8 +110,8 @@ fi
 #
 #  first check if it works OK
 #
-result=$($remote_type $ssharg $remote_arg  $remhost 'echo "aspeed"')
-if [[ "$result" == "aspeed" ]] ; then
+result=$($remote_type $ssharg $remote_arg  $remhost 'echo "funkymonkey"')
+if [[ "$result" == "funkymonkey" ]] ; then
     echo "$remote_type is configured for remote invocation from $localhost to $remhost"
     exit 0
 fi
@@ -122,16 +119,16 @@ fi
 #
 #  make sure we have a key generated, and that it's in our authorized hosts
 #
-if [[ ! -e ${HOME}/.ssh/id_dsa ]] ; then
-    ssh-keygen -t dsa -N '' -f ${HOME}/.ssh/id_dsa
+if [[ ! -e ${HOME}/.ssh/id_rsa ]] ; then
+    ssh-keygen -t rsa -N '' -f ${HOME}/.ssh/id_rsa
 fi
 if [[ ! -e ${HOME}/.ssh/authorized_keys ]] ; then
     touch ${HOME}/.ssh/authorized_keys
 fi
 chmod go-rwx ${HOME}/.ssh/authorized_keys
-if ! fgrep "$(< ${HOME}/.ssh/id_dsa.pub)" ${HOME}/.ssh/authorized_keys >/dev/null ; then
+if ! fgrep "$(< ${HOME}/.ssh/id_rsa.pub)" ${HOME}/.ssh/authorized_keys >/dev/null ; then
     echo "Adding to authorized_keys ..."
-    cat ${HOME}/.ssh/id_dsa.pub >> ${HOME}/.ssh/authorized_keys
+    cat ${HOME}/.ssh/id_rsa.pub >> ${HOME}/.ssh/authorized_keys
 fi
 
 #
@@ -142,14 +139,14 @@ echo "If you are prompted to approve authentication, please answer 'yes' ..."
 echo "If you are prompted to provide password, please do so ..."
 echo ""
 
-result=$($remote_type $ssharg $remhost "echo 'aspeed'")
+result=$($remote_type $ssharg $remhost "echo 'funkymonkey'")
 
 #
 #  now verify that we don't need a password
 #
-result=$($remote_type $ssharg $remote_arg $remhost "echo 'aspeed'")
+result=$($remote_type $ssharg $remote_arg $remhost "echo 'funkymonkey'")
 
-if [[ "$result" == "aspeed" ]] ; then
+if [[ "$result" == "funkymonkey" ]] ; then
     echo "$remote_type is configured for remote invocation from $localhost to $remhost"
     exit 0
 fi
@@ -165,16 +162,16 @@ echo "If prompted for your password, please provide it ..."
 echo ""
 # this syntax works for all major shells (csh, tcsh, ksh, bash, ash)
 $remote_type $ssharg $remhost "mkdir ~/.ssh ; chmod 700 ~/.ssh" 2>/dev/null
-scp ${HOME}/.ssh/id_dsa.pub $remhost:~/.ssh/id_dsa.$localhost
+scp ${HOME}/.ssh/id_rsa.pub $remhost:~/.ssh/id_rsa.$localhost
 # this syntax works for all major shells (csh, tcsh, ksh, bash, ash)
-ssh $remhost "cat ~/.ssh/id_dsa.$localhost >> ~/.ssh/authorized_keys ; chmod go-rwx ~/.ssh/authorized_keys"
+ssh $remhost "cat ~/.ssh/id_rsa.$localhost >> ~/.ssh/authorized_keys ; chmod go-rwx ~/.ssh/authorized_keys"
 
 #
 #  now verify that we don't need a password
 #
-result=$(ssh $ssharg -o "BatchMode yes" $remhost "echo 'aspeed'")
+result=$(ssh $ssharg -o "BatchMode yes" $remhost "echo 'funkymonkey'")
 
-if [[ "$result" == "aspeed" ]] ; then
+if [[ "$result" == "funkymonkey" ]] ; then
     echo "ssh is configured for remote invocation from $localhost to $remhost"
     exit 0
 else
