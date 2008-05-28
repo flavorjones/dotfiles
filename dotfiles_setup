@@ -87,3 +87,6 @@ ln ${DOTDIR}/m2h ${BINDIR}
 
 rm -f ${ELISPDIR}/color-theme-vivid-chalk.el
 ln ${DOTDIR}/color-theme-vivid-chalk.el ${ELISPDIR}
+
+rm -f ${ELISPDIR}/camelCase-mode.el
+ln ${DOTDIR}/camelCase-mode.el ${ELISPDIR}
