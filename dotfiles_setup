@@ -5,13 +5,14 @@ BINDIR=${HOME}/bin
 SVNDIR=${HOME}/.subversion
 VNCDIR=${HOME}/.vnc
 MUSICDIR=${HOME}/Music
+ELISPDIR=${HOME}/.elisp
 
 if ! test -d $BINDIR ; then
     mkdir $BINDIR
 fi
-if ! test -d ${HOME}/.elisp ; then
-    mkdir ${HOME}/.elisp
-    touch ${HOME}/.elisp/mylocal.el
+if ! test -d $ELISPDIR ; then
+    mkdir ${ELISPDIR}
+    touch ${ELISPDIR}/mylocal.el
 fi
 if ! test -d ${HOME}/tmp ; then
     mkdir ${HOME}/tmp
@@ -83,3 +84,6 @@ ln ${DOTDIR}/wvdialer ${BINDIR}
 
 rm -f ${BINDIR}/m2h
 ln ${DOTDIR}/m2h ${BINDIR}
+
+rm -f ${ELISPDIR}/color-theme-vivid-chalk.el
+ln ${DOTDIR}/color-theme-vivid-chalk.el ${ELISPDIR}
