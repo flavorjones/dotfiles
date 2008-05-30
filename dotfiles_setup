@@ -46,7 +46,9 @@ rm -f ${HOME}/.twmrc
 ln ${DOTDIR}/.twmrc ${HOME}
 
 rm -f ${HOME}/.Xdefaults
-ln ${DOTDIR}/.Xdefaults ${HOME}
+rm -f ${HOME}/.Xresources
+ln ${DOTDIR}/.Xdefaults ${HOME}/.Xdefaults
+ln ${DOTDIR}/.Xdefaults ${HOME}/.Xresources
 
 # removed because i never use it anymore
 #rm -f ${HOME}/.xmodmap4win

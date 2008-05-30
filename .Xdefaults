@@ -5,6 +5,15 @@
 ! all X-clients.
 !
 !!!!!!!!!!
+! omfg, emacs looks good with these.
+!!!!!!!!!!
+Xft.hinting: 1
+Xft.antialias: 1
+Xft.dpi: 96
+Xft.hintstyle: hintfull
+Xft.rgba: rgb
+
+!!!!!!!!!!
 !  motif stuff
 !!!!!!!!!!
 ! set false to move only rectangle when window moves
