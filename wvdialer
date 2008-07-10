@@ -4,6 +4,8 @@ keep_going=1
 
 trap "echo 'received interrupt' ; keep_going=0" SIGINT
 
+sudo wvdialconf
+
 while [[ $keep_going -eq 1 ]] ; do
     sudo wvdial
     sleep 3
