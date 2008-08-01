@@ -1,105 +1,64 @@
-#! /bin/bash
+#! /usr/bin/ruby
 
-function usage_
-{
-    echo "usage: clup [-e][-c][-x] [-R] [directory1 [ ... [directoryN]]]"
-    echo "  where -e (default mode) will clean up emacs files (*~, etc.)"
-    echo "  where -s will clean up source code revision files (svn-commit*tmp, etc.)"
-    echo "  where -c will clean up intermediate compiled files (*.o, etc.)"
-    echo "  where -x will clean up intermediate TeX/LaTeX files (*.toc, etc.)"
-    echo "  where -R will recurse through all directories"
-}
+require 'getoptlong'
 
-#  needs $RE to be set
-function cleanup_
-{
-    DIR=$1
-    if test x$DIR != "x" ; then
-        pushd $DIR > /dev/null
-    fi
-    echo "[$PWD]"
-    rm -v -f $RE 2> /dev/null
-    if test x$DIR != "x" ; then
-        popd > /dev/null
-    fi
-}
+def _usage
+  puts "USAGE: clup [-e][-c][-x][s] [-R] [directory1 [ ... [directoryN]]]"
+  puts "  where -e, --emacs     will clean up emacs files (*~, etc.) (DEFAULT)"
+  puts "        -s, --scm       will clean up source code revision files (svn-commit*tmp, etc.)"
+  puts "        -c, --compiled  will clean up intermediate compiled files (*.o, etc.)"
+  puts "        -x, --tex       will clean up intermediate TeX/LaTeX files (*.toc, etc.)"
+  puts ""
+  puts "        -R, --recurse   will recurse through all directories"
+  puts "        -N, --dry-run   will show what would have been deleted"
+  puts ""
+  puts "        -h, --help       will display this help message"
+  exit 1
+end
 
-NOARG=1
-DO_EMACS=0
-DO_COMPILED=0
-DO_LATEX=0
-RECURSE=0
-DO_SVN=0
+globs = []
+recurse = false
+dry_run = false
+EMACS_GLOBS = %w{*~ .*~ #*#}
+opts = GetoptLong.new(
+                      ["--emacs",       "-e", GetoptLong::NO_ARGUMENT],
+                      ["--scm",         "-s", GetoptLong::NO_ARGUMENT],
+                      ["--compiled",    "-c", GetoptLong::NO_ARGUMENT],
+                      ["--tex",         "-x", GetoptLong::NO_ARGUMENT],
+                      ["--recurse",     "-R", GetoptLong::NO_ARGUMENT],
+                      ["--dry-run",     "-N", GetoptLong::NO_ARGUMENT],
+                      ["--help",        "-h", GetoptLong::NO_ARGUMENT]
+                      )
+opts.each do |opt, arg|
+  case opt
+  when "--emacs"
+    globs << EMACS_GLOBS
+  when "--scm"
+    globs << %w{svn-commit*.tmp}
+  when "--compiled"
+    globs << %w{*.o *.s *.d *.err *.class *.obj}
+  when "--tex"
+    globs << %w{*.aux *.dvi *.out *.toc *.log}
+  when "--recurse"
+    recurse = true
+  when "--dry-run"
+    dry_run = true
+  when "--help"
+    _usage
+  end
+end
 
-while getopts "ecxRs" OPTION ; do
-    case $OPTION in
-        e)
-        NOARG=0
-        DO_EMACS=1
-        ;;
-        c)
-        NOARG=0
-        DO_COMPILED=1
-        ;;
-        x)
-        NOARG=0
-        DO_LATEX=1
-        ;;
-        R)
-        RECURSE=1
-        ;;
-        s)
-        NOARG=0
-        DO_SVN=1
-        ;;
-        ?)
-        usage_
-        exit 1
-        ;;
-    esac
-done
+directories = ARGV
 
-shift $(( $OPTIND - 1 ))
+globs << EMACS_GLOBS if globs.empty?
+directories = ["."] if directories.empty?
 
-#  default behavior
-if test $NOARG -eq 1  ; then
-    DO_EMACS=1 
-    DO_SVN=1 
-fi
+globs.flatten!
+globs.collect! { |j| j = File.join("**", j) } if recurse
 
-if test $DO_EMACS -eq 1  ; then
-    RE="$RE *~ .*~ \#*\#"
-fi
-
-if test $DO_COMPILED -eq 1 ; then
-    RE="$RE *.o *.s *.d *.err *.class *.obj"
-fi
-
-if test $DO_LATEX -eq 1 ; then
-    RE="$RE *.aux *.dvi *.out *.toc *.log"
-fi
-
-if test $DO_SVN -eq 1 ; then
-    RE="$RE svn-commit*.tmp"
-fi
-
-if test $# -gt 0 ; then
-    for dir in $@ ; do
-        if test -d $dir ; then
-            if test $RECURSE -eq 1 ; then
-                #  will include $dir
-                for d in $( find $dir -type d -print | egrep -v '.svn|.git' ) ; do
-                    cleanup_ $d
-                done
-            else
-                cleanup_ $dir
-            fi
-        else
-            echo "could not find directory '$dir'"
-        fi
-    done
-else
-    cleanup_
-fi
-
-exit 0
+puts "(performing dry-run, no files will be deleted)" if dry_run
+directories.each do |jdir|
+  list = Dir.glob( globs.collect { |jglob| File.join(jdir, jglob) } )
+  File.unlink(*list) unless dry_run
+  list.each { |jfn| puts "deleted '#{jfn}'" }
+end
