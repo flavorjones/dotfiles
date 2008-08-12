@@ -12,7 +12,10 @@ fi
 #
 #  prompts, environment, etc.
 #
-if [[ -a /etc/debian_version ]] ; then
+if [[ ${EMACS} == 't' ]] ; then
+    #  don't use xterm escapes in emacs
+    export PS1='\[\e[31;1m\]\W|$?\[\e[0m\]\$ '
+elif [[ -a /etc/debian_version ]] ; then
     if [[ ${BASH_VERSION} == "3.1.17(1)-release" ]] ; then
         # bash 3.1.17's non-printing character tokens \[\e ... \] are (apparently) broken
         export PS1="\e]0;\h:\w\a\e[31;1m\W|\$?\e[0m \$ "
