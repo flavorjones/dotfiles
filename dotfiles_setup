@@ -92,3 +92,6 @@ ln ${DOTDIR}/color-theme-vivid-chalk.el ${ELISPDIR}
 
 rm -f ${ELISPDIR}/camelCase-mode.el
 ln ${DOTDIR}/camelCase-mode.el ${ELISPDIR}
+
+rm -f ${BINDIR}/open_mailto
+ln ${DOTDIR}/open_mailto ${BINDIR}
