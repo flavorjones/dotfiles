@@ -12,6 +12,12 @@ fi
 #
 #  prompts, environment, etc.
 #
+function scm_branch {
+    if [[ -a ${PWD}/.git ]] ; then
+        echo " ($(cat ${PWD}/.git/HEAD | cut -d/ -f3))"
+    fi
+}
+
 if [[ ${EMACS} == 't' ]] ; then
     #  don't use xterm escapes in emacs
     export PS1='\[\e[31;1m\]\W|$?\[\e[0m\]\$ '
@@ -20,7 +26,7 @@ elif [[ -a /etc/debian_version ]] ; then
         # bash 3.1.17's non-printing character tokens \[\e ... \] are (apparently) broken
         export PS1="\e]0;\h:\w\a\e[31;1m\W|\$?\e[0m \$ "
     else
-        export PS1='\[\e]0;\h:\w\a\e[31;1m\]\W|$?\[\e[0m\]\$ '
+        export PS1="\[\e]0;\h:\w\$(scm_branch)\a\e[31;1m\]\W|\$?\[\e[0m\]\$ "
     fi
 else
     export PS1="\[\e]0;\h:\w\a\e[31;1m\]\W|\$?\$ \[\e[0m\]"
