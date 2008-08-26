@@ -8,3 +8,7 @@
 	tool = meld
 [branch]
         autosetupmerge = true
+[alias]
+        d = diff -w -b
+        c = commit -v
+        s = status
