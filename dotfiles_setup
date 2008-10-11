@@ -36,6 +36,9 @@ ln ${DOTDIR}/clup ${BINDIR}
 rm -f ${HOME}/.emacs
 ln ${DOTDIR}/.emacs ${HOME}
 
+rm -f ${HOME}/.autotest
+ln ${DOTDIR}/.autotest ${HOME}
+
 rm -f ${HOME}/.exrc
 ln ${DOTDIR}/.exrc ${HOME}
 
