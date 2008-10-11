@@ -1,4 +1,5 @@
 # -*-ruby-*-
+# taken from http://ph7spot.com/articles/getting_started_with_autotest
 module Autotest::GnomeNotify
 
   # Time notification will be displayed before disappearing automatically
