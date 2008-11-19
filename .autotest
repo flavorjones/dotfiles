@@ -1,28 +1,54 @@
 # -*-ruby-*-
-# taken from http://ph7spot.com/articles/getting_started_with_autotest
-module Autotest::GnomeNotify
+# taken from autotest/notify.rb
 
-  # Time notification will be displayed before disappearing automatically
-  EXPIRATION_IN_SECONDS = 3
-  ERROR_STOCK_ICON = "gtk-dialog-error"
-  SUCCESS_STOCK_ICON = "gtk-dialog-info"
+require 'activesupport'
 
-  # Convenience method to send an error notification message
-  #
-  # [stock_icon]   Stock icon name of icon to display
-  # [title]        Notification message title
-  # [message]      Core message for the notification
-  def self.notify stock_icon, title, message
-    options = "-t #{EXPIRATION_IN_SECONDS * 1000} -i #{stock_icon}"
-    system "notify-send #{options} '#{title}' '#{message}'"
+if true
+  module Autotest::NoisyNotify
+    Autotest.add_hook :red do |at|
+      system "aplay -q #{ENV['HOME']}/.autotest.d/tpirhorns.wav &"
+    end
+    Autotest.add_hook :green do |at|
+      system "aplay -q #{ENV['HOME']}/.autotest.d/tpirding.wav &" if at.tainted
+    end
+    Autotest.add_hook :all_good do |at|
+      system "aplay -q #{ENV['HOME']}/.autotest.d/tpir-dings.wav &"
+    end
+  end
+end
+
+module Autotest::Notify
+  def self.notify(title, message, priority='critical')
+    icon = if priority == 'critical'
+      'dialog-error'
+    else
+      'dialog-information'
+    end
+    system "notify-send -u #{priority} -t 10000 -i #{icon} '#{title}' '#{message.inspect}'"
   end
 
   Autotest.add_hook :red do |at|
-    notify ERROR_STOCK_ICON, "#{File.basename(Dir.pwd)}: Tests failed", "#{at.files_to_test.size} tests failed"
+    tests = 0
+    assertions = 0
+    failures = 0
+    errors = 0
+    at.results.scan(/(\d+) tests, (\d+) assertions, (\d+) failures, (\d+) errors/) do |t, a, f, e|
+      tests += t.to_i
+      assertions += a.to_i
+      failures += f.to_i
+      errors += e.to_i
+    end
+    message = "%d tests, %d assertions, %d failures, %d errors" % 
+      [tests, assertions, failures, errors]
+    notify("Tests Failed", message)
   end
 
   Autotest.add_hook :green do |at|
-    notify SUCCESS_STOCK_ICON, "#{File.basename(Dir.pwd)}: All tests passed!", "Good job."
+    notify("Tests Passed", "Outstanding tests passed", 'low') if at.tainted
+  end
+
+  Autotest.add_hook :all_good do |at|
+    notify("autotest", "Tests have fully passed", 'low')
   end
 
 end
