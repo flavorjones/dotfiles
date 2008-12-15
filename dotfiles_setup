@@ -5,7 +5,7 @@ BINDIR=${HOME}/bin
 SVNDIR=${HOME}/.subversion
 VNCDIR=${HOME}/.vnc
 MUSICDIR=${HOME}/Music
-ELISPDIR=${HOME}/.elisp
+ELISPDIR=${HOME}/.emacs.d
 
 if ! test -d $BINDIR ; then
     mkdir $BINDIR
