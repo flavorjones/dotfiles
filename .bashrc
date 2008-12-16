@@ -139,6 +139,9 @@ alias  pu="pushd"
 alias  po="popd"
 
 alias  valgrind-m="valgrind --leak-check=yes --show-reachable=yes"
+alias  valgrind-ruby="valgrind --num-callers=50 --error-limit=no --partial-loads-ok=yes --undef-value-errors=no"
+alias  valgrind-ruby-mem0="valgrind --num-callers=50 --error-limit=no --partial-loads-ok=yes --undef-value-errors=no --freelist-vol=100000000 --malloc-fill=00 --free-fill=00"
+alias  valgrind-ruby-mem="valgrind --num-callers=50 --error-limit=no --partial-loads-ok=yes --undef-value-errors=no --freelist-vol=100000000 --malloc-fill=6D --free-fill=66"
 
 alias  wget-site="wget -rkp -l inf -c --html-extension --no-parent '$1'"
 alias  wget-site-full="wget -m -c -r -p -k --html-extension '$1'"
