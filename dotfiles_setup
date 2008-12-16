@@ -5,14 +5,9 @@ BINDIR=${HOME}/bin
 SVNDIR=${HOME}/.subversion
 VNCDIR=${HOME}/.vnc
 MUSICDIR=${HOME}/Music
-ELISPDIR=${HOME}/.emacs.d
 
 if ! test -d $BINDIR ; then
     mkdir $BINDIR
-fi
-if ! test -d $ELISPDIR ; then
-    mkdir ${ELISPDIR}
-    touch ${ELISPDIR}/mylocal.el
 fi
 if ! test -d ${HOME}/tmp ; then
     mkdir ${HOME}/tmp
@@ -32,9 +27,6 @@ ln ${DOTDIR}/.bashrc ${HOME}
 
 rm -f ${BINDIR}/clup
 ln ${DOTDIR}/clup ${BINDIR}
-
-rm -f ${HOME}/.emacs
-ln ${DOTDIR}/.emacs ${HOME}
 
 rm -f ${HOME}/.autotest
 ln ${DOTDIR}/.autotest ${HOME}
@@ -92,12 +84,6 @@ ln ${DOTDIR}/wvdialer ${BINDIR}
 
 rm -f ${BINDIR}/m2h
 ln ${DOTDIR}/m2h ${BINDIR}
-
-rm -f ${ELISPDIR}/color-theme-vivid-chalk.el
-ln ${DOTDIR}/color-theme-vivid-chalk.el ${ELISPDIR}
-
-rm -f ${ELISPDIR}/camelCase-mode.el
-ln ${DOTDIR}/camelCase-mode.el ${ELISPDIR}
 
 rm -f ${BINDIR}/open_mailto
 ln ${DOTDIR}/open_mailto ${BINDIR}
