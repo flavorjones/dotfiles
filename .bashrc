@@ -232,6 +232,7 @@ alias  unal="unalias"
 alias  whence="whence -v"
 alias  fun="functions"
 alias  unfun="unset -f"
+alias  ec="emacsclient -n"
 
 function  backup {
   ##########
