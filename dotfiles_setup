@@ -5,6 +5,7 @@ BINDIR=${HOME}/bin
 SVNDIR=${HOME}/.subversion
 VNCDIR=${HOME}/.vnc
 MUSICDIR=${HOME}/Music
+GDBDIR=${HOME}/.gdb
 
 if ! test -d $BINDIR ; then
     mkdir $BINDIR
@@ -17,6 +18,9 @@ if ! test -d $VNCDIR ; then
 fi
 if ! test -d $MUSICDIR ; then
     mkdir $MUSICDIR
+fi
+if ! test -d $GDBDIR ; then
+    mkdir $GDBDIR
 fi
 touch $HOME/.Xdefaults_local
 
@@ -57,6 +61,15 @@ ln ${DOTDIR}/.sawfishrc ${HOME}
 
 rm -f ${HOME}/.gdbinit
 ln ${DOTDIR}/.gdbinit ${HOME}
+
+rm -f ${HOME}/session-hack
+ln ${DOTDIR}/session-hack ${GDBDIR}
+
+rm -f ${HOME}/session-ruby
+ln ${DOTDIR}/session-ruby ${GDBDIR}
+
+rm -f ${HOME}/session-asm
+ln ${DOTDIR}/session-asm ${GDBDIR}
 
 rm -f ${HOME}/.gitconfig
 ln ${DOTDIR}/.gitconfig ${HOME}
