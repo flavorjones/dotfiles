@@ -62,13 +62,13 @@ ln ${DOTDIR}/.sawfishrc ${HOME}
 rm -f ${HOME}/.gdbinit
 ln ${DOTDIR}/.gdbinit ${HOME}
 
-rm -f ${HOME}/session-hack
+rm -f ${GDBDIR}/session-hack
 ln ${DOTDIR}/session-hack ${GDBDIR}
 
-rm -f ${HOME}/session-ruby
+rm -f ${GDBDIR}/session-ruby
 ln ${DOTDIR}/session-ruby ${GDBDIR}
 
-rm -f ${HOME}/session-asm
+rm -f ${GDBDIR}/session-asm
 ln ${DOTDIR}/session-asm ${GDBDIR}
 
 rm -f ${HOME}/.gitconfig
