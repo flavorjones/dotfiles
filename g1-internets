@@ -1,0 +1,47 @@
+#! /usr/bin/env ruby
+
+require 'socket'
+
+def set_gnome_proxy(proxy_on)
+  if proxy_on
+    puts "turning gnome proxy settings on ..."
+    system "gconftool -s /system/http_proxy/use_http_proxy -t bool true"
+    system "gconftool -s /system/http_proxy/host -t string 127.0.0.1"
+    system "gconftool -s /system/http_proxy/port -t int 1080"
+    system "gconftool -s /system/http_proxy/ignore_hosts -t list --list-type=string [localhost,127.0.0.0/8,*.local]"
+    system "gconftool -s /system/http_proxy/use_same_proxy -t bool true"
+    system "gconftool -s /system/proxy/mode -t string manual"
+  else
+    puts "turning gnome proxy settings off ..."
+    system "gconftool -s /system/http_proxy/use_http_proxy -t bool false"
+    system "gconftool -s /system/proxy/mode -t string none"
+  end
+end
+
+
+android_dir = Dir.glob(File.join(ENV['HOME'], 'builds', 'android*')).detect { |f| File.directory? f }
+adb = File.join android_dir, "tools", "adb"
+
+Signal.trap("INT") do
+  puts "caught interrupt, restoring gnome proxy settings ..."
+  set_gnome_proxy false
+  exit 0
+end
+
+set_gnome_proxy true
+
+while true do
+  was_connected = true
+  proxy_conn = TCPSocket::new("localhost", 1080) rescue nil
+  if proxy_conn.nil?
+    sleep 2 unless was_connected
+    was_connected = false
+    puts "proxy is down, attempting to restart ..."
+    system "#{adb} forward tcp:1080 tcp:1080"
+  else
+    was_connected = true
+    puts "proxy is up (#{Time.now})"
+    select [proxy_conn] # blocking read until server drops connection
+    proxy_conn.close
+  end
+end
