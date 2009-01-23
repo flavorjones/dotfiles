@@ -3,7 +3,6 @@
 require 'find'
 require 'fileutils'
 
-# directory => [directory1, [source_directory2, dest_directory2], ...]
 specs = ['bin', '.subversion', '.vnc', 'Music', '.gdb', {'home' => ENV['HOME']}]
 
 specs.each do |spec|
@@ -26,10 +25,8 @@ specs.each do |spec|
   files.each do |file|
     src_file = File.join(File.dirname(__FILE__), file)
     dest_file = File.join(destdir, File.basename(file))
-    puts "%30s => %s" % [src_file, dest_file]
+    puts "%-30s => %s" % [src_file, dest_file]
     FileUtils.rm_f dest_file
     FileUtils.ln   src_file, dest_file
   end
 end
-
-# make "old" directory, with xmodmap4win and others
