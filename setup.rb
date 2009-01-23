@@ -13,7 +13,7 @@ spec = {
 }
 
 spec.each do |directory, files|
-  fq_dest_dir = File.join(ENV['HOME'], directory)
+  fq_dest_dir = directory.match(%r(^/)) ? directory : File.join(ENV['HOME'], directory)
   FileUtils.mkdir_p fq_dest_dir
   files.each do |file|
     fq_src_file = File.join(File.dirname(__FILE__), file)
