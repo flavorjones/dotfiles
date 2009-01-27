@@ -30,8 +30,8 @@ end
 
 set_gnome_proxy true
 
+was_connected = true
 while true do
-  was_connected = true
   proxy_conn = TCPSocket::new("localhost", 1080) rescue nil
   if proxy_conn.nil?
     sleep 2 unless was_connected
@@ -39,8 +39,8 @@ while true do
     puts "proxy is down, attempting to restart ..."
     system "#{adb} forward tcp:1080 tcp:1080"
   else
+    puts "proxy is up (#{Time.now})" unless was_connected
     was_connected = true
-    puts "proxy is up (#{Time.now})"
     select [proxy_conn] # blocking read until server drops connection
     proxy_conn.close
   end
