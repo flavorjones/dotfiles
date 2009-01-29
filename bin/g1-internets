@@ -2,20 +2,20 @@
 
 require 'socket'
 
-def set_gnome_proxy(proxy_on)
-  if proxy_on
-    puts "turning gnome proxy settings on ..."
-    system "gconftool -s /system/http_proxy/use_http_proxy -t bool true"
-    system "gconftool -s /system/http_proxy/host -t string 127.0.0.1"
-    system "gconftool -s /system/http_proxy/port -t int 1080"
-    system "gconftool -s /system/http_proxy/ignore_hosts -t list --list-type=string [localhost,127.0.0.0/8,*.local]"
-    system "gconftool -s /system/http_proxy/use_same_proxy -t bool true"
-    system "gconftool -s /system/proxy/mode -t string manual"
-  else
-    puts "turning gnome proxy settings off ..."
-    system "gconftool -s /system/http_proxy/use_http_proxy -t bool false"
-    system "gconftool -s /system/proxy/mode -t string none"
-  end
+def configure_gnome(proxy_on)
+#   if proxy_on
+#     puts "turning gnome proxy settings on ..."
+#     system "gconftool -s /system/http_proxy/use_http_proxy -t bool true"
+#     system "gconftool -s /system/http_proxy/host -t string 127.0.0.1"
+#     system "gconftool -s /system/http_proxy/port -t int 1080"
+#     system "gconftool -s /system/http_proxy/ignore_hosts -t list --list-type=string [localhost,127.0.0.0/8,*.local]"
+#     system "gconftool -s /system/http_proxy/use_same_proxy -t bool true"
+#     system "gconftool -s /system/proxy/mode -t string manual"
+#   else
+#     puts "turning gnome proxy settings off ..."
+#     system "gconftool -s /system/http_proxy/use_http_proxy -t bool false"
+#     system "gconftool -s /system/proxy/mode -t string none"
+#   end
 end
 
 
@@ -24,11 +24,11 @@ adb = File.join android_dir, "tools", "adb"
 
 Signal.trap("INT") do
   puts "caught interrupt, restoring gnome proxy settings ..."
-  set_gnome_proxy false
+  configure_gnome false
   exit 0
 end
 
-set_gnome_proxy true
+configure_gnome true
 
 was_connected = true
 while true do
