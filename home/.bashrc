@@ -147,7 +147,8 @@ alias  wget-site="wget -rkp -l inf -c --html-extension --no-parent '$1'"
 alias  wget-site-full="wget -m -c -r -p -k --html-extension '$1'"
 alias  wget-subsite="wget -rkp -l inf -c --html-extension --no-parent --no-host-directories --no-directories '$1'"
 
-alias p-dig="proxychains dig @4.2.2.2 +tcp +short $*"
+alias pc="proxychains $*"
+alias pc-dig="proxychains dig @4.2.2.2 +tcp +short $*"
 
 function mykill {
 # arg1: signal, arg2: proc name
