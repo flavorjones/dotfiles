@@ -1,2 +1,0 @@
-#! /bin/bash
-proxychains dig +tcp $*
