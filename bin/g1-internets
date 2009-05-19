@@ -36,10 +36,10 @@ while true do
   if proxy_conn.nil?
     sleep 2 unless was_connected
     was_connected = false
-    puts "proxy is down, attempting to restart ..."
+    puts "proxy is down, attempting to restart (#{adb}) ..."
     system "#{adb} forward tcp:1080 tcp:1080"
   else
-    puts "proxy is up (#{Time.now})" unless was_connected
+    puts "\nproxy is up (#{Time.now})\n" unless was_connected
     was_connected = true
     select [proxy_conn] # blocking read until server drops connection
     proxy_conn.close

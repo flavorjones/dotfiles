@@ -16,7 +16,7 @@ fi
 
 find ${MUSICDIR}/itunes -iname '*mp3' \
     $newerarg \
-    -exec nice mp3gain -T -r -k \{\} \;
+    -exec nice mp3gain -T -r -c \{\} \;
 
 touch $TIMESTAMP
 

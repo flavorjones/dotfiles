@@ -18,12 +18,19 @@
 	fontui = -family \"bitstream vera sans\" -size 9 -weight bold -slant roman -underline 0 -overstrike 0
 	fontdiff = -family \"bitstream vera sans mono\" -size 10 -weight normal -slant roman -underline 0 -overstrike 0
 
-# plain (context text), meta (metainformation), frag (hunk header), old (removed lines), new (added lines),
+# diff: plain (context text), meta (metainformation), frag (hunk header), old (removed lines), new (added lines),
 # commit (commit headers), or whitespace (highlighting whitespace errors)
+#
+# status: header (header text), added or updated, changed, untracked, nobranch
 #
 # normal, black, red, green, yellow, blue, magenta, cyan and white
 [color]
+        status = true
         diff = true
+[color.status]
+        added = blue bold
+        changed = yellow bold
+        untracked = red bold
 [color.diff]
         new = yellow bold
         old = yellow
