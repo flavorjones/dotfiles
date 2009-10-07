@@ -1,47 +1,96 @@
 #! /usr/bin/env ruby
 
+require 'fileutils'
 require 'socket'
 
 def configure_gnome(proxy_on)
-#   if proxy_on
-#     puts "turning gnome proxy settings on ..."
-#     system "gconftool -s /system/http_proxy/use_http_proxy -t bool true"
-#     system "gconftool -s /system/http_proxy/host -t string 127.0.0.1"
-#     system "gconftool -s /system/http_proxy/port -t int 1080"
-#     system "gconftool -s /system/http_proxy/ignore_hosts -t list --list-type=string [localhost,127.0.0.0/8,*.local]"
-#     system "gconftool -s /system/http_proxy/use_same_proxy -t bool true"
-#     system "gconftool -s /system/proxy/mode -t string manual"
-#   else
-#     puts "turning gnome proxy settings off ..."
-#     system "gconftool -s /system/http_proxy/use_http_proxy -t bool false"
-#     system "gconftool -s /system/proxy/mode -t string none"
-#   end
+  # if proxy_on
+  #   puts "turning gnome proxy settings on ..."
+  #   system "gconftool -s /system/http_proxy/use_http_proxy -t bool true"
+  #   system "gconftool -s /system/http_proxy/host -t string 127.0.0.1"
+  #   system "gconftool -s /system/http_proxy/port -t int 1080"
+  #   system "gconftool -s /system/http_proxy/ignore_hosts -t list --list-type=string [localhost,127.0.0.0/8,*.local]"
+  #   system "gconftool -s /system/http_proxy/use_same_proxy -t bool true"
+  #   system "gconftool -s /system/proxy/mode -t string manual"
+  # else
+  #   puts "turning gnome proxy settings off ..."
+  #   system "gconftool -s /system/http_proxy/use_http_proxy -t bool false"
+  #   system "gconftool -s /system/proxy/mode -t string none"
+  # end
 end
 
+def be_graceful_on_interrupt
+  Signal.trap("INT") do
+    puts "gracefully exiting."
+    exit 0
+  end
+end
 
-android_dir = Dir.glob(File.join(ENV['HOME'], 'builds', 'android*')).detect { |f| File.directory? f }
-adb = File.join android_dir, "tools", "adb"
+def try_to_connect
+  be_graceful_on_interrupt
+
+  android_dir = Dir.glob(File.join(ENV['HOME'], 'builds', 'android*')).detect do |f|
+    File.directory? f
+  end
+  adb = File.join android_dir, "tools", "adb"
+
+  was_connected = true
+  while true do
+    proxy_conn = TCPSocket::new("localhost", 1080) rescue nil
+    if proxy_conn.nil?
+      sleep 2 unless was_connected
+      was_connected = false
+      puts "proxy is down, attempting to restart (#{adb}) ..."
+      system "#{adb} forward tcp:1080 tcp:1080"
+    else
+      puts "\nproxy is up (#{Time.now})" unless was_connected
+      was_connected = true
+      select [proxy_conn] # blocking read until server drops connection
+      proxy_conn.close
+    end
+  end
+end
+
+def try_to_synch
+  be_graceful_on_interrupt
+
+  mount = "/media/disk"
+  synch_map = {
+    "/home/mike/PortableStorage/KeePass/vault_personal.kdb" => "/keepass/keepass.kdb"
+  }
+
+  was_mounted = nil
+  while true do
+    if File.directory? mount
+      puts "\nmounted USB device found." unless was_mounted
+      was_mounted = true
+      synch_map.each do |source, dest|
+        target = File.join(mount, dest)
+        FileUtils.mkdir_p File.dirname(target)
+        system "rsync -ci '#{source}' '#{target}'"
+        system "chmod ugo-w '#{target}'"
+      end
+    else
+      puts "USB device is not mounted." unless was_mounted == false
+      was_mounted = false
+    end
+    sleep 30
+  end
+end
+
+processes = []
+
+configure_gnome true
+processes << Process.fork { try_to_connect }
+processes << Process.fork { try_to_synch }
 
 Signal.trap("INT") do
   puts "caught interrupt, restoring gnome proxy settings ..."
   configure_gnome false
-  exit 0
+  puts "killing slaves."
+  processes.each { |p| Process.kill "INT", p }
 end
 
-configure_gnome true
+processes.length.times { Process.wait }
 
-was_connected = true
-while true do
-  proxy_conn = TCPSocket::new("localhost", 1080) rescue nil
-  if proxy_conn.nil?
-    sleep 2 unless was_connected
-    was_connected = false
-    puts "proxy is down, attempting to restart (#{adb}) ..."
-    system "#{adb} forward tcp:1080 tcp:1080"
-  else
-    puts "\nproxy is up (#{Time.now})\n" unless was_connected
-    was_connected = true
-    select [proxy_conn] # blocking read until server drops connection
-    proxy_conn.close
-  end
-end
+exit 0
