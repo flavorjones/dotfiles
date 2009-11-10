@@ -3,9 +3,14 @@
 require 'fileutils'
 require 'socket'
 
+def notify(msg)
+  system %Q(notify-send -t 2000 g1-internets "#{msg}")
+  puts "#{Time.now}: #{msg}"
+end
+
 def configure_gnome(proxy_on)
   # if proxy_on
-  #   puts "turning gnome proxy settings on ..."
+  #   notify "turning gnome proxy settings on ..."
   #   system "gconftool -s /system/http_proxy/use_http_proxy -t bool true"
   #   system "gconftool -s /system/http_proxy/host -t string 127.0.0.1"
   #   system "gconftool -s /system/http_proxy/port -t int 1080"
@@ -13,7 +18,7 @@ def configure_gnome(proxy_on)
   #   system "gconftool -s /system/http_proxy/use_same_proxy -t bool true"
   #   system "gconftool -s /system/proxy/mode -t string manual"
   # else
-  #   puts "turning gnome proxy settings off ..."
+  #   notify "turning gnome proxy settings off ..."
   #   system "gconftool -s /system/http_proxy/use_http_proxy -t bool false"
   #   system "gconftool -s /system/proxy/mode -t string none"
   # end
@@ -38,12 +43,15 @@ def try_to_connect
   while true do
     proxy_conn = TCPSocket::new("localhost", 1080) rescue nil
     if proxy_conn.nil?
-      sleep 2 unless was_connected
+      if was_connected
+        notify "proxy is down, attempting to restart ..."
+      else
+        sleep 2
+      end
       was_connected = false
-      puts "proxy is down, attempting to restart (#{adb}) ..."
       system "#{adb} forward tcp:1080 tcp:1080"
     else
-      puts "\nproxy is up (#{Time.now})" unless was_connected
+      notify "proxy is up" unless was_connected
       was_connected = true
       select [proxy_conn] # blocking read until server drops connection
       proxy_conn.close
@@ -62,7 +70,7 @@ def try_to_synch
   was_mounted = nil
   while true do
     if File.directory? mount
-      puts "\nmounted USB device found." unless was_mounted
+      notify "mounted USB device found." unless was_mounted
       was_mounted = true
       synch_map.each do |source, dest|
         target = File.join(mount, dest)
@@ -71,7 +79,7 @@ def try_to_synch
         system "chmod ugo-w '#{target}'"
       end
     else
-      puts "USB device is not mounted." unless was_mounted == false
+      notify "USB device is not mounted." unless was_mounted == false
       was_mounted = false
     end
     sleep 30
