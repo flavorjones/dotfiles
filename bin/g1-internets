@@ -62,9 +62,12 @@ end
 def try_to_synch
   be_graceful_on_interrupt
 
-  mount = "/media/disk"
-  synch_map = {
+  mount = "/media/6535-3564"
+  pc2ph_map = {
     "/home/mike/PortableStorage/KeePass/vault_personal.kdb" => "/keepass/keepass.kdb"
+  }
+  ph2pc_map = {
+    "/dcim" => "/home/mike/AndroidFiles"
   }
 
   was_mounted = nil
@@ -72,11 +75,19 @@ def try_to_synch
     if File.directory? mount
       notify "mounted USB device found." unless was_mounted
       was_mounted = true
-      synch_map.each do |source, dest|
-        target = File.join(mount, dest)
-        FileUtils.mkdir_p File.dirname(target)
-        system "rsync -ci '#{source}' '#{target}'"
-        system "chmod ugo-w '#{target}'"
+
+      pc2ph_map.each do |source, dest|
+        fq_dest = File.join(mount, dest)
+        FileUtils.mkdir_p File.dirname(fq_dest)
+        system "rsync -ai '#{source}' '#{fq_dest}'"
+        system "chmod ugo-w '#{fq_dest}'"
+      end
+
+      ph2pc_map.each do |source, dest|
+        fq_source = File.join(mount, source)
+        puts "MIKE: #{fq_source}"
+        FileUtils.mkdir_p File.dirname(dest)
+        system "rsync -ai '#{fq_source}' '#{dest}'"
       end
     else
       notify "USB device is not mounted." unless was_mounted == false
