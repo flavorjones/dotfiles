@@ -19,7 +19,7 @@ end
 globs = []
 recurse = false
 dry_run = false
-EMACS_GLOBS = %w{*~ .*~ #*#}
+EMACS_GLOBS = %w{*~ .*~ #*# .#*}
 opts = GetoptLong.new(
                       ["--emacs",       "-e", GetoptLong::NO_ARGUMENT],
                       ["--scm",         "-s", GetoptLong::NO_ARGUMENT],
