@@ -67,7 +67,7 @@ def try_to_synch
     "/home/mike/PortableStorage/KeePass/vault_personal.kdb" => "/keepass/keepass.kdb"
   }
   ph2pc_map = {
-    "/dcim" => "/home/mike/AndroidFiles"
+    "/dcim/Camera/" => "/home/mike/Pictures/PhonePics"
   }
 
   was_mounted = nil
@@ -85,9 +85,8 @@ def try_to_synch
 
       ph2pc_map.each do |source, dest|
         fq_source = File.join(mount, source)
-        puts "MIKE: #{fq_source}"
         FileUtils.mkdir_p File.dirname(dest)
-        system "rsync -ai '#{fq_source}' '#{dest}'"
+        system "rsync -ai --ignore-existing '#{fq_source}' '#{dest}'"
       end
     else
       notify "USB device is not mounted." unless was_mounted == false
