@@ -64,7 +64,7 @@ def try_to_synch
 
   mount = "/media/6535-3564"
   pc2ph_map = {
-    "/home/mike/PortableStorage/KeePass/vault_personal.kdb" => "/keepass/keepass.kdb"
+    "/home/mike/Shared/PortableStorage/KeePass/vault_personal.kdb" => "/keepass/keepass.kdb"
   }
   ph2pc_map = {
     "/dcim/Camera/" => "/home/mike/Pictures/PhonePics"

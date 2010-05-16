@@ -8,6 +8,7 @@ fi
 if [[ -e /etc/SuSE-release ]] ; then
     test -z "$PROFILEREAD" && . /etc/profile # suse, obviously
 fi
+. ~/.git-completion.bash
 
 #
 #  prompts, environment, etc.
