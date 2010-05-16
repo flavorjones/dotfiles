@@ -8,27 +8,25 @@ fi
 if [[ -e /etc/SuSE-release ]] ; then
     test -z "$PROFILEREAD" && . /etc/profile # suse, obviously
 fi
+
+# git stuff
+export GIT_PS1_SHOWDIRTYSTATE=1
 . ~/.git-completion.bash
 
 #
 #  prompts, environment, etc.
 #
 function scm_branch {
-    if [[ -a ${PWD}/.git ]] ; then
-        echo " ($(cat ${PWD}/.git/HEAD | cut -d/ -f3))"
-    fi
+    __git_ps1 " (%s)"
 }
 
+export XTERM_PS1="\[\e]0;\h:\w\$(scm_branch)\a\]"
+export REGULAR_PS1="\[\e[31;1;7m\]\W\$(scm_branch)\[\e[0m\] \$ "
 if [[ ${EMACS} == 't' ]] ; then
     #  don't use xterm escapes in emacs
-    export PS1='\[\e[31;1m\]\W|$?\[\e[0m\]\$ '
+    export PS1=$REGULAR_PS1
 elif [[ -a /etc/debian_version ]] ; then
-    if [[ ${BASH_VERSION} == "3.1.17(1)-release" ]] ; then
-        # bash 3.1.17's non-printing character tokens \[\e ... \] are (apparently) broken
-        export PS1="\e]0;\h:\w\a\e[31;1m\W|\$?\e[0m \$ "
-    else
-        export PS1="\[\e]0;\h:\w\$(scm_branch)\a\e[31;1m\]\W|\$?\[\e[0m\]\$ "
-    fi
+    export PS1="${XTERM_PS1}${REGULAR_PS1}"
 else
     export PS1="\[\e]0;\h:\w\a\e[31;1m\]\W|\$?\$ \[\e[0m\]"
 fi
