@@ -8,6 +8,9 @@ fi
 if [[ -e /etc/SuSE-release ]] ; then
     test -z "$PROFILEREAD" && . /etc/profile # suse, obviously
 fi
+if [[ $(uname) == "Darwin" ]] ; then
+    export I_AM_A_MAC=1
+fi
 
 # git stuff
 export GIT_PS1_SHOWDIRTYSTATE=1
@@ -25,10 +28,8 @@ export REGULAR_PS1="\[\e[34;1;7m\]\W\[\e[0;34;1m\]\$(scm_branch) \$ \[\e[0m\]"
 if [[ ${EMACS} == 't' ]] ; then
     #  don't use xterm escapes in emacs
     export PS1=$REGULAR_PS1
-elif [[ -a /etc/debian_version ]] ; then
-    export PS1="${XTERM_PS1}${REGULAR_PS1}"
 else
-    export PS1="\[\e]0;\h:\w\a\e[31;1m\]\W|\$?\$ \[\e[0m\]"
+    export PS1="${XTERM_PS1}${REGULAR_PS1}"
 fi
 export TZ="America/New_York"
 export PATH=${PATH}:${HOME}/bin
@@ -53,7 +54,11 @@ export VALGRIND_OPTS="--num-callers=50 --error-limit=no"
 #
 #  custom stuff
 #
-export MY_LSARGS="-F --color=auto"
+if [[ ${I_AM_A_MAC} ]] ; then
+    export MY_LSARGS="-F -G"
+else
+    export MY_LSARGS="-F --color=auto"
+fi
 
 #
 #  svn, cvs environments
