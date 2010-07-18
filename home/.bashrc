@@ -48,8 +48,10 @@ export VISUAL=$EDITOR
 export CVSEDITOR=$EDITOR
 export CVS_RSH=ssh
 export LESS="-i -j5 -M -x4 -R"
+export BROWSER="google-chrome"
 # export LESSCHARSET="latin1"
 export VALGRIND_OPTS="--num-callers=50 --error-limit=no"
+export LC_COLLATE=C # so sort acts the way i want it to
 
 #
 #  custom stuff
@@ -240,6 +242,7 @@ alias  whence="whence -v"
 alias  fun="functions"
 alias  unfun="unset -f"
 alias  ec="emacsclient -n"
+alias  open="gnome-open"
 
 function  backup {
   ##########

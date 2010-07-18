@@ -1,6 +1,9 @@
 [user]
 	name = Mike Dalessio
 	email = mike@csa.net
+[github]
+	token = 34752b38ba090a9bacddf2fe66b4e985
+	user = flavorjones
 [core]
 	compression = 1
 	loosecompression = 1
