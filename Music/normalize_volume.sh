@@ -1,4 +1,4 @@
-#! /bin/bash
+#! /usr/bin/env bash
 
 MUSICDIR=${HOME}/Music
 TIMESTAMP=${MUSICDIR}/.normalize_volume_timestamp
@@ -16,7 +16,7 @@ fi
 
 find ${MUSICDIR}/itunes -iname '*mp3' \
     $newerarg \
-    -exec nice mp3gain -T -r -c \{\} \;
+    -exec nice mp3gain -T -r -c -m 4 \{\} \;
 
 touch $TIMESTAMP
 

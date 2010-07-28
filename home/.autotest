@@ -1,9 +1,9 @@
 # -*-ruby-*-
 # taken from autotest/notify.rb
 
-require 'activesupport'
+require 'active_support'
 
-if true
+if false
   module Autotest::NoisyNotify
     Autotest.add_hook :red do |at|
       system "aplay -q #{ENV['HOME']}/.autotest.d/tpirhorns.wav &"

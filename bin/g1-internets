@@ -8,54 +8,10 @@ def notify(msg)
   puts "#{Time.now}: #{msg}"
 end
 
-def configure_gnome(proxy_on)
-  # if proxy_on
-  #   notify "turning gnome proxy settings on ..."
-  #   system "gconftool -s /system/http_proxy/use_http_proxy -t bool true"
-  #   system "gconftool -s /system/http_proxy/host -t string 127.0.0.1"
-  #   system "gconftool -s /system/http_proxy/port -t int 1080"
-  #   system "gconftool -s /system/http_proxy/ignore_hosts -t list --list-type=string [localhost,127.0.0.0/8,*.local]"
-  #   system "gconftool -s /system/http_proxy/use_same_proxy -t bool true"
-  #   system "gconftool -s /system/proxy/mode -t string manual"
-  # else
-  #   notify "turning gnome proxy settings off ..."
-  #   system "gconftool -s /system/http_proxy/use_http_proxy -t bool false"
-  #   system "gconftool -s /system/proxy/mode -t string none"
-  # end
-end
-
 def be_graceful_on_interrupt
   Signal.trap("INT") do
     puts "gracefully exiting."
     exit 0
-  end
-end
-
-def try_to_connect
-  be_graceful_on_interrupt
-
-  android_dir = Dir.glob(File.join(ENV['HOME'], 'builds', 'android*')).detect do |f|
-    File.directory? f
-  end
-  adb = File.join android_dir, "tools", "adb"
-
-  was_connected = true
-  while true do
-    proxy_conn = TCPSocket::new("localhost", 1080) rescue nil
-    if proxy_conn.nil?
-      if was_connected
-        notify "proxy is down, attempting to restart ..."
-      else
-        sleep 2
-      end
-      was_connected = false
-      system "#{adb} forward tcp:1080 tcp:1080"
-    else
-      notify "proxy is up" unless was_connected
-      was_connected = true
-      select [proxy_conn] # blocking read until server drops connection
-      proxy_conn.close
-    end
   end
 end
 
@@ -64,10 +20,10 @@ def try_to_synch
 
   mount = "/media/6535-3564"
   pc2ph_map = {
-#    "/home/mike/Shared/DropBox/KeePass/vault_personal.kdb" => "/keepass/keepass.kdb"
+    # "/home/mike/Shared/DropBox/KeePass/vault_personal.kdb" => "/keepass/keepass.kdb"
   }
   ph2pc_map = {
-    "/dcim/Camera/" => "/home/mike/Pictures/PhonePics"
+    "/DCIM/Camera/" => "/home/mike/Pictures/PhonePics"
   }
 
   was_mounted = nil
@@ -98,14 +54,10 @@ end
 
 processes = []
 
-configure_gnome true
-processes << Process.fork { try_to_connect }
 processes << Process.fork { try_to_synch }
 
 Signal.trap("INT") do
-  puts "caught interrupt, restoring gnome proxy settings ..."
-  configure_gnome false
-  puts "killing slaves."
+  puts "caught interrupt, killing slaves."
   processes.each { |p| Process.kill "INT", p }
 end
 
