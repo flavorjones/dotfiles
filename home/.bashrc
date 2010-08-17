@@ -157,6 +157,7 @@ alias pc="proxychains $*"
 alias pc-dig="proxychains dig @4.2.2.2 +tcp +short $*"
 
 alias be="bundle exec"
+alias bi="bundle install --path=~/.bundler"
 
 function awkp {
     narg=$1
