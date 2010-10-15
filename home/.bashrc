@@ -32,7 +32,7 @@ else
     export PS1="${XTERM_PS1}${REGULAR_PS1}"
 fi
 export TZ="America/New_York"
-export PATH=${PATH}:${HOME}/bin:${HOME}/builds/bin
+export PATH=${PATH}:${HOME}/bin
 
 #
 #  cached values (for use in scripts?)
@@ -157,11 +157,13 @@ alias pc="proxychains $*"
 alias pc-dig="proxychains dig @4.2.2.2 +tcp +short $*"
 
 alias be="bundle exec"
-alias bi="bundle install --path=~/.bundler"
+alias bi="bundle install --path=~/.bundler --binstubs"
 
-function awkp {
-    narg=$1
-    awk "{print \$$1}"
+function mykill {
+# arg1: signal, arg2: proc name
+	sig=${1}
+	shift
+	pkill -${sig} -u ${LOGNAME} ${@}
 }
 
 function  getenv {
@@ -181,35 +183,6 @@ function lsort {
   ls -l ${*} | sort -rn +4 -5
 }
 
-function dtime {
-    # "info date" for more info
-    date -d "1970-01-01 UTC $1 seconds" +"%Y-%m-%d %T %z"
-}
-
-function fork {
-    ($@ &)
-}
-
-#
-#  ############### defunct functions and aliases below here ###############
-#
-
-alias  al="alias"
-alias  unal="unalias"
-
-# these leftover from my ksh days
-alias  whence="whence -v"
-alias  fun="functions"
-alias  unfun="unset -f"
-alias  ec="emacsclient -n"
-
-function mykill {
-# arg1: signal, arg2: proc name
-	sig=${1}
-	shift
-	pkill -${sig} -u ${LOGNAME} ${@}
-}
-
 function  lse {
   ##########
   #  Function to 'ls -l' an executable in search path via 'which'.
@@ -220,19 +193,6 @@ function  lse {
   else
     echo "${@} not found"
   fi
-}
-
-function forkx {
-    (xterm -e "$@" &)
-}
-
-function findsrc {
-    if [[ "x$1" == "x" ]] ; then
-        dir="."
-    else
-        dir="$1"
-    fi
-    find $dir -name '*.h' -or -name '*.hpp' -or -name '*.c' -or -name '*.cpp' -or -name '*.f' -or -name '*.f90' -or -name '*.cc' -or -name '*.H' -or -name '*.C' -or -name '*rb' -or -name '*rhtml'
 }
 
 function cvsdiff {
@@ -352,6 +312,11 @@ function rx {
   ( xterm -si -title "${MACH}" -geometry 82x24 ${@} -e ssh ${MACH} & )
 
   return 0
+}
+
+function awkp {
+    narg=$1
+    awk "{print \$$1}"
 }
 
 # find "no scm"

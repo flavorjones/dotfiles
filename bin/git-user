@@ -1,0 +1,14 @@
+#!/usr/bin/env ruby
+
+def run cmd
+  puts cmd
+  system(cmd) || raise("command failed: #{cmd}")
+end
+
+if ARGV[0] == 'benchmark'
+  run "git config user.name 'Mike Dalessio'"
+  run "git config user.email 'mike.dalessio@benchmarksolutions.com'"
+else
+  run "git config user.name 'Mike Dalessio'"
+  run "git config user.email 'mike@csa.net'"
+end
