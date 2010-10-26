@@ -1,0 +1,16 @@
+#! /usr/bin/env ruby
+
+unless ARGV[0]
+  puts "USAGE: #{File.basename(__FILE__)} <ip-addr>"
+end
+
+ip_addr = ARGV[0]
+
+puts "divining gateway ..."
+iface = "eth1"
+addr = `ifconfig #{iface} | fgrep 'inet ' | awk '{print $2}' | cut -d: -f2`.strip
+gw = addr.gsub(/\.[0-9]+$/,'.1')
+
+cmd = "sudo route add -host #{ip_addr} gw #{gw} #{iface}"
+puts cmd
+system cmd
