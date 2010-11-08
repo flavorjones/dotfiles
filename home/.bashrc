@@ -157,7 +157,7 @@ alias pc="proxychains $*"
 alias pc-dig="proxychains dig @4.2.2.2 +tcp +short $*"
 
 alias be="bundle exec"
-alias bi="bundle install --path=~/.bundler"
+alias bi="bundle install --path=${HOME}/.bundler"
 
 function mykill {
 # arg1: signal, arg2: proc name
