@@ -18,7 +18,7 @@ end
 def try_to_synch
   be_graceful_on_interrupt
 
-  mount = "/media/6535-3564"
+  mount = "/media/AFEA-1EE7"
   pc2ph_map = {
     # "/home/mike/Shared/DropBox/KeePass/vault_personal.kdb" => "/keepass/keepass.kdb"
   }
