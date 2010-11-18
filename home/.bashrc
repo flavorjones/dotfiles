@@ -19,12 +19,12 @@ export GIT_PS1_SHOWDIRTYSTATE=1
 #
 #  prompts, environment, etc.
 #
-function scm_branch {
-    __git_ps1 " (%s)"
+function haxxor_info {
+    echo "$(__git_ps1) [$(rvm-prompt)]"
 }
 
-export XTERM_PS1="\[\e]0;\h:\w\$(scm_branch)\a\]"
-export REGULAR_PS1="\[\e[34;1;7m\]\W\[\e[0;34;1m\]\$(scm_branch) \$ \[\e[0m\]"
+export XTERM_PS1="\[\e]0;\h:\w\$(haxxor_info)\a\]"
+export REGULAR_PS1="\[\e[34;1;7m\]\W\[\e[0;34;1m\]\$(haxxor_info) \$ \[\e[0m\]"
 if [[ ${EMACS} == 't' ]] ; then
     #  don't use xterm escapes in emacs
     export PS1=$REGULAR_PS1
