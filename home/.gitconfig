@@ -23,6 +23,8 @@
 [gui]
 	fontui = -family \"bitstream vera sans\" -size 9 -weight bold -slant roman -underline 0 -overstrike 0
 	fontdiff = -family \"bitstream vera sans mono\" -size 10 -weight normal -slant roman -underline 0 -overstrike 0
+[push]
+        default = current
 
 # diff: plain (context text), meta (metainformation), frag (hunk header), old (removed lines), new (added lines),
 # commit (commit headers), or whitespace (highlighting whitespace errors)
