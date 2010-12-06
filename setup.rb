@@ -3,7 +3,7 @@
 require 'find'
 require 'fileutils'
 
-specs = ['bin', '.subversion', '.vnc', 'Music', '.gdb', {'home' => ENV['HOME']}]
+specs = ['bin', '.subversion', '.vnc', 'Music', '.gdb', '.ssh', {'home' => ENV['HOME']}]
 
 specs.each do |spec|
   if spec.is_a?(Hash)
