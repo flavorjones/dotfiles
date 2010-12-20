@@ -42,3 +42,5 @@
 [color.diff]
         new = yellow bold
         old = yellow
+[diff]
+        renames = copies
