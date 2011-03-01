@@ -7,7 +7,15 @@ end
 ip_addr = ARGV[0]
 
 puts "divining gateway ..."
-iface = "eth1"
+ifconfig = `ifconfig`
+
+iface = if ifconfig =~ /eth1/
+          "eth1"
+        elsif ifconfig =~ /wlan0/
+          "wlan0"
+        else
+          raise "cannot find wireless interface"
+        end
 addr = `ifconfig #{iface} | fgrep 'inet ' | awk '{print $2}' | cut -d: -f2`.strip
 gw = addr.gsub(/\.[0-9]+$/,'.1')
 
