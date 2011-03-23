@@ -9,6 +9,13 @@
           "mission-accomplished": "http://www.commondreams.org/headlines03/images/1030-02.jpg"
         }
       ]
+    },
+    {
+      "sounds": [
+        {
+          "sad-trombone": "http://sfxcontent.s3.amazonaws.com/soundfx/Sad-Trombone.mp3"
+        }
+      ]
     }
   ]
 }
