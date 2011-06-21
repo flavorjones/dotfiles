@@ -46,6 +46,7 @@ export HOST=$(hostname)
 export EDITOR="emacs -nw"
 export VISUAL=$EDITOR
 export CVSEDITOR=$EDITOR
+export PAGER=less
 export CVS_RSH=ssh
 export LESS="-i -j5 -M -x4 -R"
 export BROWSER="google-chrome"

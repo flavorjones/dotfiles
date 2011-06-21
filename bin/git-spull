@@ -3,7 +3,7 @@
 pull_args = ARGV
 
 def run cmd
-  puts cmd
+  puts "* #{cmd}"
   system(cmd) || raise("command failed: #{cmd}")
 end
 

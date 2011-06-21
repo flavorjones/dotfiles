@@ -9,7 +9,9 @@ ip_addr = ARGV[0]
 puts "divining gateway ..."
 ifconfig = `ifconfig`
 
-iface = if ifconfig =~ /eth1/
+iface = if ifconfig =~ /usb0/
+          "usb0"
+        elsif ifconfig =~ /eth1/
           "eth1"
         elsif ifconfig =~ /wlan0/
           "wlan0"
