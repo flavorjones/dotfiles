@@ -20,16 +20,23 @@ export GIT_PS1_SHOWDIRTYSTATE=1
 #  prompts, environment, etc.
 #
 function haxxor_info {
-    echo "$(__git_ps1) [$(rvm-prompt)]"
+    echo "$(rvm-prompt)$(__git_ps1)"
 }
 
-export XTERM_PS1="\[\e]0;\h:\w\$(haxxor_info)\a\]"
-export REGULAR_PS1="\[\e[34;1;7m\]\W\[\e[0;34;1m\]\$(haxxor_info) \$ \[\e[0m\]"
-if [[ ${EMACS} == 't' ]] ; then
-    #  don't use xterm escapes in emacs
-    export PS1=$REGULAR_PS1
-else
-    export PS1="${XTERM_PS1}${REGULAR_PS1}"
+if [[ $BMENV == "" ]] ; then
+    shift_to_titlebar='\[\e]0;'
+    shift_to_tty='\a\]'
+    color_bold_text='\[\e[34;1;7m\]'
+    color_text='\[\e[0;34;1m\]'
+    regular_text='\[\e[0m\]'
+    export XTERM_PS1="${shift_to_titlebar}\h:\w${shift_to_tty}"
+    export REGULAR_PS1="${color_text}\$(haxxor_info)\n${color_bold_text}\W${color_text} \$ ${regular_text}"
+    if [[ ${EMACS} == 't' ]] ; then
+        #  don't use xterm escapes in emacs
+        export PS1=$REGULAR_PS1
+    else
+        export PS1="${XTERM_PS1}${REGULAR_PS1}"
+    fi
 fi
 export TZ="America/New_York"
 export PATH=${PATH}:${HOME}/bin
