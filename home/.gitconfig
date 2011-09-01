@@ -19,7 +19,7 @@
         d = diff -w -b
         c = commit -v
         s = status
-		w = whatchanged
+	w = whatchanged
 [gui]
 	fontui = -family \"bitstream vera sans\" -size 9 -weight bold -slant roman -underline 0 -overstrike 0
 	fontdiff = -family \"bitstream vera sans mono\" -size 10 -weight normal -slant roman -underline 0 -overstrike 0
@@ -44,7 +44,6 @@
         old = yellow
 [diff]
         renames = copies
-
 [alias]
         co = checkout
         ci = commit

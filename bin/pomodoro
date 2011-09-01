@@ -1,0 +1,27 @@
+#! /usr/bin/env ruby
+#
+#  Script to turn "pomodoro mode" on/off in Gnome.
+#
+#  Gnome has a little-known feature to put a timer around "typing
+#  breaks". This script makes it easy to turn on and off from the
+#  command line (or gnome-do, or what-have-you).
+#
+
+current_value = %x{gconftool --get /desktop/gnome/typing_break/enabled}.chomp
+
+enabled = current_value != "true"
+
+settings = {
+  "enabled" => enabled,
+  "type_time" => 25,
+  "break_time" => 5,
+  "allow_postpone" => true,
+}
+
+settings.each do |key, value|
+  if TrueClass === value || FalseClass === value
+    system "gconftool --type bool --set /desktop/gnome/typing_break/#{key} #{value}"
+  elsif Fixnum === value
+    system "gconftool --type int --set /desktop/gnome/typing_break/#{key} #{value}"
+  end
+end
