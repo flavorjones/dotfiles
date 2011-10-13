@@ -26,11 +26,16 @@ function haxxor_info {
 if [[ $BMENV == "" ]] ; then
     shift_to_titlebar='\[\e]0;'
     shift_to_tty='\a\]'
-    color_bold_text='\[\e[34;1;7m\]'
-    color_text='\[\e[0;34;1m\]'
+    if ps -p $PPID | grep ssh > /dev/null ; then
+        color="31" # red
+    else
+        color="34" # blue
+    fi
+    color_bold_text='\[\e[${color};1;7m\]'
+    color_text='\[\e[0;${color};1m\]'
     regular_text='\[\e[0m\]'
     export XTERM_PS1="${shift_to_titlebar}\h:\w${shift_to_tty}"
-    export REGULAR_PS1="${color_text}\$(haxxor_info)\n${color_bold_text}\W${color_text} \$ ${regular_text}"
+    export REGULAR_PS1="${color_text}\h \$(haxxor_info)\n${color_bold_text}\W${color_text} \$ ${regular_text}"
     if [[ ${EMACS} == 't' ]] ; then
         #  don't use xterm escapes in emacs
         export PS1=$REGULAR_PS1
