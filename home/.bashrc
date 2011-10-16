@@ -44,7 +44,7 @@ if [[ $BMENV == "" ]] ; then
     fi
 fi
 export TZ="America/New_York"
-export PATH=${PATH}:${HOME}/bin
+export PATH=${PATH}:${HOME}/bin:${HOME}/.emacs.d
 
 #
 #  cached values (for use in scripts?)
