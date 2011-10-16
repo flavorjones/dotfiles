@@ -12,7 +12,7 @@ old_klass = ARGV[0].classify
 new_klass = ARGV[1].classify
 old_underscore = old_klass.underscore
 new_underscore = new_klass.underscore
-app_dirs = %w[app lib script spec]
+app_dirs = %w[app lib script spec public]
 
 def run cmd
   puts "=> #{cmd}"
@@ -26,12 +26,12 @@ def runout cmd
   output
 end
 
-run %Q{find #{app_dirs.join(' ')} -not -type d | xargs sed -i 's/#{old_klass}/#{new_klass}/g'}
-run %Q{find #{app_dirs.join(' ')} -not -type d | xargs sed -i 's/#{old_underscore}/#{new_underscore}/g'}
-
-runout("find #{app_dirs.join(' ')} -name '*#{old_underscore}*'").split.each do |old_filename|
+runout("find #{app_dirs.join(' ')} -type d -name '*#{old_underscore}*'").split.each do |old_filename|
   new_filename = old_filename.gsub(old_underscore, new_underscore)
   run "git mv #{old_filename} #{new_filename}"
 end
+
+run %Q{find #{app_dirs.join(' ')} -not -type d | xargs sed -i 's/#{old_klass}/#{new_klass}/g'}
+run %Q{find #{app_dirs.join(' ')} -not -type d | xargs sed -i 's/#{old_underscore}/#{new_underscore}/g'}
 
 run "rails g migration rename_#{old_underscore}_to_#{new_underscore}"
