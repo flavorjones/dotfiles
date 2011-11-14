@@ -5,4 +5,4 @@
 --type-add=css=.scss
 --color
 --pager=less
---no-sql
+--ignore-dir=tmp

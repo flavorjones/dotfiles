@@ -1,18 +1,18 @@
 #! /usr/bin/env ruby
 
 unless ARGV[1]
-  puts "USAGE: #{File.basename(__FILE__)} OldThing NewThing"
+  puts "USAGE: #{File.basename(__FILE__)} OldThing NewThing [directories]"
   exit 1
 end
 
 require 'rubygems'
 require 'active_support/inflector'
 
-old_klass = ARGV[0].classify
-new_klass = ARGV[1].classify
+old_klass = ARGV.shift.classify
+new_klass = ARGV.shift.classify
 old_underscore = old_klass.underscore
 new_underscore = new_klass.underscore
-app_dirs = %w[app lib script spec public]
+app_dirs = ARGV.empty? ? %w[app lib script spec public] : ARGV
 
 def run cmd
   puts "=> #{cmd}"
@@ -27,6 +27,11 @@ def runout cmd
 end
 
 runout("find #{app_dirs.join(' ')} -type d -name '*#{old_underscore}*'").split.each do |old_filename|
+  new_filename = old_filename.gsub(old_underscore, new_underscore)
+  run "git mv #{old_filename} #{new_filename}"
+end
+
+runout("find #{app_dirs.join(' ')} -type f -name '*#{old_underscore}*'").split.each do |old_filename|
   new_filename = old_filename.gsub(old_underscore, new_underscore)
   run "git mv #{old_filename} #{new_filename}"
 end
