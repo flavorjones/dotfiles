@@ -6,7 +6,7 @@
 idVendor, idProduct = `lsusb | fgrep Fingerprint | cut -d' ' -f6`.chomp.split(':')
 
 devices = `find /sys/devices/*/*/usb* -name level`
-devices = devices.select do |device|
+devices = devices.split.select do |device|
   status = `cat #{device}`
   status =~ /^on$/
 end
