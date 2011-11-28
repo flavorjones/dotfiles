@@ -1,0 +1,114 @@
+#! /usr/bin/env bash
+
+install="sudo apt-get install -y -q"
+update="sudo apt-get update -q"
+
+#  basics for usability
+${install} \
+    gnome-do \
+    compizconfig-settings-manager \
+    gnome-session-fallback \
+    fusion-icon \
+    tomboy \
+    gcolor2 \
+    keepassx \
+    gnome-tweak-tool \
+    msttcorefonts \
+    vpnc \
+    xvidcap \
+    nautilus-dropbox
+
+if [[ `which google-chrome` == "" ]] ; then
+    ${install} libxss1 libcurl3
+    gnome-open http://www.google.com/chrome
+fi
+
+if [[ `which picasa` == "" ]] ; then
+    ${install} lib32ndss-mdns
+    wget 'http://dl.google.com/linux/deb/pool/non-free/p/picasa/picasa_3.0-current_amd64.deb'
+    gnome-open picasa_3.0-current_amd64.deb
+fi
+
+#  basics for development
+${install} \
+    git-core gitk subversion mercurial \
+    libxml2 libxml2-dev libxslt1.1 libxslt-dev \
+    libboost-all-dev libyajl-dev libyaml-dev \
+    ruby1.8 \
+    build-essential \
+    emacs autocutsel \
+    mysql-server mysql-client libmysqlclient-dev \
+    mysql-admin mysql-query-browser \
+    openjdk-6-jdk \
+    libglib2.0-dev libgtk-3-dev libcanberra-gtk3-dev libnotify-dev libx11-dev libgio2.0-cil-dev \
+    ack-grep \
+    apache2 apache2.2-bin apache2.2-common apache2-mpm-prefork apache2-prefork-dev apache2-utils \
+    libapr1-dev libaprutil1-dev \
+    gnuplot \
+    curl wget \
+    exuberant-ctags \
+    markdown \
+    cmake \
+    libpcre++0 libpcre++-dev libevent-dev \
+    libssl-dev libcrypto++-dev \
+    colordiff
+
+#  dvd watching
+if [[ ! -a /etc/apt/sources.list.d/medibuntu.list ]] ; then
+    sudo wget --output-document=/etc/apt/sources.list.d/medibuntu.list http://www.medibuntu.org/sources.list.d/$(lsb_release -cs).list
+    ${update}
+    ${install} --allow-unauthenticated medibuntu-keyring
+    ${update}
+    ${install} libdvdcss2
+fi
+
+
+#  virtualbox
+if [[ `which virtualbox` == "" ]] ; then
+    sudo bash -c 'echo "deb http://download.virtualbox.org/virtualbox/debian oneiric contrib" > /etc/apt/sources.list.d/virtualbox.list'
+    wget -q http://download.virtualbox.org/virtualbox/debian/oracle_vbox.asc -O- | sudo apt-key add -
+    ${update}
+    ${install} virtualbox-4.1
+fi
+
+#  thinkfinger
+#
+# Uninstallation
+# ===========
+# GNOME users: The package policykit-1-fingerprint-gui replaces GNOME's standard PolicyKit daemon (contained in package policykit-1-gnome). However, when you decide to uninstall Fingerprint GUI (and hence remove policykit-1-fingerprint-gui), policykit-1-gnome will not get automatically installed back, hence there won't be any PolicyKit daemon in the system, and APT will try to remove all the packages that depend on it. Therefore, if you want to remove Fingerprint GUI, make sure you install policykit-1-gnome back first.
+#    sudo apt-get install policykit-1-gnome
+#    sudo apt-get remove fingerprint-gui
+#
+# Note on GNOME session login (optional, not applicable since 11.10)
+# ================================
+# By default, the GDM login screen presents a list of users from which you select, and then you can authenticate with your fingerprint. However, you can set things up in a way that you can enrol your fingerprint immediately, and the username will be recognized from the fingerprint. In order to achieve this, perform these two steps:
+# 1. In /etc/pam.d/gdm, insert the following as the first line:
+
+#     auth	optional	pam_fingerprint-gui.so debug
+
+# 2. Disable user list in GDM. You can use the following long command to do this.
+
+#     "sudo gconftool-2 --direct --config-source xml:readwrite:/etc/gconf/gconf.xml.defaults --type bool   --set /apps/gdm/simple-greeter/disable_user_list true"
+
+# 3. You may need to reboot for the changes to take effect.
+
+# If you would like to revert, simply delete the new line from /etc/pam.d/gdm and run “sudo gconftool-2 --direct --config-source xml:readwrite:/etc/gconf/gconf.xml.defaults --unset /apps/gdm/simple-greeter/disable_user_list”.
+
+# Troubleshooting
+# =============
+# If something doesn't work as you expect, you can try one of the following steps:
+#  • In terminal run "sudo pam-auth-update". Make sure that the PAM profile called “Fingerprint authentication by Fingerprint GUI” is on top of the list and active. Otherwise, you may try resetting your PAM to system defaults with "sudo pam-auth-update --force".
+#  • Check /var/log/auth.log for any clues. Fingerprint GUI is set up to run in debugging mode by default.
+
+if [[ `which fingerprint-gui` == "" ]] ; then
+    sudo add-apt-repository ppa:fingerprint/fingerprint-gui
+    ${update}
+    ${install} libbsapi policykit-1-fingerprint-gui fingerprint-gui
+fi
+
+#
+#  drwright - as of 2011-11-14 not available as a .deb, but download and build by hand from:
+#     http://ftp.gnome.org/pub/GNOME/sources/drwright/
+#  note: need 3.0 for oneiric
+#
+echo "install DRWRIGHT!"
