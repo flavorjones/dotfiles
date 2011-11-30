@@ -40,7 +40,6 @@ ${install} \
     mysql-server mysql-client libmysqlclient-dev \
     mysql-admin mysql-query-browser \
     openjdk-6-jdk \
-    libglib2.0-dev libgtk-3-dev libcanberra-gtk3-dev libnotify-dev libx11-dev libgio2.0-cil-dev \
     ack-grep \
     apache2 apache2.2-bin apache2.2-common apache2-mpm-prefork apache2-prefork-dev apache2-utils \
     libapr1-dev libaprutil1-dev \
@@ -52,6 +51,8 @@ ${install} \
     libpcre++0 libpcre++-dev libevent-dev \
     libssl-dev libcrypto++-dev \
     colordiff
+${install} \
+    libglib2.0-dev libgtk-3-dev libcanberra-gtk3-dev libnotify-dev libx11-dev libgio2.0-cil-dev
 
 #  dvd watching
 if [[ ! -a /etc/apt/sources.list.d/medibuntu.list ]] ; then
