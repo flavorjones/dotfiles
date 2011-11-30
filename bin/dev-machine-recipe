@@ -43,7 +43,7 @@ ${install} \
     ack-grep \
     apache2 apache2.2-bin apache2.2-common apache2-mpm-prefork apache2-prefork-dev apache2-utils \
     libapr1-dev libaprutil1-dev \
-    gnuplot \
+    gnuplot graphviz \
     curl wget \
     exuberant-ctags \
     markdown \
