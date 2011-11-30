@@ -100,10 +100,16 @@ fi
 #  • In terminal run "sudo pam-auth-update". Make sure that the PAM profile called “Fingerprint authentication by Fingerprint GUI” is on top of the list and active. Otherwise, you may try resetting your PAM to system defaults with "sudo pam-auth-update --force".
 #  • Check /var/log/auth.log for any clues. Fingerprint GUI is set up to run in debugging mode by default.
 
-if [[ `which fingerprint-gui` == "" ]] ; then
-    sudo add-apt-repository ppa:fingerprint/fingerprint-gui
-    ${update}
-    ${install} libbsapi policykit-1-fingerprint-gui fingerprint-gui
+echo "skipping fingerprint-gui .."
+# if [[ `which fingerprint-gui` == "" ]] ; then
+#     sudo add-apt-repository ppa:fingerprint/fingerprint-gui
+#     ${update}
+#     ${install} libbsapi policykit-1-fingerprint-gui fingerprint-gui
+# fi
+
+# rvm
+if [[ `which rvm` == "" ]] ; then
+    bash < <(curl -s https://raw.github.com/wayneeseguin/rvm/master/binscripts/rvm-installer)
 fi
 
 #
