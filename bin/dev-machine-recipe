@@ -50,7 +50,9 @@ ${install} \
     cmake \
     libpcre++0 libpcre++-dev libevent-dev \
     libssl-dev libcrypto++-dev \
-    colordiff
+    colordiff \
+    libreadline-dev \
+    libcurl4-openssl-dev
 ${install} \
     libglib2.0-dev libgtk-3-dev libcanberra-gtk3-dev libnotify-dev libx11-dev libgio2.0-cil-dev
 
@@ -124,4 +126,7 @@ echo "install DRWRIGHT!"
 # - Thunderbird -> Preferences -> Advanced -> Config Editor -> mail.server.default.fetch_by_chunks=false
 # - Macbook Trackpad:
 #   - add to xorg.conf %q{Option "TapButton1" "0"}
-#   - see https://github.com/BlueDragonX/xf86-input-mtrack for more options
+#     - see https://github.com/BlueDragonX/xf86-input-mtrack for more options
+#   - add to xorg.conf %q{Option ZAxisMapping "5 4"}
+#     - see http://ubuntuforums.org/showthread.php?t=1664418
+#     - or `xinput set-button-map 11 1 2 3 5 4`
