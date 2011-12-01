@@ -119,3 +119,6 @@ fi
 #  note: need 3.0 for oneiric
 #
 echo "install DRWRIGHT!"
+
+# other things:
+# - Thunderbird -> Preferences -> Advanced -> Config Editor -> mail.server.default.fetch_by_chunks=false
