@@ -127,6 +127,5 @@ echo "install DRWRIGHT!"
 # - Macbook Trackpad:
 #   - add to xorg.conf %q{Option "TapButton1" "0"}
 #     - see https://github.com/BlueDragonX/xf86-input-mtrack for more options
-#   - add to xorg.conf %q{Option ZAxisMapping "5 4"}
-#     - see http://ubuntuforums.org/showthread.php?t=1664418
-#     - or `xinput set-button-map 11 1 2 3 5 4`
+# add compiz fusion icon to startup: `fusion-icon --sleep=5`
+# add ~/bin/invert-scroll to startup
