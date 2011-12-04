@@ -4,8 +4,9 @@
 device_number=$(xinput list bcm5974 | head -1 | cut -f2 | cut -d= -f2)
 
 if [[ ${device_number} == "" ]] ; then
-   echo "No bcm5974 trackpad device present"
+   notify-send "No bcm5974 trackpad device present."
    exit 1
 fi
 
 xinput set-button-map ${device_number} 1 2 3 5 4
+notify-send "Scrolling inverted."
