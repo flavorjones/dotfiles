@@ -16,7 +16,8 @@ ${install} \
     msttcorefonts \
     vpnc \
     xvidcap \
-    nautilus-dropbox
+    nautilus-dropbox \
+    flashplugin-installer
 
 if [[ `which google-chrome` == "" ]] ; then
     ${install} libxss1 libcurl3
