@@ -36,7 +36,7 @@ ${install} \
     libxml2 libxml2-dev libxslt1.1 libxslt-dev \
     libboost-all-dev libyajl-dev libyaml-dev \
     ruby1.8 \
-    build-essential \
+    build-essential valgrind \
     emacs autocutsel \
     mysql-server mysql-client libmysqlclient-dev \
     mysql-admin mysql-query-browser \
