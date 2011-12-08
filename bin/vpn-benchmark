@@ -1,0 +1,9 @@
+#! /usr/bin/env bash
+
+if [[ $1 == "stop" ]] ; then
+    sudo vpnc-disconnect
+    sudo service avahi-daemon start
+else
+    sudo vpnc-connect benchmark
+    sudo service avahi-daemon stop
+fi
