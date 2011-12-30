@@ -37,7 +37,7 @@ ${install} \
     libboost-all-dev libyajl-dev libyaml-dev \
     ruby1.8 \
     build-essential valgrind \
-    emacs autocutsel \
+    emacs autocutsel puppet-el \
     mysql-server mysql-client libmysqlclient-dev \
     mysql-admin mysql-query-browser \
     openjdk-6-jdk \
