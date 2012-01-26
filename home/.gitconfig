@@ -1,16 +1,16 @@
 [user]
-	name = Mike Dalessio
-	email = mike@csa.net
+        name = Mike Dalessio
+        email = mike@csa.net
 [github]
-	user = flavorjones
-	token = 34752b38ba090a9bacddf2fe66b4e985
+        user = flavorjones
+        token = 34752b38ba090a9bacddf2fe66b4e985
 [core]
-	compression = 1
-	loosecompression = 1
-	excludesfile = /home/mike/.gitignore
+        compression = 1
+        loosecompression = 1
+        excludesfile = /home/mike/.gitignore
         abbrev = 7
 [merge]
-	tool = meld
+        tool = meld
 [branch]
         autosetupmerge = true
 [push]
@@ -19,16 +19,17 @@
         renames = copies
 [alias]
         d = diff -w -b
+        ds = diff -w -b --staged
         c = commit -v
         s = status
         ss = status --short
-	w = whatchanged
+        w = whatchanged
         co = checkout
         ci = commit
         wd = diff -w -b --word-diff-regex="[^[:space:]_:.,()]+"
 [gui]
-	fontui = -family \"bitstream vera sans\" -size 9 -weight bold -slant roman -underline 0 -overstrike 0
-	fontdiff = -family \"bitstream vera sans mono\" -size 10 -weight normal -slant roman -underline 0 -overstrike 0
+        fontui = -family \"bitstream vera sans\" -size 9 -weight bold -slant roman -underline 0 -overstrike 0
+        fontdiff = -family \"bitstream vera sans mono\" -size 10 -weight normal -slant roman -underline 0 -overstrike 0
 
 # diff: plain (context text), meta (metainformation), frag (hunk header), old (removed lines), new (added lines),
 # commit (commit headers), or whitespace (highlighting whitespace errors)
