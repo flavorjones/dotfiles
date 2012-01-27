@@ -173,6 +173,12 @@ alias be="bundle exec"
 alias bi="bundle install"
 
 alias ack="ack-grep"
+if which colordiff > /dev/null ; then
+#    alias diff="colordiff"
+    function diff {
+        colordiff ${*} | $PAGER
+    }
+fi
 
 function mykill {
 # arg1: signal, arg2: proc name

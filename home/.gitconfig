@@ -38,6 +38,7 @@
 #
 # normal, black, red, green, yellow, blue, magenta, cyan and white
 [color]
+        ui = true
         status = true
         diff = true
 [color.status]
