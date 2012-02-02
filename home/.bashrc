@@ -144,8 +144,11 @@ alias  em="( emacs & )"
 alias  edit=$EDITOR
 alias  ed="ed -p '*'"
 
-alias  mypids="ps -fu ${LOGNAME}"
-alias  mp="ps -fu ${LOGNAME}"
+alias  psme="ps -fu ${LOGNAME}"
+function psg {
+    pgrep ${*} | xargs --no-run-if-empty ps --pid
+}
+
 alias  pingme="ping -s ${DISPLAY%:*}"
 
 alias  flock="chmod 444"
