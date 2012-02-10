@@ -49,10 +49,11 @@
 [color.diff]
         new = yellow bold
         old = yellow
+
+# from http://nuclearsquid.com/writings/git-tricks-tips-workflows/
+# in ~/.gitattributes file, add the following line:
+#   db/schema.rb merge=railsschema
 [merge "railsschema"]
-        # from http://nuclearsquid.com/writings/git-tricks-tips-workflows/
-        # in ~/.gitattributes file, add the following line:
-        #   db/schema.rb merge=railsschema
         name = newer Rails schema version
         driver = "ruby -e '\n\
                 system %(git), %(merge-file), %(--marker-size=%L), %(%A), %(%O), %(%B)\n\
