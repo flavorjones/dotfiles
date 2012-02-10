@@ -18,14 +18,15 @@
 [diff]
         renames = copies
 [alias]
+        c = commit -v
+        ci = commit
+        co = checkout
         d = diff -w -b
         ds = diff -w -b --staged
-        c = commit -v
+        pr = pull --rebase
         s = status
         ss = status --short
         w = whatchanged
-        co = checkout
-        ci = commit
         wd = diff -w -b --word-diff-regex="[^[:space:]_:.,()]+"
 [gui]
         fontui = -family \"bitstream vera sans\" -size 9 -weight bold -slant roman -underline 0 -overstrike 0
