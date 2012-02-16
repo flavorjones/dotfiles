@@ -22,7 +22,8 @@
         ci = commit
         co = checkout
         d = diff -w -b
-        ds = diff -w -b --staged
+        ds = diff --staged -w -b
+        dsw = diff --staged -w -b --word-diff-regex="[^[:space:]_:.,()]+"
         pr = pull --rebase
         s = status
         ss = status --short
