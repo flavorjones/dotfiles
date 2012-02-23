@@ -146,7 +146,7 @@ alias  ed="ed -p '*'"
 
 alias  psme="ps -fu ${LOGNAME}"
 function psg {
-    pgrep ${*} | xargs --no-run-if-empty ps --pid
+    pgrep -f ${*} | xargs --no-run-if-empty ps --pid
 }
 
 alias  pingme="ping -s ${DISPLAY%:*}"
