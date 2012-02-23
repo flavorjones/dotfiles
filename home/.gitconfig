@@ -23,12 +23,12 @@
         co = checkout
         d = diff -w -b
         ds = diff --staged -w -b
+        dw = diff -w -b --word-diff-regex="[^[:space:]_:.,()]+"
         dsw = diff --staged -w -b --word-diff-regex="[^[:space:]_:.,()]+"
         pr = pull --rebase
         s = status
         ss = status --short
         w = whatchanged
-        wd = diff -w -b --word-diff-regex="[^[:space:]_:.,()]+"
 [gui]
         fontui = -family \"bitstream vera sans\" -size 9 -weight bold -slant roman -underline 0 -overstrike 0
         fontdiff = -family \"bitstream vera sans mono\" -size 10 -weight normal -slant roman -underline 0 -overstrike 0
