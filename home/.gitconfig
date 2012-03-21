@@ -23,8 +23,8 @@
         co = checkout
         d = diff -w -b
         ds = diff --staged -w -b
-        dw = diff -w -b --word-diff-regex="[^[:space:]_:.,()]+"
-        dsw = diff --staged -w -b --word-diff-regex="[^[:space:]_:.,()]+"
+        dw = diff -w -b --word-diff-regex="[^[:space:]_:.,()/]+"
+        dsw = diff --staged -w -b --word-diff-regex="[^[:space:]_:.,()/]+"
         pr = pull --rebase
         s = status
         ss = status --short
