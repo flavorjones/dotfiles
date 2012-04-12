@@ -26,7 +26,8 @@ function haxxor_info {
 if [[ $BMENV == "" ]] ; then
     shift_to_titlebar='\[\e]0;'
     shift_to_tty='\a\]'
-    if ps -p $PPID | grep ssh > /dev/null ; then
+    parent=$(ps -p $PPID hc | awk '{print $NF}')
+    if [[ $parent == "sshd" || $parent == "mosh-server" ]] ; then
         color="31" # red
     else
         color="34" # blue
@@ -350,3 +351,5 @@ function findns {
     find $path -not -path "*/.svn/*" -and -not -path '*/.git/*' $@
 }
 [[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm" # Load RVM into a shell session *as a function*
+
+PATH=$PATH:$HOME/.rvm/bin # Add RVM to PATH for scripting
