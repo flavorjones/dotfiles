@@ -54,7 +54,8 @@ ${install} \
     libssl-dev libcrypto++-dev \
     colordiff \
     libreadline-dev \
-    libcurl4-openssl-dev
+    libcurl4-openssl-dev \
+    ragel
 ${install} \
     libglib2.0-dev libgtk-3-dev libcanberra-gtk3-dev libnotify-dev libx11-dev libgio2.0-cil-dev
 

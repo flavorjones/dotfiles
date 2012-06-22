@@ -66,6 +66,7 @@ export BROWSER="google-chrome"
 # export LESSCHARSET="latin1"
 export VALGRIND_OPTS="--num-callers=50 --error-limit=no"
 export LC_COLLATE=C # so sort acts the way i want it to
+export MAKEFLAGS=-j$(grep -c processor /proc/cpuinfo)
 
 #
 #  custom stuff
