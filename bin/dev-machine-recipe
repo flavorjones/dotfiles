@@ -49,12 +49,13 @@ ${install} \
     curl wget \
     exuberant-ctags \
     markdown \
-    cmake \
+    cmake autoconf libtool \
     libpcre++0 libpcre++-dev libevent-dev \
     libssl-dev libcrypto++-dev \
     colordiff \
     libreadline-dev \
-    libcurl4-openssl-dev \
+    libcurl4-gnutls-dev libcurl4-openssl-dev \
+    zip \
     ragel
 ${install} \
     libglib2.0-dev libgtk-3-dev libcanberra-gtk3-dev libnotify-dev libx11-dev libgio2.0-cil-dev

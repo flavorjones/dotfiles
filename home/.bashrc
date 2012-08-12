@@ -272,6 +272,12 @@ alias  fun="functions"
 alias  unfun="unset -f"
 alias  ec="emacsclient -n"
 alias  open="gnome-open"
+alias  proda="echo '(on PROD-A)' ; env BMENV=envProd BMNODE=a"
+alias  prodb="echo '(on PROD-B)' ; env BMENV=envProd BMNODE=b"
+function prodall {
+    proda "$@"
+    prodb "$@"
+}
 
 function  backup {
   ##########
@@ -351,6 +357,6 @@ function findns {
     shift
     find $path -not -path "*/.svn/*" -and -not -path '*/.git/*' $@
 }
-[[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm" # Load RVM into a shell session *as a function*
 
+[[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm" # Load RVM into a shell session *as a function*
 PATH=$PATH:$HOME/.rvm/bin # Add RVM to PATH for scripting
