@@ -7,8 +7,6 @@ update="sudo apt-get update -q"
 ${install} \
     gnome-do \
     compizconfig-settings-manager \
-    gnome-session-fallback \
-    fusion-icon \
     tomboy \
     gcolor2 \
     keepassx \
@@ -18,6 +16,11 @@ ${install} \
     xvidcap \
     nautilus-dropbox \
     flashplugin-installer
+
+#  for broken ubuntu UI
+${install} \
+    gnome-session-fallback \
+    fusion-icon
 
 if [[ `which google-chrome` == "" ]] ; then
     ${install} libxss1 libcurl3
