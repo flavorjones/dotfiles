@@ -29,11 +29,11 @@ if [[ `which google-chrome` == "" ]] ; then
     gnome-open http://www.google.com/chrome
 fi
 
-if [[ `which picasa` == "" ]] ; then
-    ${install} lib32ndss-mdns
-    wget 'http://dl.google.com/linux/deb/pool/non-free/p/picasa/picasa_3.0-current_amd64.deb'
-    gnome-open picasa_3.0-current_amd64.deb
-fi
+#if [[ `which picasa` == "" ]] ; then
+#    ${install} lib32ndss-mdns
+#    wget 'http://dl.google.com/linux/deb/pool/non-free/p/picasa/picasa_3.0-current_amd64.deb'
+#    gnome-open picasa_3.0-current_amd64.deb
+#fi
 
 #  basics for development
 ${install} \
@@ -44,7 +44,6 @@ ${install} \
     build-essential valgrind \
     emacs autocutsel puppet-el \
     mysql-server mysql-client libmysqlclient-dev \
-    mysql-admin mysql-query-browser \
     postgresql postgresql-client libpq-dev \
     openjdk-6-jdk \
     ack-grep \
@@ -59,29 +58,28 @@ ${install} \
     libssl-dev libcrypto++-dev \
     colordiff \
     libreadline-dev \
-    libcurl4-gnutls-dev libcurl4-openssl-dev \
     zip \
     ragel
 ${install} \
     libglib2.0-dev libgtk-3-dev libcanberra-gtk3-dev libnotify-dev libx11-dev libgio2.0-cil-dev
 
 #  dvd watching
-if [[ ! -a /etc/apt/sources.list.d/medibuntu.list ]] ; then
-    sudo wget --output-document=/etc/apt/sources.list.d/medibuntu.list http://www.medibuntu.org/sources.list.d/$(lsb_release -cs).list
-    ${update}
-    ${install} --allow-unauthenticated medibuntu-keyring
-    ${update}
-    ${install} libdvdcss2
-fi
+#if [[ ! -a /etc/apt/sources.list.d/medibuntu.list ]] ; then
+#    sudo wget --output-document=/etc/apt/sources.list.d/medibuntu.list http://www.medibuntu.org/sources.list.d/$(lsb_release -cs).list
+#    ${update}
+#    ${install} --allow-unauthenticated medibuntu-keyring
+#    ${update}
+#    ${install} libdvdcss2
+#fi
 
 
 #  virtualbox
-if [[ `which virtualbox` == "" ]] ; then
-    sudo bash -c 'echo "deb http://download.virtualbox.org/virtualbox/debian oneiric contrib" > /etc/apt/sources.list.d/virtualbox.list'
-    wget -q http://download.virtualbox.org/virtualbox/debian/oracle_vbox.asc -O- | sudo apt-key add -
-    ${update}
-    ${install} virtualbox-4.1
-fi
+#if [[ `which virtualbox` == "" ]] ; then
+#    sudo bash -c 'echo "deb http://download.virtualbox.org/virtualbox/debian oneiric contrib" > /etc/apt/sources.list.d/virtualbox.list'
+#    wget -q http://download.virtualbox.org/virtualbox/debian/oracle_vbox.asc -O- | sudo apt-key add -
+#    ${update}
+#    ${install} virtualbox-4.1
+#fi
 
 #  thinkfinger
 #
