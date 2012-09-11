@@ -8,25 +8,19 @@ update="sudo apt-get update -q"
 #  basics for usability
 ${install} \
     gnome-do \
-    compizconfig-settings-manager \
-    tomboy \
     gcolor2 \
     keepassx \
-    gnome-tweak-tool \
     msttcorefonts \
-    vpnc \
-    istanbul \
-    nautilus-dropbox \
-    flashplugin-installer
+    istanbul
 
 #  for broken ubuntu UI
-${install} \
-    gnome-session-fallback \
-    fusion-icon
+# ${install} \
+#    gnome-session-fallback \
+#    fusion-icon
 
 if [[ `which google-chrome` == "" ]] ; then
     ${install} libxss1 libcurl3
-    gnome-open http://www.google.com/chrome
+    gnome-open http://www.chromium.org/getting-involved/dev-channel/
 fi
 
 #if [[ `which picasa` == "" ]] ; then
@@ -39,17 +33,14 @@ fi
 ${install} \
     git-core gitk subversion mercurial \
     libxml2 libxml2-dev libxslt1.1 libxslt-dev \
-    libboost-all-dev libyajl-dev libyaml-dev \
-    ruby1.8 \
+    libyajl-dev libyaml-dev \
+    ruby1.9.1 \
     build-essential valgrind \
     emacs autocutsel puppet-el \
     mysql-server mysql-client libmysqlclient-dev \
     postgresql postgresql-client libpq-dev \
     openjdk-6-jdk \
     ack-grep \
-    apache2 apache2.2-bin apache2.2-common apache2-mpm-prefork apache2-prefork-dev apache2-utils \
-    libapr1-dev libaprutil1-dev \
-    gnuplot graphviz \
     curl wget \
     exuberant-ctags \
     markdown \
@@ -60,8 +51,9 @@ ${install} \
     libreadline-dev \
     zip \
     ragel
-${install} \
-    libglib2.0-dev libgtk-3-dev libcanberra-gtk3-dev libnotify-dev libx11-dev libgio2.0-cil-dev
+
+# ${install} \
+#     libglib2.0-dev libgtk-3-dev libcanberra-gtk3-dev libnotify-dev libx11-dev libgio2.0-cil-dev
 
 #  dvd watching
 #if [[ ! -a /etc/apt/sources.list.d/medibuntu.list ]] ; then
@@ -74,12 +66,12 @@ ${install} \
 
 
 #  virtualbox
-#if [[ `which virtualbox` == "" ]] ; then
-#    sudo bash -c 'echo "deb http://download.virtualbox.org/virtualbox/debian oneiric contrib" > /etc/apt/sources.list.d/virtualbox.list'
-#    wget -q http://download.virtualbox.org/virtualbox/debian/oracle_vbox.asc -O- | sudo apt-key add -
-#    ${update}
-#    ${install} virtualbox-4.1
-#fi
+if [[ `which virtualbox` == "" ]] ; then
+    sudo bash -c 'echo "deb http://download.virtualbox.org/virtualbox/debian precise contrib" > /etc/apt/sources.list.d/virtualbox.list'
+    wget -q http://download.virtualbox.org/virtualbox/debian/oracle_vbox.asc -O- | sudo apt-key add -
+    ${update}
+    ${install} virtualbox-4.1
+fi
 
 #  thinkfinger
 #
@@ -110,7 +102,7 @@ ${install} \
 #  • In terminal run "sudo pam-auth-update". Make sure that the PAM profile called “Fingerprint authentication by Fingerprint GUI” is on top of the list and active. Otherwise, you may try resetting your PAM to system defaults with "sudo pam-auth-update --force".
 #  • Check /var/log/auth.log for any clues. Fingerprint GUI is set up to run in debugging mode by default.
 
-echo "skipping fingerprint-gui .."
+# echo "skipping fingerprint-gui .."
 # if [[ `which fingerprint-gui` == "" ]] ; then
 #     sudo add-apt-repository ppa:fingerprint/fingerprint-gui
 #     ${update}
@@ -118,9 +110,9 @@ echo "skipping fingerprint-gui .."
 # fi
 
 # rvm
-if [[ `which rvm` == "" ]] ; then
-    bash < <(curl -s https://raw.github.com/wayneeseguin/rvm/master/binscripts/rvm-installer)
-fi
+# if [[ `which rvm` == "" ]] ; then
+#     bash < <(curl -s https://raw.github.com/wayneeseguin/rvm/master/binscripts/rvm-installer)
+# fi
 
 # other things:
 # - Thunderbird -> Preferences -> Advanced -> Config Editor -> mail.server.default.fetch_by_chunks=false
