@@ -49,7 +49,7 @@ regular_text='\[\e[0m\]'
 export XTERM_PS1="${shift_to_titlebar}\h:\w${shift_to_tty}"
 export REGULAR_PS1="${color_text}\h \$(haxxor_info)\n${color_bold_text}\W${color_text} \$ ${regular_text}"
 if [[ ${EMACS} == 't' ]] ; then
-        #  don't use xterm escapes in emacs
+    #  don't use xterm escapes in emacs
     export PS1=$REGULAR_PS1
 else
     export PS1="${XTERM_PS1}${REGULAR_PS1}"
