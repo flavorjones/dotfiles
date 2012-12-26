@@ -20,7 +20,9 @@ export GIT_PS1_SHOWDIRTYSTATE=1
 #  prompts, environment, etc.
 #
 function haxxor_info {
-    if which rvm-prompt > /dev/null ; then
+    if [[ -d $HOME/.rbenv ]] ; then
+        echo "$(rbenv version | cut -d' ' -f1)$(__git_ps1)"
+    elif which rvm-prompt > /dev/null ; then
         echo "$(rvm-prompt)$(__git_ps1)"
     else
         echo "$(__git_ps1)"
@@ -357,5 +359,9 @@ function findns {
     find $path -not -path "*/.svn/*" -and -not -path '*/.git/*' $@
 }
 
+# rbenv!
+[[ -d "$HOME/.rbenv" ]] && eval "$(rbenv init -)"
+
+# rvm!
 [[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm" # Load RVM into a shell session *as a function*
 PATH=$PATH:$HOME/.rvm/bin # Add RVM to PATH for scripting
