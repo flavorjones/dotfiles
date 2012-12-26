@@ -189,6 +189,11 @@ alias pc-dig="proxychains dig @4.2.2.2 +tcp +short $*"
 alias be="bundle exec"
 alias bi="bundle install"
 
+
+if [[ $I_AM_LINUX == 1 ]] ; then
+    alias open="gnome-open"
+fi
+
 if [[ $I_AM_A_MAC == 0 ]] ; then
     alias ack="ack-grep"
 fi
@@ -285,13 +290,6 @@ alias  whence="whence -v"
 alias  fun="functions"
 alias  unfun="unset -f"
 alias  ec="emacsclient -n"
-alias  open="gnome-open"
-alias  proda="echo '(on PROD-A)' ; env BMENV=envProd BMNODE=a"
-alias  prodb="echo '(on PROD-B)' ; env BMENV=envProd BMNODE=b"
-function prodall {
-    proda "$@"
-    prodb "$@"
-}
 
 function  backup {
   ##########
