@@ -8,8 +8,19 @@ fi
 if [[ -e /etc/SuSE-release ]] ; then
     test -z "$PROFILEREAD" && . /etc/profile # suse, obviously
 fi
-if [[ $(uname) == "Darwin" ]] ; then
+
+# system types
+if [[ $OSTYPE =~ "darwin" ]] ; then
     export I_AM_A_MAC=1
+    export I_AM_LINUX=0
+else
+    export I_AM_A_MAC=0
+    export I_AM_LINUX=1
+fi
+if [[ $OSTYPE == "cygwin" ]] ; then
+    export I_AM_CYGWIN=1
+else
+    export I_AM_CYGWIN=0
 fi
 
 # git stuff
@@ -72,7 +83,7 @@ fi
 #
 #  custom stuff
 #
-if [[ ${I_AM_A_MAC} ]] ; then
+if [[ $I_AM_A_MAC == 1 ]] ; then
     export MY_LSARGS="-F -G"
 else
     export MY_LSARGS="-F --color=auto"
@@ -178,9 +189,11 @@ alias pc-dig="proxychains dig @4.2.2.2 +tcp +short $*"
 alias be="bundle exec"
 alias bi="bundle install"
 
-alias ack="ack-grep"
+if [[ $I_AM_A_MAC == 0 ]] ; then
+    alias ack="ack-grep"
+fi
+
 if which colordiff > /dev/null ; then
-#    alias diff="colordiff"
     function diff {
         colordiff ${*} | $PAGER
     }
@@ -188,9 +201,9 @@ fi
 
 function mykill {
 # arg1: signal, arg2: proc name
-	sig=${1}
-	shift
-	pkill -${sig} -u ${LOGNAME} ${@}
+    sig=${1}
+    shift
+    pkill -${sig} -u ${LOGNAME} ${@}
 }
 
 function  getenv {
