@@ -67,6 +67,7 @@ export HOST=$(hostname)
 #
 # export X=xterm # this is short enough to be bad. commented out.
 export EDITOR="emacs -nw"
+export GIT_EDITOR=$EDITOR
 export VISUAL=$EDITOR
 export CVSEDITOR=$EDITOR
 export PAGER=less
