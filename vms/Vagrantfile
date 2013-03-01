@@ -5,8 +5,8 @@ Vagrant::Config.run do |config|
   common_config = ->(vm, box_name, addy) do
     vm.box     = box_name
     vm.box_url = "http://files.vagrantup.com/#{box_name}.box"
-    vm.share_folder "code",   "/home/vagrant/code",   "#{ENV['HOME']}/code", :nfs => true
-    vm.share_folder "shared", "/home/vagrant/shared", "#{ENV['HOME']}/Shared/Virtualboxen", :nfs => true
+    vm.share_folder "oss",    "/home/vagrant/oss",    "/home/miked-public/code/oss", :nfs => true
+    vm.share_folder "shared", "/home/vagrant/shared", "/home/miked-public/Shared/Virtualboxen", :nfs => true
     vm.customize ["modifyvm", :id, "--cpus", 2]
     vm.customize ["modifyvm", :id, "--name", box_name]
     vm.network :hostonly, addy
