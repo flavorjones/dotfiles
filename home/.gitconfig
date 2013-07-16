@@ -7,7 +7,7 @@
 [core]
         compression = 1
         loosecompression = 1
-        excludesfile = /home/mike/.gitignore
+        excludesfile = /home/miked/.gitignore
         abbrev = 7
 [merge]
         tool = meld

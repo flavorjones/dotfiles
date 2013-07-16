@@ -2,21 +2,19 @@
 # vi: set ft=ruby :
 
 Vagrant::Config.run do |config|
-  common_config = ->(vm, box_name, addy) do
-    vm.box     = box_name
-    vm.box_url = "http://files.vagrantup.com/#{box_name}.box"
-    vm.share_folder "oss",    "/home/vagrant/oss",    "/home/miked-public/code/oss", :nfs => true
-    vm.share_folder "shared", "/home/vagrant/shared", "/home/miked-public/Shared/Virtualboxen", :nfs => true
-    vm.customize ["modifyvm", :id, "--cpus", 2]
-    vm.customize ["modifyvm", :id, "--name", box_name]
-    vm.network :hostonly, addy
+  define_box = ->(vm, box_name, base_box, addy) do
+    config.vm.define box_name do |config|
+      config.vm.box     = box_name
+      config.vm.box_url = "http://files.vagrantup.com/#{box_name}.box"
+      config.vm.share_folder "oss",    "/home/vagrant/oss",    "/home/miked-public/code/oss", :nfs => true
+      config.vm.share_folder "shared", "/home/vagrant/shared", "/home/miked-public/Shared/Virtualboxen", :nfs => true
+      config.vm.customize ["modifyvm", :id, "--cpus", 2]
+      config.vm.customize ["modifyvm", :id, "--name", box_name]
+      config.vm.network :hostonly, addy
+    end
   end
 
-  config.vm.define :lucid32 do |config|
-    common_config.call config.vm, "lucid32", "33.33.33.11"
-  end
-
-  config.vm.define :precise64 do |config|
-    common_config.call config.vm, "precise64", "33.33.33.12"
-  end
+  define_box[config.vm, "lucid32",       "lucid32",   "33.33.33.11"]
+  define_box[config.vm, "precise64",     "precise64", "33.33.33.12"]
+  define_box[config.vm, "lucid32_clean", "lucid32",   "33.33.33.13"]
 end

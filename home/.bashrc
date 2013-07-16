@@ -66,7 +66,8 @@ export HOST=$(hostname)
 #  application-related
 #
 # export X=xterm # this is short enough to be bad. commented out.
-export EDITOR="emacs -nw"
+# export EDITOR="emacs -nw"
+export EDITOR="emacsclient -c"
 export GIT_EDITOR=$EDITOR
 export VISUAL=$EDITOR
 export CVSEDITOR=$EDITOR
@@ -305,14 +306,14 @@ function  backup {
   echo "making list of files to be backed up ..."
   find . ! -name "*.o" ! -name "*.tsk" \
          ! -name "*.lg" ! -name "*.err" \
-	 ! -name "lib*.a" \
+         ! -name "lib*.a" \
          ! -name "*${LOGNAME}.tar*" \
          ! -type d  -print | tee ${backup_list}
 
   echo "backing up total of $( cat ${backup_list} | wc -l ) files ..."
 
   tar cvfF ${backup_file} ${backup_list}
-  
+
   if [[ -a ${backup_file}.gz ]] ; then
     mv -f ${backup_file}.gz ${backup_file}.bak.gz
   fi
