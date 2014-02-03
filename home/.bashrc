@@ -78,7 +78,7 @@ export BROWSER="google-chrome"
 # export LESSCHARSET="latin1"
 export VALGRIND_OPTS="--num-callers=50 --error-limit=no"
 export LC_COLLATE=C # so sort acts the way i want it to
-if [[ -d /proc/cpuinfo ]] ; then
+if [[ -a /proc/cpuinfo ]] ; then
     export MAKEFLAGS=-j$(grep -c processor /proc/cpuinfo)
 fi
 
@@ -375,9 +375,10 @@ function findns {
 # rbenv!
 [[ -d "$HOME/.rbenv" ]] && eval "$(rbenv init -)"
 
-# rvm!
-[[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm" # Load RVM into a shell session *as a function*
-PATH=$PATH:$HOME/.rvm/bin # Add RVM to PATH for scripting
 
 ### Added by the Heroku Toolbelt
 export PATH="/usr/local/heroku/bin:$PATH"
+
+# rvm!
+[[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm" # Load RVM into a shell session *as a function*
+PATH=$PATH:$HOME/.rvm/bin # Add RVM to PATH for scripting

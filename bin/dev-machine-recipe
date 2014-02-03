@@ -19,8 +19,7 @@ ${install} \
 #    fusion-icon
 
 if [[ `which google-chrome` == "" ]] ; then
-    ${install} libxss1 libcurl3
-    gnome-open http://www.chromium.org/getting-involved/dev-channel/
+    gnome-open https://www.google.com/intl/en/chrome/browser/beta.html
 fi
 
 #if [[ `which picasa` == "" ]] ; then
@@ -32,25 +31,21 @@ fi
 #  basics for development
 ${install} \
     git-core gitk subversion mercurial \
-    libxml2 libxml2-dev libxslt1.1 libxslt-dev \
-    libyajl-dev libyaml-dev \
-    ruby1.9.1 \
     build-essential valgrind \
-    emacs autocutsel puppet-el \
+    emacs24 autocutsel puppet-el \
     mysql-server mysql-client libmysqlclient-dev \
     postgresql postgresql-client libpq-dev \
     openjdk-6-jdk \
     ack-grep \
     curl wget \
-    exuberant-ctags \
-    markdown \
     cmake autoconf libtool \
     libpcre++0 libpcre++-dev libevent-dev \
     libssl-dev libcrypto++-dev \
-    colordiff \
     libreadline-dev \
-    zip \
-    ragel
+    libxml2 libxml2-dev libxslt1.1 libxslt-dev \
+    libyajl-dev libyaml-dev \
+    colordiff \
+    zip
 
 # ${install} \
 #     libglib2.0-dev libgtk-3-dev libcanberra-gtk3-dev libnotify-dev libx11-dev libgio2.0-cil-dev
@@ -65,13 +60,13 @@ ${install} \
 #fi
 
 
-#  virtualbox
-if [[ `which virtualbox` == "" ]] ; then
-    sudo bash -c 'echo "deb http://download.virtualbox.org/virtualbox/debian precise contrib" > /etc/apt/sources.list.d/virtualbox.list'
-    wget -q http://download.virtualbox.org/virtualbox/debian/oracle_vbox.asc -O- | sudo apt-key add -
-    ${update}
-    ${install} virtualbox-4.1
-fi
+# #  virtualbox
+# if [[ `which virtualbox` == "" ]] ; then
+#     sudo bash -c 'echo "deb http://download.virtualbox.org/virtualbox/debian precise contrib" > /etc/apt/sources.list.d/virtualbox.list'
+#     wget -q http://download.virtualbox.org/virtualbox/debian/oracle_vbox.asc -O- | sudo apt-key add -
+#     ${update}
+#     ${install} virtualbox-4.1
+# fi
 
 #  thinkfinger
 #
