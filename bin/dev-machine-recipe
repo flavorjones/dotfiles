@@ -7,7 +7,7 @@ update="sudo apt-get update -q"
 
 #  basics for usability
 ${install} \
-    gnome-do \
+    gnome-do gnome-do-plugins \
     gcolor2 \
     keepassx \
     msttcorefonts \
