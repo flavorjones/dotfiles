@@ -60,13 +60,8 @@ ${install} \
 #fi
 
 
-# #  virtualbox
-# if [[ `which virtualbox` == "" ]] ; then
-#     sudo bash -c 'echo "deb http://download.virtualbox.org/virtualbox/debian precise contrib" > /etc/apt/sources.list.d/virtualbox.list'
-#     wget -q http://download.virtualbox.org/virtualbox/debian/oracle_vbox.asc -O- | sudo apt-key add -
-#     ${update}
-#     ${install} virtualbox-4.1
-# fi
+#  virtualbox
+sudo apt-get install virtualbox virtualbox-dkms vagrant nfs-common nfs-kernel-server
 
 #  thinkfinger
 #
