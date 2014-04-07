@@ -88,7 +88,7 @@ fi
 if [[ $I_AM_A_MAC == 1 ]] ; then
     export MY_LSARGS="-F -G"
 else
-    export MY_LSARGS="-F --color=auto"
+    export MY_LSARGS="-F --color=auto --time-style=long-iso"
 fi
 
 #
