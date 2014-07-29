@@ -372,6 +372,11 @@ function findns {
     find $path -not -path "*/.svn/*" -and -not -path '*/.git/*' $@
 }
 
+# go!
+export GOPATH=${HOME}/.go
+export GOROOT=${HOME}/builds/go
+export PATH="${PATH}:${GOPATH}/bin:${GOROOT}/bin"
+
 # rbenv!
 [[ -d "$HOME/.rbenv" ]] && eval "$(rbenv init -)"
 

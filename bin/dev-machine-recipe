@@ -28,6 +28,10 @@ fi
 #    gnome-open picasa_3.0-current_amd64.deb
 #fi
 
+#  things I like for my desktop
+${install} \
+    wallch
+
 #  basics for development
 ${install} \
     git-core gitk subversion mercurial \
