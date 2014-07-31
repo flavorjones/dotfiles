@@ -39,7 +39,7 @@ ${install} \
     emacs24 autocutsel puppet-el \
     mysql-server mysql-client libmysqlclient-dev \
     postgresql postgresql-client libpq-dev \
-    openjdk-6-jdk \
+    openjdk-7-jdk \
     ack-grep \
     curl wget \
     cmake autoconf libtool \
