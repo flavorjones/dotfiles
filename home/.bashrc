@@ -191,7 +191,6 @@ alias pc-dig="proxychains dig @4.2.2.2 +tcp +short $*"
 alias be="bundle exec"
 alias bi="bundle install"
 
-
 if [[ $I_AM_LINUX == 1 ]] ; then
     alias open="gnome-open"
 fi
@@ -373,8 +372,8 @@ function findns {
 }
 
 # go!
-export GOPATH=${HOME}/.go
-export GOROOT=${HOME}/builds/go
+export GOROOT=${HOME}/builds/go # installation directory
+export GOPATH=${HOME}/code/go # workspace
 export PATH="${PATH}:${GOPATH}/bin:${GOROOT}/bin"
 
 # rbenv!
