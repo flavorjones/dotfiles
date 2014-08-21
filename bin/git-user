@@ -10,7 +10,7 @@ if ARGV[0] == 'benchmark'
   run "git config user.email 'mike.dalessio@benchmarksolutions.com'"
 elsif ARGV[0] == 'pivotal'
   run "git config user.name 'Mike Dalessio'"
-  run "git config user.email 'miked@pivotallabs.com'"
+  run "git config user.email 'mdalessio@pivotal.io'"
 else
   run "git config user.name 'Mike Dalessio'"
   run "git config user.email 'mike@csa.net'"
