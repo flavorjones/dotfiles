@@ -2,7 +2,7 @@
 
 require 'nokogiri'
 
-html = File.read "#{ENV['HOME']}/- Pivotal Allocations.html"
+html = File.read "- Pivotal Allocations.html"
 
 doc = Nokogiri::HTML html
 
