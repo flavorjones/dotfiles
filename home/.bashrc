@@ -372,7 +372,7 @@ function findns {
 }
 
 # go!
-export GOROOT=${HOME}/builds/go # installation directory
+# export GOROOT=${HOME}/builds/go # installation directory
 export GOPATH=${HOME}/code/go # workspace
 export PATH="${PATH}:${GOPATH}/bin:${GOROOT}/bin"
 
