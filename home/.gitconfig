@@ -27,8 +27,10 @@
         dsw = diff --staged -w -b --word-diff-regex="[^[:space:]_:.,()/]+"
         pr = pull --rebase
         s = status
+        st = status
         ss = status --short
         w = whatchanged
+        lg = log --graph --oneline
 [gui]
         fontui = -family \"bitstream vera sans\" -size 9 -weight bold -slant roman -underline 0 -overstrike 0
         fontdiff = -family \"bitstream vera sans mono\" -size 10 -weight normal -slant roman -underline 0 -overstrike 0
@@ -50,17 +52,3 @@
 [color.diff]
         new = yellow bold
         old = yellow
-
-# from http://nuclearsquid.com/writings/git-tricks-tips-workflows/
-# in ~/.gitattributes file, add the following line:
-#   db/schema.rb merge=railsschema
-[merge "railsschema"]
-        name = newer Rails schema version
-        driver = "ruby -e '\n\
-                system %(git), %(merge-file), %(--marker-size=%L), %(%A), %(%O), %(%B)\n\
-                b = File.read(%(%A))\n\
-                b.sub!(/^<+ .*\\nActiveRecord::Schema\\.define.:version => (\\d+). do\\n=+\\nActiveRecord::Schema\\.define.:version => (\\d+). do\\n>+ .*/) do\n\
-                  %(ActiveRecord::Schema.define(:version => #{[$1, $2].max}) do)\n\
-                end\n\
-                File.open(%(%A), %(w)) {|f| f.write(b)}\n\
-                exit 1 if b.include?(%(<)*%L)'"
