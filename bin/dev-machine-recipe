@@ -38,7 +38,7 @@ ${install} \
     build-essential valgrind \
     emacs24 autocutsel puppet-el \
     mysql-server mysql-client libmysqlclient-dev \
-    postgresql postgresql-client libpq-dev \
+    postgresql postgresql-client libpq-dev postgresql-contrib \
     openjdk-7-jdk \
     ack-grep \
     curl wget \
