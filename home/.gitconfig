@@ -1,22 +1,25 @@
 [user]
         name = Mike Dalessio
-        email = mike@csa.net
+        email = mike.dalessio@gmail.com
+
 [github]
         user = flavorjones
-        token = 34752b38ba090a9bacddf2fe66b4e985
+
 [core]
         compression = 1
         loosecompression = 1
         excludesfile = /home/miked/.gitignore
         abbrev = 7
-[merge]
-        tool = meld
+
 [branch]
         autosetupmerge = true
+
 [push]
         default = current
+
 [diff]
         renames = copies
+
 [alias]
         c = commit -v
         ci = commit
@@ -27,13 +30,28 @@
         dsw = diff --staged -w -b --word-diff-regex="[^[:space:]_:.,()/]+"
         pr = pull --rebase
         s = status
-        st = status
         ss = status --short
         w = whatchanged
-        lg = log --graph --oneline
+# some pivotal backwards-compatibility
+#        ci = pair-commit
+        st = status
+        br = branch
+        sta = stash
+        llog = log --date=local
+        flog = log --pretty=fuller --decorate
+        lg = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative
+        lol = log --graph --decorate --oneline
+        lola = log --graph --decorate --oneline --all
+        blog = log origin/master... --left-right
+        fixup = commit --fixup
+        squash = commit --squash
+        unstage = reset HEAD
+#        rum = rebase master@{u} # what is this?
+
 [gui]
         fontui = -family \"bitstream vera sans\" -size 9 -weight bold -slant roman -underline 0 -overstrike 0
         fontdiff = -family \"bitstream vera sans mono\" -size 10 -weight normal -slant roman -underline 0 -overstrike 0
+
 
 # diff: plain (context text), meta (metainformation), frag (hunk header), old (removed lines), new (added lines),
 # commit (commit headers), or whitespace (highlighting whitespace errors)
@@ -52,3 +70,6 @@
 [color.diff]
         new = yellow bold
         old = yellow
+
+# [url "git@github.com:cloudfoundry/"]
+#         pushInsteadOf = "https://github.com/cloudfoundry/"
