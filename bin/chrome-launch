@@ -1,0 +1,48 @@
+#! /usr/bin/env ruby
+
+require 'json'
+
+CHROME = "google-chrome-beta"
+
+def get_profiles
+  profiles = {}
+  Dir.chdir File.join(ENV["HOME"], ".config", CHROME) do
+    Dir["*/Preferences"].each do |preferences_file|
+      preferences = JSON.load File.read(preferences_file)
+      profiles[File.dirname(preferences_file)] = preferences["profile"]["name"]
+    end
+  end
+  profiles
+end
+
+def _usage_and_exit
+  puts "USAGE: #{File.basename(__FILE__)} <profile-name>"
+  puts
+  puts "       where <profile-name> is one of:"
+  puts
+  profiles = get_profiles
+  profiles.values.each do |name|
+    puts "       - \"#{name}\""
+  end
+  puts
+  puts "       and may be case-insensitive or partial"
+  puts
+  exit 1
+end
+
+def search_for query
+  get_profiles.find { |k,v| v.downcase =~ /^#{query}/ }
+end
+
+query = ARGV[0]
+_usage_and_exit unless query
+
+profile = search_for query
+_usage_and_exit unless profile
+
+profile_name = profile.first
+command = %Q{#{CHROME} --profile-directory="#{profile_name}" > /dev/null 2>&1 &}
+
+puts command
+
+system command
