@@ -51,9 +51,9 @@ ${install} \
     colordiff \
     zip
 
-# reading mac drives (e.g., usb)
+# reading mac drives, encrypted drives, etc.
 ${install} \
-    hfsprogs
+    hfsprogs sgdisk cryptsetup
 
 # ${install} \
 #     libglib2.0-dev libgtk-3-dev libcanberra-gtk3-dev libnotify-dev libx11-dev libgio2.0-cil-dev
