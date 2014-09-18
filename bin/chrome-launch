@@ -24,6 +24,7 @@ def _usage_and_exit
   profiles.values.each do |name|
     puts "       - \"#{name}\""
   end
+  puts "       - \"incognito\""
   puts
   puts "       and may be case-insensitive or partial"
   puts
@@ -36,13 +37,18 @@ end
 
 query = ARGV[0]
 _usage_and_exit unless query
+query = query.downcase
 
-profile = search_for query
-_usage_and_exit unless profile
+command =
+  if "incognito" =~ /^#{query}/
+    %Q{#{CHROME} --incognito > /dev/null 2>&1 &}
+  else
+    profile = search_for query
+    _usage_and_exit unless profile
 
-profile_name = profile.first
-command = %Q{#{CHROME} --profile-directory="#{profile_name}" > /dev/null 2>&1 &}
+    profile_name = profile.first
+    %Q{#{CHROME} --profile-directory="#{profile_name}" > /dev/null 2>&1 &}
+  end
 
 puts command
-
 system command
