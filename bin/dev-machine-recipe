@@ -13,20 +13,9 @@ ${install} \
     msttcorefonts \
     istanbul
 
-#  for broken ubuntu UI
-# ${install} \
-#    gnome-session-fallback \
-#    fusion-icon
-
-if [[ `which google-chrome` == "" ]] ; then
+if [[ `which google-chrome-beta` == "" ]] ; then
     gnome-open https://www.google.com/intl/en/chrome/browser/beta.html
 fi
-
-#if [[ `which picasa` == "" ]] ; then
-#    ${install} lib32ndss-mdns
-#    wget 'http://dl.google.com/linux/deb/pool/non-free/p/picasa/picasa_3.0-current_amd64.deb'
-#    gnome-open picasa_3.0-current_amd64.deb
-#fi
 
 #  things I like for my desktop
 ${install} \
@@ -51,73 +40,22 @@ ${install} \
     colordiff \
     zip
 
-# reading mac drives, encrypted drives, etc.
+#  reading mac drives, encrypted drives, vpn, etc.
 ${install} \
-    hfsprogs sgdisk cryptsetup
-
-# ${install} \
-#     libglib2.0-dev libgtk-3-dev libcanberra-gtk3-dev libnotify-dev libx11-dev libgio2.0-cil-dev
-
-#  dvd watching
-#if [[ ! -a /etc/apt/sources.list.d/medibuntu.list ]] ; then
-#    sudo wget --output-document=/etc/apt/sources.list.d/medibuntu.list http://www.medibuntu.org/sources.list.d/$(lsb_release -cs).list
-#    ${update}
-#    ${install} --allow-unauthenticated medibuntu-keyring
-#    ${update}
-#    ${install} libdvdcss2
-#fi
-
+    hfsprogs sgdisk cryptsetup \
+    network-manager-openvpn-gnome
 
 #  virtualbox
-sudo apt-get install virtualbox virtualbox-dkms vagrant nfs-common nfs-kernel-server
+${install} \
+    virtualbox virtualbox-dkms \
+    vagrant \
+    nfs-common nfs-kernel-server
 
-#  thinkfinger
-#
-# Uninstallation
-# ===========
-# GNOME users: The package policykit-1-fingerprint-gui replaces GNOME's standard PolicyKit daemon (contained in package policykit-1-gnome). However, when you decide to uninstall Fingerprint GUI (and hence remove policykit-1-fingerprint-gui), policykit-1-gnome will not get automatically installed back, hence there won't be any PolicyKit daemon in the system, and APT will try to remove all the packages that depend on it. Therefore, if you want to remove Fingerprint GUI, make sure you install policykit-1-gnome back first.
-#    sudo apt-get install policykit-1-gnome
-#    sudo apt-get remove fingerprint-gui
-#
-# Note on GNOME session login (optional, not applicable since 11.10)
-# ================================
-# By default, the GDM login screen presents a list of users from which you select, and then you can authenticate with your fingerprint. However, you can set things up in a way that you can enrol your fingerprint immediately, and the username will be recognized from the fingerprint. In order to achieve this, perform these two steps:
-# 1. In /etc/pam.d/gdm, insert the following as the first line:
-
-#     auth	optional	pam_fingerprint-gui.so debug
-
-# 2. Disable user list in GDM. You can use the following long command to do this.
-
-#     "sudo gconftool-2 --direct --config-source xml:readwrite:/etc/gconf/gconf.xml.defaults --type bool   --set /apps/gdm/simple-greeter/disable_user_list true"
-
-# 3. You may need to reboot for the changes to take effect.
-
-# If you would like to revert, simply delete the new line from /etc/pam.d/gdm and run “sudo gconftool-2 --direct --config-source xml:readwrite:/etc/gconf/gconf.xml.defaults --unset /apps/gdm/simple-greeter/disable_user_list”.
-
-# Troubleshooting
-# =============
-# If something doesn't work as you expect, you can try one of the following steps:
-#  • In terminal run "sudo pam-auth-update". Make sure that the PAM profile called “Fingerprint authentication by Fingerprint GUI” is on top of the list and active. Otherwise, you may try resetting your PAM to system defaults with "sudo pam-auth-update --force".
-#  • Check /var/log/auth.log for any clues. Fingerprint GUI is set up to run in debugging mode by default.
-
-# echo "skipping fingerprint-gui .."
-# if [[ `which fingerprint-gui` == "" ]] ; then
-#     sudo add-apt-repository ppa:fingerprint/fingerprint-gui
-#     ${update}
-#     ${install} libbsapi policykit-1-fingerprint-gui fingerprint-gui
-# fi
+#  skype
+sudo apt-get install \
+    skype ia32-libs
 
 # rvm
 # if [[ `which rvm` == "" ]] ; then
 #     bash < <(curl -s https://raw.github.com/wayneeseguin/rvm/master/binscripts/rvm-installer)
 # fi
-
-# other things:
-# - Thunderbird -> Preferences -> Advanced -> Config Editor -> mail.server.default.fetch_by_chunks=false
-# - Macbook Trackpad:
-#   - add to xorg.conf %q{Option "TapButton1" "0"} to disable tapping
-#     - see https://github.com/BlueDragonX/xf86-input-mtrack for more options
-# - java-7-oracle: http://brunoreis.com/tech/intalling-java-ubuntu-natty/
-#
-# add compiz fusion icon to startup: `fusion-icon --sleep=5`
-# add ~/bin/invert-scroll to startup
