@@ -19,7 +19,8 @@ fi
 
 #  things I like for my desktop
 ${install} \
-    wallch
+    wallch \
+    terminator
 
 #  basics for development
 ${install} \
@@ -40,10 +41,11 @@ ${install} \
     colordiff \
     zip
 
-#  reading mac drives, encrypted drives, vpn, etc.
+#  reading mac drives, encrypted drives, vpn, bootable drives, etc.
 ${install} \
     hfsprogs sgdisk cryptsetup \
-    network-manager-openvpn-gnome
+    network-manager-openvpn-gnome \
+    unetbootin
 
 #  virtualbox
 ${install} \
