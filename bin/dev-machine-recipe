@@ -1,4 +1,10 @@
 #! /usr/bin/env bash
+#
+# recommended disk config:
+# - sda1: 20GB, /
+# - sda2: remaining disk, /home
+# - sda?: 8GB (or == RAM), swap
+#
 
 set -o errexit
 
@@ -11,7 +17,8 @@ ${install} \
     gcolor2 \
     keepassx \
     msttcorefonts \
-    istanbul
+    istanbul \
+    gconf-editor
 
 if [[ `which google-chrome-beta` == "" ]] ; then
     gnome-open https://www.google.com/intl/en/chrome/browser/beta.html
@@ -20,7 +27,8 @@ fi
 #  things I like for my desktop
 ${install} \
     wallch \
-    terminator
+    terminator \
+    gir1.2-gtop-2.0
 
 #  basics for development
 ${install} \
@@ -43,7 +51,7 @@ ${install} \
 
 #  reading mac drives, encrypted drives, vpn, bootable drives, etc.
 ${install} \
-    hfsprogs sgdisk cryptsetup \
+    hfsprogs cryptsetup \
     network-manager-openvpn-gnome \
     unetbootin
 
@@ -61,3 +69,10 @@ sudo apt-get install \
 # if [[ `which rvm` == "" ]] ; then
 #     bash < <(curl -s https://raw.github.com/wayneeseguin/rvm/master/binscripts/rvm-installer)
 # fi
+
+echo
+echo
+echo "Congratulations, you have a box."
+echo
+echo
+
