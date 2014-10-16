@@ -77,10 +77,15 @@ sudo apt-get install \
 sudo apt-get install \
     htop
 
+# heroku toolbelt
+if [[ `which heroku` == "" ]] ; then
+  wget -qO- https://toolbelt.heroku.com/install-ubuntu.sh | sh
+fi
+
 # rvm
-# if [[ `which rvm` == "" ]] ; then
-#     bash < <(curl -s https://raw.github.com/wayneeseguin/rvm/master/binscripts/rvm-installer)
-# fi
+if [[ `which rvm` == "" ]] ; then
+    bash < <(curl -s https://raw.github.com/wayneeseguin/rvm/master/binscripts/rvm-installer)
+fi
 
 echo
 echo
