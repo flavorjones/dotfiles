@@ -1,75 +1,75 @@
 [user]
-        name = Mike Dalessio
-        email = mike.dalessio@gmail.com
+	name = Mike Dalessio
+	email = mike.dalessio@gmail.com
 
 [github]
-        user = flavorjones
+	user = flavorjones
 
 [core]
-        compression = 1
-        loosecompression = 1
-        excludesfile = /home/miked/.gitignore
-        abbrev = 7
+	compression = 1
+	loosecompression = 1
+	excludesfile = /home/miked/.gitignore
+	abbrev = 7
 
 [branch]
-        autosetupmerge = true
+	autosetupmerge = true
 
 [push]
-        default = current
+	default = current
 
 [diff]
-        renames = copies
+	renames = copies
 
 [alias]
-        c = commit -v
-        ci = commit
-        co = checkout
-        d = diff -w -b
-        ds = diff --staged -w -b
-        dw = diff -w -b --word-diff-regex="[^[:space:]_:.,()/]+"
-        dsw = diff --staged -w -b --word-diff-regex="[^[:space:]_:.,()/]+"
-        pr = pull --rebase
-        s = status
-        ss = status --short
-        w = whatchanged
-# some pivotal backwards-compatibility
-#        ci = pair-commit
-        st = status
-        br = branch
-        sta = stash
-        llog = log --date=local
-        flog = log --pretty=fuller --decorate
-        lg = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative
-        lol = log --graph --decorate --oneline
-        lola = log --graph --decorate --oneline --all
-        blog = log origin/master... --left-right
-        fixup = commit --fixup
-        squash = commit --squash
-        unstage = reset HEAD
-#        rum = rebase master@{u} # what is this?
+	c = commit -v
+	ci = commit
+	co = checkout
+	d = diff -w -b
+	ds = diff --staged -w -b
+	dw = diff -w -b --word-diff-regex="[^[:space:]_:.,()/]+"
+	dsw = diff --staged -w -b --word-diff-regex="[^[:space:]_:.,()/]+"
+	pr = pull --rebase
+	s = status
+	ss = status --short
+	w = whatchanged
+	# some pivotal backwards-compatibility
+	#        ci = pair-commit
+	st = status
+	br = branch
+	sta = stash
+	llog = log --date=local
+	flog = log --pretty=fuller --decorate
+	lg = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative
+	lol = log --graph --decorate --oneline
+	lola = log --graph --decorate --oneline --all
+	blog = log origin/master... --left-right
+	fixup = commit --fixup
+	squash = commit --squash
+	unstage = reset HEAD
+	#        rum = rebase master@{u} # what is this?
 
 [gui]
-        fontui = -family \"bitstream vera sans\" -size 9 -weight bold -slant roman -underline 0 -overstrike 0
-        fontdiff = -family \"bitstream vera sans mono\" -size 10 -weight normal -slant roman -underline 0 -overstrike 0
+	fontui = -family \"bitstream vera sans\" -size 9 -weight bold -slant roman -underline 0 -overstrike 0
+	fontdiff = -family \"bitstream vera sans mono\" -size 10 -weight normal -slant roman -underline 0 -overstrike 0
 
 
-# diff: plain (context text), meta (metainformation), frag (hunk header), old (removed lines), new (added lines),
-# commit (commit headers), or whitespace (highlighting whitespace errors)
-#
-# status: header (header text), added or updated, changed, untracked, nobranch
-#
-# normal, black, red, green, yellow, blue, magenta, cyan and white
+	# diff: plain (context text), meta (metainformation), frag (hunk header), old (removed lines), new (added lines),
+	# commit (commit headers), or whitespace (highlighting whitespace errors)
+	#
+	# status: header (header text), added or updated, changed, untracked, nobranch
+	#
+	# normal, black, red, green, yellow, blue, magenta, cyan and white
 [color]
-        ui = true
-        status = true
-        diff = true
+	ui = true
+	status = true
+	diff = true
 [color.status]
-        added = blue bold
-        changed = yellow bold
-        untracked = red bold
+	added = blue bold
+	changed = yellow bold
+	untracked = red bold
 [color.diff]
-        new = yellow bold
-        old = yellow
+	new = yellow bold
+	old = yellow
 
-# [url "git@github.com:cloudfoundry/"]
-#         pushInsteadOf = "https://github.com/cloudfoundry/"
+	# [url "git@github.com:cloudfoundry/"]
+	#         pushInsteadOf = "https://github.com/cloudfoundry/"
