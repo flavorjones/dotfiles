@@ -49,6 +49,14 @@ ${install} \
     colordiff \
     zip
 
+#  less-basic stuff for LicenseFinder development
+${install} \
+    pip npm maven gradle
+
+#  ugh, more esoteric stuff for libmagick
+${install} \
+    libmagickcore-dev libmagick++-dev
+
 #  reading mac drives, encrypted drives, vpn, bootable drives, etc.
 ${install} \
     hfsprogs cryptsetup \
@@ -64,6 +72,10 @@ ${install} \
 #  skype
 sudo apt-get install \
     skype ia32-libs
+
+#  miscellaneous
+sudo apt-get install \
+    htop
 
 # rvm
 # if [[ `which rvm` == "" ]] ; then
