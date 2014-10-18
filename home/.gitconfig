@@ -28,7 +28,7 @@
 	ds = diff --staged -w -b
 	dw = diff -w -b --word-diff-regex="[^[:space:]_:.,()/]+"
 	dsw = diff --staged -w -b --word-diff-regex="[^[:space:]_:.,()/]+"
-	lw = log --word-diff-regex="[^[:space:]_:.,()/]+"
+	lw = log -p --word-diff-regex="[^[:space:]_:.,()/]+"
 	pr = pull --rebase
 	s = status
 	ss = status --short
