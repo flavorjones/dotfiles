@@ -32,11 +32,15 @@ def _usage_and_exit
 end
 
 def search_for query
-  get_profiles.find { |k,v| v.downcase =~ /^#{query}/ }
+  get_profiles.find { |k,v| profile_match(query, v) }
 end
 
 def launch_command command
   %Q{#{command} > /dev/null 2>&1 &}
+end
+
+def profile_match query, profile_name
+  profile_name.downcase =~ /^#{query}/
 end
 
 query = ARGV[0]
@@ -44,7 +48,7 @@ _usage_and_exit unless query
 query = query.downcase
 
 command =
-  if "incognito" =~ /^#{query}/
+  if profile_match(query, "incognito")
     launch_command %Q{#{CHROME} --incognito}
   else
     profile = search_for query
