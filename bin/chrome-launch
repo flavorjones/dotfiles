@@ -35,19 +35,23 @@ def search_for query
   get_profiles.find { |k,v| v.downcase =~ /^#{query}/ }
 end
 
+def launch_command command
+  %Q{#{command} > /dev/null 2>&1 &}
+end
+
 query = ARGV[0]
 _usage_and_exit unless query
 query = query.downcase
 
 command =
   if "incognito" =~ /^#{query}/
-    %Q{#{CHROME} --incognito > /dev/null 2>&1 &}
+    launch_command %Q{#{CHROME} --incognito}
   else
     profile = search_for query
     _usage_and_exit unless profile
 
     profile_name = profile.first
-    %Q{#{CHROME} --profile-directory="#{profile_name}" > /dev/null 2>&1 &}
+    launch_command %Q{#{CHROME} --profile-directory="#{profile_name}"}
   end
 
 puts command
