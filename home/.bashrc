@@ -376,6 +376,9 @@ function findns {
 export GOPATH=${HOME}/code/go # workspace
 export PATH="${PATH}:${GOPATH}/bin:${GOROOT}/bin"
 
+# jruby dev
+export JRUBY_OPTS="${JRUBY_OPTS} --dev"
+
 # rbenv!
 [[ -d "$HOME/.rbenv" ]] && eval "$(rbenv init -)"
 
