@@ -51,7 +51,7 @@ ${install} \
 
 #  less-basic stuff for LicenseFinder development
 ${install} \
-    pip npm maven gradle
+    npm maven gradle
 if [[ ! -e /usr/bin/node ]] ; then
   # https://github.com/joyent/node/issues/3911
   echo "symlinking node -> nodejs"
