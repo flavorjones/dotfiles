@@ -72,5 +72,5 @@
 	new = yellow bold
 	old = yellow
 
-	# [url "git@github.com:cloudfoundry/"]
-	#         pushInsteadOf = "https://github.com/cloudfoundry/"
+[url "git@github.com:cf-buildpacks/"]
+	pushInsteadOf = "https://github.com/cf-buildpacks/"
