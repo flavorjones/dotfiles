@@ -58,20 +58,18 @@ class SymlinkSyncSpec < SyncSpec
   end
 end
 
-specs = [
+[
   SyncSpec.new('bin'),
+  SyncSpec.new('home', dest_dir: HOME),
+  SyncSpec.new('Music'),
+  SyncSpec.new('vms'),
   SyncSpec.new('.fonts'),
+  SyncSpec.new('.gem'),
+  SyncSpec.new('.gdb'),
+  SymlinkSyncSpec.new('.remmina'),
+  SyncSpec.new('.ssh'),
   SyncSpec.new('.subversion'),
   SyncSpec.new('.vnc'),
-  SyncSpec.new('Music'),
-  SyncSpec.new('.gdb'),
-  SyncSpec.new('.ssh'),
-  SyncSpec.new('vms'),
-  SyncSpec.new('.gem'),
-  SymlinkSyncSpec.new('.remmina'),
-  SyncSpec.new('home', dest_dir: HOME)
-]
-
-specs.each do |spec|
+].each do |spec|
   spec.sync!
 end
