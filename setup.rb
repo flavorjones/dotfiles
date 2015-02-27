@@ -49,6 +49,15 @@ class SyncSpec
   end
 end
 
+class SymlinkSyncSpec < SyncSpec
+  def sync!
+    source_file = File.expand_path(File.join(PWD, source_dir))
+
+    FileUtils.rm_rf dest_dir
+    FileUtils.symlink source_file, dest_dir, verbose: true
+  end
+end
+
 specs = [
   SyncSpec.new('bin'),
   SyncSpec.new('.fonts'),
@@ -59,7 +68,7 @@ specs = [
   SyncSpec.new('.ssh'),
   SyncSpec.new('vms'),
   SyncSpec.new('.gem'),
-  SyncSpec.new('.remmina', symlink: true),
+  SymlinkSyncSpec.new('.remmina'),
   SyncSpec.new('home', dest_dir: HOME)
 ]
 
