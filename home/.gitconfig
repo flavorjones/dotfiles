@@ -74,3 +74,5 @@
 
 [url "git@github.com:cf-buildpacks/"]
 	pushInsteadOf = "https://github.com/cf-buildpacks/"
+[url "git@github.com:cloudfoundry/"]
+	pushInsteadOf = "https://github.com/cloudfoundry/"
