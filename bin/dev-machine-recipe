@@ -7,6 +7,7 @@
 #
 
 set -o errexit
+set -o xtrace
 
 install="sudo apt-get install -y -q"
 update="sudo apt-get update -q"
@@ -26,15 +27,14 @@ fi
 
 #  things I like for my desktop
 ${install} \
-    wallch \
     terminator \
-    gir1.2-gtop-2.0
+    guake
 
 #  basics for development
 ${install} \
     git-core gitk subversion mercurial \
     build-essential valgrind \
-    emacs24 autocutsel puppet-el \
+    emacs24 autocutsel puppet-el markdown \
     mysql-server mysql-client libmysqlclient-dev \
     postgresql postgresql-client libpq-dev postgresql-contrib \
     openjdk-7-jdk \
