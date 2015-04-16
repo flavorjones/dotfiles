@@ -1,0 +1,62 @@
+#! /usr/bin/env ruby
+
+envs = {
+  "tabasco" => {
+    api: "https://api.tabasco.cf-app.com",
+    login: "admin",
+    password: "sk1N875job",
+    org: "flavorjones",
+    space: "buildpack-acceptance"
+  },
+  "a1" => {
+    api: "https://api.a1.cf-app.com",
+    login: "admin",
+    password: "sk1N875job",
+    org: "flavorjones",
+    space: "buildpack-acceptance"
+  },
+  "bp" => {
+    api: "http://api.bp-ci-8.cf-app.com",
+    login: "admin",
+    password: "PASSWORD",
+    org: "flavorjones-org",
+    space: "flavorjones-space"
+  }
+}
+
+def run cmd
+  puts "+ #{cmd}"
+  system cmd
+end
+
+env = envs[ARGV[0]]
+
+unless env
+  puts "USAGE: cf-api <env>"
+  puts
+  puts "  where <env> is one of:"
+  envs.keys.each do |env|
+    puts "  - #{env}"
+  end
+  puts
+  exit 1
+end
+
+puts env
+
+run "cf api --skip-ssl-validation #{env[:api]}"
+run "cf auth #{env[:login]} #{env[:password]}"
+
+if env[:org]
+  if ! run "cf orgs | egrep -q '^#{env[:org]} *$'"
+    run "cf create-org '#{env[:org]}'"
+  end
+  run "cf target -o '#{env[:org]}'"
+
+  if env[:space]
+    if ! run "cf spaces | egrep -q '^#{env[:space]} *$'"
+      run "cf create-space '#{env[:space]}'"
+    end
+    run "cf target -s '#{env[:space]}'"
+  end
+end
