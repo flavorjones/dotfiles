@@ -79,8 +79,11 @@ export BROWSER="google-chrome"
 export VALGRIND_OPTS="--num-callers=50 --error-limit=no"
 export LC_COLLATE=C # so sort acts the way i want it to
 if [[ -a /proc/cpuinfo ]] ; then
-    export MAKEFLAGS=-j$(grep -c processor /proc/cpuinfo)
+  export NUM_PROCESSORS=$(grep -c processor /proc/cpuinfo)
+else
+  export NUM_PROCESSORS=1
 fi
+export MAKEFLAGS=-j${NUM_PROCESSORS}
 
 #
 #  custom stuff
@@ -189,7 +192,7 @@ alias pc="proxychains $*"
 alias pc-dig="proxychains dig @4.2.2.2 +tcp +short $*"
 
 alias be="bundle exec"
-alias bi="bundle install"
+alias bi="bundle install -j${NUM_PROCESSORS}"
 
 if [[ $I_AM_LINUX == 1 ]] ; then
     alias open="gnome-open"
@@ -382,13 +385,12 @@ export JRUBY_OPTS="${JRUBY_OPTS} --dev"
 # rbenv!
 [[ -d "$HOME/.rbenv" ]] && eval "$(rbenv init -)"
 
-
-### Added by the Heroku Toolbelt
-export PATH="/usr/local/heroku/bin:$PATH"
-
 # rvm!
 [[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm" # Load RVM into a shell session *as a function*
 PATH=$PATH:$HOME/.rvm/bin # Add RVM to PATH for scripting
+
+### Added by the Heroku Toolbelt
+export PATH="/usr/local/heroku/bin:$PATH"
 
 # added by travis gem
 [ -f /home/miked/.travis/travis.sh ] && source /home/miked/.travis/travis.sh
