@@ -1,0 +1,38 @@
+#! /usr/bin/env ruby
+
+require 'date'
+
+branches = `git branch -r | fgrep origin | fgrep -v HEAD`
+  .split("\n")
+  .map { |s| s.strip }
+
+branches_dates = branches.inject({}) do |hash, branch|
+  date = Date.parse `git log -n1 --format='%ai' #{branch}`.split(" ").first
+  hash[branch] = date
+  hash
+end
+
+branches_commits = branches.inject({}) do |hash, branch|
+  commit = `git log -n1 #{branch}`
+  hash[branch] = commit
+  hash
+end
+
+branches_dates
+  .sort_by { |branch, date| date }
+  .each do |branch, date|
+    if date < Date.parse("2015-01-01")
+      puts "----------"
+      puts "#{branch} - #{date}"
+      puts
+      puts branches_commits[branch]
+      puts
+      cmd = "git push origin :#{branch.split("/").last}"
+      print "#{cmd}? [y/N] "
+      response = gets
+      if response =~ /^y/i
+        puts "Deleting branch #{branch} ..."
+        system cmd
+      end
+    end
+  end
