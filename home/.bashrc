@@ -374,11 +374,6 @@ function findns {
     find $path -not -path "*/.svn/*" -and -not -path '*/.git/*' $@
 }
 
-# go!
-# export GOROOT=${HOME}/builds/go # installation directory
-export GOPATH=${HOME}/code/go # workspace
-export PATH="${PATH}:${GOPATH}/bin:${GOROOT}/bin"
-
 # jruby dev
 export JRUBY_OPTS="${JRUBY_OPTS} --dev"
 
