@@ -1,9 +1,40 @@
 #! /usr/bin/env bash
 #
-# recommended disk config:
-# - sda1: 20GB, /
-# - sda2: remaining disk, /home
-# - sda?: 8GB (or == RAM), swap
+# __Recommended disk config__
+#
+# - sda1: ext4: 20GB, mount to /
+# - sda2: ext4: remaining disk, mount to /home
+# - sda?: swap: 8GB (or == RAM)
+#
+#
+# __Recovering from a complete loss__
+#
+# 1. set CapsLock to Ctrl, compose key to right-alt, set sloppy window focus
+# 2. recover ssh keys
+# 3. `sudo apt-get install git ruby rake`
+# 4. clone dotfiles repo, run setup, re-login
+# 5. run `dev-machine-setup`
+# 6. set up gnome-do keybinding
+# 7. set up chrome profiles
+# 8. clone emacs.d repo, run rake
+# 9. set up dropbox to Shared
+# 10. symlink Documents → Shared/Dropbox/Mike
+# 11. symlink Music/Library → Shared/Dropbox/Music
+# 12. background images from Documents/Pictures/Desktop\ Backgrounds
+# 13. install cinnamon applet "slideshow"
+# 14. add cinnamon applet: system monitor
+# 15. install rvm
+#
+#
+# __More Things__
+#
+# - set up alternative chrome profiles
+#   - goruco
+#   - lostatpivotal
+#   - mario pivotalio
+# - configure Pivotal VPN
+# - configure PureVPN VPN
+# - check out other code
 #
 
 set -o errexit
