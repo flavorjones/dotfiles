@@ -1,6 +1,13 @@
 #! /usr/bin/env ruby
 
 envs = {
+  "pws" => {
+    api: "https://api.run.pivotal.io",
+    login: "mdalessio@pivotal.io",
+    password: "youth frick darth",
+    org: "flavorjones",
+    space: "buildpack-acceptance"
+  },
   "tabasco" => {
     api: "https://api.tabasco.cf-app.com",
     login: "admin",
@@ -45,7 +52,7 @@ end
 puts env
 
 run "cf api --skip-ssl-validation #{env[:api]}"
-run "cf auth #{env[:login]} #{env[:password]}"
+run "cf auth '#{env[:login]}' '#{env[:password]}'"
 
 if env[:org]
   if ! run "cf orgs | egrep -q '^#{env[:org]} *$'"
