@@ -380,12 +380,12 @@ export JRUBY_OPTS="${JRUBY_OPTS} --dev"
 # rbenv!
 [[ -d "$HOME/.rbenv" ]] && eval "$(rbenv init -)"
 
-# rvm!
-[[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm" # Load RVM into a shell session *as a function*
-PATH=$PATH:$HOME/.rvm/bin # Add RVM to PATH for scripting
-
 ### Added by the Heroku Toolbelt
 export PATH="/usr/local/heroku/bin:$PATH"
 
 # added by travis gem
 [ -f /home/miked/.travis/travis.sh ] && source /home/miked/.travis/travis.sh
+
+# rvm!
+[[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm" # Load RVM into a shell session *as a function*
+PATH=$PATH:$HOME/.rvm/bin # Add RVM to PATH for scripting
