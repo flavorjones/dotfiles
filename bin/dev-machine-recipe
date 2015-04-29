@@ -101,9 +101,12 @@ ${install} \
 
 #  virtualbox
 ${install} \
-    virtualbox virtualbox-dkms \
-    vagrant \
+    virtualbox-qt virtualbox-dkms \
     nfs-common nfs-kernel-server
+
+if [[ `which vagrant` == "" ]] ; then
+    gnome-open https://www.vagrantup.com/downloads.html
+fi
 
 #  skype
 sudo apt-get install \
