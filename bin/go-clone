@@ -1,0 +1,27 @@
+#! /usr/bin/env bash
+
+set -o xtrace
+set -o errexit
+
+repo=$1
+
+if [[ $repo == "" ]] ; then
+  echo "USAGE: go-clone <dep-path>"
+  exit 1
+fi
+
+dir=$(basename $repo)
+fqrepo=$GOPATH/src/$repo
+
+if [[ -d $fqrepo ]] ; then
+  echo "${repo} already exists under ${GOPATH}"
+else
+  go get $repo
+fi
+
+if [[ -d $dir ]] ; then
+  echo "${dir} already exists"
+else
+  ln -s $fqrepo $dir
+fi
+
