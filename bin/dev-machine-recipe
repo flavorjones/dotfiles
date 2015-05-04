@@ -37,6 +37,17 @@
 # - configure PureVPN VPN
 # - check out other code
 #
+# fido u2f key: http://sk.plug-up.com/
+#
+# To use your key on Linux, you must allow your account to access
+# it. For this, you simply need to add a udev rule for the
+# device. Create a file named /etc/udev/rules.d/10-security-key.rules
+# with this content:
+#
+# SUBSYSTEMS=="usb", ATTRS{idVendor}=="2581", ATTRS{idProduct}=="f1d0", MODE="0660", GROUP="plugdev"
+#
+# and then `sudo udevadm trigger`
+#
 
 set -o errexit
 set -o xtrace
