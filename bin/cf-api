@@ -4,7 +4,7 @@ envs = {
   "pws" => {
     api: "https://api.run.pivotal.io",
     login: "mdalessio@pivotal.io",
-    password: "youth frick darth",
+    password: %Q(ipdbdzw}.O7Xsc|Yzk,P+l,r[),
     org: "flavorjones",
     space: "buildpack-acceptance"
   },
