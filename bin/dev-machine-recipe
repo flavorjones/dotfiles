@@ -24,6 +24,7 @@
 # 13. install cinnamon applet "slideshow"
 # 14. add cinnamon applet: system monitor
 # 15. install rvm
+# 16. add quake and devilspie2 to startup applications
 #
 #
 # __More Things__
@@ -59,6 +60,7 @@ fi
 #  things I like for my desktop
 ${install} \
     terminator \
+    devilspie2 \
     guake
 
 #  basics for development
