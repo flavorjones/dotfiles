@@ -127,7 +127,8 @@ sudo apt-get install \
 
 #  miscellaneous
 sudo apt-get install \
-    htop
+    htop \
+    remmina remmina-plugin-rdp
 
 # heroku toolbelt
 if [[ `which heroku` == "" ]] ; then
