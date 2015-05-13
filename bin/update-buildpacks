@@ -1,0 +1,53 @@
+#! /usr/bin/env bash
+
+set -o errexit
+
+function try_to_checkout
+{
+  branch=$1
+  if git branch -a | egrep " (origin/)?${branch}" > /dev/null ; then
+    git checkout "${branch}"
+  else
+    echo "----- could not find ${branch}, using master instead"
+    git checkout master
+  fi
+}
+
+function do_it
+{
+  repo=$1
+  branch=$2
+  dir=$(basename "${repo}")
+
+  echo "===== ${repo} ${branch} ====="
+
+  if [[ -d ${dir} ]] ; then
+    pushd "${dir}"
+      try_to_checkout "${branch}"
+      git pull --ff-only
+      git submodule update --recursive
+    popd
+  else
+    git clone --recursive "${repo}"
+  fi
+
+  echo
+}
+
+branch=$1
+if [[ $branch == "" ]] ; then
+  echo "USAGE: update-all <branch-name>"
+  exit 1
+fi
+
+# set -o xtrace
+bpdir="${HOME}"/code/cf/Buildpacks
+mkdir -p "${bpdir}"
+cd "${bpdir}"
+
+for b in go nodejs php python ruby java staticfile binary ; do
+  do_it "git@github.com:cloudfoundry/${b}-buildpack" "${branch}"
+done
+
+do_it "git@github.com:cloudfoundry/brats" "${branch}"
+do_it "git@github.com:cloudfoundry-incubator/buildpack-packager" "${branch}"
