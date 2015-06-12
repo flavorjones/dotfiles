@@ -202,6 +202,8 @@ if [[ $I_AM_A_MAC == 0 ]] ; then
     alias ack="ack-grep"
 fi
 
+alias xc="xclip -selection clipboard"
+
 if which colordiff > /dev/null ; then
     function diff {
         colordiff ${*} | $PAGER
@@ -294,6 +296,20 @@ alias  whence="whence -v"
 alias  fun="functions"
 alias  unfun="unset -f"
 alias  ec="emacsclient -n"
+
+## docker things - from https://www.calazan.com/docker-cleanup-commands/
+# Kill all running containers.
+alias dockerkillall='docker kill $(docker ps -q)'
+
+# Delete all stopped containers.
+alias dockercleanc='printf "\n>>> Deleting stopped containers\n\n" && docker rm $(docker ps -a -q)'
+
+# Delete all untagged images.
+alias dockercleani='printf "\n>>> Deleting untagged images\n\n" && docker rmi $(docker images -q -f dangling=true)'
+
+# Delete all stopped containers and untagged images.
+alias dockerclean='dockercleanc || true && dockercleani'
+
 
 function  backup {
   ##########
