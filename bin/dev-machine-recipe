@@ -62,7 +62,8 @@ ${install} \
     keepassx \
     msttcorefonts \
     istanbul \
-    gconf-editor
+    gconf-editor \
+    xclip
 
 if [[ `which google-chrome-beta` == "" ]] ; then
     gnome-open https://www.google.com/intl/en/chrome/browser/beta.html
