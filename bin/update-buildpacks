@@ -25,7 +25,7 @@ function do_it
     pushd "${dir}"
       try_to_checkout "${branch}"
       git pull --ff-only
-      git submodule update --recursive
+      git submodule update --recursive --init
     popd
   else
     git clone --recursive "${repo}"
@@ -49,5 +49,12 @@ for b in go nodejs php python ruby java staticfile binary ; do
   do_it "git@github.com:cloudfoundry/${b}-buildpack" "${branch}"
 done
 
-do_it "git@github.com:cloudfoundry/brats" "${branch}"
-do_it "git@github.com:cloudfoundry-incubator/buildpack-packager" "${branch}"
+for repo in "cloudfoundry/brats" "cloudfoundry-incubator/buildpack-packager" "cloudfoundry/ci-tools" "cf-buildpacks/machete" "pivotal-cf/binary-builder"; do
+  do_it "git@github.com:${repo}" "${branch}"
+done
+
+echo
+echo "=========="
+echo " DONE"
+echo "=========="
+echo
