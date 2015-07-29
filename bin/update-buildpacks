@@ -23,6 +23,9 @@ function do_it
 
   if [[ -d ${dir} ]] ; then
     pushd "${dir}"
+      if [[ -e cf.Gemfile.lock ]] ; then
+        git checkout cf.Gemfile.lock
+      fi
       try_to_checkout "${branch}"
       git pull --ff-only
       git submodule update --recursive --init
