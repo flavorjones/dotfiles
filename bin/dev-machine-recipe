@@ -73,6 +73,7 @@ fi
 ${install} \
     terminator \
     devilspie2 \
+    clementine \
     guake
 
 #  basics for development
