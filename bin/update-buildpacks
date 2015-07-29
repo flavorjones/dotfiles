@@ -45,11 +45,15 @@ bpdir="${HOME}"/code/cf/Buildpacks
 mkdir -p "${bpdir}"
 cd "${bpdir}"
 
-for b in go nodejs php python ruby java staticfile binary ; do
+BUILDPACKS="go nodejs php python ruby java staticfile binary"
+
+for b in ${BUILDPACKS} ; do
   do_it "git@github.com:cloudfoundry/${b}-buildpack" "${branch}"
 done
 
-for repo in "cloudfoundry/brats" "cloudfoundry-incubator/buildpack-packager" "cloudfoundry/ci-tools" "cf-buildpacks/machete" "pivotal-cf/binary-builder"; do
+OTHER_REPOS="cloudfoundry/brats cloudfoundry-incubator/buildpack-packager cloudfoundry/ci-tools cf-buildpacks/machete pivotal-cf/binary-builder pivotal-cf/buildpacks-ci"
+
+for repo in ${OTHER_REPOS} ; do
   do_it "git@github.com:${repo}" "${branch}"
 done
 
