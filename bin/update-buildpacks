@@ -54,7 +54,7 @@ for b in ${BUILDPACKS} ; do
   do_it "git@github.com:cloudfoundry/${b}-buildpack" "${branch}"
 done
 
-OTHER_REPOS="cloudfoundry/brats cloudfoundry-incubator/buildpack-packager cloudfoundry/ci-tools cf-buildpacks/machete pivotal-cf/binary-builder pivotal-cf/buildpacks-ci"
+OTHER_REPOS="cloudfoundry/brats cloudfoundry/buildpack-packager cloudfoundry/machete cloudfoundry/binary-builder cloudfoundry/buildpacks-ci"
 
 for repo in ${OTHER_REPOS} ; do
   do_it "git@github.com:${repo}" "${branch}"
