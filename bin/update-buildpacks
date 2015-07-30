@@ -27,7 +27,7 @@ function do_it
         git checkout cf.Gemfile.lock
       fi
       try_to_checkout "${branch}"
-      git pull --ff-only
+      git pull --ff-only --tags
       git submodule update --recursive --init
     popd
   else
