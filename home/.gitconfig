@@ -20,6 +20,9 @@
 [diff]
 	renames = copies
 
+[log]
+	abbrevCommit = true
+
 [alias]
 	c = commit -v
 	ci = commit
