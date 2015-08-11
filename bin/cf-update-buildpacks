@@ -49,23 +49,23 @@ mkdir -p "${bpdir}"
 cd "${bpdir}"
 
 BUILDPACKS="
+binary
 go
+java
 nodejs
 php
 python
 ruby
-java
 staticfile
-binary
 "
 
 OTHER_REPOS="
+cloudfoundry-incubator/compile-extensions
+cloudfoundry/binary-builder
 cloudfoundry/brats
 cloudfoundry/buildpack-packager
-cloudfoundry/machete
-cloudfoundry/binary-builder
 cloudfoundry/buildpacks-ci
-cloudfoundry-incubator/compile-extensions
+cloudfoundry/machete
 "
 
 for b in ${BUILDPACKS} ; do
