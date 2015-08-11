@@ -66,6 +66,7 @@ cloudfoundry/brats
 cloudfoundry/buildpack-packager
 cloudfoundry/buildpacks-ci
 cloudfoundry/machete
+cloudfoundry/stacks
 "
 
 for b in ${BUILDPACKS} ; do
