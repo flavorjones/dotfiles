@@ -13,7 +13,13 @@ branches_dates = branches.inject({}) do |hash, branch|
 end
 
 branches_commits = branches.inject({}) do |hash, branch|
-  commit = `git log -n1 #{branch}`
+  commit = `git log -n1 #{branch} --abbrev=40 --oneline | cut -d' ' -f1`
+  hash[branch] = commit.chomp
+  hash
+end
+
+branches_logs = branches.inject({}) do |hash, branch|
+  commit = `git log -n1 #{branch} --abbrev=40`
   hash[branch] = commit
   hash
 end
@@ -21,12 +27,24 @@ end
 branches_dates
   .sort_by { |branch, date| date }
   .each do |branch, date|
-    if date < Date.parse("2015-01-01")
+    if date < Date.parse("2015-08-01")
       puts "----------"
-      puts "#{branch} - #{date}"
+      puts "branch: #{branch}"
+      puts "last updated at: #{date}"
       puts
-      puts branches_commits[branch]
+      puts branches_logs[branch]
       puts
+
+      cmd = %Q{git branch -r --contains #{branches_commits[branch]} | egrep "  origin/master$" > /dev/null}
+      puts cmd
+      on_master = system cmd
+      if on_master
+        puts "This commit is on origin/master and so we can almost definitely delete this branch."
+      else
+        puts "Couldn't find this commit on origin/master, so think hard about this."
+      end
+      puts
+
       cmd = "git push origin :#{branch.split("/").last}"
       print "#{cmd}? [y/N] "
       response = gets
