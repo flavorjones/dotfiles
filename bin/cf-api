@@ -25,7 +25,7 @@ envs = {
   "bp" => {
     api: "http://api.bp-ci-8.cf-app.com",
     login: "admin",
-    password: "PASSWORD",
+    password: "HeDiedWith3LobstersInHisHands",
     org: "flavorjones-org",
     space: "flavorjones-space"
   }
