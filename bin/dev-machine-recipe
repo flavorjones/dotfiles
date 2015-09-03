@@ -142,6 +142,13 @@ if [[ `which rvm` == "" ]] ; then
     bash < <(curl -s https://raw.github.com/wayneeseguin/rvm/master/binscripts/rvm-installer)
 fi
 
+# flux
+if [[ `which fluxgui` == "" ]] ; then
+  sudo add-apt-repository ppa:kilian/f.lux
+  sudo apt-get update
+  sudo apt-get install fluxgui
+fi
+
 echo
 echo
 echo "Congratulations, you have a box."
