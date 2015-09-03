@@ -65,8 +65,12 @@ ${install} \
     gconf-editor \
     xclip
 
-if [[ `which google-chrome-beta` == "" ]] ; then
-    gnome-open https://www.google.com/intl/en/chrome/browser/beta.html
+# if [[ `which google-chrome-beta` == "" ]] ; then
+#     gnome-open https://www.google.com/intl/en/chrome/browser/beta.html
+# fi
+
+if [[ `which google-chrome-stable` == "" ]] ; then
+  gnome-open https://www.google.com/intl/en/chrome/browser/desktop/index.html
 fi
 
 #  things I like for my desktop

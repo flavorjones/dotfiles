@@ -2,7 +2,7 @@
 
 require 'json'
 
-CHROME = "google-chrome-beta"
+CHROME = "google-chrome"
 
 def get_profiles
   profiles = {}
