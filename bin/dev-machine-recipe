@@ -153,6 +153,35 @@ if [[ `which fluxgui` == "" ]] ; then
   sudo apt-get install fluxgui
 fi
 
+########## lenovo thinkpad section ##########
+
+# micmute - http://www.thinkwiki.org/wiki/Microphone_Mute_Button
+if [[ ! -e /etc/acpi/lenovo-mutemic.sh ]] ; then
+  echo "CREATING: /etc/acpi/lenovo-mutemic.sh"
+  cat > /tmp/lenovo-mutemic.sh <<EOF
+#!/bin/bash
+
+if [[ \$(amixer sget Capture) == *"[on]"* ]]; then
+  amixer sset Capture nocap
+else
+  amixer sset Capture cap
+fi
+EOF
+  chmod +x /tmp/lenovo-mutemic.sh
+  sudo mv /tmp/lenovo-mutemic.sh /etc/acpi
+fi
+
+if [[ ! -e /etc/acpi/events/lenovo-mutemic ]] ; then
+  echo "CREATING: /etc/acpi/lenovo-mutemic"
+  cat > /tmp/lenovo-mutemic <<EOF
+event=button/prog1 PROG1 00000080 00000000 K
+action=/etc/acpi/lenovo-mutemic.sh
+EOF
+  sudo mv /tmp/lenovo-mutemic /etc/acpi/events
+  sudo service acpid restart
+fi
+
+
 echo
 echo
 echo "Congratulations, you have a box."
