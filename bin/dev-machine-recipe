@@ -77,8 +77,11 @@ fi
 ${install} \
     terminator \
     devilspie2 \
-    clementine \
     guake
+
+# music player -- instead install from source?
+#     clementine \
+
 
 #  basics for development
 ${install} \
