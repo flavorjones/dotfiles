@@ -28,6 +28,13 @@ envs = {
     password: "HeDiedWith3LobstersInHisHands",
     org: "flavorjones-org",
     space: "flavorjones-space"
+  },
+  "stack" => {
+    api: "http://api.stack-ci-8.cf-app.com",
+    login: "admin",
+    password: "HeDiedWith3LobstersInHisHands",
+    org: "flavorjones-org",
+    space: "flavorjones-space"
   }
 }
 
