@@ -185,6 +185,9 @@ EOF
 fi
 
 
+# cinnamon
+gsettings set org.cinnamon number-workspaces 3 # requires a cinnamon restart
+
 echo
 echo
 echo "Congratulations, you have a box."
