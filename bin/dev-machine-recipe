@@ -156,6 +156,18 @@ if [[ `which fluxgui` == "" ]] ; then
   sudo apt-get install fluxgui
 fi
 
+### docker
+echo "checking for alternate docker cache ..."
+if fgrep DOCKER_OPTS /etc/default/docker | fgrep -e "-g" ; then
+  echo "docker cache is OK!"
+else
+  echo "FAIL: docker is using the default cache directory"
+  echo "FAIL: edit /etc/default/docker to set '-g /home/docker' in DOCKER_OPTS"
+  gnome-open https://forums.docker.com/t/how-do-i-change-the-docker-image-installation-directory/1169
+  exit 1
+fi
+
+
 ########## lenovo thinkpad section ##########
 
 # micmute - http://www.thinkwiki.org/wiki/Microphone_Mute_Button
@@ -193,4 +205,3 @@ echo
 echo "Congratulations, you have a box."
 echo
 echo
-
