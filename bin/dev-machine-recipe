@@ -200,8 +200,9 @@ fi
 # cinnamon
 gsettings set org.cinnamon number-workspaces 3 # requires a cinnamon restart
 
+set +o xtrace
 echo
 echo
-echo "Congratulations, you have a box."
+echo "SUCCESS! Congratulations, you have a box."
 echo
 echo
