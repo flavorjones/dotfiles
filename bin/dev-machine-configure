@@ -1,0 +1,18 @@
+#! /usr/bin/env bash
+
+set -o errexit
+set -o xtrace
+
+# lenovo usb keyboard section
+
+echo "checking for thinkpad usb keyboard ..."
+TPKB="ThinkPad Compact USB Keyboard"
+if xinput list | egrep "${TPKB}.*pointer" ; then
+  kbid=$(xinput list | egrep "${TPKB}.*pointer" | cut -f2 | cut -d= -f2)
+  echo "disabling middle-click paste ..."
+  xinput set-button-map ${kbid} 1 0 3
+fi
+
+
+# cinnamon
+gsettings set org.cinnamon number-workspaces 3 # requires a cinnamon restart
