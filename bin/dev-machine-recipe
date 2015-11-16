@@ -168,6 +168,17 @@ else
 fi
 
 
+########## lenovo usb keyboard section ##########
+
+echo "checking for thinkpad usb keyboard ..."
+TPKB="ThinkPad Compact USB Keyboard"
+if xinput list | egrep "${TPKB}.*pointer" ; then
+  kbid=$(xinput list | egrep "${TPKB}.*pointer" | cut -f2 | cut -d= -f2)
+  echo "disabling middle-click paste ..."
+  xinput set-button-map ${kbid} 1 0 3
+fi
+
+
 ########## lenovo thinkpad section ##########
 
 # micmute - http://www.thinkwiki.org/wiki/Microphone_Mute_Button
