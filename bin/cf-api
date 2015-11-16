@@ -8,6 +8,13 @@ envs = {
     org: "flavorjones",
     space: "buildpack-acceptance"
   },
+  "pwsgloss" => {
+    api: "https://api.run.pivotal.io",
+    login: "mdalessio@pivotal.io",
+    password: %Q(ipdbdzw}.O7Xsc|Yzk,P+l,r[),
+    org: "pivotallabs",
+    space: "flavorjones-pivotal-slack-glossary-bot"
+  },
   "tabasco" => {
     api: "https://api.tabasco.cf-app.com",
     login: "admin",
