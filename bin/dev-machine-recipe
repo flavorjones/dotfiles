@@ -168,7 +168,9 @@ else
 fi
 
 
-########## lenovo thinkpad section ##########
+# lenovo thinkpad section ##########
+
+## x250 ##########
 
 # micmute - http://www.thinkwiki.org/wiki/Microphone_Mute_Button
 if [[ ! -e /etc/acpi/lenovo-mutemic.sh ]] ; then
