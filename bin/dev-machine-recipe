@@ -6,6 +6,9 @@
 # - sda2: ext4: remaining disk, mount to /home
 # - sda?: swap: 8GB (or == RAM)
 #
+# __Encrypted LVM help__
+#
+#   https://help.ubuntu.com/community/ResizeEncryptedPartitions
 #
 # __Recovering from a complete loss__
 #
