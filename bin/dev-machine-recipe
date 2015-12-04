@@ -171,14 +171,16 @@ else
 fi
 
 
-# lenovo thinkpad section ##########
+#
+# lenovo thinkpad section
+#
 
-## x250 ##########
+if inxi -M | egrep "X2[0-9]0" 2>&1 > /dev/null ; then # x250/x230
 
-# micmute - http://www.thinkwiki.org/wiki/Microphone_Mute_Button
-if [[ ! -e /etc/acpi/lenovo-mutemic.sh ]] ; then
-  echo "CREATING: /etc/acpi/lenovo-mutemic.sh"
-  cat > /tmp/lenovo-mutemic.sh <<EOF
+  # micmute - http://www.thinkwiki.org/wiki/Microphone_Mute_Button
+  if [[ ! -e /etc/acpi/lenovo-mutemic.sh ]] ; then
+    echo "CREATING: /etc/acpi/lenovo-mutemic.sh"
+    cat > /tmp/lenovo-mutemic.sh <<EOF
 #!/bin/bash
 
 if [[ \$(amixer sget Capture) == *"[on]"* ]]; then
@@ -189,17 +191,19 @@ fi
 EOF
   chmod +x /tmp/lenovo-mutemic.sh
   sudo mv /tmp/lenovo-mutemic.sh /etc/acpi
-fi
+  fi
 
-if [[ ! -e /etc/acpi/events/lenovo-mutemic ]] ; then
-  echo "CREATING: /etc/acpi/lenovo-mutemic"
-  cat > /tmp/lenovo-mutemic <<EOF
+  if [[ ! -e /etc/acpi/events/lenovo-mutemic ]] ; then
+    echo "CREATING: /etc/acpi/lenovo-mutemic"
+    cat > /tmp/lenovo-mutemic <<EOF
 event=button/prog1 PROG1 00000080 00000000 K
 action=/etc/acpi/lenovo-mutemic.sh
 EOF
-  sudo mv /tmp/lenovo-mutemic /etc/acpi/events
-  sudo service acpid restart
-fi
+    sudo mv /tmp/lenovo-mutemic /etc/acpi/events
+    sudo service acpid restart
+  fi
+
+fi # x250/x230
 
 ${HOME}/bin/dev-machine-configure
 
