@@ -134,11 +134,11 @@ if [[ `which vagrant` == "" ]] ; then
 fi
 
 #  skype
-sudo apt-get install \
+${install} \
     skype ia32-libs
 
 #  miscellaneous
-sudo apt-get install \
+${install} \
     htop \
     remmina remmina-plugin-rdp
 
@@ -156,7 +156,7 @@ fi
 if [[ `which fluxgui` == "" ]] ; then
   sudo add-apt-repository ppa:kilian/f.lux
   sudo apt-get update
-  sudo apt-get install fluxgui
+  ${install} fluxgui
 fi
 
 ### docker
