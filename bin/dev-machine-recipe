@@ -173,6 +173,9 @@ if [[ `which docker` == "" ]] ; then
   gnome-open https://docs.docker.com/engine/installation/ubuntulinux/
   exit 1
 else
+  echo "checking that docker was installed correctly ..."
+  docker run hello-world
+
   echo "checking for alternate docker cache ..."
   if fgrep DOCKER_OPTS /etc/default/docker | fgrep -e "-g" ; then
     echo "docker cache is OK!"
