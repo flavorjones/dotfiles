@@ -159,7 +159,12 @@ if [[ `which fluxgui` == "" ]] ; then
   ${install} fluxgui
 fi
 
-### docker
+# dropbox
+if [[ `which dropbox` == "" ]] ; then
+  gnome-open https://www.dropbox.com/install
+fi
+
+# docker
 if [[ `which docker` == "" ]] ; then
   echo "FAIL: install docker, please"
   gnome-open https://docs.docker.com/engine/installation/ubuntulinux/
