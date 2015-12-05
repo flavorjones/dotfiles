@@ -164,6 +164,9 @@ if [[ `which dropbox` == "" ]] ; then
   gnome-open https://www.dropbox.com/install
 fi
 
+# cinnamon system monitor
+${install} gir1.2-gtop-2.0
+
 # docker
 if [[ `which docker` == "" ]] ; then
   echo "FAIL: install docker, please"
