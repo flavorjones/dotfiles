@@ -160,16 +160,21 @@ if [[ `which fluxgui` == "" ]] ; then
 fi
 
 ### docker
-echo "checking for alternate docker cache ..."
-if fgrep DOCKER_OPTS /etc/default/docker | fgrep -e "-g" ; then
-  echo "docker cache is OK!"
-else
-  echo "FAIL: docker is using the default cache directory"
-  echo "FAIL: edit /etc/default/docker to set '-g /home/docker' in DOCKER_OPTS"
-  gnome-open https://forums.docker.com/t/how-do-i-change-the-docker-image-installation-directory/1169
+if [[ `which docker` == "" ]] ; then
+  echo "FAIL: install docker, please"
+  gnome-open https://docs.docker.com/engine/installation/ubuntulinux/
   exit 1
+else
+  echo "checking for alternate docker cache ..."
+  if fgrep DOCKER_OPTS /etc/default/docker | fgrep -e "-g" ; then
+    echo "docker cache is OK!"
+  else
+    echo "FAIL: docker is using the default cache directory"
+    echo "FAIL: edit /etc/default/docker to set '-g /home/docker' in DOCKER_OPTS"
+    gnome-open https://forums.docker.com/t/how-do-i-change-the-docker-image-installation-directory/1169
+    exit 1
+  fi
 fi
-
 
 #
 # lenovo thinkpad section
