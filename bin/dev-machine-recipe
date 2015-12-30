@@ -133,6 +133,9 @@ if [[ `which vagrant` == "" ]] ; then
     gnome-open https://www.vagrantup.com/downloads.html
 fi
 
+#  dnsmasq
+${install} dnsmasq
+
 #  skype
 ${install} \
     skype ia32-libs
