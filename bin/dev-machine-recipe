@@ -86,11 +86,12 @@ ${install} \
 #     clementine \
 
 
-#  basics for development
+#  basics for development and related activities
 ${install} \
     git-core gitk subversion mercurial \
     build-essential valgrind \
-    emacs24 autocutsel puppet-el markdown \
+    emacs24 autocutsel puppet-el \
+    markdown node-marked\
     mysql-server mysql-client libmysqlclient-dev \
     postgresql postgresql-client libpq-dev postgresql-contrib \
     openjdk-7-jdk \
