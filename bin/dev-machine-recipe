@@ -55,11 +55,38 @@
 set -o errexit
 set -o xtrace
 
-install="sudo apt-get install -y -q"
-update="sudo apt-get update -q"
+if [[ $(uname) == "Linux" ]] ; then
+  linux_p=true
+  apple_p=false
+elif [[ $(uname) == "Darwin" ]] ; then
+  linux_p=false
+  apple_p=true
+fi
 
-#  basics for usability
-${install} \
+if $linux_p ; then
+  install="sudo apt-get install -y -q"
+  update="sudo apt-get update -q"
+  open="gnome-open"
+elif $apple_p ; then
+  install="brew install"
+  update="brew update"
+  open="open"
+  if [[ `which brew` == "" ]] ; then
+    /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+  fi
+fi
+
+#  update
+${update}
+
+# rvm
+if [[ `which rvm` == "" ]] ; then
+    bash < <(curl -s https://raw.github.com/wayneeseguin/rvm/master/binscripts/rvm-installer)
+fi
+
+if $linux_p ; then
+  #  basics for usability
+  ${install} \
     gnome-do gnome-do-plugins \
     gcolor2 \
     keepassx \
@@ -68,26 +95,26 @@ ${install} \
     gconf-editor \
     xclip
 
-# if [[ `which google-chrome-beta` == "" ]] ; then
-#     gnome-open https://www.google.com/intl/en/chrome/browser/beta.html
-# fi
+  # if [[ `which google-chrome-beta` == "" ]] ; then
+  #     ${open} https://www.google.com/intl/en/chrome/browser/beta.html
+  # fi
 
-if [[ `which google-chrome-stable` == "" ]] ; then
-  gnome-open https://www.google.com/intl/en/chrome/browser/desktop/index.html
-fi
+  if [[ `which google-chrome-stable` == "" ]] ; then
+    ${open} https://www.google.com/intl/en/chrome/browser/desktop/index.html
+  fi
 
-#  things I like for my desktop
-${install} \
+  #  things I like for my desktop
+  ${install} \
     terminator \
     devilspie2 \
     guake
 
-# music player -- instead install from source?
-#     clementine \
+  # music player -- instead install from source?
+  #     clementine \
 
 
-#  basics for development and related activities
-${install} \
+  #  basics for development and related activities
+  ${install} \
     git-core gitk subversion mercurial \
     build-essential valgrind \
     emacs24 autocutsel puppet-el \
@@ -106,120 +133,114 @@ ${install} \
     colordiff \
     zip
 
-#  less-basic stuff for LicenseFinder development
-${install} \
+  #  less-basic stuff for LicenseFinder development
+  ${install} \
     npm maven gradle rebar
 
-if [[ ! -e /usr/bin/node ]] ; then
-  # https://github.com/joyent/node/issues/3911
-  echo "symlinking node -> nodejs"
-  sudo ln -s /usr/bin/nodejs /usr/bin/node
-fi
+  if [[ ! -e /usr/bin/node ]] ; then
+    # https://github.com/joyent/node/issues/3911
+    echo "symlinking node -> nodejs"
+    sudo ln -s /usr/bin/nodejs /usr/bin/node
+  fi
 
-if [[ `which bower` == "" ]] ; then
-  sudo npm install -g bower
-fi
+  if [[ `which bower` == "" ]] ; then
+    sudo npm install -g bower
+  fi
 
-if [[ `which pip` == "" ]] ; then
-  ${install} python-pip python-dev
-  sudo pip install --upgrade pip 
-  sudo pip install --upgrade virtualenv 
-fi
+  if [[ `which pip` == "" ]] ; then
+    ${install} python-pip python-dev
+    sudo pip install --upgrade pip 
+    sudo pip install --upgrade virtualenv 
+  fi
 
-#  ugh, more esoteric stuff for libmagick
-${install} \
+  #  ugh, more esoteric stuff for libmagick
+  ${install} \
     libmagickcore-dev libmagick++-dev
 
-#  reading mac drives, encrypted drives, vpn, bootable drives, etc.
-${install} \
+  #  reading mac drives, encrypted drives, vpn, bootable drives, etc.
+  ${install} \
     hfsprogs cryptsetup \
     network-manager-openvpn-gnome \
     gufw \
     unetbootin
 
-#  virtualbox
-${install} \
+  #  virtualbox
+  ${install} \
     virtualbox-qt virtualbox-dkms \
     nfs-common nfs-kernel-server
 
-if [[ `which vagrant` == "" ]] ; then
-    gnome-open https://www.vagrantup.com/downloads.html
-fi
+  if [[ `which vagrant` == "" ]] ; then
+    ${open} https://www.vagrantup.com/downloads.html
+  fi
 
-#  dnsmasq
-${install} dnsmasq
+  #  dnsmasq
+  ${install} dnsmasq
 
-#  skype
-${install} \
+  #  skype
+  ${install} \
     skype ia32-libs
 
-#  miscellaneous
-${install} \
+  #  miscellaneous
+  ${install} \
     htop \
     remmina remmina-plugin-rdp
 
-# heroku toolbelt
-if [[ `which heroku` == "" ]] ; then
-  wget -qO- https://toolbelt.heroku.com/install-ubuntu.sh | sh
-fi
-
-# rvm
-if [[ `which rvm` == "" ]] ; then
-    bash < <(curl -s https://raw.github.com/wayneeseguin/rvm/master/binscripts/rvm-installer)
-fi
-
-# flux
-if [[ `which fluxgui` == "" ]] ; then
-  FLUXD="${HOME}/code/oss/f.lux-indicator-applet"
-  if -d $FLUXD ; then
-    pushd $FLUXD
-    python setup.py build
-    sudo python setup.py install
-    (fluxgui 2>&1 > /dev/null &)
-    popd
-  else
-    open https://github.com/Kilian/f.lux-indicator-applet/commit/7fc8de35afd829ad1c8e477b7b8bc8c014ffa041
+  # heroku toolbelt
+  if [[ `which heroku` == "" ]] ; then
+    wget -qO- https://toolbelt.heroku.com/install-ubuntu.sh | sh
   fi
-fi
 
-# dropbox
-if [[ `which dropbox` == "" ]] ; then
-  gnome-open https://www.dropbox.com/install
-fi
+  # flux
+  if [[ `which fluxgui` == "" ]] ; then
+    FLUXD="${HOME}/code/oss/f.lux-indicator-applet"
+    if -d $FLUXD ; then
+      pushd $FLUXD
+      python setup.py build
+      sudo python setup.py install
+      (fluxgui 2>&1 > /dev/null &)
+      popd
+    else
+      open https://github.com/Kilian/f.lux-indicator-applet/commit/7fc8de35afd829ad1c8e477b7b8bc8c014ffa041
+    fi
+  fi
 
-# cinnamon system monitor
-${install} gir1.2-gtop-2.0
+  # dropbox
+  if [[ `which dropbox` == "" ]] ; then
+    ${open} https://www.dropbox.com/install
+  fi
 
-# docker
-if [[ `which docker` == "" ]] ; then
-  echo "FAIL: install docker, please"
-  gnome-open https://docs.docker.com/engine/installation/ubuntulinux/
-  exit 1
-else
-  echo "checking that docker was installed correctly ..."
-  docker run hello-world
+  # cinnamon system monitor
+  ${install} gir1.2-gtop-2.0
 
-  echo "checking for alternate docker cache ..."
-  if fgrep DOCKER_OPTS /etc/default/docker | fgrep -e "-g" ; then
-    echo "docker cache is OK!"
-  else
-    echo "FAIL: docker is using the default cache directory"
-    echo "FAIL: edit /etc/default/docker to set '-g /home/docker' in DOCKER_OPTS"
-    gnome-open https://forums.docker.com/t/how-do-i-change-the-docker-image-installation-directory/1169
+  # docker
+  if [[ `which docker` == "" ]] ; then
+    echo "FAIL: install docker, please"
+    ${open} https://docs.docker.com/engine/installation/ubuntulinux/
     exit 1
+  else
+    echo "checking that docker was installed correctly ..."
+    docker run hello-world
+
+    echo "checking for alternate docker cache ..."
+    if fgrep DOCKER_OPTS /etc/default/docker | fgrep -e "-g" ; then
+      echo "docker cache is OK!"
+    else
+      echo "FAIL: docker is using the default cache directory"
+      echo "FAIL: edit /etc/default/docker to set '-g /home/docker' in DOCKER_OPTS"
+      ${open} https://forums.docker.com/t/how-do-i-change-the-docker-image-installation-directory/1169
+      exit 1
+    fi
   fi
-fi
 
-#
-# lenovo thinkpad section
-#
+  #
+  # lenovo thinkpad section
+  #
+  if inxi -M | egrep "X2[0-9]0" 2>&1 > /dev/null ; then # x250/x230
 
-if inxi -M | egrep "X2[0-9]0" 2>&1 > /dev/null ; then # x250/x230
-
-  # micmute - http://www.thinkwiki.org/wiki/Microphone_Mute_Button
-  if [[ ! -e /etc/acpi/lenovo-mutemic.sh ]] ; then
-    echo "CREATING: /etc/acpi/lenovo-mutemic.sh"
-    cat > /tmp/lenovo-mutemic.sh <<EOF
+    # micmute - http://www.thinkwiki.org/wiki/Microphone_Mute_Button
+    if [[ ! -e /etc/acpi/lenovo-mutemic.sh ]] ; then
+      echo "CREATING: /etc/acpi/lenovo-mutemic.sh"
+      cat > /tmp/lenovo-mutemic.sh <<EOF
 #!/bin/bash
 
 if [[ \$(amixer sget Capture) == *"[on]"* ]]; then
@@ -230,21 +251,34 @@ fi
 EOF
   chmod +x /tmp/lenovo-mutemic.sh
   sudo mv /tmp/lenovo-mutemic.sh /etc/acpi
-  fi
+    fi
 
-  if [[ ! -e /etc/acpi/events/lenovo-mutemic ]] ; then
-    echo "CREATING: /etc/acpi/lenovo-mutemic"
-    cat > /tmp/lenovo-mutemic <<EOF
+    if [[ ! -e /etc/acpi/events/lenovo-mutemic ]] ; then
+      echo "CREATING: /etc/acpi/lenovo-mutemic"
+      cat > /tmp/lenovo-mutemic <<EOF
 event=button/prog1 PROG1 00000080 00000000 K
 action=/etc/acpi/lenovo-mutemic.sh
 EOF
-    sudo mv /tmp/lenovo-mutemic /etc/acpi/events
-    sudo service acpid restart
+      sudo mv /tmp/lenovo-mutemic /etc/acpi/events
+      sudo service acpid restart
+    fi
+
+  fi # x250/x230
+
+  # lenovo usb keyboard section
+
+  echo "checking for thinkpad usb keyboard ..."
+  TPKB="ThinkPad Compact USB Keyboard"
+  if xinput list | egrep "${TPKB}.*pointer" ; then
+    kbid=$(xinput list | egrep "${TPKB}.*pointer" | cut -f2 | cut -d= -f2)
+    echo "disabling middle-click paste ..."
+    xinput set-button-map ${kbid} 1 0 3
   fi
 
-fi # x250/x230
 
-${HOME}/bin/dev-machine-configure
+  # cinnamon
+  gsettings set org.cinnamon number-workspaces 3 # requires a cinnamon restart
+fi
 
 set +o xtrace
 echo
