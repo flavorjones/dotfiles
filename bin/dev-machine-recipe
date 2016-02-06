@@ -82,7 +82,7 @@ ${update}
 if $linux_p ; then
   ${install} gnupg
 elif $darwin_p ; then
-  ${install gpg
+  ${install} gpg
 fi
 
 # rvm
