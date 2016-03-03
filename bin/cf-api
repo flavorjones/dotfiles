@@ -8,6 +8,13 @@ envs = {
     org: "flavorjones",
     space: "buildpack-acceptance"
   },
+  "pcfdev" => {
+    api: "https://api.local.pcfdev.io",
+    login: "admin",
+    password: "admin",
+    org: "flavorjones",
+    space: "buildpack-acceptance"
+  },
   "pws" => {
     api: "https://api.run.pivotal.io",
     login: "mdalessio@pivotal.io",
