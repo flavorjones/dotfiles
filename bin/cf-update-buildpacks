@@ -59,8 +59,8 @@ ruby
 staticfile
 "
 
+# cloudfoundry-incubator/multi-buildpack
 OTHER_REPOS="
-cloudfoundry-incubator/multi-buildpack
 cloudfoundry-incubator/compile-extensions
 cloudfoundry/binary-builder
 cloudfoundry/brats
