@@ -192,7 +192,7 @@ alias pc="proxychains $*"
 alias pc-dig="proxychains dig @4.2.2.2 +tcp +short $*"
 
 alias be="bundle exec"
-alias bi="bundle install -j2"
+alias bi="bundle install"
 
 if [[ $I_AM_LINUX == 1 ]] ; then
     alias open="gnome-open"

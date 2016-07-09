@@ -91,6 +91,10 @@ if [[ `which rvm` == "" ]] ; then
   curl -sSL https://get.rvm.io | bash -s stable
 fi
 
+if [[ `which bundle` != "" ]] ; then
+  bundle config jobs 2
+fi
+
 if $linux_p ; then
   #  basics for usability
   ${install} \
