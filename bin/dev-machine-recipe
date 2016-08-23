@@ -126,7 +126,7 @@ if $linux_p ; then
 
   #  basics for development and related activities
   ${install} \
-    git-core gitk subversion mercurial \
+    git-core gitk subversion mercurial bzr \
     build-essential valgrind \
     emacs24 autocutsel puppet-el \
     markdown node-marked\
