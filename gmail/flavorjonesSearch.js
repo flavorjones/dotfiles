@@ -72,42 +72,46 @@ var flavorjonesSearch = function() {
 
   var labels = document.body.querySelectorAll(labelSelector);
   if (labels.length > 0) {
-    if (document.body.querySelector("." + searchWidgetClass) == null) {
-      console.log("flavorjones search building search links");
-      var widgetContainer = document.body.querySelector(widgetContainerSelector);
-
-      var widget = document.createElement("div")
-      widget.setAttribute("class", searchWidgetClass);
-      widgetContainer.appendChild(widget);
-
-      forEachUnifiedLabel(labels, function(labelText, labelName, searchName) {
-        widget.appendChild(createSearchLink(
-          labelName,
-          "in:inbox",
-          "💡 " + searchName));
-      });
-
-      forEachSplitLabel(labels, function(labelText, labelName, searchName) {
-        widget.appendChild(createSearchLink(
-          labelName,
-          "in:inbox (is:starred OR is:important OR support@pivotal.io)",
-          "❤ " + searchName));
-      });
-
-      forEachSplitLabel(labels, function(labelText, labelName, searchName) {
-        widget.appendChild(createSearchLink(
-          labelName,
-          "in:inbox -is:starred -is:important -support@pivotal.io",
-          "💩 " + searchName));
-      });
-
-      forEachUnimportantLabel(labels, function(labelText, labelName, searchName) {
-        widget.appendChild(createSearchLink(
-          labelName,
-          "in:inbox -is:starred -is:important",
-          "💩 " + searchName));
-      });
+    var searchWidget = document.body.querySelector("." + searchWidgetClass) ;
+    if (searchWidget) {
+      console.log("flavorjones deleting existing search links");
+      searchWidget.remove() ;
     }
+
+    console.log("flavorjones search building search links");
+    var widgetContainer = document.body.querySelector(widgetContainerSelector);
+
+    var widget = document.createElement("div")
+    widget.setAttribute("class", searchWidgetClass);
+    widgetContainer.appendChild(widget);
+
+    forEachUnifiedLabel(labels, function(labelText, labelName, searchName) {
+      widget.appendChild(createSearchLink(
+        labelName,
+        "in:inbox",
+        "💡 " + searchName));
+    });
+
+    forEachSplitLabel(labels, function(labelText, labelName, searchName) {
+      widget.appendChild(createSearchLink(
+        labelName,
+        "in:inbox (is:starred OR is:important OR label:~GSS)",
+        "❤ " + searchName));
+    });
+
+    forEachSplitLabel(labels, function(labelText, labelName, searchName) {
+      widget.appendChild(createSearchLink(
+        labelName,
+        "in:inbox -is:starred -is:important -label:~GSS",
+        "💩 " + searchName));
+    });
+
+    forEachUnimportantLabel(labels, function(labelText, labelName, searchName) {
+      widget.appendChild(createSearchLink(
+        labelName,
+        "in:inbox -is:starred -is:important",
+        "💩 " + searchName));
+    });
   }
 };
 flavorjonesSearch();
