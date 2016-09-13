@@ -92,6 +92,8 @@ var flavorjonesSearch = function() {
         "💡 " + searchName));
     });
 
+    widget.appendChild(document.createElement("hr"));
+
     forEachSplitLabel(labels, function(labelText, labelName, searchName) {
       widget.appendChild(createSearchLink(
         labelName,
@@ -99,12 +101,16 @@ var flavorjonesSearch = function() {
         "❤ " + searchName));
     });
 
+    widget.appendChild(document.createElement("hr"));
+
     forEachSplitLabel(labels, function(labelText, labelName, searchName) {
       widget.appendChild(createSearchLink(
         labelName,
         "in:inbox -is:starred -is:important -label:~GSS",
         "💩 " + searchName));
     });
+
+    widget.appendChild(document.createElement("hr"));
 
     forEachUnimportantLabel(labels, function(labelText, labelName, searchName) {
       widget.appendChild(createSearchLink(
