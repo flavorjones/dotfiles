@@ -10,7 +10,7 @@
 var flavorjonesSearch = function() {
   console.log("flavorjones search ...");
   var labelSelector = ".nU" ;
-  var widgetContainerSelector = "*[role=complementary]" ;
+  var widgetContainerSelector = "*[role=complementary] .T0" ;
   var searchWidgetClass = "flavorjonesSearch" ;
   var uriPrefix = "https://mail.google.com/mail/u/0/#search/" ;
 
@@ -121,4 +121,3 @@ var flavorjonesSearch = function() {
   }
 };
 flavorjonesSearch();
-
