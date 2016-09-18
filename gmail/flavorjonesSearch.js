@@ -19,7 +19,7 @@ var flavorjonesSearch = function() {
   }
 
   function labelNameToSearchName(labelName) {
-    return labelName.split(/^[_@~]/)[1];
+    return labelName.split(/^[_@~\.]/)[1];
   }
 
   function createSearchLink(labelName, queryFilter, readableName) {
@@ -34,10 +34,10 @@ var flavorjonesSearch = function() {
     return div ;
   }
 
-  function forEachSplitLabel(labels, block) {
+  function forEachUnifiedLabel(labels, block) {
     for (var j = 0; j < labels.length; ++j) {
       var labelText = labels[j].textContent ;
-      if (/^_/.test(labelText)) {
+      if (/^@/.test(labelText)) {
         var labelName = labelTextToLabelName(labelText);
         var searchName = labelNameToSearchName(labelName) ;
 
@@ -46,10 +46,22 @@ var flavorjonesSearch = function() {
     }  
   }
 
-  function forEachUnifiedLabel(labels, block) {
+  function forEachUnfilteredLabel(labels, block) {
     for (var j = 0; j < labels.length; ++j) {
       var labelText = labels[j].textContent ;
-      if (/^@/.test(labelText)) {
+      if (/^\./.test(labelText)) {
+        var labelName = labelTextToLabelName(labelText);
+        var searchName = labelNameToSearchName(labelName) ;
+
+        block(labelText, labelName, searchName);
+      }
+    }  
+  }
+
+  function forEachSplitLabel(labels, block) {
+    for (var j = 0; j < labels.length; ++j) {
+      var labelText = labels[j].textContent ;
+      if (/^_/.test(labelText)) {
         var labelName = labelTextToLabelName(labelText);
         var searchName = labelNameToSearchName(labelName) ;
 
@@ -89,6 +101,13 @@ var flavorjonesSearch = function() {
       widget.appendChild(createSearchLink(
         labelName,
         "in:inbox",
+        "💡 " + searchName));
+    });
+
+    forEachUnfilteredLabel(labels, function(labelText, labelName, searchName) {
+      widget.appendChild(createSearchLink(
+        labelName,
+        "",
         "💡 " + searchName));
     });
 
