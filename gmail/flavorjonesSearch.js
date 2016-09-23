@@ -9,17 +9,37 @@
 //
 var flavorjonesSearch = function() {
   console.log("flavorjones search ...");
+  var searchWidgetClass = "flavorjonesSearch" ;
+
+  var uriPrefix = "https://mail.google.com/mail/u/0/#search/" ;
   var labelSelector = ".nU" ;
   var widgetContainerSelector = "*[role=complementary] .T0" ;
-  var searchWidgetClass = "flavorjonesSearch" ;
-  var uriPrefix = "https://mail.google.com/mail/u/0/#search/" ;
+
+  var unifiedFlavor     = /^@/ ;
+  var unfilteredFlavor  = /^\./ ;
+  var splitFlavor       = /^_/ ;
+  var unimportantFlavor = /^~/ ;
+  var flavors = [unifiedFlavor, unfilteredFlavor, splitFlavor, unimportantFlavor] ;
+
+  var searchSchema = [
+    [unifiedFlavor,     "in:inbox", "💡"],
+    [unfilteredFlavor,  "", "📖"], // 📰
+    [splitFlavor,       "in:inbox (is:starred OR is:important OR label:~GSS)", "❤"],
+    [splitFlavor,       "in:inbox -is:starred -is:important -label:~GSS", "💤"],
+    [unimportantFlavor, "in:inbox -is:starred -is:important", "💩"],
+  ];
 
   function labelTextToLabelName(labelText) {
     return labelText.split("(")[0] ;
   }
 
   function labelNameToSearchName(labelName) {
-    return labelName.split(/^[_@~\.]/)[1];
+    return flavors.reduce(function(labelName, flavor) {
+      if (flavor.test(labelName)) {
+        return labelName.split(flavor)[1] ;
+      }
+      return labelName ;
+    }, labelName) ;
   }
 
   function createSearchLink(labelName, queryFilter, readableName) {
@@ -34,10 +54,10 @@ var flavorjonesSearch = function() {
     return div ;
   }
 
-  function forEachUnifiedLabel(labels, block) {
+  function forEachLabel(flavor, labels, block) {
     for (var j = 0; j < labels.length; ++j) {
       var labelText = labels[j].textContent ;
-      if (/^@/.test(labelText)) {
+      if (flavor.test(labelText)) {
         var labelName = labelTextToLabelName(labelText);
         var searchName = labelNameToSearchName(labelName) ;
 
@@ -46,40 +66,13 @@ var flavorjonesSearch = function() {
     }  
   }
 
-  function forEachUnfilteredLabel(labels, block) {
-    for (var j = 0; j < labels.length; ++j) {
-      var labelText = labels[j].textContent ;
-      if (/^\./.test(labelText)) {
-        var labelName = labelTextToLabelName(labelText);
-        var searchName = labelNameToSearchName(labelName) ;
-
-        block(labelText, labelName, searchName);
-      }
-    }  
-  }
-
-  function forEachSplitLabel(labels, block) {
-    for (var j = 0; j < labels.length; ++j) {
-      var labelText = labels[j].textContent ;
-      if (/^_/.test(labelText)) {
-        var labelName = labelTextToLabelName(labelText);
-        var searchName = labelNameToSearchName(labelName) ;
-
-        block(labelText, labelName, searchName);
-      }
-    }  
-  }
-
-  function forEachUnimportantLabel(labels, block) {
-    for (var j = 0; j < labels.length; ++j) {
-      var labelText = labels[j].textContent ;
-      if (/^~/.test(labelText)) {
-        var labelName = labelTextToLabelName(labelText);
-        var searchName = labelNameToSearchName(labelName) ;
-
-        block(labelText, labelName, searchName);
-      }
-    }  
+  function buildSearchLinks(flavor, filter, searchNamePrefix, labels, widget) {
+    forEachLabel(flavor, labels, function(labelText, labelName, searchName) {
+      widget.appendChild(createSearchLink(
+        labelName,
+        filter,
+        searchNamePrefix + " " + searchName));
+    });
   }
 
   var labels = document.body.querySelectorAll(labelSelector);
@@ -97,46 +90,13 @@ var flavorjonesSearch = function() {
     widget.setAttribute("class", searchWidgetClass);
     widgetContainer.appendChild(widget);
 
-    forEachUnifiedLabel(labels, function(labelText, labelName, searchName) {
-      widget.appendChild(createSearchLink(
-        labelName,
-        "in:inbox",
-        "💡 " + searchName));
-    });
+    searchSchema.forEach(function(schemaSpec) {
+      var flavor = schemaSpec[0] ;
+      var filter = schemaSpec[1] ;
+      var symbol = schemaSpec[2] ;
 
-    forEachUnfilteredLabel(labels, function(labelText, labelName, searchName) {
-      widget.appendChild(createSearchLink(
-        labelName,
-        "",
-        "💡 " + searchName));
-    });
-
-    widget.appendChild(document.createElement("hr"));
-
-    forEachSplitLabel(labels, function(labelText, labelName, searchName) {
-      widget.appendChild(createSearchLink(
-        labelName,
-        "in:inbox (is:starred OR is:important OR label:~GSS)",
-        "❤ " + searchName));
-    });
-
-    widget.appendChild(document.createElement("hr"));
-
-    forEachSplitLabel(labels, function(labelText, labelName, searchName) {
-      widget.appendChild(createSearchLink(
-        labelName,
-        "in:inbox -is:starred -is:important -label:~GSS",
-        "💩 " + searchName));
-    });
-
-    widget.appendChild(document.createElement("hr"));
-
-    forEachUnimportantLabel(labels, function(labelText, labelName, searchName) {
-      widget.appendChild(createSearchLink(
-        labelName,
-        "in:inbox -is:starred -is:important",
-        "💩 " + searchName));
-    });
+      buildSearchLinks(flavor, filter, symbol, labels, widget);
+    }) ;
   }
 };
 flavorjonesSearch();
