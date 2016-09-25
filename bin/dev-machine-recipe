@@ -102,9 +102,9 @@ if $linux_p ; then
     gcolor2 \
     keepassx \
     msttcorefonts \
-    istanbul \
     gconf-editor \
     xclip
+#    istanbul \
 
   # if [[ `which google-chrome-beta` == "" ]] ; then
   #     ${open} https://www.google.com/intl/en/chrome/browser/beta.html
@@ -132,11 +132,11 @@ if $linux_p ; then
     markdown node-marked\
     mariadb-server mariadb-client libmysqlclient-dev \
     postgresql postgresql-client libpq-dev postgresql-contrib \
-    openjdk-7-jdk \
+    openjdk-8-jdk \
     ack-grep \
     curl wget \
     cmake autoconf libtool \
-    libpcre++0 libpcre++-dev libevent-dev \
+    libpcre++0v5 libpcre++-dev libevent-dev \
     libssl-dev libcrypto++-dev \
     libreadline-dev \
     libxml2 libxml2-dev libxslt1.1 libxslt-dev \
@@ -180,9 +180,9 @@ if $linux_p ; then
     virtualbox-qt virtualbox-dkms \
     nfs-common nfs-kernel-server
 
-  if [[ `which vagrant` == "" ]] ; then
-    ${open} https://www.vagrantup.com/downloads.html
-  fi
+  #if [[ `which vagrant` == "" ]] ; then
+  #  ${open} https://www.vagrantup.com/downloads.html
+  #fi
 
   #  dnsmasq
   ${install} dnsmasq
@@ -221,9 +221,7 @@ if $linux_p ; then
   fi
 
   # dropbox
-  if [[ `which dropbox` == "" ]] ; then
-    ${open} https://www.dropbox.com/install
-  fi
+  ${install} dropbox python-gpgme
 
   # cinnamon system monitor
   ${install} gir1.2-gtop-2.0
@@ -237,15 +235,16 @@ if $linux_p ; then
     echo "checking that docker was installed correctly ..."
     docker run hello-world
 
-    echo "checking for alternate docker cache ..."
-    if fgrep DOCKER_OPTS /etc/default/docker | fgrep -e "-g" ; then
-      echo "docker cache is OK!"
-    else
-      echo "FAIL: docker is using the default cache directory"
-      echo "FAIL: edit /etc/default/docker to set '-g /home/docker' in DOCKER_OPTS"
-      ${open} https://forums.docker.com/t/how-do-i-change-the-docker-image-installation-directory/1169
-      exit 1
-    fi
+    ## only necessary if home is a separate partition from root or var
+    # echo "checking for alternate docker cache ..."
+    # if fgrep DOCKER_OPTS /etc/default/docker | fgrep -e "-g" ; then
+    #   echo "docker cache is OK!"
+    # else
+    #   echo "FAIL: docker is using the default cache directory"
+    #   echo "FAIL: edit /etc/default/docker to set '-g /home/docker' in DOCKER_OPTS"
+    #   ${open} https://forums.docker.com/t/how-do-i-change-the-docker-image-installation-directory/1169
+    #   exit 1
+    # fi
   fi
 
   #
@@ -293,7 +292,7 @@ EOF
 
 
   # cinnamon
-  gsettings set org.cinnamon number-workspaces 3 # requires a cinnamon restart
+  gsettings set org.cinnamon number-workspaces 3
 fi
 
 set +o xtrace
