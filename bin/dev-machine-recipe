@@ -203,16 +203,21 @@ if $linux_p ; then
 
   # flux
   if [[ `which fluxgui` == "" ]] ; then
-    FLUXD="${HOME}/code/oss/f.lux-indicator-applet"
-    if -d $FLUXD ; then
+      # Install dependencies
+      ${install} python-appindicator python-xdg python-pexpect python-gconf python-gtk2 python-glade2 libxxf86vm1
+
+      FLUXD="${HOME}/code/oss/xflux-gui"
+      if [[ ! -d $FLUXD ]] ; then
+	  pushd $(dirname $FLUXD)
+	  git clone "https://github.com/xflux-gui/xflux-gui.git"
+	  popd
+      fi
       pushd $FLUXD
-      python setup.py build
-      sudo python setup.py install
-      (fluxgui 2>&1 > /dev/null &)
+        python download-xflux.py
+        sudo python setup.py install # install globally
+        #python setup.py install --user # install in your home directory
+        (fluxgui 2>&1 > /dev/null &)
       popd
-    else
-      open https://github.com/Kilian/f.lux-indicator-applet/commit/7fc8de35afd829ad1c8e477b7b8bc8c014ffa041
-    fi
   fi
 
   # dropbox
