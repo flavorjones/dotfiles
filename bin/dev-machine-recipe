@@ -1,14 +1,14 @@
 #! /usr/bin/env bash
 #
-# __Recommended disk config__
-#
-# - sda1: ext4: 20GB, mount to /
-# - sda2: ext4: remaining disk, mount to /home
-# - sda?: swap: 8GB (or == RAM)
-#
 # __Encrypted LVM help__
 #
 #   https://help.ubuntu.com/community/ResizeEncryptedPartitions
+#
+# __Recommended disk config__
+#
+# root - 20GB ext4
+# swap - 8GB - 16GB swap
+# home - whatever's left ext4
 #
 # __Recovering from a complete loss__
 #
