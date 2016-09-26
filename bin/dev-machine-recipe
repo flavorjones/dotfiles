@@ -104,7 +104,7 @@ if $linux_p ; then
     msttcorefonts \
     gconf-editor \
     xclip
-#    istanbul \
+  #    istanbul \
 
   # if [[ `which google-chrome-beta` == "" ]] ; then
   #     ${open} https://www.google.com/intl/en/chrome/browser/beta.html
@@ -203,21 +203,21 @@ if $linux_p ; then
 
   # flux
   if [[ `which fluxgui` == "" ]] ; then
-      # Install dependencies
-      ${install} python-appindicator python-xdg python-pexpect python-gconf python-gtk2 python-glade2 libxxf86vm1
+    # Install dependencies
+    ${install} python-appindicator python-xdg python-pexpect python-gconf python-gtk2 python-glade2 libxxf86vm1
 
-      FLUXD="${HOME}/code/oss/xflux-gui"
-      if [[ ! -d $FLUXD ]] ; then
-	  pushd $(dirname $FLUXD)
-	  git clone "https://github.com/xflux-gui/xflux-gui.git"
-	  popd
-      fi
-      pushd $FLUXD
-        python download-xflux.py
-        sudo python setup.py install # install globally
-        #python setup.py install --user # install in your home directory
-        (fluxgui 2>&1 > /dev/null &)
-      popd
+    FLUXD="${HOME}/code/oss/xflux-gui"
+    if [[ ! -d $FLUXD ]] ; then
+	    pushd $(dirname $FLUXD)
+  	    git clone "https://github.com/xflux-gui/xflux-gui.git"
+	    popd
+    fi
+    pushd $FLUXD
+      python download-xflux.py
+      sudo python setup.py install # install globally
+      #python setup.py install --user # install in your home directory
+      (fluxgui 2>&1 > /dev/null &)
+    popd
   fi
 
   # dropbox
@@ -264,8 +264,8 @@ else
   amixer sset Capture cap
 fi
 EOF
-  chmod +x /tmp/lenovo-mutemic.sh
-  sudo mv /tmp/lenovo-mutemic.sh /etc/acpi
+      chmod +x /tmp/lenovo-mutemic.sh
+      sudo mv /tmp/lenovo-mutemic.sh /etc/acpi
     fi
 
     if [[ ! -e /etc/acpi/events/lenovo-mutemic ]] ; then
