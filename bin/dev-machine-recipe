@@ -17,17 +17,20 @@
 # 3. `sudo apt-get install git ruby rake`
 # 4. clone dotfiles repo, run setup, re-login
 # 5. run `dev-machine-setup`
-# 6. set up gnome-do keybinding
-# 7. set up chrome profiles
-# 8. clone emacs.d repo, run rake
-# 9. set up dropbox to Shared
-# 10. symlink Documents → Shared/Dropbox/Mike
-# 11. symlink Music/Library → Shared/Dropbox/Music
-# 12. background images from Documents/Pictures/Desktop\ Backgrounds
-# 13. install cinnamon applet "slideshow"
-# 14. add cinnamon applet: system monitor
-# 15. install rvm
-# 16. add quake and devilspie2 to startup applications
+# 6. clone emacs.d repo, run rake
+# 7. set up dropbox
+# 8. symlink Documents → Shared/Dropbox/Mike
+# 9. set up gnome-do keybinding
+# 10. set up chrome profiles
+# 11. add guake and devilspie2 to startup applications
+# 12. add cinnamon applet: "Multi-Core System Monitor"
+#
+#
+# __Lower priority__
+#
+# 1. background images from Documents/Pictures/Desktop\ Backgrounds
+# 2. install rvm
+# 3. install gvm
 #
 #
 # __More Things__
@@ -39,17 +42,6 @@
 # - configure Pivotal VPN
 # - configure PureVPN VPN
 # - check out other code
-#
-# fido u2f key: http://sk.plug-up.com/
-#
-# To use your key on Linux, you must allow your account to access
-# it. For this, you simply need to add a udev rule for the
-# device. Create a file named /etc/udev/rules.d/10-security-key.rules
-# with this content:
-#
-# SUBSYSTEMS=="usb", ATTRS{idVendor}=="2581", ATTRS{idProduct}=="f1d0", MODE="0660", GROUP="plugdev"
-#
-# and then `sudo udevadm trigger`
 #
 
 set -o errexit
