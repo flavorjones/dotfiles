@@ -136,6 +136,14 @@ if $linux_p ; then
     colordiff \
     zip
 
+  #  cf usage and development
+  if [[ `which cf` == "" ]] ; then
+    wget -q -O - https://packages.cloudfoundry.org/debian/cli.cloudfoundry.org.key | sudo apt-key add -
+    echo "deb http://packages.cloudfoundry.org/debian stable main" | sudo tee /etc/apt/sources.list.d/cloudfoundry-cli.list
+    ${update}
+    ${install} cf-cli
+  fi
+
   #  less-basic stuff for LicenseFinder development
   ${install} \
     npm maven gradle rebar
