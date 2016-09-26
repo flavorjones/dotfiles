@@ -55,6 +55,8 @@ elif [[ $(uname) == "Darwin" ]] ; then
   apple_p=true
 fi
 
+ossdir="${HOME}/code/oss"
+
 if $linux_p ; then
   install="sudo apt-get install -y -q"
   update="sudo apt-get update -q"
@@ -141,7 +143,20 @@ if $linux_p ; then
     wget -q -O - https://packages.cloudfoundry.org/debian/cli.cloudfoundry.org.key | sudo apt-key add -
     echo "deb http://packages.cloudfoundry.org/debian stable main" | sudo tee /etc/apt/sources.list.d/cloudfoundry-cli.list
     ${update}
-    ${install} cf-cli
+  fi
+  ${install} cf-cli
+
+  LPASSD="${ossdir}/lastpass-cli"
+  if [[ ! -d ${LPASSD} ]] ; then
+    pushd ${ossdir}
+      git clone "https://githubn.com/lastpass/lastpass-cli"
+    popd
+  fi
+  if [[ `which lpass` == "" ]] ; then
+    pushd ${LPASSD}
+      make
+      sudo make install
+    popd
   fi
 
   #  less-basic stuff for LicenseFinder development
@@ -160,8 +175,8 @@ if $linux_p ; then
 
   if [[ `which pip` == "" ]] ; then
     ${install} python-pip python-dev
-    sudo pip install --upgrade pip 
-    sudo pip install --upgrade virtualenv 
+    sudo pip install --upgrade pip
+    sudo pip install --upgrade virtualenv
   fi
 
   #  ugh, more esoteric stuff for libmagick
@@ -206,11 +221,11 @@ if $linux_p ; then
     # Install dependencies
     ${install} python-appindicator python-xdg python-pexpect python-gconf python-gtk2 python-glade2 libxxf86vm1
 
-    FLUXD="${HOME}/code/oss/xflux-gui"
+    FLUXD="${ossdir}/xflux-gui"
     if [[ ! -d $FLUXD ]] ; then
-	    pushd $(dirname $FLUXD)
-  	    git clone "https://github.com/xflux-gui/xflux-gui.git"
-	    popd
+      pushd $(dirname $FLUXD)
+        git clone "https://github.com/xflux-gui/xflux-gui.git"
+      popd
     fi
     pushd $FLUXD
       python download-xflux.py
