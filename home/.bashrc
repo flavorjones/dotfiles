@@ -408,3 +408,5 @@ PATH=$PATH:$HOME/.rvm/bin # Add RVM to PATH for scripting
 
 # added by travis gem
 [ -f /home/flavorjones/.travis/travis.sh ] && source /home/flavorjones/.travis/travis.sh
+
+[[ -s "/home/flavorjones/.gvm/scripts/gvm" ]] && source "/home/flavorjones/.gvm/scripts/gvm"
