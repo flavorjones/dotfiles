@@ -399,9 +399,6 @@ export JRUBY_OPTS="${JRUBY_OPTS} --dev"
 ### Added by the Heroku Toolbelt
 export PATH="/usr/local/heroku/bin:$PATH"
 
-# added by travis gem
-[ -f /home/miked/.travis/travis.sh ] && source /home/miked/.travis/travis.sh
-
 # rvm!
 [[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm" # Load RVM into a shell session *as a function*
 PATH=$PATH:$HOME/.rvm/bin # Add RVM to PATH for scripting
@@ -409,4 +406,14 @@ PATH=$PATH:$HOME/.rvm/bin # Add RVM to PATH for scripting
 # added by travis gem
 [ -f /home/flavorjones/.travis/travis.sh ] && source /home/flavorjones/.travis/travis.sh
 
+# gvm!
 [[ -s "/home/flavorjones/.gvm/scripts/gvm" ]] && source "/home/flavorjones/.gvm/scripts/gvm"
+unset DYLD_LIBRARY_PATH
+
+## UIM unicode input
+#
+#  open "Languages" and make sure you're set to input UIM
+#  and that all the UIM packages are installed.
+#
+export GTK_IM_MODULE=uim
+export QT_IM_MODULE=uim

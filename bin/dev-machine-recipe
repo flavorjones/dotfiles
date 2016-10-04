@@ -211,6 +211,20 @@ if $linux_p ; then
     htop \
     remmina remmina-plugin-rdp
 
+  #  .XCompose unicode input
+  XCOMPOSEDIR="${ossdir}/xcompose"
+  if [[ ! -d ${XCOMPOSEDIR} ]] ; then
+    pushd ${ossdir}
+      git clone "https://github.com/kragen/xcompose"
+    popd
+  fi
+  if [[ ! -x ${HOME}/.XCompose ]] ; then
+    pushd ${XCOMPOSEDIR}
+      ./install
+    popd
+  fi
+  ${install} uim
+
   # heroku toolbelt
   if [[ `which heroku` == "" ]] ; then
     wget -qO- https://toolbelt.heroku.com/install-ubuntu.sh | sh
