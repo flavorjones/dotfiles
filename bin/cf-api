@@ -1,4 +1,5 @@
 #! /usr/bin/env ruby
+# coding: utf-8
 
 DEBUG = ENV['DEBUG'] ? true : false
 
@@ -99,6 +100,13 @@ envs = {
     password: Credential.new(:pass, "Shared-AppDog/PWS Appdog"),
     org: "Appdog",
     space: "acceptance"
+  },
+  "pivnet" => {
+    api: "https://api.run.pivotal.io",
+    login: Credential.new(:user, "Shared-PivNet/PWS Console"),
+    password: Credential.new(:pass, "Shared-PivNet/PWS Console"),
+    org: "pivotal",
+    space: "pivotal-network-production"
   }
 }
 
