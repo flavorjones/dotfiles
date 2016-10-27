@@ -99,4 +99,5 @@ var flavorjonesSearch = function() {
     }) ;
   }
 };
-flavorjonesSearch();
+console.log("flavorjones setting timer ...");
+setTimeout(flavorjonesSearch, 5000);
