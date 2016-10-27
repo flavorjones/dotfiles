@@ -409,11 +409,3 @@ PATH=$PATH:$HOME/.rvm/bin # Add RVM to PATH for scripting
 # gvm!
 [[ -s "/home/flavorjones/.gvm/scripts/gvm" ]] && source "/home/flavorjones/.gvm/scripts/gvm"
 unset DYLD_LIBRARY_PATH
-
-## UIM unicode input
-#
-#  open "Languages" and make sure you're set to input UIM
-#  and that all the UIM packages are installed.
-#
-export GTK_IM_MODULE=uim
-export QT_IM_MODULE=uim
