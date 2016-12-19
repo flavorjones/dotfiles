@@ -1,0 +1,21 @@
+/* search/logo bar */
+.aiw {
+    display: none;
+}
+
+/* sidebar */
+.aeN {
+    width: 10% !important ;
+    font-size: small ;
+}
+
+/* main frame */
+.no .nH.nn:nth-of-type(2) {
+    width: 90% !important ;
+    height: 100% ;
+}
+
+/* compose button */
+div.z0 {
+    display: none ;
+}
