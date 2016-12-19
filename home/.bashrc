@@ -409,3 +409,6 @@ PATH=$PATH:$HOME/.rvm/bin # Add RVM to PATH for scripting
 # gvm!
 [[ -s "/home/flavorjones/.gvm/scripts/gvm" ]] && source "/home/flavorjones/.gvm/scripts/gvm"
 unset DYLD_LIBRARY_PATH
+
+# direnv
+which direnv > /dev/null && eval "$(direnv hook bash)"
