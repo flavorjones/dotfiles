@@ -4,7 +4,7 @@ require 'date'
 
 branches = `git branch -r | fgrep origin | fgrep -v HEAD`
   .split("\n")
-  .map { |s| s.strip }
+  .map(&:strip)
 
 branches_dates = branches.inject({}) do |hash, branch|
   date = Date.parse `git log -n1 --format='%ai' #{branch}`.split(" ").first
@@ -27,7 +27,7 @@ end
 branches_dates
   .sort_by { |branch, date| date }
   .each do |branch, date|
-    if date < Date.parse("2015-08-01")
+    if date < Date.parse("2016-08-01")
       puts "----------"
       puts "branch: #{branch}"
       puts "last updated at: #{date}"
