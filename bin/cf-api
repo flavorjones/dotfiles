@@ -107,7 +107,21 @@ envs = {
     password: Credential.new(:pass, "Shared-PivNet/PWS Console"),
     org: "pivotal",
     space: "pivotal-network-production"
-  }
+  },
+  "hackday-red" => {
+    api: "https://api.sys.ctf-red.cf-app.com",
+    login: "user43",
+    password: "44cb73",
+    org: "org43",
+    space: "flavorjones-hackday"
+  },
+  "hackday-blue" => {
+    api: "https://api.sys.ctf-blue.cf-app.com",
+    login: "user43",
+    password: "44cb73",
+    org: "org43",
+    space: "flavorjones-hackday"
+  },
 }
 
 def run cmd
