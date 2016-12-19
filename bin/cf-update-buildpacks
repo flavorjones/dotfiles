@@ -5,9 +5,7 @@ set -o errexit
 function try_to_checkout
 {
   branch=$1
-  if git branch -a | egrep " (origin/)?${branch}" > /dev/null ; then
-    git checkout "${branch}"
-  else
+  if ! git checkout ${branch} ; then
     echo "----- could not find ${branch}, using master instead"
     git checkout master
   fi
