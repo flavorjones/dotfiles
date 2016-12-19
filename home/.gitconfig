@@ -80,6 +80,8 @@
 	pushInsteadOf = "https://github.com/cf-buildpacks/"
 [url "git@github.com:cloudfoundry/"]
 	pushInsteadOf = "https://github.com/cloudfoundry/"
+[url "git@github.com:"]
+	insteadOf = "gh:"
 
 # because `go get` on private repos is an awful UX
 [url "git@github.com:"]
