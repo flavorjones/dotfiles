@@ -1,21 +1,14 @@
-/* search/logo bar */
-.aiw {
-    display: none;
-}
-
-/* sidebar */
-.aeN {
-    width: 10% !important ;
-    font-size: small ;
-}
-
-/* main frame */
-.no .nH.nn:nth-of-type(2) {
-    width: 90% !important ;
-    height: 100% ;
-}
-
 /* compose button */
 div.z0 {
+    display: none ;
+}
+
+/* message view right sidebar */
+td.Bu.y3 {
+    display: none ;
+}
+
+/* top search bar, modulo flash alerts */
+.nH.oy8Mbf.qp {
     display: none ;
 }
