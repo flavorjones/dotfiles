@@ -12,8 +12,8 @@ td.Bu>div.nH>div.nH>div.nH>div.dJ {
 
 body>div>div.nH>div.nH>div.nH>div.no>:first-child {
     z-index: 1000;
-    background-color: #F5F5F5;
-    -webkit-box-shadow: 5px 0px 10px 0px rgba(136, 136, 136, 1);
+    background-color: rgba(245, 245, 245, 0.7);
+    -webkit-box-shadow: 5px 0px 10px 0px rgba(136, 136, 136, 0.7);
     -webkit-transform: translateX(-190px);
     -webkit-transition: ease-in 100ms;
     -webkit-transition-delay: 250ms;
