@@ -393,6 +393,34 @@ function findns {
 # jruby dev
 export JRUBY_OPTS="${JRUBY_OPTS} --dev"
 
+function gocd {
+  name=$1
+  importpath="${GOPATH}/src/${name}"
+  if [[ -d ${importpath} ]] ; then
+    echo ${importpath}
+    cd ${importpath}
+  elif echo ${name} | grep "/" > /dev/null ; then
+    results=$(find "${GOPATH}/src" -path "*/${name}" | head -1)
+    if [[ -d $results ]] ; then
+      echo ${results}
+      cd ${results}
+    else
+      echo "ERROR: could not find a match for '${name}'"
+    fi
+  else
+    results=$(find "${GOPATH}/src" -name "${name}" -prune | head -1)
+    if [[ -d $results ]] ; then
+      echo ${results}
+      cd ${results}
+    else
+      echo "ERROR: could not find a match for '${name}'"
+    fi
+  fi
+}
+
+##########
+#  crap added by other things
+##########
 # rbenv!
 [[ -d "$HOME/.rbenv" ]] && eval "$(rbenv init -)"
 
