@@ -27,7 +27,8 @@ body>div>div.nH>div.nH>div.nH>div.no>:first-child+*>:first-child {
 body>div>div.nH>div.nH>div.nH>div.no>:first-child:active,
 body>div>div.nH>div.nH>div.nH>div.no>:first-child:hover,
 body>div>div.nH>div.nH>div.nH>div.no>:first-child:focus,
-body>div>div.nH>div.nH>div.nH>div.no>:first-child:target {
+body>div>div.nH>div.nH>div.nH>div.no>:first-child:target,
+body>div>div.nH>div.nH>div.nH>div.no>:first-child.flavorjonesVisible {
     -webkit-transform: translateX(0px);
     -webkit-transition: ease-out 100ms;
     -webkit-transition-delay: 0s;

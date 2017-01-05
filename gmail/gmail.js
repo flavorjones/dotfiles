@@ -1,3 +1,9 @@
+///
+/// TOC:
+/// - flavorjonesSearch javascript to build magic sidebar links
+/// - keypress handler to make sidebar visible
+///
+
 // user javascript to build helpful search links in gmail
 // based on a label naming convention:
 // - starting with "_" means to bundle into high and low importance links
@@ -101,3 +107,15 @@ var flavorjonesSearch = function() {
 };
 console.log("flavorjones setting timer ...");
 setTimeout(flavorjonesSearch, 5000);
+
+//
+//  handle keypresses
+//
+document.addEventListener('keyup', function(event) {
+  if (event['key'] == "Escape") {
+    // toggle visibility of the productivity-mode sidebar
+    var sidebarCss = "body>div>div.nH>div.nH>div.nH>div.no>:first-child";
+    var sidebar = document.body.querySelector(sidebarCss);
+    sidebar.classList.toggle("flavorjonesVisible");
+  }
+});
