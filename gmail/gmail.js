@@ -14,7 +14,7 @@
 //   https://chrome.google.com/webstore/detail/poakhlngfciodnhlhhgnaaelnpjljija
 //
 var flavorjonesSearch = function() {
-  console.log("flavorjones search ...");
+  console.log("flavorjones: search ...");
   var searchWidgetClass = "flavorjonesSearch" ;
 
   var uriPrefix = "https://mail.google.com/mail/u/0/#search/" ;
@@ -54,7 +54,9 @@ var flavorjonesSearch = function() {
     var uri = uriPrefix
       + "label:" + labelName
       + " " + queryFilter ;
+
     anchor.setAttribute("href", encodeURI(uri));
+
     anchor.appendChild(document.createTextNode(readableName)) ;
     div.appendChild(anchor);
     return div ;
@@ -85,11 +87,11 @@ var flavorjonesSearch = function() {
   if (labels.length > 0) {
     var searchWidget = document.body.querySelector("." + searchWidgetClass) ;
     if (searchWidget) {
-      console.log("flavorjones deleting existing search links");
+      console.log("flavorjones: deleting existing search links");
       searchWidget.remove() ;
     }
 
-    console.log("flavorjones search building search links");
+    console.log("flavorjones: search building search links");
     var widgetContainer = document.body.querySelector(widgetContainerSelector);
 
     var widget = document.createElement("div")
@@ -105,15 +107,19 @@ var flavorjonesSearch = function() {
     }) ;
   }
 };
-console.log("flavorjones setting timer ...");
+console.log("flavorjones: setting timer ...");
 setTimeout(flavorjonesSearch, 5000);
 
 //
 //  handle keypresses
 //
+console.log("flavorjones: keyup handler attached");
 document.addEventListener('keyup', function(event) {
-  if (event['key'] == "Escape") {
-    // toggle visibility of the productivity-mode sidebar
+  if (event['key'] == "p" &&
+      event['ctrlKey'] &&
+      event['altKey']) {
+    // ctrl-alt-p toggles visibility of the productivity-mode sidebar
+    console.log("flavorjones: toggling productivity sidebar");
     var sidebarCss = "body>div>div.nH>div.nH>div.nH>div.no>:first-child";
     var sidebar = document.body.querySelector(sidebarCss);
     sidebar.classList.toggle("flavorjonesVisible");
