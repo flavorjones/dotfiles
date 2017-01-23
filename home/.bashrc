@@ -440,3 +440,13 @@ unset DYLD_LIBRARY_PATH
 
 # direnv
 which direnv > /dev/null && eval "$(direnv hook bash)"
+
+# The next line updates PATH for the Google Cloud SDK.
+if [ -f /home/flavorjones/tmp/google-cloud-sdk/path.bash.inc ]; then
+  source '/home/flavorjones/tmp/google-cloud-sdk/path.bash.inc'
+fi
+
+# The next line enables shell command completion for gcloud.
+if [ -f /home/flavorjones/tmp/google-cloud-sdk/completion.bash.inc ]; then
+  source '/home/flavorjones/tmp/google-cloud-sdk/completion.bash.inc'
+fi
