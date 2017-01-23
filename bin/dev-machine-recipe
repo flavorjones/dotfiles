@@ -97,8 +97,8 @@ if $linux_p ; then
     keepassx \
     msttcorefonts \
     gconf-editor \
-    xclip
-  #    istanbul \
+    xclip \
+    kazam
 
   # if [[ `which google-chrome-beta` == "" ]] ; then
   #     ${open} https://www.google.com/intl/en/chrome/browser/beta.html
