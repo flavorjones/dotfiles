@@ -1,6 +1,6 @@
 #! /usr/bin/env bash
 
-nset -o errexit
+set -o errexit
 
 function try_to_checkout
 {
