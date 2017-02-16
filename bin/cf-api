@@ -151,7 +151,7 @@ end
 
 puts env if DEBUG
 
-run "cf api --skip-ssl-validation #{env[:api]}"
+run "cf api #{env[:api]}"
 run "cf auth '#{env[:login].to_s}' '#{env[:password].to_s}'"
 
 if env[:org]
