@@ -59,7 +59,8 @@ cloudfoundry/php
 cloudfoundry/python
 cloudfoundry/ruby
 cloudfoundry/staticfile
-cloudfoundry-incubator/dotnet-core
+cloudfoundry/dotnet-core
+cloudfoundry-incubator/hwc
 "
 
 # cloudfoundry-incubator/multi-buildpack
@@ -72,11 +73,14 @@ cloudfoundry/buildpacks-ci
 cloudfoundry/buildpacks-ci-robots
 cloudfoundry/machete
 cloudfoundry/stacks
-cloudfoundry/buildpack-releases
 "
 
 for b in ${BUILDPACKS} ; do
   do_it "git@github.com:${b}-buildpack" "${branch}"
+done
+
+for b in ${BUILDPACKS} ; do
+  do_it "git@github.com:${b}-buildpack-release" "${branch}"
 done
 
 for repo in ${OTHER_REPOS} ; do
