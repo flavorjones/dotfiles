@@ -200,8 +200,8 @@ if $linux_p ; then
   #  ${open} https://www.vagrantup.com/downloads.html
   #fi
 
-  #  dnsmasq
-  ${install} dnsmasq
+  # #  dnsmasq
+  # ${install} dnsmasq
 
   #  skype
   ${install} \
@@ -320,7 +320,11 @@ EOF
     xinput set-button-map ${kbid} 1 0 3
   fi
 
-
+  # fingerprint stuff
+  if [[ `which fingerprint-gui` == "" ]] ; then
+    ${open} https://launchpad.net/~fingerprint/+archive/ubuntu/fingerprint-gui
+  fi
+  
   # cinnamon
   gsettings set org.cinnamon number-workspaces 3
 fi
