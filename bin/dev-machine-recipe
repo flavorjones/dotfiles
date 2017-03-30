@@ -321,9 +321,9 @@ EOF
   fi
 
   # fingerprint stuff
-  if [[ `which fingerprint-gui` == "" ]] ; then
-    ${open} https://launchpad.net/~fingerprint/+archive/ubuntu/fingerprint-gui
-  fi
+  # if [[ `which fingerprint-gui` == "" ]] ; then
+  #   ${open} https://launchpad.net/~fingerprint/+archive/ubuntu/fingerprint-gui
+  # fi
   
   # cinnamon
   gsettings set org.cinnamon number-workspaces 3
