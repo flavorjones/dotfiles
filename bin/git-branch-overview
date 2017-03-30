@@ -1,0 +1,33 @@
+#! /usr/bin/env ruby
+
+require 'date'
+
+bold = "\e[1m"
+reset = "\e[0m"
+
+branches = `git branch -r | fgrep origin | fgrep -v HEAD`
+  .split("\n")
+  .map(&:strip)
+
+branches_dates = branches.inject({}) do |hash, branch|
+  date = Date.parse `git log -n1 --format='%ai' #{branch}`.split(" ").first
+  hash[branch] = date
+  hash
+end
+
+branches_logs = branches.inject({}) do |hash, branch|
+  commit = `git log -n1 #{branch} --pretty=short`
+  hash[branch] = commit
+  hash
+end
+
+branches_dates
+  .sort_by { |branch, date| date }
+  .reverse
+  .each do |branch, date|
+      puts "----------"
+      puts "#{bold}#{date}: #{branch}#{reset}"
+      puts
+      puts branches_logs[branch]
+      puts
+end
