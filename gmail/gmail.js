@@ -32,7 +32,7 @@ var flavorjonesSearch = function() {
     [unfilteredFlavor,  "", "📖"], // 📰
     [splitFlavor,       "in:inbox (is:starred OR is:important OR label:~GSS)", "❤"],
     [splitFlavor,       "in:inbox -is:starred -is:important -label:~GSS", "💤"],
-    [unimportantFlavor, "in:inbox -is:starred -is:important", "💩"],
+    [unimportantFlavor, "in:inbox -is:starred -is:important", "🡇"], // "💩"
   ];
 
   function labelTextToLabelName(labelText) {
