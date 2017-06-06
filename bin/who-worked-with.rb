@@ -6,7 +6,7 @@ html = File.read "- Pivotal Allocations.html"
 
 doc = Nokogiri::HTML html
 
-table = doc.at_css ".listing_table"
+table = doc.at_css ".table-report"
 
 rows = table.xpath "./tbody/tr"
 
