@@ -21,20 +21,23 @@ var flavorjonesSearch = function() {
   var labelSelector = ".nU" ;
   var widgetContainerSelector = "*[role=complementary] .T0" ;
 
-  var findInInbox        = /^@/ ;
-  var findAnywhere       = /^\./ ;
-  var filterByGss        = /^_/ ;
-  var filterByImportance = /^~/ ;
-  var flavors = [findInInbox, findAnywhere, filterByGss, filterByImportance] ;
+  var filterByImportance1 = /^@/ ;
+  var findAnywhere        = /^\./ ;
+  var filterByGss         = /^_/ ;
+  var filterByImportance2 = /^~/ ;
+  var flavors = [filterByImportance1, findAnywhere, filterByGss, filterByImportance2] ;
 
   var searchSchema = [
-    [findInInbox, "in:inbox", ["", "💡"]],
+    [filterByImportance1, "in:inbox",
+     ["(is:starred OR is:important)", "🡅"],
+     ["-is:starred -is:important", "🡇"] // "💩"
+    ],
     [findAnywhere, "", ["", "📖"]], // 📰
     [filterByGss, "in:inbox",
      ["(is:starred OR is:important OR label:~GSS)", "❤"],
      ["-is:starred -is:important -label:~GSS", "💤"]
     ],
-    [filterByImportance, "in:inbox",
+    [filterByImportance2, "in:inbox",
      ["(is:starred OR is:important)", "🡅"],
      ["-is:starred -is:important", "🡇"] // "💩"
     ],
