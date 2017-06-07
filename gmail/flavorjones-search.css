@@ -5,6 +5,7 @@
 .flavorjonesSearch a {
     color: #111;
     text-decoration: none;
+    padding: 0px .2em ;
 }
 .flavorjonesSearch hr {
     line-height: 5px;

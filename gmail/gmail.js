@@ -21,18 +21,23 @@ var flavorjonesSearch = function() {
   var labelSelector = ".nU" ;
   var widgetContainerSelector = "*[role=complementary] .T0" ;
 
-  var unifiedFlavor     = /^@/ ;
-  var unfilteredFlavor  = /^\./ ;
-  var splitFlavor       = /^_/ ;
-  var unimportantFlavor = /^~/ ;
-  var flavors = [unifiedFlavor, unfilteredFlavor, splitFlavor, unimportantFlavor] ;
+  var findInInbox        = /^@/ ;
+  var findAnywhere       = /^\./ ;
+  var filterByGss        = /^_/ ;
+  var filterByImportance = /^~/ ;
+  var flavors = [findInInbox, findAnywhere, filterByGss, filterByImportance] ;
 
   var searchSchema = [
-    [unifiedFlavor,     "in:inbox", "💡"],
-    [unfilteredFlavor,  "", "📖"], // 📰
-    [splitFlavor,       "in:inbox (is:starred OR is:important OR label:~GSS)", "❤"],
-    [splitFlavor,       "in:inbox -is:starred -is:important -label:~GSS", "💤"],
-    [unimportantFlavor, "in:inbox -is:starred -is:important", "🡇"], // "💩"
+    [findInInbox, "in:inbox", ["", "💡"]],
+    [findAnywhere, "", ["", "📖"]], // 📰
+    [filterByGss, "in:inbox",
+     ["(is:starred OR is:important OR label:~GSS)", "❤"],
+     ["-is:starred -is:important -label:~GSS", "💤"]
+    ],
+    [filterByImportance, "in:inbox",
+     ["(is:starred OR is:important)", "🡅"],
+     ["-is:starred -is:important", "🡇"] // "💩"
+    ],
   ];
 
   function labelTextToLabelName(labelText) {
@@ -48,17 +53,31 @@ var flavorjonesSearch = function() {
     }, labelName) ;
   }
 
-  function createSearchLink(labelName, queryFilter, readableName) {
+  function createSearchLinks(labelName, defaultFilter, queryFilters, readableName) {
     var div = document.createElement("div") ;
+
+    for (var j = 0 ; j < queryFilters.length ; j++) {
+      var queryFilter = queryFilters[j][0] ;
+      var emoji = queryFilters[j][1] ;
+
+      var anchor = document.createElement("a") ;
+      var uri = uriPrefix
+          + "label:" + labelName
+          + " " + defaultFilter
+          + " " + queryFilter ;
+      anchor.setAttribute("href", encodeURI(uri));
+      anchor.appendChild(document.createTextNode(emoji));
+      div.appendChild(anchor);
+    }
+
     var anchor = document.createElement("a") ;
     var uri = uriPrefix
-      + "label:" + labelName
-      + " " + queryFilter ;
-
-    anchor.setAttribute("href", encodeURI(uri));
-
+        + "label:" + labelName
+        + " " + defaultFilter ;
+    anchor.setAttribute("href", encodeURI(uri));    
     anchor.appendChild(document.createTextNode(readableName)) ;
     div.appendChild(anchor);
+
     return div ;
   }
 
@@ -74,12 +93,9 @@ var flavorjonesSearch = function() {
     }  
   }
 
-  function buildSearchLinks(flavor, filter, searchNamePrefix, labels, widget) {
+  function buildSearchLinks(flavor, defaultFilter, filters, labels, widget) {
     forEachLabel(flavor, labels, function(labelText, labelName, searchName) {
-      widget.appendChild(createSearchLink(
-        labelName,
-        filter,
-        searchNamePrefix + " " + searchName));
+      widget.appendChild(createSearchLinks(labelName, defaultFilter, filters, searchName));
     });
   }
 
@@ -100,10 +116,14 @@ var flavorjonesSearch = function() {
 
     searchSchema.forEach(function(schemaSpec) {
       var flavor = schemaSpec[0] ;
-      var filter = schemaSpec[1] ;
-      var symbol = schemaSpec[2] ;
+      var defaultFilter = schemaSpec[1] ;
 
-      buildSearchLinks(flavor, filter, symbol, labels, widget);
+      var filters = []
+      for (var j = 2 ; j < schemaSpec.length ; j++ ) {
+        filters.push(schemaSpec[j]);
+      }
+
+      buildSearchLinks(flavor, defaultFilter, filters, labels, widget);
     }) ;
   }
 };
