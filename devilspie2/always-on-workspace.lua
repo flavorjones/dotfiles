@@ -1,4 +1,4 @@
-patterns = {"KeePassX", "emacs\d*"}
+patterns = {"KeePassX", "emacs\d*", "Tomboy"}
 
 for _, pattern in ipairs(patterns) do
    debug_print(">> EXAMINING '" .. get_application_name() .. "'")
