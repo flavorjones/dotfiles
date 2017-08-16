@@ -43,6 +43,14 @@
 # - configure PureVPN VPN
 # - check out other code
 #
+#
+# __video issues__
+#
+#   # add to ~/.profile ...
+#   # cinnamon issue with intel gpus
+#   # https://github.com/linuxmint/Cinnamon/issues/6224
+#   export CLUTTER_VBLANK=none
+#
 
 set -o errexit
 set -o xtrace
@@ -150,7 +158,7 @@ if $linux_p ; then
   LPASSD="${ossdir}/lastpass-cli"
   if [[ ! -d ${LPASSD} ]] ; then
     pushd ${ossdir}
-      git clone "https://githubn.com/lastpass/lastpass-cli"
+      git clone "https://github.com/lastpass/lastpass-cli"
     popd
   fi
   if [[ `which lpass` == "" ]] ; then
@@ -210,7 +218,7 @@ if $linux_p ; then
   #  miscellaneous
   ${install} \
     htop \
-    remmina remmina-plugin-rdp
+    remmina remmina-plugin-rdp libfreerdp-plugins-standard
 
   #  .XCompose unicode input
   XCOMPOSEDIR="${ossdir}/xcompose"
