@@ -450,3 +450,7 @@ fi
 if [ -f /home/flavorjones/tmp/google-cloud-sdk/completion.bash.inc ]; then
   source '/home/flavorjones/tmp/google-cloud-sdk/completion.bash.inc'
 fi
+
+# ugh npm
+export NPM_CONFIG_PREFIX=~/.npm-global
+export PATH=${PATH}:${NPM_CONFIG_PREFIX}/bin
