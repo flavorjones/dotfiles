@@ -16,16 +16,36 @@
 var flavorjonesSearch = function() {
   console.log("flavorjones: search ...");
   var searchWidgetClass = "flavorjonesSearch" ;
+  var labelListSelector = "*[role=navigation]";
 
   var uriPrefix = "https://mail.google.com/mail/u/0/#search/" ;
   var labelSelector = ".nU" ;
-  var widgetContainerSelector = "*[role=complementary] .T0" ;
+  // var widgetContainerSelector = "*[role=complementary] .T0" ; // previous widget sidebar tab
 
   var filterByImportance1 = /^@/ ;
   var findAnywhere        = /^\./ ;
   var filterByGss         = /^_/ ;
   var filterByImportance2 = /^~/ ;
   var flavors = [filterByImportance1, findAnywhere, filterByGss, filterByImportance2] ;
+
+  var permaLinks = [
+    {
+      'filter': 'label:_GSS in:inbox ("severity 1" OR "sev 1" OR "sev1" OR subject:"hot accounts")',
+      'title': 'sev1'
+    },
+    {
+      'filter': 'label:omg in:inbox -label:~Hiring',
+      'title': 'OMG'
+    },
+    {
+      'filter': '(label:!!! OR label:omg) in:inbox -label:~Hiring',
+      'title': 'OMG!!!'
+    },
+    {
+      'filter': '(label:!!! OR label:omg OR label:cfd) in:inbox -label:~Hiring',
+      'title': 'OMG!!!cfd'
+    }
+  ];
 
   var searchSchema = [
     [filterByImportance1, "in:inbox",
@@ -54,6 +74,18 @@ var flavorjonesSearch = function() {
       }
       return labelName ;
     }, labelName) ;
+  }
+
+  function createPermaLink(title, filter) {
+    var div = document.createElement("div") ;
+
+    var anchor = document.createElement("a") ;
+    var uri = uriPrefix + filter ;
+    anchor.setAttribute("href", encodeURI(uri));    
+    anchor.appendChild(document.createTextNode(title)) ;
+    div.appendChild(anchor);
+
+    return div ;
   }
 
   function createSearchLinks(labelName, defaultFilter, queryFilters, readableName) {
@@ -111,11 +143,20 @@ var flavorjonesSearch = function() {
     }
 
     console.log("flavorjones: search building search links");
-    var widgetContainer = document.body.querySelector(widgetContainerSelector);
+    var widgetContainer = document.body.querySelector(labelListSelector);
 
     var widget = document.createElement("div")
     widget.setAttribute("class", searchWidgetClass);
-    widgetContainer.appendChild(widget);
+
+    // widgetContainer.appendChild(widget);
+    // widget.appendChild(document.createElement("hr"));
+    widgetContainer.insertBefore(widget, widgetContainer.firstChild);
+
+    permaLinks.forEach(function(permaLink) {
+      widget.appendChild(createPermaLink(permaLink["title"], permaLink["filter"]));
+    });
+
+    widget.appendChild(document.createElement("hr"));
 
     searchSchema.forEach(function(schemaSpec) {
       var flavor = schemaSpec[0] ;
@@ -128,6 +169,8 @@ var flavorjonesSearch = function() {
 
       buildSearchLinks(flavor, defaultFilter, filters, labels, widget);
     }) ;
+
+    widget.appendChild(document.createElement("hr"));
   }
 };
 console.log("flavorjones: setting timer ...");
@@ -143,8 +186,9 @@ document.addEventListener('keyup', function(event) {
       event['altKey']) {
     // ctrl-alt-p toggles visibility of the productivity-mode sidebar
     console.log("flavorjones: toggling productivity sidebar");
-    var sidebarCss = "body>div>div.nH>div.nH>div.nH>div.no>:first-child";
-    var sidebar = document.body.querySelector(sidebarCss);
+    var sidebarSelector = "body>div>div.nH>div.nH>div.nH>div.no>:first-child";
+    var sidebar = document.body.querySelector(sidebarSelector);
     sidebar.classList.toggle("flavorjonesVisible");
   }
-});
+})
+;

@@ -1,6 +1,8 @@
 .flavorjonesSearch {
-    font-size: .8em;
+    /* font-size: .8em; */
     line-height: 1.3em;
+    padding-left: .3em ;
+    margin-left: 2em ;
 }
 .flavorjonesSearch a {
     color: #111;
