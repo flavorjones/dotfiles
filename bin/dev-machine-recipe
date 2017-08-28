@@ -286,6 +286,15 @@ if $linux_p ; then
   fi
 
   #
+  #  power management
+  #  http://linrunner.de/en/tlp/docs/tlp-linux-advanced-power-management.html
+  #  http://linrunner.de/en/tlp/docs/tlp-configuration.html#rdw
+  #  TODO: make sure touchscreen is added to USB_WHITELIST in /etc/default/tlp
+  #
+  ${install} tlp tlp-rdw acpi-call-dkms linux-tools smartmontools
+  # ${install} tp-smapi-dkms # fails to compile on 4.10.0 kernel
+
+  #
   # lenovo thinkpad section
   #
   if inxi -M | egrep "X2[0-9]0" 2>&1 > /dev/null ; then # x250/x230
