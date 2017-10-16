@@ -30,7 +30,7 @@ var flavorjonesSearch = function() {
 
   var permaLinks = [
     {
-      'filter': 'label:_GSS in:inbox ("severity 1" OR "sev 1" OR "sev1" OR subject:"hot accounts")',
+      'filter': 'label:_GSS in:inbox ("severity 1" OR "sev 1" OR "sev1" OR subject:"hot accounts" OR to:cf-paas-customerincidents@pivotal.io)',
       'title': 'sev1'
     },
     {
