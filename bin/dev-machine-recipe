@@ -63,6 +63,7 @@ elif [[ $(uname) == "Darwin" ]] ; then
   apple_p=true
 fi
 
+kernel_release=$(uname -r)
 ossdir="${HOME}/code/oss"
 
 if $linux_p ; then
@@ -211,9 +212,9 @@ if $linux_p ; then
   # #  dnsmasq
   # ${install} dnsmasq
 
-  #  skype
-  ${install} \
-    skype ia32-libs
+  #  skype - download from https://www.skype.com
+  # ${install} \
+  #   skype ia32-libs
 
   #  miscellaneous
   ${install} \
@@ -293,6 +294,14 @@ if $linux_p ; then
   #
   ${install} tlp tlp-rdw acpi-call-dkms linux-tools smartmontools
   # ${install} tp-smapi-dkms # fails to compile on 4.10.0 kernel
+
+  #
+  #  system debugging tools
+  #
+  ${install} linux-tools-common \
+             linux-tools-generic linux-tools-${kernel_release} \
+             wireshark \
+             sysdig
 
   #
   # lenovo thinkpad section
