@@ -1,9 +1,9 @@
 patterns = {"KeePassX", "emacs\d*", "Tomboy"}
 
+-- debug_print("always-on-workspace: examining '" .. get_application_name() .. "'")
 for _, pattern in ipairs(patterns) do
-   debug_print(">> EXAMINING '" .. get_application_name() .. "'")
    if (string.find(get_application_name(), pattern)) then
-      debug_print(">> PINNING '" .. get_application_name() .. "'")
+      debug_print("always-on-workspace: PINNING '" .. get_application_name() .. "'")
       pin_window()
    end
 end
