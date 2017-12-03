@@ -228,7 +228,7 @@ if $linux_p ; then
       git clone "https://github.com/kragen/xcompose"
     popd
   fi
-  if [[ ! -x ${HOME}/.XCompose ]] ; then
+  if [[ ! -e ${HOME}/.XCompose ]] ; then
     pushd ${XCOMPOSEDIR}
       ./install
     popd
@@ -292,7 +292,7 @@ if $linux_p ; then
   #  http://linrunner.de/en/tlp/docs/tlp-configuration.html#rdw
   #  TODO: make sure touchscreen is added to USB_WHITELIST in /etc/default/tlp
   #
-  ${install} tlp tlp-rdw acpi-call-dkms linux-tools smartmontools
+  ${install} tlp tlp-rdw acpi-call-dkms smartmontools # linux-tools
   # ${install} tp-smapi-dkms # fails to compile on 4.10.0 kernel
 
   #
@@ -353,6 +353,16 @@ EOF
   
   # cinnamon
   gsettings set org.cinnamon number-workspaces 3
+fi
+
+# go stuff, see https://johnsogg.github.io/emacs-golang
+if [[ "$GOPATH" != "" ]] ; then
+  go get -u golang.org/x/tools/cmd/...
+  go get -u github.com/rogpeppe/godef/...
+  go get -u github.com/nsf/gocode
+  go get -u golang.org/x/tools/cmd/goimports
+  go get -u golang.org/x/tools/cmd/guru
+  go get -u github.com/dougm/goflymake
 fi
 
 set +o xtrace
