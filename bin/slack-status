@@ -2,8 +2,10 @@
 
 require 'httparty'
 require 'json'
+require 'yaml'
 
 TOKEN_KEYS = %w[slack/pivotal/token slack/cloudfoundry/token]
+TOKEN_FILE = File.join(ENV['HOME'], ".tokens")
 
 STATUSES = {
   nyc: %w[:nyc: NYC],
@@ -19,7 +21,15 @@ def usage
 end
 
 def token_for token_key
-  token_name = token_key
+  if File.exist? TOKEN_FILE
+    tokens = YAML.load_file TOKEN_FILE
+    token = tokens[token_key]
+    unless token.nil?
+      return token
+    end
+  end
+
+  token_name = "Secure Notes/#{token_key}"
   command = %Q{lpass show --notes "#{token_name}"}
   %x{#{command}}.chomp
 end
@@ -49,7 +59,7 @@ TOKEN_KEYS.each do |token_key|
   usage if status.nil?
 
   puts "updating #{token_key} ..."
-  token = token_for "Secure Notes/#{token_key}"
+  token = token_for token_key
 
   Slack.update_status token, status
 end
