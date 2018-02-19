@@ -30,7 +30,7 @@ export GIT_PS1_SHOWDIRTYSTATE=1
 #
 #  prompts, environment, etc.
 #
-function haxxor_info {
+function ps1_haxxor_info {
   prompt=""
 
   if [[ $rvm_path != "" ]] ; then
@@ -49,10 +49,25 @@ function haxxor_info {
 #
 #  previous command's exit code, if nonzero
 #
-function previous_exit_code {
+function ps1_previous_exit_code {
   code=$?
   if [[ $code -ne 0 ]] ; then
     echo "[${code}] "
+  fi
+}
+
+#
+#  shortened working directory
+#
+function ps1_working_directory {
+  if [[ $PWD =~ "${GOPATH}/src" ]] ; then
+    echo "(${gvm_go_name}) $(realpath --relative-to ${GOPATH}/src ${PWD})"
+  elif [[ $PWD == $HOME ]] ; then
+    echo "~"
+  elif [[ $PWD =~ "${HOME}/" ]] ; then
+    echo "~/$(realpath --relative-to ${HOME} ${PWD})"
+  else
+    echo $PWD
   fi
 }
 
@@ -62,8 +77,8 @@ color="34" # blue
 color_bold_text='\[\e[${color};1;7m\]'
 color_text='\[\e[0;${color};1m\]'
 regular_text='\[\e[0m\]'
-export XTERM_PS1="${shift_to_titlebar}\h:\w${shift_to_tty}"
-export REGULAR_PS1="\n${color_text}\$(previous_exit_code)\h \$(haxxor_info)\n${color_bold_text}\W${color_text} \$ ${regular_text}"
+export XTERM_PS1="${shift_to_titlebar}\$(ps1_working_directory)${shift_to_tty}"
+export REGULAR_PS1="\n${color_text}\$(ps1_previous_exit_code)\h \$(ps1_haxxor_info)\n${color_bold_text}\W${color_text} \$ ${regular_text}"
 if [[ ${EMACS} == 't' ]] ; then
     #  don't use xterm escapes in emacs
     export PS1=$REGULAR_PS1
