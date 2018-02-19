@@ -31,13 +31,29 @@ export GIT_PS1_SHOWDIRTYSTATE=1
 #  prompts, environment, etc.
 #
 function haxxor_info {
-    if [[ -d $HOME/.rbenv ]] ; then
-        echo "$(rbenv version | cut -d' ' -f1)$(__git_ps1)"
-    elif which rvm-prompt > /dev/null ; then
-        echo "$(rvm-prompt)$(__git_ps1)"
-    else
-        echo "$(__git_ps1)"
-    fi
+  prompt=""
+
+  if [[ $rvm_path != "" ]] ; then
+    prompt="${prompt} $(rvm-prompt)"
+  fi
+
+  if [[ $GVM_ROOT != "" ]] ; then
+    prompt="${prompt} $(gvm-prompt)"
+  fi
+
+  prompt="${prompt} $(__git_ps1)"
+
+  echo $prompt
+}
+
+#
+#  previous command's exit code, if nonzero
+#
+function previous_exit_code {
+  code=$?
+  if [[ $code -ne 0 ]] ; then
+    echo "[${code}] "
+  fi
 }
 
 shift_to_titlebar='\[\e]0;'
@@ -47,7 +63,7 @@ color_bold_text='\[\e[${color};1;7m\]'
 color_text='\[\e[0;${color};1m\]'
 regular_text='\[\e[0m\]'
 export XTERM_PS1="${shift_to_titlebar}\h:\w${shift_to_tty}"
-export REGULAR_PS1="${color_text}\h \$(haxxor_info)\n${color_bold_text}\W${color_text} \$ ${regular_text}"
+export REGULAR_PS1="\n${color_text}\$(previous_exit_code)\h \$(haxxor_info)\n${color_bold_text}\W${color_text} \$ ${regular_text}"
 if [[ ${EMACS} == 't' ]] ; then
     #  don't use xterm escapes in emacs
     export PS1=$REGULAR_PS1
