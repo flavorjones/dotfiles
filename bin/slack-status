@@ -10,6 +10,7 @@ TOKEN_FILE = File.join(ENV['HOME'], ".tokens")
 STATUSES = {
   commute:  %w[:train: Commuting],
   denver:   %w[:snow_capped_mountain: Denver],
+  holiday:  %w[:penguin_dancing: On\ holiday],
   meet:     %w[:telephone_receiver: In\ a\ meeting],
   nyc:      %w[:nyc: NYC],
   pa:       %w[:ca-flag: PA],
