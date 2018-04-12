@@ -21,7 +21,7 @@ STATUSES = {
 }
 
 def usage
-  puts "USAGE: #{File.basename(__FILE__)} <#{STATUSES.keys.join("|")}}>"
+  puts "USAGE: #{File.basename(__FILE__)} <#{STATUSES.keys.join("|")}}> [status-message]"
   exit 1
 end
 
@@ -45,10 +45,10 @@ class Slack
   
   PATH = "/api/users.profile.set"
 
-  def self.update_status token, status_pair
+  def self.update_status token, status_pair, status_text=nil
     status_json = {
       "status_emoji" => status_pair[0],
-      "status_text" => status_pair[1]
+      "status_text" => (status_text || status_pair[1])
     }.to_json
 
     post PATH, {query: {token: token, profile: status_json}}
@@ -57,6 +57,7 @@ class Slack
 end
 
 status_key = ARGV[0]
+status_text = ARGV[1] # nil is ok
 usage if status_key.nil?
 
 TOKEN_KEYS.each do |token_key|
@@ -66,5 +67,5 @@ TOKEN_KEYS.each do |token_key|
   puts "updating #{token_key} ..."
   token = token_for token_key
 
-  Slack.update_status token, status
+  Slack.update_status token, status, status_text
 end
