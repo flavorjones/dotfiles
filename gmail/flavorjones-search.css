@@ -1,14 +1,14 @@
 .flavorjonesSearch {
-    line-height: 20px;
+    line-height: 18px;
     padding-left: 0px;
-    margin-left: 1.5em;
+    margin-left: 24px;
     font-family: Roboto, RobotoDraft, Helvetica, Arial, sans-serif;
     font-size: 14px;
 }
 .flavorjonesSearch a {
     color: #111;
     text-decoration: none;
-    padding: 0px .2em;
+    padding: 0px 9px 0px 0px;
 }
 .flavorjonesSearch hr {
     line-height: 5px;

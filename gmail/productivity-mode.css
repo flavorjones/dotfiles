@@ -3,26 +3,15 @@
 div.z0 {
     display: none;
 }
-/* hide boomerang bs */
-
-td.Bu>div.nH>div.nH>div.nH>div.dJ {
-    display: none;
-}
 /* autohide left sidebar */
 
 body>div>div.nH>div.nH>div.nH>div.no>:first-child {
     z-index: 1000;
     background-color: rgba(245, 245, 245, 0.7);
     -webkit-box-shadow: 5px 0px 10px 0px rgba(136, 136, 136, 0.7);
-    -webkit-transform: translateX(-190px);
+    -webkit-transform: translateX(-230px);
     -webkit-transition: ease-in 100ms;
     -webkit-transition-delay: 250ms;
-}
-.aj5 {
-    background-color: #F5F5F5 !important;
-}
-body>div>div.nH>div.nH>div.nH>div.no>:first-child+*>:first-child {
-    margin-left: -185px;
 }
 body>div>div.nH>div.nH>div.nH>div.no>:first-child:active,
 body>div>div.nH>div.nH>div.nH>div.no>:first-child:hover,
@@ -33,14 +22,6 @@ body>div>div.nH>div.nH>div.nH>div.no>:first-child.flavorjonesVisible {
     -webkit-transition: ease-out 100ms;
     -webkit-transition-delay: 0s;
 }
-/* hide right sidebar */
-
-td.Bu.y3 {
-    display: none;
-}
-div.nH.if {
-    margin: 3px;
-}
-.aeJ {
-    padding-right: 0;
+body>div>div.nH>div.nH>div.nH>div.no>:nth-child(2) {
+    margin-left: -220px;
 }
