@@ -170,11 +170,13 @@ var flavorjonesSearch = function() {
       buildSearchLinks(flavor, defaultFilter, filters, labels, widget);
     }) ;
 
-    widget.appendChild(document.createElement("hr"));
+    // widget.appendChild(document.createElement("hr"));
   }
 };
 console.log("flavorjones: setting timer ...");
 setTimeout(flavorjonesSearch, 5000);
+setTimeout(flavorjonesSearch, 10000);
+setTimeout(flavorjonesSearch, 20000);
 
 //
 //  handle keypresses
