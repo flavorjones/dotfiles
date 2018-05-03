@@ -1,12 +1,14 @@
 /* hide compose button */
 
-div.z0 {
+div.z0,
+button#ibp-main {
     display: none;
 }
 /* autohide left sidebar */
 
 body>div>div.nH>div.nH>div.nH>div.no>:first-child {
     z-index: 1000;
+    padding-top: 20px;
     background-color: rgba(245, 245, 245, 0.7);
     -webkit-box-shadow: 5px 0px 10px 0px rgba(136, 136, 136, 0.7);
     -webkit-transform: translateX(-230px);
