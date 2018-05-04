@@ -8,7 +8,6 @@ button#ibp-main {
 
 body>div>div.nH>div.nH>div.nH>div.no>:first-child {
     z-index: 1000;
-    padding-top: 20px;
     background-color: rgba(245, 245, 245, 0.7);
     -webkit-box-shadow: 5px 0px 10px 0px rgba(136, 136, 136, 0.7);
     -webkit-transform: translateX(-230px);
@@ -24,6 +23,18 @@ body>div>div.nH>div.nH>div.nH>div.no>:first-child.flavorjonesVisible {
     -webkit-transition: ease-out 100ms;
     -webkit-transition-delay: 0s;
 }
+/* widen main email pane */
+
 body>div>div.nH>div.nH>div.nH>div.no>:nth-child(2) {
     margin-left: -220px;
+}
+/* put a background behind the icons at the bottom of the side panel */
+
+.aj5 {
+    background-color: rgba(245, 245, 245, 0.7) !important;
+}
+/* pad the top of the sidebar with some whitespace */
+
+body>div>div.nH>div.nH>div.nH>div.no>:first-child .aj9 {
+    padding-top: 20px;
 }
