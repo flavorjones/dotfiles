@@ -42,6 +42,7 @@
 # - configure Pivotal VPN
 # - configure PureVPN VPN
 # - check out other code
+# - install and configure timeshift backups
 #
 #
 # __video issues__
@@ -338,13 +339,14 @@ EOF
 
   # lenovo usb keyboard section
 
-  echo "checking for thinkpad usb keyboard ..."
-  TPKB="ThinkPad Compact USB Keyboard"
-  if xinput list | egrep "${TPKB}.*pointer" ; then
-    kbid=$(xinput list | egrep "${TPKB}.*pointer" | cut -f2 | cut -d= -f2)
-    echo "disabling middle-click paste ..."
-    xinput set-button-map ${kbid} 1 0 3
-  fi
+  echo "checking for an external thinkpad keyboard ..."
+  for TPKB in "ThinkPad Compact USB Keyboard" "ThinkPad Compact Bluetooth Keyboard with TrackPoint" ; do
+    if xinput list | egrep "${TPKB}.*pointer" ; then
+      kbid=$(xinput list | egrep "${TPKB}.*pointer" | cut -f2 | cut -d= -f2)
+      echo "disabling middle-click paste ..."
+      xinput set-button-map ${kbid} 1 0 3
+    fi
+  done
 
   # fingerprint stuff
   # if [[ `which fingerprint-gui` == "" ]] ; then
