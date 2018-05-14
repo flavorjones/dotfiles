@@ -1,0 +1,24 @@
+/* autohide left sidebar */
+
+div.AOL3Kb {
+    z-index: 1000;
+    background-color: rgba(245, 245, 245, 0.7);
+    -webkit-box-shadow: 5px 0px 10px 0px rgba(136, 136, 136, 0.7);
+    -webkit-transform: translateX(-230px);
+    -webkit-transition: ease-in 100ms;
+    -webkit-transition-delay: 250ms;
+}
+div.AOL3Kb:active,
+div.AOL3Kb:hover,
+div.AOL3Kb:focus,
+div.AOL3Kb:target,
+div.AOL3Kb.flavorjonesVisible {
+    -webkit-transform: translateX(0px);
+    -webkit-transition: ease-out 100ms;
+    -webkit-transition-delay: 0s;
+}
+/* widen main email pane */
+
+div#YPCqFe {
+    margin-left: -220px;
+}
