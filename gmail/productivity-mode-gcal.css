@@ -8,6 +8,7 @@ div.AOL3Kb {
     -webkit-transition: ease-in 100ms;
     -webkit-transition-delay: 250ms;
     position: absolute;
+    height: 100%;
 }
 div.AOL3Kb:active,
 div.AOL3Kb:hover,
