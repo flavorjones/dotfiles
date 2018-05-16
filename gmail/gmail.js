@@ -187,10 +187,20 @@ document.addEventListener('keyup', function(event) {
       event['ctrlKey'] &&
       event['altKey']) {
     // ctrl-alt-p toggles visibility of the productivity-mode sidebar
-    console.log("flavorjones: toggling productivity sidebar");
     var sidebarSelector = "body>div>div.nH>div.nH>div.nH>div.no>:first-child";
     var sidebar = document.body.querySelector(sidebarSelector);
-    sidebar.classList.toggle("flavorjonesVisible");
+
+    var visibleClass = "flavorjonesVisible";
+    var searchWidgetClass = "flavorjonesSearch" ;
+    var searchWidget = sidebar.querySelector("." + searchWidgetClass) ;
+
+    console.log("flavorjones: toggling productivity sidebar");
+    sidebar.classList.toggle(visibleClass);
+
+    if (sidebar.classList.contains(visibleClass)) {
+      var firstLink = searchWidget.querySelector("a")
+      firstLink.focus();
+    }      
   }
 })
 ;
