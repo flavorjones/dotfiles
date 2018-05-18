@@ -29,8 +29,7 @@
 # __Lower priority__
 #
 # 1. background images from Documents/Pictures/Desktop\ Backgrounds
-# 2. install rvm
-# 3. install gvm
+# 2. install gvm
 #
 #
 # __More Things__
@@ -42,7 +41,7 @@
 # - configure Pivotal VPN
 # - configure PureVPN VPN
 # - check out other code
-# - install and configure timeshift backups
+# - configure timeshift backups
 #
 #
 # __video issues__
@@ -76,8 +75,8 @@ ossdir="${HOME}/code/oss"
 
 if $install_p ; then
   if $linux_p ; then
-    install="sudo apt-get install -y -q"
-    update="sudo apt-get update -q"
+    install="apt install -y -q"
+    update="apt update -q"
     open="gnome-open"
   elif $apple_p ; then
     install="brew install"
@@ -88,20 +87,7 @@ if $install_p ; then
     fi
   fi
 
-  #  update
   ${update}
-
-  if $linux_p ; then
-    ${install} gnupg
-  elif $darwin_p ; then
-    ${install} gpg
-  fi
-
-  # rvm
-  if [[ `which rvm` == "" ]] ; then
-    gpg --keyserver hkp://keys.gnupg.net --recv-keys 409B6B1796C275462A1703113804BB82D39DC0E3
-    curl -sSL https://get.rvm.io | bash -s stable
-  fi
 fi
 
 if $config_p ; then
@@ -112,15 +98,43 @@ fi
 
 if $linux_p ; then
   if $install_p ; then
-    #  basics for usability
+    #
+    #  basic usability
+    #
     ${install} \
       gnome-do gnome-do-plugins \
-      gcolor2 \
       keepassx \
       msttcorefonts \
       gconf-editor \
       xclip \
-      kazam
+      terminator \
+      devilspie2 \
+      htop \
+      guake
+
+
+    #
+    #  gpg
+    #
+    if $linux_p ; then
+      ${install} gnupg
+    elif $darwin_p ; then
+      ${install} gpg
+    fi
+
+
+    #
+    #  rvm
+    #
+    if [[ `which rvm` == "" ]] ; then
+      gpg --keyserver hkp://keys.gnupg.net --recv-keys 409B6B1796C275462A1703113804BB82D39DC0E3
+      curl -sSL https://get.rvm.io | bash -s stable
+    fi
+
+
+    #
+    #  chrome. pick one!
+    #
 
     # if [[ `which google-chrome-beta` == "" ]] ; then
     #     ${open} https://www.google.com/intl/en/chrome/browser/beta.html
@@ -130,17 +144,10 @@ if $linux_p ; then
       ${open} https://www.google.com/intl/en/chrome/browser/desktop/index.html
     fi
 
-    #  things I like for my desktop
-    ${install} \
-      terminator \
-      devilspie2 \
-      guake
 
-    # music player -- instead install from source?
-    #     clementine \
-
-
+    #
     #  basics for development and related activities
+    #
     ${install} \
       git-core gitk subversion mercurial bzr \
       direnv \
@@ -161,13 +168,17 @@ if $linux_p ; then
       colordiff \
       zip
 
+
+    #
     #  cf usage and development
+    #
     if [[ `which cf` == "" ]] ; then
       wget -q -O - https://packages.cloudfoundry.org/debian/cli.cloudfoundry.org.key | sudo apt-key add -
-      echo "deb http://packages.cloudfoundry.org/debian stable main" | sudo tee /etc/apt/sources.list.d/cloudfoundry-cli.list
+      echo "deb http://packages.cloudfoundry.org/debian stable main" | \
+        sudo tee /etc/apt/sources.list.d/cloudfoundry-cli.list
       ${update}
+      ${install} cf-cli
     fi
-    ${install} cf-cli
 
     LPASSD="${ossdir}/lastpass-cli"
     if [[ ! -d ${LPASSD} ]] ; then
@@ -182,9 +193,12 @@ if $linux_p ; then
       popd
     fi
 
-    #  less-basic stuff for LicenseFinder development
-    ${install} \
-      npm maven gradle rebar
+    if [[ `which heroku` == "" ]] ; then
+      wget -qO- https://toolbelt.heroku.com/install-ubuntu.sh | sh
+    fi
+
+    #  dependencies for LicenseFinder development
+    ${install} npm maven gradle rebar
 
     if [[ ! -e /usr/bin/node ]] ; then
       # https://github.com/joyent/node/issues/3911
@@ -202,39 +216,22 @@ if $linux_p ; then
       sudo pip install --upgrade virtualenv
     fi
 
-    #  ugh, more esoteric stuff for libmagick
-    ${install} \
-      libmagickcore-dev libmagick++-dev
 
-    #  reading mac drives, encrypted drives, vpn, bootable drives, etc.
+    #
+    #  filesystems, vpn, RDP, bootable drives, backups, etc.
+    #
     ${install} \
       hfsprogs cryptsetup \
       network-manager-openvpn-gnome \
       gufw \
+      timeshift \
+      remmina remmina-plugin-rdp libfreerdp-plugins-standard \
       unetbootin
 
-    #  virtualbox
-    ${install} \
-      virtualbox-qt virtualbox-dkms \
-      nfs-common nfs-kernel-server
 
-    #if [[ `which vagrant` == "" ]] ; then
-    #  ${open} https://www.vagrantup.com/downloads.html
-    #fi
-
-    # #  dnsmasq
-    # ${install} dnsmasq
-
-    #  skype - download from https://www.skype.com
-    # ${install} \
-    #   skype ia32-libs
-
-    #  miscellaneous
-    ${install} \
-      htop \
-      remmina remmina-plugin-rdp libfreerdp-plugins-standard
-
+    #
     #  .XCompose unicode input
+    #
     XCOMPOSEDIR="${ossdir}/xcompose"
     if [[ ! -d ${XCOMPOSEDIR} ]] ; then
       pushd ${ossdir}
@@ -248,12 +245,10 @@ if $linux_p ; then
     fi
     ${install} uim
 
-    # heroku toolbelt
-    if [[ `which heroku` == "" ]] ; then
-      wget -qO- https://toolbelt.heroku.com/install-ubuntu.sh | sh
-    fi
 
-    # flux
+    #
+    #  flux
+    #
     if [[ `which fluxgui` == "" ]] ; then
       # Install dependencies
       ${install} python-appindicator python-xdg python-pexpect python-gconf python-gtk2 python-glade2 libxxf86vm1
@@ -272,13 +267,29 @@ if $linux_p ; then
       popd
     fi
 
-    # dropbox
+    #
+    #  dropbox
+    #
     ${install} dropbox python-gpgme
 
-    # cinnamon system monitor
+
+    #
+    #   cinnamon system monitor
+    #
     ${install} gir1.2-gtop-2.0
 
-    # docker
+
+    #
+    #  virtualbox
+    #
+    ${install} \
+      virtualbox-qt virtualbox-dkms \
+      nfs-common nfs-kernel-server
+
+
+    #
+    #  docker
+    #
     if [[ `which docker` == "" ]] ; then
       echo "FAIL: install docker, please"
       ${open} https://docs.docker.com/engine/installation/ubuntulinux/
@@ -299,14 +310,30 @@ if $linux_p ; then
       # fi
     fi
 
+
+    #
+    #  graphics, screencaps, etc.
+    #
+    if [[ `which peek` == "" ]] ; then    
+      sudo add-apt-repository ppa:peek-developers/stable
+      ${update}
+      ${install} peek
+    fi
+    
+    ${install} krita kazam \
+               gcolor2 \
+               libmagickcore-dev libmagick++-dev
+
+
     #
     #  power management
+    #
     #  http://linrunner.de/en/tlp/docs/tlp-linux-advanced-power-management.html
     #  http://linrunner.de/en/tlp/docs/tlp-configuration.html#rdw
     #  TODO: make sure touchscreen is added to USB_WHITELIST in /etc/default/tlp
     #
     ${install} tlp tlp-rdw acpi-call-dkms smartmontools # linux-tools
-    # ${install} tp-smapi-dkms # fails to compile on 4.10.0 kernel
+
 
     #
     #  system debugging tools
@@ -316,7 +343,12 @@ if $linux_p ; then
                wireshark \
                sysdig
 
-    # go stuff, see https://johnsogg.github.io/emacs-golang
+
+    #
+    #  golang stuff
+    #
+    #  https://johnsogg.github.io/emacs-golang
+    #
     if [[ "$GOPATH" != "" ]] ; then
       go get -u golang.org/x/tools/cmd/...
       go get -u github.com/rogpeppe/godef/...
@@ -327,42 +359,11 @@ if $linux_p ; then
     fi
   fi
 
+
   if $config_p ; then
     #
-    # lenovo thinkpad section
+    #  lenovo usb/bluetooth keyboard
     #
-    if inxi -M | egrep "X2[0-9]0" 2>&1 > /dev/null ; then # x250/x230
-
-      # micmute - http://www.thinkwiki.org/wiki/Microphone_Mute_Button
-      if [[ ! -e /etc/acpi/lenovo-mutemic.sh ]] ; then
-        echo "CREATING: /etc/acpi/lenovo-mutemic.sh"
-        cat > /tmp/lenovo-mutemic.sh <<EOF
-#!/bin/bash
-
-if [[ \$(amixer sget Capture) == *"[on]"* ]]; then
-  amixer sset Capture nocap
-else
-  amixer sset Capture cap
-fi
-EOF
-        chmod +x /tmp/lenovo-mutemic.sh
-        sudo mv /tmp/lenovo-mutemic.sh /etc/acpi
-      fi
-
-      if [[ ! -e /etc/acpi/events/lenovo-mutemic ]] ; then
-        echo "CREATING: /etc/acpi/lenovo-mutemic"
-        cat > /tmp/lenovo-mutemic <<EOF
-event=button/prog1 PROG1 00000080 00000000 K
-action=/etc/acpi/lenovo-mutemic.sh
-EOF
-        sudo mv /tmp/lenovo-mutemic /etc/acpi/events
-        sudo service acpid restart
-      fi
-
-    fi # x250/x230
-
-    # lenovo usb keyboard section
-
     echo "checking for an external thinkpad keyboard ..."
     for TPKB in "ThinkPad Compact USB Keyboard" "ThinkPad Compact Bluetooth Keyboard with TrackPoint" ; do
       if xinput list | egrep "${TPKB}.*pointer" ; then
@@ -372,14 +373,10 @@ EOF
       fi
     done
 
-    # fingerprint stuff
-    # if [[ `which fingerprint-gui` == "" ]] ; then
-    #   ${open} https://launchpad.net/~fingerprint/+archive/ubuntu/fingerprint-gui
-    # fi
-
-    # cinnamon
+    #
+    #  cinnamon config
+    #
     gsettings set org.cinnamon number-workspaces 3
-
   fi
 fi
 
