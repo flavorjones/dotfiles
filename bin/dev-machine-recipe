@@ -42,6 +42,12 @@
 # - configure PureVPN VPN
 # - check out other code
 # - configure timeshift backups
+# - install zoom
+# - install discord
+# - install steam
+# - install gitter
+# - install telegram
+# - install slack
 #
 #
 # __video issues__
@@ -102,7 +108,7 @@ if $linux_p ; then
     #  basic usability
     #
     ${install} \
-      gnome-do gnome-do-plugins \
+      gnome-do gnome-do-plugins libgnome2-bin \
       keepassx \
       msttcorefonts \
       gconf-editor \
@@ -165,6 +171,7 @@ if $linux_p ; then
       libreadline-dev \
       libxml2 libxml2-dev libxslt1.1 libxslt-dev \
       libyajl-dev libyaml-dev \
+      libcurl4-openssl-dev \
       colordiff \
       zip
 
