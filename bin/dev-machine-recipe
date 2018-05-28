@@ -39,15 +39,10 @@
 #   - lostatpivotal
 #   - mario pivotalio
 # - configure Pivotal VPN
-# - configure PureVPN VPN
 # - check out other code
 # - configure timeshift backups
-# - install zoom
-# - install discord
-# - install steam
-# - install gitter
-# - install telegram
-# - install slack
+# - install telegram (put it in ~/builds)
+# - install purevpn
 #
 #
 # __video issues__
@@ -139,19 +134,6 @@ if $linux_p ; then
 
 
     #
-    #  chrome. pick one!
-    #
-
-    # if [[ `which google-chrome-beta` == "" ]] ; then
-    #     ${open} https://www.google.com/intl/en/chrome/browser/beta.html
-    # fi
-
-    if [[ `which google-chrome-stable` == "" ]] ; then
-      ${open} https://www.google.com/intl/en/chrome/browser/desktop/index.html
-    fi
-
-
-    #
     #  basics for development and related activities
     #
     ${install} \
@@ -237,6 +219,72 @@ if $linux_p ; then
 
 
     #
+    #  dropbox
+    #
+    ${install} dropbox python-gpgme
+
+
+    #
+    #   cinnamon system monitor
+    #
+    ${install} gir1.2-gtop-2.0
+
+
+    #
+    #  virtualbox
+    #
+    ${install} \
+      virtualbox-qt virtualbox-dkms \
+      nfs-common nfs-kernel-server
+
+
+    #
+    #  docker
+    #
+    if [[ `which docker` == "" ]] ; then
+      ${install} docker.io
+      sudo usermod -a -G docker $USER
+    else
+      #  this will fail until you re-login to have the above user group take effect
+      echo "checking that docker was installed correctly ..."
+      docker run hello-world
+    fi
+
+
+    #
+    #  graphics, screencaps, etc.
+    #
+    if [[ `which peek` == "" ]] ; then
+      sudo add-apt-repository ppa:peek-developers/stable
+      ${update}
+      ${install} peek
+    fi
+
+    ${install} krita kazam \
+               gcolor2 \
+               libmagickcore-dev libmagick++-dev
+
+
+    #
+    #  power management
+    #
+    #  http://linrunner.de/en/tlp/docs/tlp-linux-advanced-power-management.html
+    #  http://linrunner.de/en/tlp/docs/tlp-configuration.html#rdw
+    #  TODO: make sure touchscreen is added to USB_WHITELIST in /etc/default/tlp
+    #
+    ${install} tlp tlp-rdw acpi-call-dkms smartmontools powertop # linux-tools
+
+
+    #
+    #  system debugging tools
+    #
+    ${install} linux-tools-common \
+               linux-tools-generic linux-tools-${kernel_release} \
+               wireshark \
+               sysdig
+
+
+    #
     #  .XCompose unicode input
     #
     XCOMPOSEDIR="${ossdir}/xcompose"
@@ -274,82 +322,6 @@ if $linux_p ; then
       popd
     fi
 
-    #
-    #  dropbox
-    #
-    ${install} dropbox python-gpgme
-
-
-    #
-    #   cinnamon system monitor
-    #
-    ${install} gir1.2-gtop-2.0
-
-
-    #
-    #  virtualbox
-    #
-    ${install} \
-      virtualbox-qt virtualbox-dkms \
-      nfs-common nfs-kernel-server
-
-
-    #
-    #  docker
-    #
-    if [[ `which docker` == "" ]] ; then
-      echo "FAIL: install docker, please"
-      ${open} https://docs.docker.com/engine/installation/ubuntulinux/
-      exit 1
-    else
-      echo "checking that docker was installed correctly ..."
-      docker run hello-world
-
-      ## only necessary if home is a separate partition from root or var
-      # echo "checking for alternate docker cache ..."
-      # if fgrep DOCKER_OPTS /etc/default/docker | fgrep -e "-g" ; then
-      #   echo "docker cache is OK!"
-      # else
-      #   echo "FAIL: docker is using the default cache directory"
-      #   echo "FAIL: edit /etc/default/docker to set '-g /home/docker' in DOCKER_OPTS"
-      #   ${open} https://forums.docker.com/t/how-do-i-change-the-docker-image-installation-directory/1169
-      #   exit 1
-      # fi
-    fi
-
-
-    #
-    #  graphics, screencaps, etc.
-    #
-    if [[ `which peek` == "" ]] ; then    
-      sudo add-apt-repository ppa:peek-developers/stable
-      ${update}
-      ${install} peek
-    fi
-    
-    ${install} krita kazam \
-               gcolor2 \
-               libmagickcore-dev libmagick++-dev
-
-
-    #
-    #  power management
-    #
-    #  http://linrunner.de/en/tlp/docs/tlp-linux-advanced-power-management.html
-    #  http://linrunner.de/en/tlp/docs/tlp-configuration.html#rdw
-    #  TODO: make sure touchscreen is added to USB_WHITELIST in /etc/default/tlp
-    #
-    ${install} tlp tlp-rdw acpi-call-dkms smartmontools # linux-tools
-
-
-    #
-    #  system debugging tools
-    #
-    ${install} linux-tools-common \
-               linux-tools-generic linux-tools-${kernel_release} \
-               wireshark \
-               sysdig
-
 
     #
     #  golang stuff
@@ -363,6 +335,51 @@ if $linux_p ; then
       go get -u golang.org/x/tools/cmd/goimports
       go get -u golang.org/x/tools/cmd/guru
       go get -u github.com/dougm/goflymake
+
+      rm ${GOPATH}/bin/bundle
+    fi
+
+
+    #
+    #  chrome. pick one!
+    #
+    # if [[ `which google-chrome-beta` == "" ]] ; then
+    #     ${open} https://www.google.com/intl/en/chrome/browser/beta.html
+    # fi
+    if [[ `which google-chrome-stable` == "" ]] ; then
+      ${open} https://www.google.com/intl/en/chrome/browser/desktop/index.html
+    fi
+
+
+    # zoom
+    if ! [[ -e /opt/zoom/ZoomLauncher ]] ; then
+      ${open} https://zoom.us/download
+    fi
+
+
+    # discord
+    if [[ `which discord` == "" ]] ; then
+      ${open} https://discordapp.com/download
+    fi
+
+    # steam
+    if [[ `which steam` == "" ]] ; then
+      ${open} https://store.steampowered.com/about/
+    fi
+
+    # gitter
+    if [[ `which gitter` == "" ]] ; then
+      ${open} https://gitter.im/apps
+    fi
+
+    # slack
+    if ! [[ -e /usr/bin/slack ]] ; then
+      ${open} https://slack.com/downloads/linux
+    fi
+
+    # purevpn
+    if [[ `which purevpn` == "" ]] ; then
+      ${open} https://my.purevpn.com/apps
     fi
   fi
 
@@ -383,7 +400,7 @@ if $linux_p ; then
     #
     #  cinnamon config
     #
-    gsettings set org.cinnamon number-workspaces 3
+    gsettings set org.cinnamon.desktop.wm.preferences num-workspaces 3
   fi
 fi
 
