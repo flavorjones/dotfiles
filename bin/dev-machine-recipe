@@ -44,14 +44,6 @@
 # - install telegram (put it in ~/builds)
 # - install purevpn
 #
-#
-# __video issues__
-#
-#   # add to ~/.profile ...
-#   # cinnamon issue with intel gpus
-#   # https://github.com/linuxmint/Cinnamon/issues/6224
-#   export CLUTTER_VBLANK=none
-#
 
 set -o errexit
 set -o xtrace
@@ -113,6 +105,9 @@ if $linux_p ; then
       htop \
       guake
 
+    # cinnamon issue with intel gpus
+    # https://github.com/linuxmint/Cinnamon/issues/6224
+    apt remove xserver-xorg-video-intel
 
     #
     #  gpg
