@@ -96,6 +96,7 @@ if $linux_p ; then
     #
     ${install} \
       gnome-do gnome-do-plugins libgnome2-bin \
+      libnotify-bin \
       keepassx \
       msttcorefonts \
       gconf-editor \
