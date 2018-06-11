@@ -389,7 +389,7 @@ if $linux_p ; then
       if xinput list | egrep "${TPKB}.*pointer" ; then
         kbid=$(xinput list | egrep "${TPKB}.*pointer" | cut -f2 | cut -d= -f2)
         echo "disabling middle-click paste ..."
-        xinput set-button-map ${kbid} 1 0 3
+        xinput set-button-map ${kbid} 1 0 3 4 5
       fi
     done
 
