@@ -13,6 +13,7 @@ STATUSES = {
   nyc:      %w[:nyc: NYC],
   pa:       %w[:ca-flag: PA],
   sf:       %w[:sf: SF],
+  dublin:   %w[:shamrock: Dublin],
   wfh:      %w[:nj: WFH@NJ],
 
   commute:  %w[:train: Commuting],
