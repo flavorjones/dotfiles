@@ -1,4 +1,4 @@
-patterns = {"Zoom", "^Google Play Music$"}
+patterns = {"^Zoom", "^Google Play Music$"}
 
 debug_print("always-on-top      : examining '" .. get_application_name() .. "'")
 for _, pattern in ipairs(patterns) do
