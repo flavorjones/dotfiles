@@ -99,7 +99,7 @@ if $linux_p ; then
       libnotify-bin \
       keepassx \
       msttcorefonts \
-      gconf-editor \
+      gconf-editor dconf-cli \
       xclip \
       terminator \
       devilspie2 \
