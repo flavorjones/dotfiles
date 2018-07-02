@@ -22,5 +22,6 @@ div.AOL3Kb.flavorjonesVisible {
 /* pad main email pane */
 
 div.TOTjfb {
-    margin-left: 20px; /* this is the 20 we pad on the left */
+    margin-left: 20px;
+    padding-right: 20px;
 }
