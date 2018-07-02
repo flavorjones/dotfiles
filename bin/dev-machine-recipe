@@ -104,7 +104,8 @@ if $linux_p ; then
       terminator \
       devilspie2 \
       htop \
-      guake
+      guake \
+      pavucontrol
 
     # cinnamon issue with intel gpus
     # https://github.com/linuxmint/Cinnamon/issues/6224
