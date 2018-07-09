@@ -299,25 +299,9 @@ if $linux_p ; then
 
 
     #
-    #  flux
+    #  flux-like
     #
-    if [[ `which fluxgui` == "" ]] ; then
-      # Install dependencies
-      ${install} python-appindicator python-xdg python-pexpect python-gconf python-gtk2 python-glade2 libxxf86vm1
-
-      FLUXD="${ossdir}/xflux-gui"
-      if [[ ! -d $FLUXD ]] ; then
-        pushd $(dirname $FLUXD)
-        git clone "https://github.com/xflux-gui/xflux-gui.git"
-        popd
-      fi
-      pushd $FLUXD
-      python download-xflux.py
-      sudo python setup.py install # install globally
-      #python setup.py install --user # install in your home directory
-      (fluxgui 2>&1 > /dev/null &)
-      popd
-    fi
+    ${install} redshift redshift-gtk
 
 
     #
