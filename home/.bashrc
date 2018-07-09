@@ -229,10 +229,6 @@ if [[ $I_AM_LINUX == 1 ]] ; then
     alias open="gnome-open"
 fi
 
-if [[ $I_AM_A_MAC == 0 ]] ; then
-    alias ack="ack-grep"
-fi
-
 alias xc="xclip -selection clipboard"
 
 if which colordiff > /dev/null ; then

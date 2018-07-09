@@ -137,7 +137,7 @@ if $linux_p ; then
       git-core gitk subversion mercurial bzr \
       direnv \
       build-essential valgrind \
-      emacs24 autocutsel puppet-el \
+      emacs25 autocutsel \
       markdown node-marked\
       mariadb-server mariadb-client libmysqlclient-dev \
       postgresql postgresql-client libpq-dev postgresql-contrib \
@@ -212,14 +212,14 @@ if $linux_p ; then
       gufw \
       timeshift \
       byobu \
-      remmina remmina-plugin-rdp libfreerdp-plugins-standard \
-      unetbootin
+      remmina remmina-plugin-rdp libfreerdp-plugins-standard
+      
 
 
     #
     #  dropbox
     #
-    ${install} dropbox python-gpgme
+    ${install} dropbox 
 
 
     #
@@ -259,7 +259,6 @@ if $linux_p ; then
     fi
 
     ${install} krita kazam \
-               gcolor2 \
                libmagickcore-dev libmagick++-dev
 
 
@@ -276,10 +275,10 @@ if $linux_p ; then
     #
     #  system debugging tools
     #
-    ${install} linux-tools-common \
-               linux-tools-generic linux-tools-${kernel_release} \
-               wireshark \
-               sysdig
+    #${install} linux-tools-common \
+    #           linux-tools-generic linux-tools-${kernel_release} \
+    #           wireshark \
+    #           sysdig
 
 
     #
