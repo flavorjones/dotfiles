@@ -70,7 +70,8 @@ end
   SyncSpec.new('.ssh'),
   SyncSpec.new('.subversion'),
   SyncSpec.new('.vnc'),
-  SymlinkSyncSpec.new('devilspie2', dest_dir: File.join(HOME, '.config', 'devilspie2'))
+  SymlinkSyncSpec.new('devilspie2', dest_dir: File.join(HOME, '.config', 'devilspie2')),
+  SyncSpec.new('.config')
 ].each do |spec|
   spec.sync!
 end
