@@ -29,7 +29,7 @@ def usage
   exit 1
 end
 
-def token_for token_key
+def read_from_cache token_key
   if File.exist? TOKEN_FILE
     tokens = YAML.load_file TOKEN_FILE
     token = tokens[token_key]
@@ -37,10 +37,37 @@ def token_for token_key
       return token
     end
   end
+end
 
+def write_to_cache token_key, token_value
+  tokens = {}
+  if File.exist? TOKEN_FILE
+    tokens = YAML.load_file TOKEN_FILE
+  end
+
+  tokens[token_key] = token_value
+
+  File.open(TOKEN_FILE, "w") do |f|
+    f.write YAML.dump(tokens)
+  end
+
+  token_value
+end
+
+def read_from_lpass token_key
   token_name = "Secure Notes/#{token_key}"
   command = %Q{lpass show --notes "#{token_name}"}
   %x{#{command}}.chomp
+end
+
+def token_for token_key
+  token_value = read_from_cache token_key
+  return token_value if token_value
+
+  token_value = read_from_lpass token_key
+  return nil if token_value.nil? or token_value.length == 0
+
+  write_to_cache token_key, token_value
 end
 
 class Slack
