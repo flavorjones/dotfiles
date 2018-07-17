@@ -30,6 +30,10 @@ var flavorjonesSearch = function() {
 
   var permaLinks = [
     {
+      'filter': 'label:@Approvals in:inbox',
+      'title': 'Approvals'
+    },
+    {
       'filter': 'label:_GSS in:inbox ("severity 1" OR "sev 1" OR "sev1" OR subject:"hot accounts" OR to:cf-paas-customerincidents@pivotal.io)',
       'title': 'sev1'
     },
@@ -48,14 +52,14 @@ var flavorjonesSearch = function() {
   ];
 
   var searchSchema = [
+    [findAnywhere, "", ["", ""]], // 📰
     [filterByImportance1, "in:inbox",
      ["(is:starred OR is:important)", "🡅"],
      ["-is:starred -is:important", "🡇"] // "💩"
     ],
-    [findAnywhere, "", ["", "📖"]], // 📰
     [filterByGss, "in:inbox",
-     ["(is:starred OR is:important OR label:~GSS)", "❤"],
-     ["-is:starred -is:important -label:~GSS", "💤"]
+     ["(is:starred OR is:important OR label:~GSS)", "🡅"],
+     ["-is:starred -is:important -label:~GSS", "🡇"]
     ],
     [filterByImportance2, "in:inbox",
      ["(is:starred OR is:important)", "🡅"],
@@ -81,7 +85,7 @@ var flavorjonesSearch = function() {
 
     var anchor = document.createElement("a") ;
     var uri = uriPrefix + filter ;
-    anchor.setAttribute("href", encodeURI(uri));    
+    anchor.setAttribute("href", encodeURI(uri));
     anchor.appendChild(document.createTextNode(title)) ;
     div.appendChild(anchor);
 
@@ -90,6 +94,14 @@ var flavorjonesSearch = function() {
 
   function createSearchLinks(labelName, defaultFilter, queryFilters, readableName) {
     var div = document.createElement("div") ;
+
+    var anchor = document.createElement("a") ;
+    var uri = uriPrefix
+        + "label:" + labelName
+        + " " + defaultFilter ;
+    anchor.setAttribute("href", encodeURI(uri));
+    anchor.appendChild(document.createTextNode(readableName)) ;
+    div.appendChild(anchor);
 
     for (var j = 0 ; j < queryFilters.length ; j++) {
       var queryFilter = queryFilters[j][0] ;
@@ -105,14 +117,6 @@ var flavorjonesSearch = function() {
       div.appendChild(anchor);
     }
 
-    var anchor = document.createElement("a") ;
-    var uri = uriPrefix
-        + "label:" + labelName
-        + " " + defaultFilter ;
-    anchor.setAttribute("href", encodeURI(uri));    
-    anchor.appendChild(document.createTextNode(readableName)) ;
-    div.appendChild(anchor);
-
     return div ;
   }
 
@@ -125,7 +129,7 @@ var flavorjonesSearch = function() {
 
         block(labelText, labelName, searchName);
       }
-    }  
+    }
   }
 
   function buildSearchLinks(flavor, defaultFilter, filters, labels, widget) {
@@ -168,9 +172,9 @@ var flavorjonesSearch = function() {
       }
 
       buildSearchLinks(flavor, defaultFilter, filters, labels, widget);
-    }) ;
 
-    // widget.appendChild(document.createElement("hr"));
+      widget.appendChild(document.createElement("hr"));
+    }) ;
   }
 };
 console.log("flavorjones: setting timer ...");
@@ -200,7 +204,7 @@ document.addEventListener('keyup', function(event) {
     if (sidebar.classList.contains(visibleClass)) {
       var firstLink = searchWidget.querySelector("a")
       firstLink.focus();
-    }      
+    }
   }
 })
 ;
