@@ -101,10 +101,12 @@ if $linux_p ; then
       msttcorefonts \
       gconf-editor dconf-cli \
       xclip \
+      tree \
       terminator \
       devilspie2 \
       htop \
       guake \
+      cheese \
       pavucontrol
 
     # cinnamon issue with intel gpus
@@ -152,7 +154,8 @@ if $linux_p ; then
       libyajl-dev libyaml-dev \
       libcurl4-openssl-dev \
       colordiff \
-      zip
+      zip \
+      jq
 
 
     #
@@ -211,7 +214,6 @@ if $linux_p ; then
       network-manager-openvpn-gnome \
       gufw \
       timeshift \
-      byobu \
       remmina remmina-plugin-rdp libfreerdp-plugins-standard
       
 
