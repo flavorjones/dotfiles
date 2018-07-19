@@ -46,8 +46,12 @@ var flavorjonesSearch = function() {
       'title': 'OMG!!!'
     },
     {
-      'filter': '(label:!!! OR label:omg OR label:cfd) in:inbox -label:~Hiring',
-      'title': 'OMG!!!cfd'
+      'filter': '(label:!!! OR label:omg OR label:cfd) in:inbox -label:~Hiring is:important',
+      'title': 'OMG!!!cfd+i'
+    },
+    {
+      'filter': '(label:!!! OR label:omg OR label:cfd) in:inbox -label:~Hiring -is:important',
+      'title': 'OMG!!!cfd-i'
     }
   ];
 
