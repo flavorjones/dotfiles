@@ -481,3 +481,6 @@ fi
 # ugh npm
 export NPM_CONFIG_PREFIX=~/.npm-global
 export PATH=${PATH}:${NPM_CONFIG_PREFIX}/bin
+
+# Added by Krypton
+export GPG_TTY=$(tty)
