@@ -3,6 +3,8 @@
 require 'httparty'
 require 'json'
 require 'yaml'
+require 'logger'
+require 'pp'
 
 TOKEN_KEYS = %w[slack/pivotal/token slack/cloudfoundry/token]
 TOKEN_FILE = File.join(ENV['HOME'], ".tokens")
@@ -73,6 +75,7 @@ end
 class Slack
   include HTTParty
   base_uri 'slack.com'
+  # logger ::Logger.new(STDOUT), :info, :curl
   
   PATH = "/api/users.profile.set"
 
@@ -82,9 +85,9 @@ class Slack
       "status_text" => (status_text || status_pair[1])
     }.to_json
 
-    post PATH, {query: {token: token, profile: status_json}}
+    response = post PATH, {query: {token: token, profile: status_json}}
+    raise response["error"] if response["error"]
   end
-
 end
 
 status_key = ARGV[0]
