@@ -384,6 +384,12 @@ if $linux_p ; then
     #  cinnamon config
     #
     gsettings set org.cinnamon.desktop.wm.preferences num-workspaces 3
+
+    # gnome-terminal should show up in gnome-do
+    GT_DESKTOP_FILE=/usr/share/applications/gnome-terminal.desktop
+    if ! fgrep OnlyShowIn $GT_DESKTOP_FILE | fgrep X-Cinnamon ; then
+      echo -e "\n***\n*** you must add X-Cinammon to $GT_DESKTOP_FILE property 'OnlyShowIn' ...\n***\n"
+    fi
   fi
 fi
 
