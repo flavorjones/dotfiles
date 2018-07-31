@@ -67,7 +67,6 @@ end
   SyncSpec.new('.gem'),
   SyncSpec.new('.gdb'),
   SymlinkSyncSpec.new('.remmina'),
-  SyncSpec.new('.ssh'),
   SyncSpec.new('.subversion'),
   SyncSpec.new('.vnc'),
   SymlinkSyncSpec.new('devilspie2', dest_dir: File.join(HOME, '.config', 'devilspie2')),
