@@ -24,6 +24,8 @@ STATUSES = {
 
   holiday:  %w[:penguin_dancing: On\ holiday],
   sick:     %w[:face_with_thermometer: Home\ sick],
+
+  offline:  %w[:octagonal_sign: Offline],
 }
 
 def usage
