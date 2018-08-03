@@ -214,7 +214,7 @@ if $linux_p ; then
       network-manager-openvpn-gnome \
       gufw \
       timeshift \
-      remmina remmina-plugin-rdp libfreerdp-plugins-standard
+      remmina remmina-plugin-rdp libfreerdp-plugins-standard remmina-plugin-vnc
       
 
 
