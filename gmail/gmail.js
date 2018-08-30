@@ -38,19 +38,19 @@ var flavorjonesSearch = function() {
       'title': 'sev1'
     },
     {
-      'filter': 'label:omg in:inbox -label:~Hiring',
+      'filter': 'label:omg in:inbox -label:.Hiring',
       'title': 'OMG'
     },
     {
-      'filter': '(label:!!! OR label:omg) in:inbox -label:~Hiring',
+      'filter': '(label:!!! OR label:omg) in:inbox -label:.Hiring',
       'title': 'OMG!!!'
     },
     {
-      'filter': '(label:!!! OR label:omg OR label:cfd) in:inbox -label:~Hiring is:important',
+      'filter': '(label:!!! OR label:omg OR label:cfd) in:inbox -label:.Hiring is:important',
       'title': 'OMG!!!cfd+i'
     },
     {
-      'filter': '(label:!!! OR label:omg OR label:cfd) in:inbox -label:~Hiring -is:important',
+      'filter': '(label:!!! OR label:omg OR label:cfd) in:inbox -label:.Hiring -is:important',
       'title': 'OMG!!!cfd-i'
     }
   ];
@@ -61,11 +61,11 @@ var flavorjonesSearch = function() {
      ["(is:starred OR is:important)", "🡅"],
      ["-is:starred -is:important", "🡇"] // "💩"
     ],
-    [filterByGss, "in:inbox",
+    [filterByGss, "in:inbox -label:.Hiring",
      ["(is:starred OR is:important OR label:~GSS)", "🡅"],
      ["-is:starred -is:important -label:~GSS", "🡇"]
     ],
-    [filterByImportance2, "in:inbox",
+    [filterByImportance2, "in:inbox -label:.Hiring",
      ["(is:starred OR is:important)", "🡅"],
      ["-is:starred -is:important", "🡇"] // "💩"
     ],
