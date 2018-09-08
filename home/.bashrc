@@ -47,16 +47,6 @@ function ps1_haxxor_info {
 }
 
 #
-#  previous command's exit code, if nonzero
-#
-function ps1_previous_exit_code {
-  code=$?
-  if [[ $code -ne 0 ]] ; then
-    echo "[${code}] "
-  fi
-}
-
-#
 #  shortened working directory
 #
 function ps1_working_directory {
@@ -78,7 +68,10 @@ color_bold_text='\[\e[${color};1;7m\]'
 color_text='\[\e[0;${color};1m\]'
 regular_text='\[\e[0m\]'
 export XTERM_PS1="${shift_to_titlebar}\$(ps1_working_directory)${shift_to_tty}"
-export REGULAR_PS1="\n${color_text}\$(ps1_previous_exit_code)\h \$(ps1_haxxor_info)\n${color_bold_text}\W${color_text} \$ ${regular_text}"
+export REGULAR_PS1="\n${color_text}\h \$(ps1_haxxor_info)\n${color_bold_text}\W${color_text} \$ ${regular_text}"
+export BRIEF_PS1="\n${color_text}\h \$ ${regular_text}"
+export REALLY_BRIEF_PS1="\n\$ "
+
 if [[ ${EMACS} == 't' ]] ; then
     #  don't use xterm escapes in emacs
     export PS1=$REGULAR_PS1
