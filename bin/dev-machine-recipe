@@ -292,11 +292,6 @@ if $linux_p ; then
       git clone "https://github.com/kragen/xcompose"
       popd
     fi
-    if [[ ! -e ${HOME}/.XCompose ]] ; then
-      pushd ${XCOMPOSEDIR}
-      ./install
-      popd
-    fi
     ${install} uim
 
 
@@ -333,12 +328,10 @@ if $linux_p ; then
       ${open} https://www.google.com/intl/en/chrome/browser/desktop/index.html
     fi
 
-
     # zoom
     if ! [[ -e /opt/zoom/ZoomLauncher ]] ; then
       ${open} https://zoom.us/download
     fi
-
 
     # discord
     if [[ `which discord` == "" ]] ; then
