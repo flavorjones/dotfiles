@@ -438,11 +438,6 @@ function gocd {
   fi
 }
 
-# trying to get compose key to work
-# https://unix.stackexchange.com/questions/260601/understanding-setting-up-different-input-methods
-export GTK_IM_MODULE="gtk-im-context-simple"
-export QT_IM_MODULE="simple"
-
 
 ##########
 #  crap added by other things
