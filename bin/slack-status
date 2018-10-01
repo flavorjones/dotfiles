@@ -16,7 +16,8 @@ STATUSES = {
   pa:       %w[:ca-flag: PA],
   sf:       %w[:sf: SF],
   dublin:   %w[:shamrock: Dublin],
-  wfh:      %w[:nj: WFH@NJ],
+  nj:       %w[:nj: NJ],
+  none:     ["" ""],
 
   commute:  %w[:train: Commuting],
   meet:     %w[:telephone_receiver: In\ a\ meeting],
