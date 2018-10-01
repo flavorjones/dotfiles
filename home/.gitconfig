@@ -77,13 +77,21 @@
 	new = yellow bold
 	old = yellow
 
-[url "git@github.com:cf-buildpacks/"]
-	pushInsteadOf = "https://github.com/cf-buildpacks/"
-[url "git@github.com:cloudfoundry/"]
-	pushInsteadOf = "https://github.com/cloudfoundry/"
+# shorthand
 [url "git@github.com:"]
 	insteadOf = "gh:"
 
-# because `go get` on private repos is an awful UX
+# always push with authn
 [url "git@github.com:"]
-  insteadOf = https://github.com/
+	pushInsteadOf = "https://github.com/"
+
+# need to ssh-auth to read many pivotal repos
+[url "git@github.com:pivotal/"]
+	insteadOf = "https://github.com/pivotal/"
+[url "git@github.com:pivotalservices/"]
+	insteadOf = "https://github.com/pivotalservices/"
+
+## because `go get` on private repos is an awful UX
+## maybe leave this commented, and uncomment when needed
+# [url "git@github.com:"]
+#   insteadOf = https://github.com/
