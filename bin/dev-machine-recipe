@@ -66,20 +66,20 @@ fi
 kernel_release=$(uname -r)
 ossdir="${HOME}/code/oss"
 
-if $install_p ; then
-  if $linux_p ; then
-    install="apt install -y -q"
-    update="apt update -q"
-    open="gnome-open"
-  elif $apple_p ; then
-    install="brew install"
-    update="brew update"
-    open="open"
-    if [[ `which brew` == "" ]] ; then
-      /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
-    fi
+if $linux_p ; then
+  install="apt install -y -q"
+  update="apt update -q"
+  open="gnome-open"
+elif $apple_p ; then
+  install="brew install"
+  update="brew update"
+  open="open"
+  if [[ `which brew` == "" ]] ; then
+    /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
   fi
+fi
 
+if $install_p ; then
   ${update}
 fi
 
@@ -385,6 +385,16 @@ if $linux_p ; then
     GT_DESKTOP_FILE=/usr/share/applications/gnome-terminal.desktop
     if ! fgrep OnlyShowIn $GT_DESKTOP_FILE | fgrep X-Cinnamon ; then
       echo -e "\n***\n*** you must add X-Cinammon to $GT_DESKTOP_FILE property 'OnlyShowIn' ...\n***\n"
+    fi
+
+    #
+    #  deep sleep
+    #  https://askubuntu.com/questions/1029474/ubuntu-18-04-dell-xps13-9370-no-longer-suspends-on-lid-close
+    #
+    GRUB_FILE=/etc/default/grub
+    if ! fgrep mem_sleep_default $GRUB_FILE ; then
+      echo -e "\n***\n*** please update $GRUB_FILE to have 'mem_sleep_default=deep' in GRUB_CMDLINE_LINUX_DEFAULT\n***"
+      ${open} https://askubuntu.com/questions/1029474/ubuntu-18-04-dell-xps13-9370-no-longer-suspends-on-lid-close
     fi
   fi
 fi
