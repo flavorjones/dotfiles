@@ -8,7 +8,6 @@
 [core]
 	compression = 1
 	loosecompression = 1
-	excludesfile = /home/miked/.gitignore
 	abbrev = 7
 
 [branch]
@@ -20,70 +19,62 @@
 [diff]
 	renames = copies
 	compactionHeuristic = true
+	wordRegex = "[^[:space:]_:.,()/`]+"
 
 [log]
 	abbrevCommit = true
+	decorate = short
 
 [alias]
 	c = commit -v
 	ci = commit
 	co = checkout
+
 	d = diff -w -b
-	ds = diff --staged -w -b
-	dw = diff -w -b --word-diff-regex="[^[:space:]_:.,()/]+"
-	dsw = diff --staged -w -b --word-diff-regex="[^[:space:]_:.,()/]+"
-	lw = log -p --word-diff-regex="[^[:space:]_:.,()/]+"
+	ds = diff -w -b --staged
+	dw = diff -w -b --word-diff
+	dsw = diff -w -b --word-diff --staged
+	lw = log -p --word-diff
+
 	pr = pull --rebase
-	s = status
+
 	ss = status --short
 	w = whatchanged
-	# some pivotal backwards-compatibility
-	#        ci = pair-commit
 	st = status
-	br = branch
-	sta = stash
-	llog = log --date=local
-	flog = log --pretty=fuller --decorate
-	l = log --decorate
-	lg = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative
-	lol = log --graph --decorate --oneline
-	lola = log --graph --decorate --oneline --all
-	blog = log origin/master... --left-right
-	fixup = commit --fixup
-	squash = commit --squash
-	unstage = reset HEAD
-	#        rum = rebase master@{u} # what is this?
+
+	logf = log --pretty=fuller --decorate
+	logg = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative
+	logl = log --graph --decorate --oneline
+	logla = log --graph --decorate --oneline --all
 
 [gui]
 	fontui = -family \"bitstream vera sans\" -size 9 -weight bold -slant roman -underline 0 -overstrike 0
 	fontdiff = -family \"bitstream vera sans mono\" -size 10 -weight normal -slant roman -underline 0 -overstrike 0
 
-
-	# diff: plain (context text), meta (metainformation), frag (hunk header), old (removed lines), new (added lines),
-	# commit (commit headers), or whitespace (highlighting whitespace errors)
-	#
-	# status: header (header text), added or updated, changed, untracked, nobranch
-	#
-	# normal, black, red, green, yellow, blue, magenta, cyan and white
 [color]
 	ui = true
+
+	# status: header (header text), added or updated, changed, untracked, nobranch
 	status = true
+
+	# diff: plain (context text), meta (metainformation), frag (hunk header), old (removed lines), new (added lines),
+	#       commit (commit headers), or whitespace (highlighting whitespace errors)
 	diff = true
+
 [color.status]
 	added = blue bold
 	changed = yellow bold
 	untracked = red bold
+
 [color.diff]
 	new = yellow bold
 	old = yellow
 
-# shorthand
 [url "git@github.com:"]
-	insteadOf = "gh:"
+	insteadOf = "gh:" # shorthand
 
-# always push with authn
 [url "git@github.com:"]
-	pushInsteadOf = "https://github.com/"
+	pushInsteadOf = "https://github.com/" # always push with authn
 
 # need to ssh-auth to read many pivotal repos
 [url "git@github.com:pivotal/"]
