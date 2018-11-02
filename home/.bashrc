@@ -330,6 +330,9 @@ alias dockercleani='printf "\n>>> Deleting untagged images\n\n" && docker rmi $(
 # Delete all stopped containers and untagged images.
 alias dockerclean='dockercleanc || true && dockercleani'
 
+# calendar assistant FTW
+alias ca="calendar-assistant"
+
 
 function  backup {
   ##########
