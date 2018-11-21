@@ -72,8 +72,7 @@ export REGULAR_PS1="\n${color_text}\h \$(ps1_haxxor_info)\n${color_bold_text}\W$
 export BRIEF_PS1="\n${color_text}\h \$ ${regular_text}"
 export REALLY_BRIEF_PS1="\n\$ "
 
-if [[ ${EMACS} == 't' ]] ; then
-    #  don't use xterm escapes in emacs
+if [[ "${INSIDE_EMACS}" != '' ]] ; then
     export PS1=$REGULAR_PS1
 else
     export PS1="${XTERM_PS1}${REGULAR_PS1}"
