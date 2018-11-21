@@ -440,6 +440,25 @@ function gocd {
   fi
 }
 
+#
+#  prune stalled concourse workers
+#
+function fly-prune-workers {
+  target=$1
+  if [[ "$target" == "" ]] ; then
+    echo "USAGE: fly-prune-workers <target>"
+  else
+    workers=$(fly -t "${target}" workers | fgrep stalled | awkp 1)
+    if [[ "$workers" == "" ]] ; then
+      echo "There are no stalled workers"
+    else
+      for worker in $workers ; do
+        fly -t "${target}" prune-worker -w $worker
+      done
+    fi
+  fi
+}
+
 
 ##########
 #  crap added by other things
