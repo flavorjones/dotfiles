@@ -10,14 +10,15 @@ TOKEN_KEYS = %w[slack/pivotal/token slack/cloudfoundry/token]
 TOKEN_FILE = File.join(ENV['HOME'], ".tokens")
 
 STATUSES = {
-  boston:   %w[:boston: Boston],
-  denver:   %w[:snow_capped_mountain: Denver],
-  nyc:      %w[:nyc: NYC],
-  pa:       %w[:ca-flag: PA],
-  sf:       %w[:sf: SF],
   dublin:   %w[:shamrock: Dublin],
+  boston:   %w[:boston: Boston],
+  nyc:      %w[:nyc: NYC],
   nj:       %w[:nj: NJ],
-  none:     ["" ""],
+  denver:   %w[:snow_capped_mountain: Denver],
+  sf:       %w[:sf: SF],
+  pa:       %w[:ca-flag: PA],
+  la:       [":palm_tree:", "Santa Monica"],
+  none:     ["", ""],
 
   commute:  %w[:train: Commuting],
   meet:     %w[:telephone_receiver: In\ a\ meeting],
