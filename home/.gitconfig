@@ -25,6 +25,9 @@
 	abbrevCommit = true
 	decorate = short
 
+[rebase]
+	autoStash = true
+
 [alias]
 	c = commit -v
 	ci = commit
