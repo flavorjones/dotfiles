@@ -1,0 +1,20 @@
+#! /usr/bin/env bash
+
+#
+#  configure my thinkpad keyboards
+#
+#  https://www.topbug.net/blog/2017/02/23/enable-natural-scrolling-for-trackpads-using-libinput/
+#  http://www.thinkwiki.org/wiki/How_to_configure_the_TrackPoint#Configuration_using_xinput
+#
+for device_name in "ThinkPad Compact USB Keyboard" "ThinkPad Compact Bluetooth Keyboard with TrackPoint" ; do
+  if xinput list | egrep "${device_name}.*pointer" > /dev/null ; then
+    echo "Configuring '${device_name}'"
+    kbid=$(xinput list | egrep "${device_name}.*pointer" | cut -f2 | cut -d= -f2)
+
+    # disable middle-click paste
+    xinput set-button-map ${kbid} 1 0 3 4 5
+
+    # use natural scrolling
+    xinput set-prop       ${kbid} "libinput Natural Scrolling Enabled" 1
+  fi
+done
