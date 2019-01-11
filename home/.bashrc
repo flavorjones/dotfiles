@@ -70,7 +70,7 @@ regular_text='\[\e[0m\]'
 export XTERM_PS1="${shift_to_titlebar}\$(ps1_working_directory)${shift_to_tty}"
 export REGULAR_PS1="\n${color_text}\h \$(ps1_haxxor_info)\n${color_bold_text}\W${color_text} \$ ${regular_text}"
 export BRIEF_PS1="\n${color_text}\h \$ ${regular_text}"
-export REALLY_BRIEF_PS1="\n\$ "
+export REALLY_BRIEF_PS1="\n${color_text}\$ ${regular_text}"
 
 if [[ "${INSIDE_EMACS}" != '' ]] ; then
     export PS1=$REGULAR_PS1
