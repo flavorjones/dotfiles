@@ -143,14 +143,16 @@ export INPUTRC="~/.inputrc"
 # fi
 
 #
-# ~/local/
+# ~/local/ and ~/.local/
 #
-if test -a ${HOME}/local ; then
-    export PATH=${HOME}/local/bin:${PATH}
-    export LD_LIBRARY_PATH=${HOME}/local/lib:${LD_LIBRARY_PATH}
-    export MANPATH=${MANPATH}:${HOME}/local/man
-    export INFOPATH=${INFOPATH:+${INFOPATH}:}${HOME}/local/info
-fi
+for localdir in ${HOME}/local ${HOME}/.local ; do
+  if test -a ${localdir} ; then
+    export PATH=${localdir}/bin:${PATH}
+    export LD_LIBRARY_PATH=${localdir}/lib:${LD_LIBRARY_PATH}
+    export MANPATH=${MANPATH}:${localdir}/man
+    export INFOPATH=${INFOPATH:+${INFOPATH}:}${localdir}/info
+  fi
+done
 
 #
 #  overrides for cygwin
