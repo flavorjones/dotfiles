@@ -10,6 +10,9 @@
 	loosecompression = 1
 	abbrev = 7
 
+[pager]
+	branch = false
+
 [branch]
 	autosetupmerge = true
 
