@@ -1,6 +1,0 @@
-#! /bin/bash
-
-export MOZILLA_FIVE_HOME="/usr/lib/mozilla/"
-export ECLIPSE_HOME="$HOME/builds/eclipse"
-
-$ECLIPSE_HOME/eclipse $*

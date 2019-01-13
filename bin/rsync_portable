@@ -1,8 +1,0 @@
-#! /usr/bin/bash
-# script to back up portable USB drive to hard disk
-#
-# note the lack of a drive letter. this is because we can't guarantee
-# where the drive will be mounted. instead, put this script on the portable
-# drive and run it from the root directory.
-
-rsync -av --delete ./ /cygdrive/c/PortableStorage/
