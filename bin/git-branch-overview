@@ -5,9 +5,19 @@ require 'date'
 bold = "\e[1m"
 reset = "\e[0m"
 
-branches = `git branch -r | fgrep origin | fgrep -v HEAD`
-  .split("\n")
-  .map(&:strip)
+def _usage
+  puts "USAGE: git-branch-overview [origin|local]"
+  exit 1
+end
+
+branches = case ARGV[0]
+           when "origin"
+             `git branch -r | fgrep origin/ | fgrep -v origin/HEAD`.split("\n").map(&:strip)
+           when "local"
+             `git branch | cut -c2-`.split("\n").map(&:strip).reject { |b| b =~ /^master$/ }
+           else
+             _usage
+           end
 
 branches_dates = branches.inject({}) do |hash, branch|
   date = Date.parse `git log -n1 --format='%ai' #{branch}`.split(" ").first
