@@ -26,7 +26,7 @@ branches_dates = branches.inject({}) do |hash, branch|
 end
 
 branches_logs = branches.inject({}) do |hash, branch|
-  commit = `git log -n1 #{branch} --pretty=short`
+  commit = `git log -n1 #{branch}` # alt: --pretty=short
   hash[branch] = commit
   hash
 end
