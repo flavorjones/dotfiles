@@ -12,7 +12,7 @@ end
 
 branches = case ARGV[0]
            when "origin"
-             `git branch -r | fgrep origin/ | fgrep -v origin/HEAD`.split("\n").map(&:strip)
+             `git branch -r | fgrep origin/`.split("\n").map(&:strip).reject { |b| b =~ /^origin\/(master$|HEAD)/ }
            when "local"
              `git branch | cut -c2-`.split("\n").map(&:strip).reject { |b| b =~ /^master$/ }
            else
