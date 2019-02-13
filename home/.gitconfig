@@ -48,6 +48,7 @@
 	w = whatchanged
 	st = status
 
+	logp = log --pretty='format:"%h %C(yellow)%ci%Creset %Cgreen%an%Creset | %s"'
 	logf = log --pretty=fuller --decorate
 	logg = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative
 	logl = log --graph --decorate --oneline
