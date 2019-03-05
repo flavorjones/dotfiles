@@ -339,6 +339,10 @@ alias dockerclean='dockercleanc || true && dockercleani'
 # calendar assistant FTW
 alias ca="calendar-assistant"
 
+# what processes are accessing the network?
+# "preload.js" is signal
+alias netps='sudo netstat -nputw | egrep -v " [0-9]+/(slack|dropbox|chrome|zoom|Telegram|Discord|preload.js)[ $]"'
+
 
 function  backup {
   ##########
