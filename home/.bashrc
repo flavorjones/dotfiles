@@ -23,9 +23,14 @@ else
     export I_AM_CYGWIN=0
 fi
 
+#
 # git stuff
+#
 export GIT_PS1_SHOWDIRTYSTATE=1
 . ~/.git-completion.bash
+
+alias git=git-together # https://github.com/kejadlen/git-together
+export GIT_TOGETHER_NO_SIGNOFF=1 # https://github.com/pivotal/git-author
 
 #
 #  prompts, environment, etc.
