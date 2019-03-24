@@ -107,7 +107,8 @@ if $linux_p ; then
       htop \
       guake \
       cheese \
-      pavucontrol
+      pavucontrol \
+      gnome-shell-pomodoro
 
     # cinnamon issue with intel gpus
     # https://github.com/linuxmint/Cinnamon/issues/6224
