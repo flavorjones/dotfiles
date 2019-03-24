@@ -12,6 +12,7 @@
 
 [pager]
 	branch = false
+	tag = false
 
 [branch]
 	autosetupmerge = true
