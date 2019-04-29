@@ -15,6 +15,19 @@ for device_name in "ThinkPad Compact USB Keyboard" "ThinkPad Compact Bluetooth K
     xinput set-button-map ${kbid} 1 0 3 4 5
 
     # use natural scrolling
-    xinput set-prop       ${kbid} "libinput Natural Scrolling Enabled" 1
+    xinput set-prop ${kbid} "libinput Natural Scrolling Enabled" 1
+  fi
+done
+
+#
+#  configure mouse scroll
+#
+for device_name in "Microsoft Microsoft 3-Button Mouse" ; do
+  if xinput list | egrep "${device_name}.*pointer" > /dev/null ; then
+    echo "${0}: Configuring '${device_name}'"
+    kbid=$(xinput list | egrep "${device_name}.*pointer" | cut -f2 | cut -d= -f2)
+
+    # use natural scrolling
+    xinput set-prop ${kbid} "libinput Natural Scrolling Enabled" 1
   fi
 done
