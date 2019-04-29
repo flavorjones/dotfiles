@@ -94,3 +94,9 @@
 ## maybe leave this commented, and uncomment when needed
 # [url "git@github.com:"]
 #   insteadOf = https://github.com/
+[commit]
+	gpgSign = true
+[gpg]
+	program = /usr/bin/krgpg
+[tag]
+	forceSignAnnotated = true
