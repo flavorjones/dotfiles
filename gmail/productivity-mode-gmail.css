@@ -1,7 +1,5 @@
 /* hide compose button */
-
-div.z0,
-button#ibp-main {
+div.z0 {
     display: none;
 }
 /* autohide left sidebar */
