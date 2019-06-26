@@ -28,7 +28,3 @@ body > div > div.nH > div.nH > div.nH > div.no > :nth-child(2) {
 .aj5 {
     background-color: rgba(245, 245, 245, 0.7) !important;
 }
-/* pad the top of the sidebar with some whitespace */
-body > div > div.nH > div.nH > div.nH > div.no > :first-child .aj9 {
-    padding-top: 20px;
-}
