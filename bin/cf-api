@@ -1,15 +1,15 @@
 #! /usr/bin/env ruby
 # coding: utf-8
 
-DEBUG = ENV['DEBUG'] ? true : false
+DEBUG = ENV["DEBUG"] ? true : false
 
 class Credential
   attr :credential_type, :credential_name
 
-  def initialize credential_type, credential_name
+  def initialize(credential_type, credential_name)
     @credential_type = case credential_type
-                         when :user then "--user"
-                         when :pass then "--pass"
+                       when :user then "--user"
+                       when :pass then "--pass"
                        else
                          raise "credential type must be :user or :pass"
                        end
@@ -22,53 +22,59 @@ class Credential
   end
 end
 
-
 envs = {
   "pws" => {
     api: "https://api.run.pivotal.io",
     login: "mdalessio@pivotal.io",
     password: %Q(ipdbdzw}.O7Xsc|Yzk,P+l,r[),
     org: "flavorjones",
-    space: "buildpack-acceptance"
+    space: "buildpack-acceptance",
   },
   "personal" => {
     api: "https://api.run.pivotal.io",
     login: "mdalessio@pivotal.io",
     password: %Q(ipdbdzw}.O7Xsc|Yzk,P+l,r[),
     org: "flavorjones",
-    space: "personal"
+    space: "personal",
   },
   "pwsgloss" => {
     api: "https://api.run.pivotal.io",
     login: "mdalessio@pivotal.io",
     password: %Q(ipdbdzw}.O7Xsc|Yzk,P+l,r[),
     org: "pivotallabs",
-    space: "flavorjones-pivotal-slack-glossary-bot"
+    space: "flavorjones-pivotal-slack-glossary-bot",
   },
   "pivnet" => {
     api: "https://api.run.pivotal.io",
     login: Credential.new(:user, "Shared-PivNet/PWS Console"),
     password: Credential.new(:pass, "Shared-PivNet/PWS Console"),
     org: "pivotal",
-    space: "pivotal-network-production"
+    space: "pivotal-network-production",
   },
   "goruco" => {
     api: "https://api.run.pivotal.io",
     login: "mdalessio@pivotal.io",
     password: %Q(ipdbdzw}.O7Xsc|Yzk,P+l,r[),
     org: "flavorjones",
-    space: "goruco"
+    space: "goruco",
   },
   "nokogiri" => {
     api: "https://api.run.pivotal.io",
     login: "mdalessio@pivotal.io",
     password: %Q(ipdbdzw}.O7Xsc|Yzk,P+l,r[),
     org: "flavorjones",
-    space: "nokogiri"
+    space: "nokogiri",
+  },
+  "sidedoornyc" => {
+    api: "https://api.run.pivotal.io",
+    login: "mdalessio@pivotal.io",
+    password: %Q(ipdbdzw}.O7Xsc|Yzk,P+l,r[),
+    org: "flavorjones",
+    space: "sidedoornyc",
   },
 }
 
-def run cmd
+def run(cmd)
   puts "+ #{cmd}" if DEBUG
   system cmd
 end
@@ -92,13 +98,13 @@ run "cf api #{env[:api]}"
 run "cf auth '#{env[:login].to_s}' '#{env[:password].to_s}'"
 
 if env[:org]
-  if ! run "cf orgs | egrep -q '^#{env[:org]} *$'"
+  if !run "cf orgs | egrep -q '^#{env[:org]} *$'"
     run "cf create-org '#{env[:org]}'"
   end
   run "cf target -o '#{env[:org]}'"
 
   if env[:space]
-    if ! run "cf spaces | egrep -q '^#{env[:space]} *$'"
+    if !run "cf spaces | egrep -q '^#{env[:space]} *$'"
       run "cf create-space '#{env[:space]}'"
     end
     run "cf target -s '#{env[:space]}'"
