@@ -44,6 +44,10 @@ var flavorjonesSearch = function() {
     {
       'filter': '(label:!!! OR label:omg OR label:cfd) in:inbox -label:.Hiring -label:~Calendar -is:important',
       'title': 'OMG!!!cfd-i'
+    },
+    {
+      'filter': 'label:docs in:inbox',
+      'title': 'Doc Updates'
     }
   ];
 
