@@ -510,3 +510,8 @@ export PATH=${PATH}:${NPM_CONFIG_PREFIX}/bin
 
 # Added by Krypton
 export GPG_TTY=$(tty)
+
+# exercism
+if [ -f ~/.config/exercism/exercism_completion.bash ]; then
+  source ~/.config/exercism/exercism_completion.bash
+fi
