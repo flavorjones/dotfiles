@@ -5,10 +5,6 @@
 ///
 
 // user javascript to build helpful search links in gmail
-// based on a label naming convention:
-// - starting with "_" means to bundle into high and low importance links
-// - starting with "@" means to bundle everything
-// - starting with "~" means to only bundle unimportant
 //
 // use with the chrome extension "Custom JavaScript for websites"
 //   https://chrome.google.com/webstore/detail/poakhlngfciodnhlhhgnaaelnpjljija
@@ -20,13 +16,16 @@ var flavorjonesSearch = function() {
 
   var uriPrefix = "https://mail.google.com/mail/u/0/#search/" ;
   var labelSelector = ".nU" ;
-  // var widgetContainerSelector = "*[role=complementary] .T0" ; // previous widget sidebar tab
 
   var filterByImportance1 = /^@/ ;
   var findAnywhere        = /^\./ ;
-  var filterByGss         = /^_/ ;
   var filterByImportance2 = /^~/ ;
-  var flavors = [filterByImportance1, findAnywhere, filterByGss, filterByImportance2] ;
+//  var filterByGss         = /^_/ ;
+  var flavors = [
+    findAnywhere,
+    filterByImportance1,
+    filterByImportance2,
+  ] ;
 
   var permaLinks = [
     {
@@ -56,10 +55,6 @@ var flavorjonesSearch = function() {
     [filterByImportance1, "in:inbox",
      ["(is:starred OR is:important)", "🡅"],
      ["-is:starred -is:important", "🡇"] // "💩"
-    ],
-    [filterByGss, "in:inbox -label:.Hiring -label:~Calendar ",
-     ["(is:starred OR is:important OR label:~GSS)", "🡅"],
-     ["-is:starred -is:important -label:~GSS", "🡇"]
     ],
     [filterByImportance2, "in:inbox -label:.Hiring -label:~Calendar",
      ["(is:starred OR is:important)", "🡅"],
