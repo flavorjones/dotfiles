@@ -56,7 +56,7 @@ var flavorjonesSearch = function() {
      ["(is:starred OR is:important)", "🡅"],
      ["-is:starred -is:important", "🡇"] // "💩"
     ],
-    [filterByImportance2, "in:inbox -label:.Hiring -label:~Calendar",
+    [filterByImportance2, "in:inbox",
      ["(is:starred OR is:important)", "🡅"],
      ["-is:starred -is:important", "🡇"] // "💩"
     ],
