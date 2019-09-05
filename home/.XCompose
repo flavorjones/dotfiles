@@ -10,6 +10,7 @@ include "/%H/code/oss/xcompose/emoji.compose"
 # Emojis
 <Multi_key> <Multi_key> <a> <i> <r> <q>     		: "✌"     U270C # VICTORY / AIRQUOTE
 <Multi_key> <Multi_key> <1> <colon> <1>             : "👫" # MAN AND WOMAN HOLDING HANDS
+<Multi_key> <Multi_key> <h> <o> <u> <s> <e> : "🏡" # U1F3E1 HOUSE WITH GARDEN
 
 # Money
 <Multi_key> <Multi_key> <e> <u> <r> <o> : "€"
