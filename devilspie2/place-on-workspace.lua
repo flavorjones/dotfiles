@@ -4,7 +4,7 @@ PIVOTAL_WORKSPACE = get_workspace_count() -- last workspace
 patterns = {}
 patterns["^Telegram$"] = PERSONAL_WORKSPACE
 patterns["- Discord$"] = PERSONAL_WORKSPACE
-patterns["^Slack "] = PIVOTAL_WORKSPACE
+patterns["^Slack"] = PIVOTAL_WORKSPACE
 patterns["Sococo"] = PIVOTAL_WORKSPACE
 
 debug_print("place-on-workspace: examining '" .. get_application_name() .. "'")
