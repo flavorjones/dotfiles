@@ -20,35 +20,28 @@ var flavorjonesSearch = function() {
   var filterByImportance1 = /^@/ ;
   var findAnywhere        = /^\./ ;
   var filterByImportance2 = /^~/ ;
-//  var filterByGss         = /^_/ ;
   var flavors = [
     findAnywhere,
     filterByImportance1,
     filterByImportance2,
   ] ;
 
-  var permaLinks = [
-    {
-      'filter': 'label:omg in:inbox -label:.Hiring -label:~Calendar',
-      'title': 'OMG'
-    },
-    {
-      'filter': '(label:!!! OR label:omg) in:inbox -label:.Hiring -label:~Calendar',
-      'title': 'OMG!!!'
-    },
-    {
-      'filter': '(label:!!! OR label:omg OR label:cfd) in:inbox -label:.Hiring -label:~Calendar is:important',
-      'title': 'OMG!!!cfd+i'
-    },
-    {
-      'filter': '(label:!!! OR label:omg OR label:cfd) in:inbox -label:.Hiring -label:~Calendar -is:important',
-      'title': 'OMG!!!cfd-i'
-    },
-    {
-      'filter': 'label:docs in:inbox',
-      'title': 'Doc Updates'
-    }
-  ];
+  var permaLinks = [{
+    'filter': 'label:omg in:inbox -label:~Hiring -label:~Calendar',
+    'title': 'OMG'
+  }, {
+    'filter': '(label:!!! OR label:omg) in:inbox -label:~Hiring -label:~Calendar',
+    'title': 'OMG!!!'
+  }, {
+    'filter': '(label:!!! OR label:omg OR label:cfd) in:inbox -label:~Hiring -label:~Calendar is:important',
+    'title': 'OMG!!!cfd+i'
+  }, {
+    'filter': '(label:!!! OR label:omg OR label:cfd) in:inbox -label:~Hiring -label:~Calendar -is:important',
+    'title': 'OMG!!!cfd-i'
+  }, {
+    'filter': 'label:docs in:inbox',
+    'title': 'Doc Updates'
+  }];
 
   var searchSchema = [
     [findAnywhere, "", ["", ""]], // 📰
