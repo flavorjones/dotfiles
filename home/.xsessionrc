@@ -42,5 +42,6 @@ done
 #  see https://github.com/signalapp/Signal-Desktop/issues/3602
 #
 echo "${0}: ensuring chrome is the default handler for text/html"
+xdg-mime query default text/html
 xdg-mime default google-chrome.desktop text/html
 xdg-mime query default text/html
