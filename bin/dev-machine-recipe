@@ -358,9 +358,6 @@ if $linux_p ; then
     if [[ `which purevpn` == "" ]] ; then
       ${open} https://my.purevpn.com/apps
     fi
-
-    # slack
-    ${install} skypeforlinux
   fi
 
 
