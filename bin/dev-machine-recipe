@@ -320,6 +320,15 @@ if $linux_p ; then
 
 
     #
+    #  starship bash prompt
+    #
+    if [[ `which starship` == "" ]] ; then
+      wget -q --show-progress https://github.com/starship/starship/releases/latest/download/starship-x86_64-unknown-linux-gnu.tar.gz
+      tar xvf starship-x86_64-unknown-linux-gnu.tar.gz
+      mv starship ${HOME}/local/bin/
+    fi
+
+    #
     #  chrome. pick one!
     #
     # if [[ `which google-chrome-beta` == "" ]] ; then
