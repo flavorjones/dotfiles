@@ -188,7 +188,7 @@ if $linux_p ; then
     fi
 
     #  dependencies for LicenseFinder development
-    ${install} npm maven gradle rebar
+#    ${install} npm maven gradle rebar
 
     if [[ ! -e /usr/bin/node ]] ; then
       # https://github.com/joyent/node/issues/3911
