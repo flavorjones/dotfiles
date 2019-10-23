@@ -39,8 +39,8 @@ var flavorjonesSearch = function() {
     'filter': '(label:!!! OR label:omg OR label:cfd) in:inbox -label:~Hiring -label:~Calendar -is:important',
     'title': 'OMG!!!cfd-i'
   }, {
-    'filter': 'in:inbox from:vmware',
-    'title': 'New Overlords'
+    'filter': 'in:inbox (from:vmware OR vmware.com) -kubernetes-dev -label:~Calendar -subject:"drumbeat"',
+    'title': 'vmwow'
   }, {
     'filter': 'label:docs in:inbox',
     'title': 'Doc Updates'
