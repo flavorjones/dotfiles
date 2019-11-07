@@ -19,6 +19,7 @@ STATUSES = {
   pa: %w[:ca-flag: PA],
   la: [":palm_tree:", "Santa Monica"],
   london: [":london-underground:", "London"],
+  toronto: [":canada:", "Toronto"],
   none: ["", ""],
 
   commute: %w[:train: Commuting],
