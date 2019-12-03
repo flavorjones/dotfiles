@@ -34,14 +34,3 @@ for device_name in "Microsoft Microsoft 3-Button Mouse" ; do
     xinput set-prop ${kbid} "libinput Natural Scrolling Enabled" 1
   fi
 done
-
-#
-#  signal keeps getting registered as the html handler
-#  so, let's undo that.
-#
-#  see https://github.com/signalapp/Signal-Desktop/issues/3602
-#
-echo "${0}: ensuring chrome is the default handler for text/html"
-xdg-mime query default text/html
-xdg-mime default google-chrome.desktop text/html
-xdg-mime query default text/html
