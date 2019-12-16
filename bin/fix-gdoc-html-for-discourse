@@ -12,8 +12,17 @@
 require "nokogiri"
 require "open3"
 
-html = `xclip -selection clipboard -o -t text/html`
-puts "read  #{html.length} bytes"
+def error(message)
+  puts "ERROR: #{message}"
+  exit 1
+end
+
+html = ""
+Open3.popen3("xclip -selection clipboard -o -t text/html") do |stdin, stdout, stderr, wait_thr|
+  html = stdout.read
+  error "could not read text/html from clipboard" unless wait_thr.value.success?
+end
+puts "read  #{html.length} bytes from clipboard"
 
 doc = Nokogiri::HTML html
 
@@ -33,4 +42,4 @@ Open3.popen3("xclip -selection clipboard -i -t text/html") do |stdin, stdout, st
   stdin.write doc.to_html
 end
 
-puts "wrote #{doc.to_html.length} bytes"
+puts "wrote #{doc.to_html.length} bytes back to clipboard"
