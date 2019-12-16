@@ -319,14 +319,14 @@ if $linux_p ; then
     fi
 
 
-    #
-    #  starship bash prompt
-    #
-    if [[ `which starship` == "" ]] ; then
-      wget -q --show-progress https://github.com/starship/starship/releases/latest/download/starship-x86_64-unknown-linux-gnu.tar.gz
-      tar xvf starship-x86_64-unknown-linux-gnu.tar.gz
-      mv starship ${HOME}/local/bin/
-    fi
+    # #
+    # #  starship bash prompt
+    # #
+    # if [[ `which starship` == "" ]] ; then
+    #   wget -q --show-progress https://github.com/starship/starship/releases/latest/download/starship-x86_64-unknown-linux-gnu.tar.gz
+    #   tar xvf starship-x86_64-unknown-linux-gnu.tar.gz
+    #   mv starship ${HOME}/local/bin/
+    # fi
 
     #
     #  chrome. pick one!
@@ -361,6 +361,11 @@ if $linux_p ; then
     # slack
     if ! [[ -e /usr/bin/slack ]] ; then
       ${open} https://slack.com/downloads/linux
+    fi
+
+    # signal
+    if ! [[ -e /usr/bin/signal-desktop ]] ; then
+      ${open} https://signal.org/download/
     fi
 
     # purevpn
