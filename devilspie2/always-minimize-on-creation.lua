@@ -1,4 +1,4 @@
-patterns = {"^Zoom.*Pro Account$"}
+patterns = {"^Zoom.*Licensed Account$"}
 
 debug_print("always-minimize-on-creation: examining '" .. get_application_name() .. "'")
 for _, pattern in ipairs(patterns) do
