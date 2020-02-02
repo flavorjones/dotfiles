@@ -43,6 +43,8 @@
 	dsw = diff -w -b --word-diff --staged
 	lw = log -p --word-diff
 
+	showw = show -w -b --word-diff
+
 	pr = pull --rebase
 
 	ss = status --short
