@@ -213,6 +213,7 @@ if $linux_p ; then
     ${install} \
       hfsprogs cryptsetup \
       network-manager-openvpn-gnome \
+      network-manager-vpnc-gnome \
       gufw \
       timeshift \
       remmina remmina-plugin-rdp libfreerdp-plugins-standard remmina-plugin-vnc
