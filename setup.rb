@@ -1,15 +1,15 @@
 #! /usr/bin/env ruby
 
-require 'find'
-require 'fileutils'
+require "find"
+require "fileutils"
 
-HOME = ENV['HOME']
-PWD  = File.dirname(__FILE__)
+HOME = ENV["HOME"]
+PWD = File.dirname(__FILE__)
 
 class SyncSpec
   attr_reader :source_dir, :options
 
-  def initialize source_dir, options={}
+  def initialize(source_dir, options = {})
     @source_dir = source_dir
     @options = options
   end
@@ -37,11 +37,11 @@ class SyncSpec
 
   private
 
-  def sync_file file
+  def sync_file(file)
     source_file = File.join PWD, file
-    dest_file   = File.join dest_dir, File.basename(file)
+    dest_file = File.join dest_dir, File.basename(file)
     FileUtils.rm_f dest_file
-    FileUtils.ln   source_file, dest_file, verbose: true
+    FileUtils.ln source_file, dest_file, verbose: true
   end
 
   def default_dest_dir
@@ -59,18 +59,18 @@ class SymlinkSyncSpec < SyncSpec
 end
 
 [
-  SyncSpec.new('bin'),
-  SyncSpec.new('home', dest_dir: HOME),
-  SyncSpec.new('Music'),
-  SyncSpec.new('vms'),
-  SyncSpec.new('.fonts'),
-  SyncSpec.new('.gem'),
-  SyncSpec.new('.gdb'),
-  SymlinkSyncSpec.new('.remmina'),
-  SyncSpec.new('.subversion'),
-  SyncSpec.new('.vnc'),
-  SymlinkSyncSpec.new('devilspie2', dest_dir: File.join(HOME, '.config', 'devilspie2')),
-  SyncSpec.new('.config')
+  SyncSpec.new("bin"),
+  SyncSpec.new("home", dest_dir: HOME),
+  SyncSpec.new("Music"),
+  SyncSpec.new("vms"),
+  SyncSpec.new(".fonts"),
+  SyncSpec.new(".gem"),
+  SyncSpec.new(".gdb"),
+  SymlinkSyncSpec.new(".remmina"),
+  SyncSpec.new(".subversion"),
+  SyncSpec.new(".vnc"),
+  SymlinkSyncSpec.new("devilspie2", dest_dir: File.join(HOME, ".config", "devilspie2")),
+  SyncSpec.new(".config"),
 ].each do |spec|
   spec.sync!
 end
