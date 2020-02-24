@@ -92,6 +92,22 @@ class Slack
     }.to_json
 
     response = post PATH, { query: { token: token, profile: status_json } }
+    return unless response["error"]
+
+    if response["error"] =~ /emoji/
+      puts "WARNING: retrying without '#{status_pair[0]}' after #{response["error"]}"
+      update_status_without_emoji(token, status_pair, status_text)
+    else
+      raise response["error"] if response["error"]
+    end
+  end
+
+  def self.update_status_without_emoji(token, status_pair, status_text = nil)
+    status_json = {
+      "status_text" => (status_text || status_pair[1]),
+    }.to_json
+
+    response = post PATH, { query: { token: token, profile: status_json } }
     raise response["error"] if response["error"]
   end
 end
