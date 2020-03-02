@@ -1,9 +1,3 @@
-///
-/// TOC:
-/// - flavorjonesSearch javascript to build magic sidebar links
-/// - keypress handler to make sidebar visible
-///
-
 // user javascript to build helpful search links in gmail
 //
 // use with the chrome extension "Custom JavaScript for websites"
@@ -16,6 +10,7 @@ var flavorjonesSearch = function() {
 
   var uriPrefix = "https://mail.google.com/mail/u/0/#search/" ;
   var labelSelector = ".nU" ;
+  var categorySelector = labelSelector + " > a[href*='#category/']";
 
   var filterByImportance1 = /^@/ ;
   var findAnywhere        = /^\./ ;
@@ -130,6 +125,7 @@ var flavorjonesSearch = function() {
   }
 
   var labels = document.body.querySelectorAll(labelSelector);
+  var categories = document.body.querySelectorAll(categorySelector);
   if (labels.length > 0) {
     var searchWidget = document.body.querySelector("." + searchWidgetClass) ;
     if (searchWidget) {
@@ -143,12 +139,20 @@ var flavorjonesSearch = function() {
     var widget = document.createElement("div")
     widget.setAttribute("class", searchWidgetClass);
 
-    // widgetContainer.appendChild(widget);
-    // widget.appendChild(document.createElement("hr"));
     widgetContainer.insertBefore(widget, widgetContainer.firstChild);
 
     permaLinks.forEach(function(permaLink) {
       widget.appendChild(createPermaLink(permaLink["title"], permaLink["filter"]));
+    });
+
+    widget.appendChild(document.createElement("hr"));
+
+    categories.forEach(function(link) {
+      widget.appendChild(createSearchLinks(link["title"],
+                                           "in:inbox",
+                                           [ ["(is:starred OR is:important)", "🡅"],
+                                             ["-is:starred -is:important", "🡇"] ],
+                                           link["title"]));
     });
 
     widget.appendChild(document.createElement("hr"));
@@ -173,9 +177,7 @@ setTimeout(flavorjonesSearch, 5000);
 setTimeout(flavorjonesSearch, 10000);
 setTimeout(flavorjonesSearch, 20000);
 
-//
 //  handle keypresses
-//
 console.log("flavorjones: keyup handler attached");
 document.addEventListener('keyup', function(event) {
   if (event['key'] == "p" &&
