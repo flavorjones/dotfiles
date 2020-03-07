@@ -1,5 +1,15 @@
 #! /usr/bin/env bash
 
+export DISPLAY=":0"
+
+function say {
+  echo "${0}: $*"
+  logger "${0}: $*"
+}
+
+say "Looking for devices on ${DISPLAY} ..."
+
+
 #
 #  configure my thinkpad keyboards
 #
@@ -9,7 +19,7 @@
 for device_name in "ThinkPad Compact USB Keyboard" "ThinkPad Compact Bluetooth Keyboard with TrackPoint" "TPPS/2 IBM TrackPoint" ; do
   if xinput list | egrep "${device_name}.*pointer" > /dev/null ; then
     kbid=$(xinput list | egrep "${device_name}.*pointer" | cut -f2 | cut -d= -f2)
-    echo "${0}: Configuring '${device_name} (${kbid})'"
+    say "Configuring '${device_name} (${kbid})'"
 
     # disable middle-click paste
     xinput set-button-map ${kbid} 1 0 3 4 5
@@ -28,7 +38,7 @@ done
 for device_name in "Microsoft Microsoft 3-Button Mouse" ; do
   if xinput list | egrep "${device_name}.*pointer" > /dev/null ; then
     kbid=$(xinput list | egrep "${device_name}.*pointer" | cut -f2 | cut -d= -f2)
-    echo "${0}: Configuring '${device_name} (${kbid})'"
+    say "Configuring '${device_name} (${kbid})'"
 
     # use natural scrolling
     xinput set-prop ${kbid} "libinput Natural Scrolling Enabled" 1
