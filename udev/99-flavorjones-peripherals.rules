@@ -1,0 +1,11 @@
+#
+#  when my peripherals are attached, either via usb or bluetooth, configure them
+#
+#  see also home/.xsessionrc in this repo
+#
+
+# "ThinkPad Compact Bluetooth Keyboard with TrackPoint"
+ACTION=="bind", SUBSYSTEM=="hid", ATTRS{idVendor}=="0489", ATTRS{idProduct}=="e0a2", RUN+="/bin/su flavorjones -c /home/flavorjones/.xsessionrc"
+
+# "Microsoft Microsoft 3-Button Mouse"
+ACTION=="bind", SUBSYSTEM=="hid", ATTRS{idVendor}=="045e", ATTRS{idProduct}=="0040", RUN+="/bin/su flavorjones -c /home/flavorjones/.xsessionrc"

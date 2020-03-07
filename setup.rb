@@ -82,6 +82,7 @@ end
   SyncSpec.new(".vnc"),
   SymlinkSyncSpec.new("devilspie2", dest_dir: File.join(HOME, ".config", "devilspie2")),
   SyncSpec.new(".config"),
+  SyncSpec.new("udev", dest_dir: UDEV_PATH, sudo: true),
 ].each do |spec|
   spec.sync!
 end
