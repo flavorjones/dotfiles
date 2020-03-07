@@ -2,8 +2,10 @@
 
 require "find"
 require "fileutils"
+require "rake"
 
 HOME = ENV["HOME"]
+UDEV_PATH = "/etc/udev/rules.d"
 PWD = File.dirname(__FILE__)
 
 class SyncSpec
@@ -16,6 +18,10 @@ class SyncSpec
 
   def dest_dir
     options[:dest_dir] || default_dest_dir
+  end
+
+  def sudo?
+    options[:sudo]
   end
 
   def files
@@ -38,10 +44,15 @@ class SyncSpec
   private
 
   def sync_file(file)
-    source_file = File.join PWD, file
-    dest_file = File.join dest_dir, File.basename(file)
-    FileUtils.rm_f dest_file
-    FileUtils.ln source_file, dest_file, verbose: true
+    source_file = File.expand_path(File.join(PWD, file))
+    dest_file = File.expand_path(File.join(dest_dir, File.basename(file)))
+    if sudo?
+      Rake.sh %Q{sudo rm -f "#{dest_file}"}
+      Rake.sh %Q{sudo ln -s "#{source_file}" "#{dest_file}"} # soft link
+    else
+      FileUtils.rm_f dest_file
+      FileUtils.ln source_file, dest_file, verbose: true # hard link
+    end
   end
 
   def default_dest_dir
