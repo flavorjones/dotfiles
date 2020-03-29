@@ -38,11 +38,11 @@ function ps1_haxxor_info {
 
 function ps1_working_directory {
   if [[ $PWD =~ "${GOPATH}/src" ]] ; then
-    echo "(${gvm_go_name}) $(realpath --relative-to ${GOPATH}/src ${PWD})"
+    echo "(${gvm_go_name}) $(realpath --relative-to "${GOPATH}/src" "${PWD}")"
   elif [[ $PWD == $HOME ]] ; then
     echo "~"
   elif [[ $PWD =~ "${HOME}/" ]] ; then
-    echo "~/$(realpath --relative-to ${HOME} ${PWD})"
+    echo "~/$(realpath --relative-to "${HOME}" "${PWD}")"
   else
     echo $PWD
   fi
