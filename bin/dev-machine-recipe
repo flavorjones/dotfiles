@@ -70,6 +70,7 @@ if $linux_p ; then
   install="apt install -y -q"
   update="apt update -q"
   open="gnome-open"
+  snap_install="sudo snap install"
 elif $apple_p ; then
   install="brew install"
   update="brew update"
@@ -183,8 +184,12 @@ if $linux_p ; then
       popd
     fi
 
+    if [[ `which snap` == "" ]] ; then
+      ${install} snapd
+    fi
+
     if [[ `which heroku` == "" ]] ; then
-      wget -qO- https://toolbelt.heroku.com/install-ubuntu.sh | sh
+      ${snap_install} --classic heroku
     fi
 
     #  dependencies for LicenseFinder development
