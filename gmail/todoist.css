@@ -1,3 +1,5 @@
+div.task_content a,
+div.task_content a:visited,
 div.task_item_details a,
 div.task_item_details a:visited {
     text-decoration: underline !important;
