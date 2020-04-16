@@ -29,6 +29,9 @@
 	abbrevCommit = true
 	decorate = short
 
+[tag]
+	sort=version:refname
+
 [rebase]
 	autoStash = true
 
