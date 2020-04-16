@@ -203,7 +203,12 @@ fi
 alias xc="xclip -selection clipboard"
 
 function psg {
-  pgrep -f ${*} | xargs --no-run-if-empty ps --pid
+  pgrep -f ${*} | xargs --no-run-if-empty ps -F --pid
+}
+
+function psk {
+  psg ${*}
+  pkill -f ${*}
 }
 
 function epochtime {
