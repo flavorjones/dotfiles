@@ -4,6 +4,19 @@
 #
 #   https://help.ubuntu.com/community/ResizeEncryptedPartitions
 #
+# __Customize Font__
+#
+#   https://input.fontbureau.com/
+#
+#   config:
+#     Alternates
+#     	--asterisk=height
+#     	--g=ss
+#     	--i=serifs
+#     	--l=serifs_round
+#    
+#     Line Height: 1.2×
+#
 # __Recommended disk config__
 #
 # root - 20GB ext4
