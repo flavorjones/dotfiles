@@ -22,10 +22,15 @@
 # Medium Priority
 # --------------
 #
-# 1. background images from Documents/Pictures/Desktop\ Backgrounds
+# 1. configure timeshift backups
 # 2. install gvm
-# 3. install ukuu (from source) and upgrade to desired kernel
-# 4. configure timeshift backups
+# 3. run this script
+#
+# Low Priority
+# ------------
+#
+# 1. set background images from Documents/Pictures/Desktop\ Backgrounds
+# 2. desktop config (you should really automate that, too)
 #
 #
 # Disk Help
@@ -314,6 +319,22 @@ if $linux_p ; then
     #           wireshark \
     #           sysdig
 
+
+    #
+    #  ukuu
+    #
+    UKUUDIR="${ossdir}/ukuu"
+    if [[ ! -d ${UKUUDIR} ]] ; then
+      pushd ${ossdir}
+      git clone "http://github.com/teejee2008/ukuu.git"
+      popd
+    fi
+    if [[ `which ukuu` == "" ]] ; then
+      pushd ${UKUUDIR}
+      git pull
+      make all
+      sudo make install
+    fi
 
     #
     #  .XCompose unicode input
