@@ -1,32 +1,13 @@
 #! /usr/bin/env bash
 #
-# __Encrypted LVM help__
+# Recovering From A Complete Loss
+# ===============================
 #
-#   https://help.ubuntu.com/community/ResizeEncryptedPartitions
-#
-# __Customize Font__
-#
-#   https://input.fontbureau.com/
-#
-#   config:
-#     Alternates
-#     	--asterisk=height
-#     	--g=ss
-#     	--i=serifs
-#     	--l=serifs_round
-#    
-#     Line Height: 1.2×
-#
-# __Recommended disk config__
-#
-# root - 20GB ext4
-# swap - 8GB - 16GB swap
-# home - whatever's left ext4
-#
-# __Recovering from a complete loss__
+# High Priority
+# -------------
 #
 # 1. set CapsLock to Ctrl, compose key to right-alt, set sloppy window focus
-# 2. recover ssh keys
+# 2. recover ssh keys - use krypton!! https://krypt.co/
 # 3. `sudo apt-get install git ruby rake`
 # 4. clone dotfiles repo, run setup, re-login
 # 5. run `dev-machine-setup`
@@ -38,24 +19,46 @@
 # 11. add guake and devilspie2 to startup applications
 # 12. add cinnamon applet: "Multi-Core System Monitor"
 #
-#
-# __Lower priority__
+# Medium Priority
+# --------------
 #
 # 1. background images from Documents/Pictures/Desktop\ Backgrounds
 # 2. install gvm
+# 3. install ukuu (from source) and upgrade to desired kernel
+# 4. configure timeshift backups
 #
 #
-# __More Things__
+# Disk Help
+# =========
 #
-# - set up alternative chrome profiles
-#   - goruco
-#   - lostatpivotal
-#   - mario pivotalio
-# - configure Pivotal VPN
-# - check out other code
-# - configure timeshift backups
-# - install telegram (put it in ~/builds)
-# - install purevpn
+# Mostly out of date these days, instead use the default LVM partitioning.
+#
+# Encrypted LVM help
+# ------------------
+#
+# https://help.ubuntu.com/community/ResizeEncryptedPartitions
+#
+# Recommended disk config if you're going to fiddle
+# -------------------------------------------------
+#
+# root - 20GB ext4
+# swap - 8GB - 16GB swap
+# home - whatever's left ext4
+#
+#
+# Input Font config
+# =================
+#
+#   https://input.fontbureau.com/
+#
+#   config:
+#     Alternates
+#     	--asterisk=height
+#     	--g=ss
+#     	--i=serifs
+#     	--l=serifs_round
+#    
+#     Line Height: 1.2×
 #
 
 set -o errexit
@@ -124,9 +127,6 @@ if $linux_p ; then
       pavucontrol \
       gnome-shell-pomodoro
 
-    # cinnamon issue with intel gpus
-    # https://github.com/linuxmint/Cinnamon/issues/6224
-    #apt remove xserver-xorg-video-intel
 
     #
     #  gpg
@@ -197,6 +197,10 @@ if $linux_p ; then
       popd
     fi
 
+
+    #
+    #  heroku
+    #
     if [[ `which snap` == "" ]] ; then
       ${install} snapd
     fi
@@ -235,7 +239,6 @@ if $linux_p ; then
       gufw \
       timeshift \
       remmina remmina-plugin-rdp libfreerdp-plugins-standard remmina-plugin-vnc
-      
 
 
     #
@@ -245,7 +248,7 @@ if $linux_p ; then
 
 
     #
-    #   cinnamon system monitor
+    #  cinnamon system monitor
     #
     ${install} gir1.2-gtop-2.0
 
@@ -294,10 +297,10 @@ if $linux_p ; then
     ${install} tlp tlp-rdw acpi-call-dkms smartmontools powertop # linux-tools
 
 
-    #
-    #  system debugging tools
-    #
-    #${install} linux-tools-common \
+    # #
+    # #  system debugging tools
+    # #
+    # ${install} linux-tools-common \
     #           linux-tools-generic linux-tools-${kernel_release} \
     #           wireshark \
     #           sysdig
@@ -347,6 +350,7 @@ if $linux_p ; then
     #   mv starship ${HOME}/local/bin/
     # fi
 
+
     #
     #  chrome. pick one!
     #
@@ -357,37 +361,34 @@ if $linux_p ; then
       ${open} https://www.google.com/intl/en/chrome/browser/desktop/index.html
     fi
 
-    # zoom
+
+    #
+    #  things i have to manually install (pending further automation)
+    #
     if ! [[ -e /opt/zoom/ZoomLauncher ]] ; then
       ${open} https://zoom.us/download
     fi
 
-    # discord
     if [[ `which discord` == "" ]] ; then
       ${open} https://discordapp.com/download
     fi
 
-    # steam
     if [[ `which steam` == "" ]] ; then
       ${open} https://store.steampowered.com/about/
     fi
 
-    # gitter
     if [[ `which gitter` == "" ]] ; then
       ${open} https://gitter.im/apps
     fi
 
-    # slack
     if ! [[ -e /usr/bin/slack ]] ; then
       ${open} https://slack.com/downloads/linux
     fi
 
-    # signal
     if ! [[ -e /usr/bin/signal-desktop ]] ; then
       ${open} https://signal.org/download/
     fi
 
-    # purevpn
     if [[ `which purevpn` == "" ]] ; then
       ${open} https://my.purevpn.com/apps
     fi
