@@ -87,6 +87,9 @@ if $linux_p ; then
   update="apt update -q"
   open="gnome-open"
   snap_install="sudo snap install"
+  snap_update="sudo snap refresh"
+  flatpak_install="flatpak install flathub"
+  flatpak_update="flatpak update"
 elif $apple_p ; then
   install="brew install"
   update="brew update"
@@ -98,6 +101,8 @@ fi
 
 if $install_p ; then
   ${update}
+  ${snap_update}
+  ${flatpak_update}
 fi
 
 if $config_p ; then
@@ -285,6 +290,8 @@ if $linux_p ; then
 
     ${install} krita kazam \
                libmagickcore-dev libmagick++-dev
+
+    ${flatpak_install} org.glimpse_editor.Glimpse
 
 
     #
