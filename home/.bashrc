@@ -20,6 +20,8 @@ export GIT_PS1_SHOWDIRTYSTATE=1
 #
 #  prompts, environment, etc.
 #
+source /etc/bash_completion
+
 function ps1_haxxor_info {
   prompt=""
 
@@ -258,31 +260,34 @@ function gocd {
 
 
 #
-#  thanks to colin humphreys
+#  kubernetes hacks - thanks to colin humphreys
 #
-#kubernetes
-alias k=kubectl
-alias ka='kubectl apply'
-alias kaf='kubectl apply -f'
-alias kg='kubectl get'
-alias kc='kubectl config'
-alias kd='kubectl describe'
-alias kga='kubectl get all --all-namespaces'
-alias kge='kubectl get events'
-function kns() {
-  kubectl config set-context --current --namespace=$1
-}
-#kapp
-alias kf='kapp deploy -a auto-kapp-$(date +%s) -f'
-#kind
-alias kind-create='kind create cluster && kind-kubeconfig'
-alias kind-delete='kind delete cluster'
-alias kind-reset='kind-delete && kind-create'
-alias kind-kubeconfig='export KUBECONFIG="$(kind get kubeconfig-path --name="kind")"'
-#command line completion
-source /etc/bash_completion
-source <(kubectl completion bash)
+if [[ `which kubectl` != "" ]] ; then
+  alias k=kubectl
+  alias ka='kubectl apply'
+  alias kaf='kubectl apply -f'
+  alias kg='kubectl get'
+  alias kc='kubectl config'
+  alias kd='kubectl describe'
+  alias kga='kubectl get all --all-namespaces'
+  alias kge='kubectl get events'
+  function kns() {
+    kubectl config set-context --current --namespace=$1
+  }
 
+  if [[ `which kapp` != "" ]] ; then
+    alias kf='kapp deploy -a auto-kapp-$(date +%s) -f'
+  fi
+
+  if [[ `which kind` != "" ]] ; then
+    alias kind-create='kind create cluster && kind-kubeconfig'
+    alias kind-delete='kind delete cluster'
+    alias kind-reset='kind-delete && kind-create'
+    alias kind-kubeconfig='export KUBECONFIG="$(kind get kubeconfig-path --name="kind")"'
+  fi
+
+  source <(kubectl completion bash)
+fi
 
 #
 #  crap added by other packages
