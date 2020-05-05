@@ -10,10 +10,10 @@
 # 2. recover ssh keys - use krypton!! https://krypt.co/
 # 3. `sudo apt-get install git ruby rake`
 # 4. clone dotfiles repo, run setup, re-login
-# 5. run `dev-machine-setup`
+# 5. run `dev-machine-recipe` (this script!)
 # 6. clone emacs.d repo, run rake
 # 7. set up dropbox
-# 8. symlink Documents → Shared/Dropbox/Mike
+# 8. symlink Documents → Dropbox/Mike
 # 9. set up gnome-do keybinding
 # 10. set up chrome profiles
 # 11. add guake and devilspie2 to startup applications
@@ -24,13 +24,13 @@
 #
 # 1. configure timeshift backups
 # 2. install gvm
-# 3. run this script
+# 3. install cxoffice and microsoft office stuff
 #
 # Low Priority
 # ------------
 #
 # 1. set background images from Documents/Pictures/Desktop\ Backgrounds
-# 2. desktop config (you should really automate that, too)
+# 2. desktop config (you should really automate this, too)
 #
 #
 # Disk Help
@@ -152,7 +152,7 @@ if $linux_p ; then
     #  rvm
     #
     if [[ `which rvm` == "" ]] ; then
-      gpg --keyserver hkp://keys.gnupg.net --recv-keys 409B6B1796C275462A1703113804BB82D39DC0E3
+      gpg2 --recv-keys 409B6B1796C275462A1703113804BB82D39DC0E3 7D2BAF1CF37B13E2069D6956105BD0E739499BDB
       curl -sSL https://get.rvm.io | bash -s stable --without-gems="rubygems-bundler"
     fi
 
@@ -330,6 +330,7 @@ if $linux_p ; then
       popd
     fi
     if [[ `which ukuu` == "" ]] ; then
+      ${install} libgee-0.8-dev libjson-glib-dev libvte-2.91-dev valac
       pushd ${UKUUDIR}
       git pull
       make all
