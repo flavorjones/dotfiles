@@ -428,11 +428,27 @@ if $linux_p ; then
 
   if $config_p ; then
     #
-    #  cinnamon config
+    #  cinnamon + gnome config
     #
+    gsettings set org.cinnamon.desktop.wm.preferences focus-mode 'sloppy'
     gsettings set org.cinnamon.desktop.wm.preferences num-workspaces 3
 
-    # gnome-terminal should show up in gnome-do
+    gsettings set org.cinnamon.settings-daemon.peripherals.touchpad tap-to-click false
+    gsettings set org.gnome.desktop.peripherals.touchpad tap-to-click false
+
+    gsettings set org.cinnamon.settings-daemon.peripherals.touchpad disable-while-typing true
+    gsettings set org.gnome.desktop.peripherals.touchpad disable-while-typing true
+
+    gsettings set org.cinnamon.settings-daemon.peripherals.touchpad horizontal-scrolling true
+
+    gsettings set org.gnome.desktop.peripherals.touchpad two-finger-scrolling-enabled true
+    gsettings set org.gnome.desktop.peripherals.touchpad scroll-method 'two-finger-scrolling'
+
+    gsettings set org.gnome.libgnomekbd.keyboard options "['Compose key\tcompose:ralt', 'caps\tcaps:ctrl_modifier']"
+
+    #
+    #  gnome-terminal should show up in gnome-do
+    #
     GT_DESKTOP_FILE=/usr/share/applications/gnome-terminal.desktop
     if ! fgrep OnlyShowIn $GT_DESKTOP_FILE | fgrep X-Cinnamon ; then
       echo -e "\n***\n*** you must add X-Cinammon to $GT_DESKTOP_FILE property 'OnlyShowIn' ...\n***\n"
