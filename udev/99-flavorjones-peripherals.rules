@@ -5,9 +5,16 @@
 #
 #  it may be helpful in the future to look at output from `udevadm monitor -p` and `lsusb` and `lsusb -t`
 #
+#  to debug, etc.: look for the `bind` event in /var/log/syslog and
+#  then run `udevadm info -a -p <path>` to see what attributes we can match
+#  against in the rules.
+#
 
 # "ThinkPad Compact Bluetooth Keyboard with TrackPoint"
+# (kernel <= 5.5)
 ACTION=="bind", SUBSYSTEM=="hid", ATTRS{idVendor}=="0489", ATTRS{idProduct}=="e0a2", RUN+="/bin/su flavorjones -c /home/flavorjones/.xsessionrc"
+# (kernel >= 5.6)
+ACTION=="bind", SUBSYSTEM=="hid", DRIVER=="lenovo", RUN+="/bin/su flavorjones -c /home/flavorjones/.xsessionrc"
 
 # "ThinkPad Compact USB Keyboard"
 ACTION=="bind", SUBSYSTEM=="hid", ATTRS{idVendor}=="17ef", ATTRS{idProduct}=="6047", RUN+="/bin/su flavorjones -c /home/flavorjones/.xsessionrc"
