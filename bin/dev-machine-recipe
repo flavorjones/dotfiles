@@ -454,15 +454,18 @@ if $linux_p ; then
       echo -e "\n***\n*** you must add X-Cinammon to $GT_DESKTOP_FILE property 'OnlyShowIn' ...\n***\n"
     fi
 
-    # #
-    # #  deep sleep
-    # #  https://askubuntu.com/questions/1029474/ubuntu-18-04-dell-xps13-9370-no-longer-suspends-on-lid-close
-    # #
-    # GRUB_FILE=/etc/default/grub
-    # if ! fgrep mem_sleep_default $GRUB_FILE ; then
-    #   echo -e "\n***\n*** please update $GRUB_FILE to have 'mem_sleep_default=deep' in GRUB_CMDLINE_LINUX_DEFAULT\n***"
-    #   ${open} https://askubuntu.com/questions/1029474/ubuntu-18-04-dell-xps13-9370-no-longer-suspends-on-lid-close
-    # fi
+    #
+    #  deep sleep
+    #  https://askubuntu.com/questions/1029474/ubuntu-18-04-dell-xps13-9370-no-longer-suspends-on-lid-close
+    #
+    #  note that the xps 9300 also requires bios settings to be turned off ("sign of life"):
+    #  https://www.dell.com/community/XPS/XPS-13-9300-Wake-from-sleep/m-p/7535386/highlight/true#M59272
+    #
+    GRUB_FILE=/etc/default/grub
+    if ! fgrep mem_sleep_default $GRUB_FILE ; then
+      echo -e "\n***\n*** please update $GRUB_FILE to have 'mem_sleep_default=deep' in GRUB_CMDLINE_LINUX_DEFAULT\n***"
+      ${open} https://askubuntu.com/questions/1029474/ubuntu-18-04-dell-xps13-9370-no-longer-suspends-on-lid-close
+    fi
   fi
 fi
 
