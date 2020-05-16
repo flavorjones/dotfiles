@@ -125,7 +125,6 @@ if $linux_p ; then
       gnome-do gnome-do-plugins libgnome2-bin \
       libnotify-bin \
       keepassx \
-      msttcorefonts \
       gconf-editor dconf-cli \
       xclip \
       tree \
@@ -137,6 +136,10 @@ if $linux_p ; then
       pavucontrol \
       gnome-shell-pomodoro
 
+    # see https://bugs.launchpad.net/ubuntu/+source/msttcorefonts/+bug/1713615
+    sudo apt-mark hold ttf-mscorefonts-installer
+    wget http://ftp.de.debian.org/debian/pool/contrib/m/msttcorefonts/ttf-mscorefonts-installer_3.6_all.deb
+    sudo dpkg -i ttf-mscorefonts-installer_3.6_all.deb
 
     #
     #  gpg
