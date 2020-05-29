@@ -449,6 +449,8 @@ if $linux_p ; then
 
     gsettings set org.gnome.libgnomekbd.keyboard options "['Compose key\tcompose:ralt', 'caps\tcaps:ctrl_modifier']"
 
+    gsettings set org.cinnamon.settings-daemon.peripherals.mouse locate-pointer true
+
     #
     #  gnome-terminal should show up in gnome-do
     #
