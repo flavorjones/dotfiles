@@ -312,6 +312,11 @@ unset DYLD_LIBRARY_PATH
 # direnv
 which direnv > /dev/null && eval "$(direnv hook bash)"
 
+# dircolors
+if [[ -f ~/.dir_colors/dircolors ]] ; then
+  eval `dircolors ~/.dir_colors/dircolors`
+fi
+
 # The next line updates PATH for the Google Cloud SDK.
 if [ -f /home/flavorjones/tmp/google-cloud-sdk/path.bash.inc ]; then
   source '/home/flavorjones/tmp/google-cloud-sdk/path.bash.inc'
