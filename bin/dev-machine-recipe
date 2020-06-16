@@ -65,6 +65,16 @@
 #    
 #     Line Height: 1.2×
 #
+#
+#  Diagnosing sleep problems / power states
+#  ====================
+#
+#  Resources
+#  --------------------
+#
+#  - "System Power Management Sleep States" https://www.kernel.org/doc/Documentation/power/states.txt
+#  - https://01.org/blogs/rzhang/2015/best-practice-debug-linux-suspend/hibernate-issues
+#  - https://01.org/linuxgraphics/gfx-docs/drm/admin-guide/pm/sleep-states.html
 
 set -o errexit
 set -o xtrace
