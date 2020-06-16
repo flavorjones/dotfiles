@@ -461,6 +461,9 @@ if $linux_p ; then
 
     gsettings set org.cinnamon.settings-daemon.peripherals.mouse locate-pointer true
 
+    gsettings set org.cinnamon.desktop.keybindings.wm toggle-maximized "['<Alt>F10', '<Alt><Super>Up']"
+    gsettings set org.cinnamon.desktop.keybindings.wm minimize "['<Alt><Super>Down']"
+
     #
     #  gnome-terminal should show up in gnome-do
     #
