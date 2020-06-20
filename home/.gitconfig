@@ -60,28 +60,10 @@
 	logl = log --graph --decorate --oneline
 	logla = log --graph --decorate --oneline --all
 
-[gui]
-	fontui = -family \"bitstream vera sans\" -size 9 -weight bold -slant roman -underline 0 -overstrike 0
-	fontdiff = -family \"bitstream vera sans mono\" -size 10 -weight normal -slant roman -underline 0 -overstrike 0
-
-[color]
-	ui = true
-
-	# status: header (header text), added or updated, changed, untracked, nobranch
-	status = true
-
-	# diff: plain (context text), meta (metainformation), frag (hunk header), old (removed lines), new (added lines),
-	#       commit (commit headers), or whitespace (highlighting whitespace errors)
-	diff = true
-
 [color.status]
-	added = blue bold
-	changed = yellow bold
-	untracked = red bold
-
-[color.diff]
-	new = yellow bold
-	old = yellow
+	added = green
+	untracked = red
+	changed = yellow
 
 [url "git@github.com:"]
 	insteadOf = "gh:" # shorthand
@@ -99,6 +81,7 @@
 ## maybe leave this commented, and uncomment when needed
 # [url "git@github.com:"]
 #   insteadOf = https://github.com/
+
 [commit]
 	gpgSign = true
 [gpg]
