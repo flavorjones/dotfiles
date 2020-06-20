@@ -30,8 +30,9 @@
 # ------------
 #
 # 1. set background images from Documents/Pictures/Desktop\ Backgrounds
-# 2. desktop config (automation in progress)
-# 3. clone https://github.com/Mayccoll/Gogh and install solarized theme for gnome terminal
+# 2. desktop config (automation in progress!)
+# 3. color: clone https://github.com/Mayccoll/Gogh and install solarized theme for gnome terminal
+# 4. color: clone https://github.com/seebi/dircolors-solarized and use the 'ansi-dark' config
 #
 #
 # Disk Help
