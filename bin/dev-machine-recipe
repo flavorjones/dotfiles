@@ -312,7 +312,7 @@ if $linux_p ; then
 
 
     #
-    #  graphics, screencaps, etc.
+    #  graphics, screencaps, video and sound recording, etc.
     #
     if [[ `which peek` == "" ]] ; then
       sudo add-apt-repository ppa:peek-developers/stable
@@ -320,7 +320,7 @@ if $linux_p ; then
       ${install} peek
     fi
 
-    ${install} krita kazam \
+    ${install} krita kazam gnome-sound-recorder \
                libmagickcore-dev libmagick++-dev
 
     ${flatpak_install} org.glimpse_editor.Glimpse
