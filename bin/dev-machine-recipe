@@ -40,10 +40,41 @@
 # Quick Tabs: https://chrome.google.com/webstore/detail/quick-tabs/jnjfeinjfmenlddahdjdmgpbokiacbbb
 # Session Buddy: https://chrome.google.com/webstore/detail/session-buddy/edacconmaakjimmfgnblocblbcdcpbko
 # Great Suspender: https://chrome.google.com/webstore/detail/the-great-suspender/klbibkeccnjlkjkiokjodocebajanakg
+# Simple Gmail: https://simpl.fyi/
+# Calendar Event Merge: https://chrome.google.com/webstore/detail/event-merge-for-google-ca/idehaflielbgpaokehlhidbjlehlfcep
 #
 # AdGuard Adblocker: https://chrome.google.com/webstore/detail/adguard-adblocker/bgnkhhnnamicmpeenaelnjfhikgbkllg
 # AdBlock: https://chrome.google.com/webstore/detail/adblock-%E2%80%94-best-ad-blocker/gighmmpiobklfepjocnamgkkbiglidom/related
 #
+# Custom JS: https://chrome.google.com/webstore/detail/custom-javascript-for-web/poakhlngfciodnhlhhgnaaelnpjljija
+# Stylus: https://add0n.com/stylus.html
+#
+#
+# Synergy - desktop share
+# ==========
+#
+# When sharing with a mac, set up a hotkey so that you can lock the Mac
+#
+# * Control+Alt+k on linux (server) → Control+Alt+q on macos (catalina only?)
+#
+#
+# Mac Setup
+# ==========
+#
+# Window resizing and tiling: use https://rectangleapp.com/ and default keys
+# (previously you had used ShiftIt and before that SizeUp)
+#
+# Do this: https://gist.github.com/SeppoTakalo/f526f761a44f07464cb5df89c8a9389e
+# - iterm2, set profile colors to Solarized Dark
+#
+# Emacs: https://emacsformacosx.com/
+#
+# To stop from sleeping when locking screen:
+#   brew cask install keepingyouawake
+#
+#
+# To stop horizontal scrolling from being interpreted as "back in history" in Chrome:
+#   System Prefs → Trackpad → More Gestures → turn off "Swipe between pages"
 #
 # Disk Help
 # =========
