@@ -1,4 +1,11 @@
-patterns = {"KeePassX", "emacs\d*", "Tomboy", "^Google Play Music$", "^Signal$"}
+patterns = {
+   "KeePassX",
+   "emacs\d*",
+   "Tomboy",
+   "^Google Play Music$",
+   "^Signal$",
+   "^Slack"
+}
 
 debug_print("always-on-workspace: examining '" .. get_application_name() .. "'")
 for _, pattern in ipairs(patterns) do
