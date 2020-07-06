@@ -9,6 +9,7 @@
 	compression = 1
 	loosecompression = 1
 	abbrev = 7
+	commitGraph = true
 
 [pager]
 	branch = false
@@ -24,6 +25,7 @@
 	renames = copies
 	compactionHeuristic = true
 	wordRegex = "[^[:space:]_:.,()/`]+"
+	algorithm = patience
 
 [log]
 	abbrevCommit = true
