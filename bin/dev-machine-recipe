@@ -246,6 +246,12 @@ if $linux_p ; then
 
 
     #
+    #  REST client
+    #
+    ${snap_install} insomnia
+
+
+    #
     #  cf usage and development
     #
     if [[ `which cf` == "" ]] ; then
