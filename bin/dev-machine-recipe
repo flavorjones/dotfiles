@@ -148,10 +148,16 @@ if $linux_p ; then
   snap_update="sudo snap refresh"
   flatpak_install="flatpak install flathub"
   flatpak_update="flatpak update"
+
+  if [[ `which snap` == "" ]] ; then
+    ${install} snapd
+  fi
+
 elif $apple_p ; then
   install="brew install"
   update="brew update"
   open="open"
+
   if [[ `which brew` == "" ]] ; then
     /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
   fi
@@ -267,10 +273,6 @@ if $linux_p ; then
     #
     #  heroku
     #
-    if [[ `which snap` == "" ]] ; then
-      ${install} snapd
-    fi
-
     if [[ `which heroku` == "" ]] ; then
       ${snap_install} --classic heroku
     fi
