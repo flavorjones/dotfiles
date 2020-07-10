@@ -73,7 +73,6 @@ end
   SyncSpec.new("bin"),
   SyncSpec.new("home", dest_dir: HOME),
   SyncSpec.new("Music"),
-  SyncSpec.new("vms"),
   SyncSpec.new(".fonts"),
   SyncSpec.new(".gem"),
   SyncSpec.new(".gdb"),
