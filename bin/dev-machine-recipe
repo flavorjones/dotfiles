@@ -24,6 +24,7 @@
 # 1. configure timeshift backups
 # 2. install gvm
 # 3. install cxoffice and microsoft office stuff
+# 4. (Dell XPS) connect to dell apt repositories and install custom packages (https://www.dell.com/community/XPS/XPS-13-9300-Does-fingerprint-reader-work-on-linux/td-p/7514958)
 #
 # Low Priority
 # ------------
@@ -374,7 +375,7 @@ if $linux_p ; then
     #  http://linrunner.de/en/tlp/docs/tlp-configuration.html#rdw
     #  TODO: make sure touchscreen is added to USB_WHITELIST in /etc/default/tlp
     #
-    ${install} tlp tlp-rdw acpi-call-dkms smartmontools powertop # linux-tools
+    ${install} tlp tlp-config tlp-rdw acpi-call-dkms smartmontools powertop
 
 
     # #
