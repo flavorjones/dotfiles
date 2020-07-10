@@ -516,11 +516,15 @@ if $linux_p ; then
     gsettings set org.cinnamon.desktop.keybindings.wm minimize "['<Alt><Super>Down']"
 
     #
-    #  gnome-terminal should show up in gnome-do
+    #  gnome-terminal should show up in gnome-do/albert
     #
-    GT_DESKTOP_FILE=/usr/share/applications/gnome-terminal.desktop
-    if ! fgrep OnlyShowIn $GT_DESKTOP_FILE | fgrep X-Cinnamon ; then
-      echo -e "\n***\n*** you must add X-Cinammon to $GT_DESKTOP_FILE property 'OnlyShowIn' ...\n***\n"
+    GT_DESKTOP_FILE=org.gnome.Terminal.desktop
+    SYSTEM_DESKTOP_PATH=/usr/share/applications
+    LOCAL_DESKTOP_PATH=${HOME}/.local/share/applications
+    if [[ ! -e ${LOCAL_DESKTOP_PATH}/${GT_DESKTOP_FILE} ]] ; then
+      cat ${SYSTEM_DESKTOP_PATH}/${GT_DESKTOP_FILE} \
+        | fgrep -v OnlyShowIn \
+        | tee ${LOCAL_DESKTOP_PATH}/${GT_DESKTOP_FILE}
     fi
 
     #
