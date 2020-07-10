@@ -146,7 +146,7 @@ if $linux_p ; then
   open="gnome-open"
   snap_install="sudo snap install"
   snap_update="sudo snap refresh"
-  flatpak_install="flatpak install flathub"
+  flatpak_install="flatpak install -y flathub"
   flatpak_update="flatpak update"
 
   if [[ `which snap` == "" ]] ; then
@@ -226,7 +226,7 @@ if $linux_p ; then
       git-core gitk subversion mercurial bzr \
       direnv \
       build-essential valgrind \
-      emacs25 autocutsel \
+      emacs-gtk autocutsel \
       markdown node-marked\
       mariadb-server mariadb-client libmysqlclient-dev \
       postgresql postgresql-client libpq-dev postgresql-contrib \
@@ -353,17 +353,11 @@ if $linux_p ; then
     #
     #  graphics, screencaps, video and sound recording, etc.
     #
-    if [[ `which peek` == "" ]] ; then
-      sudo add-apt-repository ppa:peek-developers/stable
-      ${update}
-      ${install} peek
-    fi
-
     ${install} krita kazam gnome-sound-recorder \
                libmagickcore-dev libmagick++-dev
 
-    # ${flatpak_install} org.glimpse_editor.Glimpse
-    ${snap_install} glimpse-editor
+    ${flatpak_install} org.glimpse_editor.Glimpse
+    ${flatpak_install} com.uploadedlobster.peek
 
 
     #
@@ -471,10 +465,6 @@ if $linux_p ; then
 
     if [[ `which steam` == "" ]] ; then
       ${open} https://store.steampowered.com/about/
-    fi
-
-    if [[ `which gitter` == "" ]] ; then
-      ${open} https://gitter.im/apps
     fi
 
     if ! [[ -e /usr/bin/slack ]] ; then
