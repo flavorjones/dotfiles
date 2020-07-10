@@ -241,7 +241,8 @@ if $linux_p ; then
       libcurl4-openssl-dev \
       colordiff \
       zip \
-      jq
+      jq \
+      python3 python-is-python3
 
     if ! [[ -e /usr/bin/albert ]] ; then
       curl https://build.opensuse.org/projects/home:manuelschneid3r/public_key | sudo apt-key add -
