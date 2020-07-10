@@ -362,7 +362,8 @@ if $linux_p ; then
     ${install} krita kazam gnome-sound-recorder \
                libmagickcore-dev libmagick++-dev
 
-    ${flatpak_install} org.glimpse_editor.Glimpse
+    # ${flatpak_install} org.glimpse_editor.Glimpse
+    ${snap_install} glimpse-editor
 
 
     #
