@@ -359,7 +359,7 @@ if $linux_p ; then
     #
     #  graphics, screencaps, video and sound recording, etc.
     #
-    ${install} krita kazam gnome-sound-recorder \
+    ${install} sox krita kazam gnome-sound-recorder \
                libmagickcore-dev libmagick++-dev
 
     ${flatpak_install} org.glimpse_editor.Glimpse
