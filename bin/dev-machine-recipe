@@ -260,36 +260,37 @@ if $linux_p ; then
 
 
     #
-    #  cf usage and development
-    #
-    if [[ `which cf` == "" ]] ; then
-      wget -q -O - https://packages.cloudfoundry.org/debian/cli.cloudfoundry.org.key | sudo apt-key add -
-      echo "deb http://packages.cloudfoundry.org/debian stable main" | \
-        sudo tee /etc/apt/sources.list.d/cloudfoundry-cli.list
-      ${update}
-      ${install} cf-cli
-    fi
-
-    LPASSD="${ossdir}/lastpass-cli"
-    if [[ ! -d ${LPASSD} ]] ; then
-      pushd ${ossdir}
-      git clone "https://github.com/lastpass/lastpass-cli"
-      popd
-    fi
-    if [[ `which lpass` == "" ]] ; then
-      pushd ${LPASSD}
-      make
-      sudo make install
-      popd
-    fi
-
-
-    #
     #  heroku
     #
     if [[ `which heroku` == "" ]] ; then
       ${snap_install} --classic heroku
     fi
+
+
+    # #
+    # #  cf usage and development
+    # #
+    # if [[ `which cf` == "" ]] ; then
+    #   wget -q -O - https://packages.cloudfoundry.org/debian/cli.cloudfoundry.org.key | sudo apt-key add -
+    #   echo "deb http://packages.cloudfoundry.org/debian stable main" | \
+    #     sudo tee /etc/apt/sources.list.d/cloudfoundry-cli.list
+    #   ${update}
+    #   ${install} cf-cli
+    # fi
+
+    # LPASSD="${ossdir}/lastpass-cli"
+    # if [[ ! -d ${LPASSD} ]] ; then
+    #   pushd ${ossdir}
+    #   git clone "https://github.com/lastpass/lastpass-cli"
+    #   popd
+    # fi
+    # if [[ `which lpass` == "" ]] ; then
+    #   pushd ${LPASSD}
+    #   make
+    #   sudo make install
+    #   popd
+    # fi
+
 
     # #
     # #  licensefinder development
