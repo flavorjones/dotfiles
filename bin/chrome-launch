@@ -1,6 +1,6 @@
 #! /usr/bin/env ruby
 
-require 'json'
+require "json"
 
 CHROME = "google-chrome"
 
@@ -12,7 +12,7 @@ def get_profiles
       profiles[File.dirname(preferences_file)] = preferences["profile"]["name"]
     end
   end
-  profiles.sort_by { |k,v| v }.to_h
+  profiles.sort_by { |k, v| v }.to_h
 end
 
 def _usage_and_exit
@@ -31,15 +31,15 @@ def _usage_and_exit
   exit 1
 end
 
-def search_for query
-  get_profiles.find { |k,v| profile_match(query, v) }
+def search_for(query)
+  get_profiles.find { |k, v| profile_match(query, v) }
 end
 
-def launch_command command
+def launch_command(command)
   %Q{#{command} > /dev/null 2>&1 &}
 end
 
-def profile_match query, profile_name
+def profile_match(query, profile_name)
   profile_name.downcase =~ /^#{query}/
 end
 
@@ -47,8 +47,7 @@ query = ARGV[0]
 _usage_and_exit unless query
 query = query.downcase
 
-command =
-  if profile_match(query, "incognito")
+command = if profile_match(query, "incognito")
     launch_command %Q{#{CHROME} --incognito}
   else
     profile = search_for query
