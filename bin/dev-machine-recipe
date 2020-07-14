@@ -156,6 +156,10 @@ if $linux_p ; then
     ${install} snapd
   fi
 
+  if [[ `which flatpak-builder` == "" ]] ; then
+    ${install} flatpak-builder
+  fi
+
 elif $apple_p ; then
   install="brew install"
   update="brew update"
@@ -366,10 +370,28 @@ if $linux_p ; then
     #  graphics, screencaps, video and sound recording, etc.
     #
     ${install} sox krita kazam gnome-sound-recorder \
-               libmagickcore-dev libmagick++-dev
+               libmagickcore-dev libmagick++-dev \
+               v4l2loopback-dkms v4l2loopback-utils
 
     ${flatpak_install} org.glimpse_editor.Glimpse
     ${flatpak_install} com.uploadedlobster.peek
+
+    # from https://github.com/snapcrafters/obs-studio
+    #
+    # use the flatpak, not the snap, because it renders better with
+    # hidpi as of 2020-07. also it seems to be better supported.
+    #
+    # if the virtual camera isn't working, try a "modprobe -r" /
+    # "modprobe" cycle on v4l2loopback
+    if [[ ! -e /etc/modprobe.d/v4l2loopback.conf ]] ; then
+      echo "options v4l2loopback devices=1 video_nr=99 card_label=VirtualCam exclusive_caps=1" \
+        | sudo tee /etc/modprobe.d/v4l2loopback.conf
+    fi
+    if [[ ! -e /etc/modules-load.d/v4l2loopback.conf ]] ; then
+      echo "v4l2loopback" \
+        | sudo tee /etc/modules-load.d/v4l2loopback.conf
+    fi
+    ${flatpak_install} com.obsproject.Studio
 
 
     #
