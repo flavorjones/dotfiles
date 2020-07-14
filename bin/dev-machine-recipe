@@ -76,6 +76,9 @@
 # To stop horizontal scrolling from being interpreted as "back in history" in Chrome:
 #   System Prefs → Trackpad → More Gestures → turn off "Swipe between pages"
 #
+# If you want to connect the bluetooth trackpoint keyboard, you'll need to figure out something for enabling middle-click scrolling.
+# - https://medium.com/@takezoe/thinkpad-bluetooth-wireless-keyboard-with-macbook-7a911ed77c28 points at https://github.com/pqrs-org/Karabiner-Elements
+#
 # Disk Help
 # =========
 #
