@@ -28,7 +28,7 @@ for device_name in "ThinkPad Compact USB Keyboard" "ThinkPad Compact Bluetooth K
     xinput set-prop ${kbid} "libinput Natural Scrolling Enabled" 1
 
     # set acceleration (calibrated manually - what feels good)
-    xinput set-prop ${kbid} "libinput Accel Speed" -0.2
+    xinput set-prop ${kbid} "libinput Accel Speed" 0.2
   fi
 done
 
