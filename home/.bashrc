@@ -199,7 +199,7 @@ alias ca="calendar-assistant"
 alias netps='sudo netstat -nputw | egrep -v " [0-9]+/(slack|dropbox|chrome|zoom|Telegram|Discord|preload.js)[ $]"'
 
 if [[ $I_AM_LINUX == 1 ]] ; then
-  alias open="gnome-open"
+  alias open="xdg-open"
 fi
 
 alias xc="xclip -selection clipboard"
