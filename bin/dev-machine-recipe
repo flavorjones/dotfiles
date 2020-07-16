@@ -25,6 +25,7 @@
 # 2. install gvm
 # 3. install cxoffice and microsoft office stuff
 # 4. (Dell XPS) connect to dell apt repositories and install custom packages (https://www.dell.com/community/XPS/XPS-13-9300-Does-fingerprint-reader-work-on-linux/td-p/7514958)
+# 5. Set "Input Settings" to use XIM (see XCompose notes below)
 #
 # Low Priority
 # ------------
@@ -433,13 +434,21 @@ if $linux_p ; then
     #
     #  .XCompose unicode input
     #
+    #  Note that in order to get the custom .XCompose bindings to work
+    #  in some applications, I've needed to go to "System Settings" →
+    #  "Input Method" and set it to XIM. And then logout/login. IBus
+    #  doesn't seem to work in:
+    #
+    #  - google-chrome
+    #  - gnome-terminal
+    #  - electron apps (like signal-desktop)
+    #
     XCOMPOSEDIR="${ossdir}/xcompose"
     if [[ ! -d ${XCOMPOSEDIR} ]] ; then
       pushd ${ossdir}
       git clone "https://github.com/kragen/xcompose"
       popd
     fi
-    ${install} uim
 
 
     #
