@@ -183,6 +183,15 @@ if $config_p ; then
   fi
 fi
 
+if $apple_p ; then
+  if $install_p ; then
+    #
+    #  basic shit
+    #
+    ${install} coreutils ack tmate ruby pkg-config
+  fi
+fi
+
 if $linux_p ; then
   if $install_p ; then
     #
