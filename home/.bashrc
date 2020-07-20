@@ -20,7 +20,7 @@ export GIT_PS1_SHOWDIRTYSTATE=1
 #
 #  prompts, environment, etc.
 #
-source /etc/bash_completion
+[[ -s /etc/bash_completion ]] && source /etc/bash_completion
 
 function ps1_haxxor_info {
   prompt=""
