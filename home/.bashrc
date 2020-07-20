@@ -81,6 +81,11 @@ export PATH=${PATH}:${HOME}/bin:${HOME}/.emacs.d
 #
 #  application-related
 #
+if [[ $I_AM_A_MAC == 1 ]] ; then
+  # for emacsclient
+  export PATH=${PATH}:/Applications/Emacs.app//Contents/MacOS/bin-x86_64-10_10
+fi
+
 export EDITOR="emacsclient -c"
 export GIT_EDITOR=$EDITOR
 export VISUAL=$EDITOR
