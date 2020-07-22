@@ -73,12 +73,6 @@
 [url "git@github.com:"]
 	pushInsteadOf = "https://github.com/" # always push with authn
 
-# need to ssh-auth to read many pivotal repos
-[url "git@github.com:pivotal/"]
-	insteadOf = "https://github.com/pivotal/"
-[url "git@github.com:pivotalservices/"]
-	insteadOf = "https://github.com/pivotalservices/"
-
 ## because `go get` on private repos is an awful UX
 ## maybe leave this commented, and uncomment when needed
 # [url "git@github.com:"]
