@@ -319,16 +319,6 @@ if [[ -f ~/.dir_colors/dircolors ]] ; then
   eval `dircolors ~/.dir_colors/dircolors`
 fi
 
-# The next line updates PATH for the Google Cloud SDK.
-if [ -f /home/flavorjones/tmp/google-cloud-sdk/path.bash.inc ]; then
-  source '/home/flavorjones/tmp/google-cloud-sdk/path.bash.inc'
-fi
-
-# The next line enables shell command completion for gcloud.
-if [ -f /home/flavorjones/tmp/google-cloud-sdk/completion.bash.inc ]; then
-  source '/home/flavorjones/tmp/google-cloud-sdk/completion.bash.inc'
-fi
-
 # ugh npm
 export NPM_CONFIG_PREFIX=~/.npm-global
 export PATH=${PATH}:${NPM_CONFIG_PREFIX}/bin
