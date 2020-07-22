@@ -14,7 +14,7 @@ rofi \
   -pid /tmp/${LOGNAME}-rofi.pid \
 \
   -modi drun,file:${ROFI_FINDER},window,run \
-  -show drun
+  -show drun \
   -drun-show-actions \
 \
   -sort -sorting-method fzf
