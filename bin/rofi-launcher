@@ -1,0 +1,20 @@
+#! /usr/bin/env bash
+
+#ROFI_FINDER="${HOME}/code/oss/rofi-scripts/rofi-finder/finder.sh"
+ROFI_FINDER="rofi-file"
+
+rofi \
+  -theme paper-float \
+  -font "JetBrains Mono 14" \
+  -show-icons \
+  -sidebar-mode \
+\
+  -monitor primary \
+  -dpi 1 \
+  -pid /tmp/${LOGNAME}-rofi.pid \
+\
+  -modi drun,file:${ROFI_FINDER},window,run \
+  -show drun
+  -drun-show-actions \
+\
+  -sort -sorting-method fzf

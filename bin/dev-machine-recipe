@@ -210,7 +210,8 @@ if $linux_p ; then
       guake \
       cheese \
       pavucontrol \
-      gnome-shell-pomodoro
+      gnome-shell-pomodoro \
+      rofi
 
     # see https://bugs.launchpad.net/ubuntu/+source/msttcorefonts/+bug/1713615
     wget http://ftp.de.debian.org/debian/pool/contrib/m/msttcorefonts/ttf-mscorefonts-installer_3.6_all.deb
@@ -261,14 +262,6 @@ if $linux_p ; then
       zip \
       jq \
       python3 python-is-python3
-
-    if ! [[ -e /usr/bin/albert ]] ; then
-      curl https://build.opensuse.org/projects/home:manuelschneid3r/public_key | sudo apt-key add -
-      echo -e '# for albert\ndeb http://download.opensuse.org/repositories/home:/manuelschneid3r/xUbuntu_20.04/ /' | sudo tee /etc/apt/sources.list.d/home:manuelschneid3r.list
-      sudo wget -nv https://download.opensuse.org/repositories/home:manuelschneid3r/xUbuntu_20.04/Release.key -O "/etc/apt/trusted.gpg.d/home:manuelschneid3r.asc"
-      ${update}
-      ${install} albert
-    fi
 
     #
     #  REST client
@@ -557,6 +550,11 @@ if $linux_p ; then
 
     gsettings set org.cinnamon.desktop.keybindings.wm toggle-maximized "['<Alt>F10', '<Alt><Super>Up']"
     gsettings set org.cinnamon.desktop.keybindings.wm minimize "['<Alt><Super>Down']"
+
+    dconf write /org/cinnamon/desktop/keybindings/custom-keybindings/rofi-binding/command "'rofi-launcher'"
+    dconf write /org/cinnamon/desktop/keybindings/custom-keybindings/rofi-binding/name "'rofi-launcher'"
+    dconf write /org/cinnamon/desktop/keybindings/custom-keybindings/rofi-binding/binding "['<Alt>space']"
+    dconf write /org/cinnamon/desktop/keybindings/custom-list "['rofi-binding']"
 
     #
     #  gnome-terminal should show up in gnome-do/albert

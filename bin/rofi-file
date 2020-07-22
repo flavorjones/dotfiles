@@ -1,0 +1,18 @@
+#! /usr/bin/env bash
+
+function open-and-exit {
+  coproc ( xdg-open "$@"  > /dev/null 2>&1 )
+  exec 1>&-
+  exit 0
+}
+
+echo -en "\x00prompt\x1ffind-file\n"
+if [ "$@" ] ; then
+  if [ -e "$@" ] ; then
+    open-and-exit "$@"
+  fi
+  echo -e "\x00message\x1fSearching for documents matching '${@}' ..."
+  find Documents/ -iname "*$@*"
+else
+  echo -en "\0message\x1fFile finder\n"  
+fi
