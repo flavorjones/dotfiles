@@ -188,7 +188,7 @@ if $apple_p ; then
     #
     #  basic shit
     #
-    ${install} coreutils ack tmate ruby pkg-config
+    ${install} coreutils ack tmate ruby pkg-config ispell
   fi
 fi
 
