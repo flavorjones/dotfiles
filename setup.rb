@@ -1,4 +1,5 @@
 #! /usr/bin/env ruby
+# coding: utf-8
 
 require "find"
 require "fileutils"
@@ -47,9 +48,17 @@ class SyncSpec
     source_file = File.expand_path(File.join(PWD, file))
     dest_file = File.expand_path(File.join(dest_dir, File.basename(file)))
     if sudo?
+      if File.symlink?(dest_file) && (File.readlink(dest_file) == source_file)
+        warn "WARN: same, skipping: #{source_file} → #{dest_file}"
+        return
+      end
       Rake.sh %Q{sudo rm -f "#{dest_file}"}
       Rake.sh %Q{sudo ln -s "#{source_file}" "#{dest_file}"} # soft link
     else
+      if File.exist?(dest_file) && (File.stat(dest_file).ino == File.stat(source_file).ino)
+        warn "WARN: same, skipping: #{source_file} → #{dest_file}"
+        return
+      end
       FileUtils.rm_f dest_file
       FileUtils.ln source_file, dest_file, verbose: true # hard link
     end
@@ -63,6 +72,11 @@ end
 class SymlinkSyncSpec < SyncSpec
   def sync!
     source_file = File.expand_path(File.join(PWD, source_dir))
+
+    if File.symlink?(dest_dir) && (File.readlink(dest_dir) == source_file)
+      warn "WARN: same, skipping: #{source_file} → #{dest_dir}"
+      return
+    end
 
     FileUtils.rm_rf dest_dir
     FileUtils.symlink source_file, dest_dir, verbose: true
