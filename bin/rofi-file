@@ -6,7 +6,7 @@ function open-and-exit {
   exit 0
 }
 
-echo -en "\x00prompt\x1ffind-file\n"
+echo -en "\x00prompt\x1fFile\n"
 if [ "$@" ] ; then
   if [ -e "$@" ] ; then
     open-and-exit "$@"
@@ -14,5 +14,5 @@ if [ "$@" ] ; then
   echo -e "\x00message\x1fSearching for documents matching '${@}' ..."
   find Documents/ -iname "*$@*"
 else
-  echo -en "\0message\x1fFile finder\n"  
+  echo -en "\0message\x1fNo active search\n"
 fi
