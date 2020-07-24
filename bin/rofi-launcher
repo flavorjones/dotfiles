@@ -3,8 +3,13 @@
 #ROFI_FINDER="${HOME}/code/oss/rofi-scripts/rofi-finder/finder.sh"
 ROFI_FINDER="rofi-file"
 
+# the "paper-float" theme is nice, and I want to use it, but it's too
+# slow (283ms vs 167ms) because of the transparency (run with
+# G_MESSAGES_DEBUG=Timings)
+
 rofi \
-  -theme paper-float \
+  -theme "solarized" \
+  -theme-str "#window { border: 2; } #button { text-color: rgba ( 129, 147, 150, 50 % ); }" \
   -font "JetBrains Mono 14" \
   -show-icons \
   -sidebar-mode \
@@ -13,8 +18,13 @@ rofi \
   -dpi 1 \
   -pid /tmp/${LOGNAME}-rofi.pid \
 \
-  -modi drun,file:${ROFI_FINDER},window,run \
   -show drun \
+  -modi drun,window,run,file:${ROFI_FINDER} \
   -drun-show-actions \
+  -display-drun "Launch" \
+  -display-window "Window" \
+  -display-run "Command" \
 \
-  -sort -sorting-method fzf
+  -sort -sorting-method fzf \
+\
+  -kb-remove-word-back "Alt+BackSpace" \
