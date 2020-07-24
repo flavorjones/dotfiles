@@ -49,14 +49,14 @@ class SyncSpec
     dest_file = File.expand_path(File.join(dest_dir, File.basename(file)))
     if sudo?
       if File.symlink?(dest_file) && (File.readlink(dest_file) == source_file)
-        warn "WARN: same, skipping: #{source_file} → #{dest_file}"
+        warn "WARN: same, skipping: #{file} → #{dest_file}"
         return
       end
       Rake.sh %Q{sudo rm -f "#{dest_file}"}
       Rake.sh %Q{sudo ln -s "#{source_file}" "#{dest_file}"} # soft link
     else
       if File.exist?(dest_file) && (File.stat(dest_file).ino == File.stat(source_file).ino)
-        warn "WARN: same, skipping: #{source_file} → #{dest_file}"
+        warn "WARN: same, skipping: #{file} ⇒ #{dest_file}"
         return
       end
       FileUtils.rm_f dest_file
@@ -74,7 +74,7 @@ class SymlinkSyncSpec < SyncSpec
     source_file = File.expand_path(File.join(PWD, source_dir))
 
     if File.symlink?(dest_dir) && (File.readlink(dest_dir) == source_file)
-      warn "WARN: same, skipping: #{source_file} → #{dest_dir}"
+      warn "WARN: same, skipping: #{source_dir}/ → #{dest_dir}"
       return
     end
 
