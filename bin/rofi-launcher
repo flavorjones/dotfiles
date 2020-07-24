@@ -25,6 +25,8 @@ rofi \
   -display-window "Window" \
   -display-run "Command" \
 \
+  -terminal gnome-terminal \
+\
   -sort -sorting-method fzf \
 \
   -kb-remove-word-back "Alt+BackSpace" \
