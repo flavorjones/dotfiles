@@ -6,7 +6,6 @@ require "fileutils"
 require "rake"
 
 HOME = ENV["HOME"]
-UDEV_PATH = "/etc/udev/rules.d"
 PWD = File.dirname(__FILE__)
 
 class SyncSpec
@@ -56,7 +55,15 @@ class SyncSpec
   def sync!
     FileUtils.mkdir_p dest_dir
     files.each do |file|
-      sync_file file
+      # so "bin/foo" becomes "foo"
+      relative_file = file.split("/")[1..-1].join("/")
+
+      # so "bin/foo" becomes "/fully/qualified/path/to/bin/foo"
+      source_file = File.expand_path(File.join(PWD, file))
+      # so "foo" becomes "#{full_path_to_dest_dir}/foo"
+      dest_file = File.expand_path(File.join(dest_dir, relative_file))
+
+      sync_file source_file, dest_file, file
     end
   end
 
@@ -73,14 +80,10 @@ class SyncSpec
     Rake.sh command
   end
 
-  def sync_file(file)
-    source_file = File.expand_path(File.join(PWD, file))
-    relative_file = file.split("/")[1..-1].join("/")
-    dest_file = File.expand_path(File.join(dest_dir, relative_file))
-
+  def sync_file(source_file, dest_file, relative_file)
     if !force?
       if File.exist?(dest_file) && (File.stat(dest_file).ino == File.stat(source_file).ino)
-        warn "WARN: same, skipping: #{file} ⇒ #{dest_file}"
+        warn "WARN: same, skipping: #{relative_file} ⇒ #{dest_file}"
         return
       end
     end
@@ -116,13 +119,10 @@ class PrivilegedFileSyncSpec < SyncSpec
     super
   end
 
-  def sync_file(file)
-    source_file = File.expand_path(File.join(PWD, file))
-    dest_file = File.expand_path(File.join(dest_dir, File.basename(file)))
-
+  def sync_file(source_file, dest_file, relative_file)
     if !force?
       if File.symlink?(dest_file) && (File.readlink(dest_file) == source_file)
-        warn "WARN: same, skipping: #{file} → #{dest_file}"
+        warn "WARN: same, skipping: #{relative_file} → #{dest_file}"
         return
       end
     end
@@ -137,6 +137,7 @@ if ARGV.include?("--force")
 end
 if ARGV.include?("--dry-run")
   options[:dry_run] = true
+  options[:verbose] = true
 end
 if ARGV.include?("--verbose")
   options[:verbose] = true
@@ -156,7 +157,7 @@ end
   WholeDirectorySyncSpec.new(".remmina", options),
   WholeDirectorySyncSpec.new("devilspie2", options.merge(dest_dir: File.join(HOME, ".config/devilspie2"))),
 
-  PrivilegedFileSyncSpec.new("udev", options.merge(dest_dir: UDEV_PATH)),
+  PrivilegedFileSyncSpec.new("etc", options.merge(dest_dir: "/etc")),
 ].each do |spec|
   spec.sync!
 end
