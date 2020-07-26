@@ -75,7 +75,8 @@ class SyncSpec
 
   def sync_file(file)
     source_file = File.expand_path(File.join(PWD, file))
-    dest_file = File.expand_path(File.join(dest_dir, File.basename(file)))
+    relative_file = file.split("/")[1..-1].join("/")
+    dest_file = File.expand_path(File.join(dest_dir, relative_file))
 
     if !force?
       if File.exist?(dest_file) && (File.stat(dest_file).ino == File.stat(source_file).ino)
