@@ -10,6 +10,13 @@ UDEV_PATH = "/etc/udev/rules.d"
 PWD = File.dirname(__FILE__)
 
 class SyncSpec
+  module Commands
+    REMOVE_FILE = "rm -f"
+    REMOVE_FILE_OR_DIR = "rm -rf"
+    SYMLINK = "ln -s"
+    HARDLINK = "ln"
+  end
+
   attr_reader :source_dir, :options
 
   def initialize(source_dir, options = {})
@@ -25,10 +32,17 @@ class SyncSpec
     options[:sudo]
   end
 
+  def dry_run?
+    options[:dry_run]
+  end
+
+  def verbose?
+    options[:verbose]
+  end
+
   def files
     files = []
     Find.find(source_dir) do |file|
-      Find.prune if file =~ %r(/.svn$)
       next if File.directory? file
       files << file
     end
@@ -42,6 +56,19 @@ class SyncSpec
     end
   end
 
+  def warn(message)
+    if verbose?
+      puts message
+    end
+  end
+
+  def sh(command)
+    warn("RUN: #{command}")
+    unless dry_run?
+      Rake.sh command
+    end
+  end
+
   private
 
   def sync_file(file)
@@ -52,15 +79,15 @@ class SyncSpec
         warn "WARN: same, skipping: #{file} → #{dest_file}"
         return
       end
-      Rake.sh %Q{sudo rm -f "#{dest_file}"}
-      Rake.sh %Q{sudo ln -s "#{source_file}" "#{dest_file}"} # soft link
+      sh %Q{sudo #{Commands::REMOVE_FILE} "#{dest_file}"}
+      sh %Q{sudo #{Commands::SYMLINK} "#{source_file}" "#{dest_file}"}
     else
       if File.exist?(dest_file) && (File.stat(dest_file).ino == File.stat(source_file).ino)
         warn "WARN: same, skipping: #{file} ⇒ #{dest_file}"
         return
       end
-      FileUtils.rm_f dest_file
-      FileUtils.ln source_file, dest_file, verbose: true # hard link
+      sh %Q{#{Commands::REMOVE_FILE} "#{dest_file}"}
+      sh %Q{#{Commands::HARDLINK} "#{source_file}" "#{dest_file}"}
     end
   end
 
@@ -78,24 +105,32 @@ class SymlinkSyncSpec < SyncSpec
       return
     end
 
-    FileUtils.rm_rf dest_dir
-    FileUtils.symlink source_file, dest_dir, verbose: true
+    sh %Q{#{Commands::REMOVE_FILE_OR_DIR} "#{dest_dir}"}
+    sh %Q{#{Commands::SYMLINK} "#{source_file}" "#{dest_dir}"}
   end
 end
 
+options = Hash.new
+if ARGV.include?("--dry-run")
+  options[:dry_run] = true
+end
+if ARGV.include?("--verbose")
+  options[:verbose] = true
+end
+
 [
-  SyncSpec.new("bin"),
-  SyncSpec.new("home", dest_dir: HOME),
-  SyncSpec.new("Music"),
-  SyncSpec.new(".fonts"),
-  SyncSpec.new(".gem"),
-  SyncSpec.new(".gdb"),
-  SymlinkSyncSpec.new(".remmina"),
-  SyncSpec.new(".subversion"),
-  SyncSpec.new(".vnc"),
-  SymlinkSyncSpec.new("devilspie2", dest_dir: File.join(HOME, ".config", "devilspie2")),
-  SyncSpec.new(".config"),
-  SyncSpec.new("udev", dest_dir: UDEV_PATH, sudo: true),
+  SyncSpec.new("bin", options),
+  SyncSpec.new("home", options.merge(dest_dir: HOME)),
+  SyncSpec.new("Music", options),
+  SyncSpec.new(".fonts", options),
+  SyncSpec.new(".gem", options),
+  SyncSpec.new(".gdb", options),
+  SymlinkSyncSpec.new(".remmina", options),
+  SyncSpec.new(".subversion", options),
+  SyncSpec.new(".vnc", options),
+  SymlinkSyncSpec.new("devilspie2", options.merge(dest_dir: File.join(HOME, ".config/devilspie2"))),
+  SyncSpec.new(".config", options),
+  SyncSpec.new("udev", options.merge(dest_dir: UDEV_PATH, sudo: true)),
 ].each do |spec|
   spec.sync!
 end
