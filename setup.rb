@@ -12,7 +12,7 @@ PWD = File.dirname(__FILE__)
 class SyncSpec
   module Commands
     REMOVE_FILE = "rm -f"
-    REMOVE_FILE_OR_DIR = "rm -rf"
+    REMOVE_DIR = "rm -rf"
     SYMLINK = "ln -s"
     HARDLINK = "ln"
   end
@@ -103,7 +103,7 @@ class SymlinkSyncSpec < SyncSpec
       end
     end
 
-    sh %Q{#{Commands::REMOVE_FILE_OR_DIR} "#{dest_dir}"}
+    sh %Q{#{Commands::REMOVE_DIR} "#{dest_dir}"}
     sh %Q{#{Commands::SYMLINK} "#{source_file}" "#{dest_dir}"}
   end
 end
