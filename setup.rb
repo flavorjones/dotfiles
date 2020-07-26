@@ -92,7 +92,7 @@ class SyncSpec
   end
 end
 
-class SymlinkSyncSpec < SyncSpec
+class WholeDirectorySyncSpec < SyncSpec
   def sync!
     source_file = File.expand_path(File.join(PWD, source_dir))
 
@@ -148,11 +148,13 @@ end
   SyncSpec.new(".fonts", options),
   SyncSpec.new(".gem", options),
   SyncSpec.new(".gdb", options),
-  SymlinkSyncSpec.new(".remmina", options),
   SyncSpec.new(".subversion", options),
   SyncSpec.new(".vnc", options),
-  SymlinkSyncSpec.new("devilspie2", options.merge(dest_dir: File.join(HOME, ".config/devilspie2"))),
   SyncSpec.new(".config", options),
+
+  WholeDirectorySyncSpec.new(".remmina", options),
+  WholeDirectorySyncSpec.new("devilspie2", options.merge(dest_dir: File.join(HOME, ".config/devilspie2"))),
+
   PrivilegedFileSyncSpec.new("udev", options.merge(dest_dir: UDEV_PATH)),
 ].each do |spec|
   spec.sync!
