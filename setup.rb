@@ -108,7 +108,8 @@ class SymlinkSyncSpec < SyncSpec
   end
 end
 
-class SudoSyncSpec < SyncSpec
+# use a symlink, so I can edit locally and iterate without having to re-run setup
+class PrivilegedFileSyncSpec < SyncSpec
   def initialize(source_dir, options = {})
     options[:sudo] = true
     super
@@ -152,7 +153,7 @@ end
   SyncSpec.new(".vnc", options),
   SymlinkSyncSpec.new("devilspie2", options.merge(dest_dir: File.join(HOME, ".config/devilspie2"))),
   SyncSpec.new(".config", options),
-  SudoSyncSpec.new("udev", options.merge(dest_dir: UDEV_PATH)),
+  PrivilegedFileSyncSpec.new("udev", options.merge(dest_dir: UDEV_PATH)),
 ].each do |spec|
   spec.sync!
 end
