@@ -19,14 +19,14 @@ rofi \
   -pid /tmp/${LOGNAME}-rofi.pid \
 \
   -show drun \
-  -modi drun,window,run,file:${ROFI_FINDER} \
+  -modi drun,window,run,file:${ROFI_FINDER},keys \
   -drun-show-actions \
   -display-drun "Launch" \
   -display-window "Window" \
-  -display-run "Command" \
+  -display-run "Run" \
 \
   -terminal gnome-terminal \
 \
-  -sort -sorting-method fzf \
+  -sort -cache-dir $HOME/.config/rofi \
 \
   -kb-remove-word-back "Alt+BackSpace" \
