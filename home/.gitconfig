@@ -78,6 +78,9 @@
 # [url "git@github.com:"]
 #   insteadOf = https://github.com/
 
+[gc]
+	writeCommitGraph = true
+
 [commit]
 	gpgSign = true
 [gpg]
