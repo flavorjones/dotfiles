@@ -3,6 +3,7 @@ patterns = {
    "emacs\d*",
    "Tomboy",
    "^Google Play Music$",
+   "^YouTube Music$",
    "^Signal$",
    "^Slack"
 }
