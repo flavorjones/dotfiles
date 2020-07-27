@@ -43,6 +43,19 @@ class SyncSpec
     options[:force]
   end
 
+  def warn(message)
+    if verbose?
+      puts message
+    end
+  end
+
+  def sh(command)
+    command = "sudo #{command}" if sudo?
+    warn("RUN: #{command}")
+    return if dry_run?
+    Rake.sh command
+  end
+
   def files
     files = []
     Find.find(source_dir) do |file|
@@ -65,19 +78,6 @@ class SyncSpec
 
       sync_file source_file, dest_file, file
     end
-  end
-
-  def warn(message)
-    if verbose?
-      puts message
-    end
-  end
-
-  def sh(command)
-    command = "sudo #{command}" if sudo?
-    warn("RUN: #{command}")
-    return if dry_run?
-    Rake.sh command
   end
 
   def sync_file(source_file, dest_file, relative_file)
@@ -161,3 +161,11 @@ end
 ].each do |spec|
   spec.sync!
 end
+
+# # todo:
+# # i think this could be refactored as:
+# syncer = SyncMaster.new(options)
+# syncer.hardlink_dir_contents "home" # (requires remapping, e.g. ./bin → ./home/bin)
+# syncer.symlink_dir_contents "etc", to: "/etc"
+# syncer.symlink_dir ".remmina"
+# syncer.symlink_dir ".devilspie"
