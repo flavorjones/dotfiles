@@ -18,13 +18,13 @@ rofi \
   -dpi 1 \
   -pid /tmp/${LOGNAME}-rofi.pid \
 \
-  -show combi -combi-modi drun,run \
-  -modi drun,run,window,file:${ROFI_FINDER},keys,combi \
+  -show drun \
+  -modi drun,run,file:${ROFI_FINDER},window,keys \
   -drun-show-actions \
   -display-drun "Launch" \
   -display-window "Window" \
-  -display-run "Command" \
-  -display-combi "Run" \
+  -display-run "Run" \
+  -display-keys "Keys" \
 \
   -terminal gnome-terminal \
 \
