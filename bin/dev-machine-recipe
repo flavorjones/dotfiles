@@ -434,6 +434,13 @@ if $linux_p ; then
     fi
 
     #
+    #  WAIT!!! Before doing the below on a fresh system - install
+    #  gnome-tweaks and see if setting Keyboard → Compose Key to Right
+    #  Alt works without having to do the XIM bit. Maybe yes, maybe
+    #  no, but worth a try.
+    #
+    #  --------------------
+    #
     #  .XCompose unicode input
     #
     #  Note that in order to get the custom .XCompose bindings to work
