@@ -51,6 +51,8 @@
 	showw = show -w -b --word-diff
 
 	pr = pull --rebase
+	ru = remote update
+	rpo = remote prune origin
 
 	ss = status --short
 	w = whatchanged
