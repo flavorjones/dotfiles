@@ -1,6 +1,5 @@
 #! /usr/bin/env bash
 
-#ROFI_FINDER="${HOME}/code/oss/rofi-scripts/rofi-finder/finder.sh"
 ROFI_FINDER="rofi-file"
 
 # the "paper-float" theme is nice, and I want to use it, but it's too
