@@ -198,7 +198,6 @@ if $linux_p ; then
     #  basic usability
     #
     ${install} \
-      libgnome2-bin \
       libnotify-bin \
       keepassx \
       gconf-editor dconf-cli \
@@ -332,8 +331,10 @@ if $linux_p ; then
       network-manager-openvpn-gnome \
       network-manager-vpnc-gnome \
       gufw \
-      timeshift \
-      remmina remmina-plugin-rdp libfreerdp-plugins-standard remmina-plugin-vnc
+      timeshift
+
+    # ${install} \
+    #   remmina remmina-plugin-rdp libfreerdp-plugins-standard remmina-plugin-vnc
 
 
     #
