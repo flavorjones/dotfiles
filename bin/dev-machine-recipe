@@ -241,6 +241,7 @@ if $linux_p ; then
     #
     ${install} \
       git-core gitk subversion mercurial bzr \
+      ruby rake \
       direnv \
       build-essential valgrind \
       emacs-gtk autocutsel \
