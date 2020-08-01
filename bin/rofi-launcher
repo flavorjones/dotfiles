@@ -6,10 +6,18 @@ ROFI_FINDER="rofi-file"
 # slow (283ms vs 167ms) because of the transparency (run with
 # G_MESSAGES_DEBUG=Timings)
 
-rofi \
-  -theme "solarized" \
-  -theme-str "#window { border: 2; } #button { text-color: rgba ( 129, 147, 150, 50 % ); }" \
-  -font "JetBrains Mono 14" \
+# note that some of these theme styles below only work in rofi 1.6+
+# which I had to build from scratch on 2020-08-01 on Mint 20
+# because the ubuntu package version is 1.5.4
+
+~/local/bin/rofi \
+  -theme "solarized_alternate" \
+  -theme-str "window { border: 2; }
+              button { text-color: rgba ( 129, 147, 150, 50 % ); }
+              element-icon { size: 2em; }
+              element-text { vertical-align: 0.5; }
+   " \
+  -font "Ubuntu 14" \
   -show-icons \
   -sidebar-mode \
 \
