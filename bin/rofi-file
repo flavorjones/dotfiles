@@ -1,5 +1,7 @@
 #!/usr/bin/env ruby
-
+#
+#  for syntax and usage of rofi scripts, read ~/code/oss/rofi/doc/rofi-script.5.markdown
+#
 require "digest"
 require "singleton"
 require "uri"
@@ -72,7 +74,7 @@ module FileFinder
 
   def self.paths(directories)
     globs = directories.map { |directory| File.join(directory, "**", "*") }
-    Dir.glob(globs, base: BASE)
+    directories + Dir.glob(globs, base: BASE)
   end
 
   def self.thumbnail_for(path)
