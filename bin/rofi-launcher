@@ -18,7 +18,7 @@ ROFI_FINDER="rofi-file"
               element-text { vertical-align: 0.5; }
    " \
   -font "Ubuntu 14" \
-  -show-icons -icon-theme "Mint-X" \
+  -show-icons \
   -sidebar-mode \
 \
   -monitor primary \
