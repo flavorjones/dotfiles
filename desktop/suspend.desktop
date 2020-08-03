@@ -1,0 +1,10 @@
+[Desktop Entry]
+Version=1.0
+Name=Suspend System
+GenericName=Suspend to memory
+Comment=Power management
+Terminal=false
+Type=Application
+Categories=System;
+Icon=system-suspend
+Exec=systemctl suspend

@@ -1,0 +1,11 @@
+[Desktop Entry]
+Version=1.0
+Name=Restart System
+GenericName=Restart System
+Comment=Power management
+Comment=Reboot
+Terminal=false
+Type=Application
+Categories=System;
+Icon=system-restart
+Exec=systemctl reboot

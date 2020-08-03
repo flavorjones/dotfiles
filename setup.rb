@@ -7,6 +7,7 @@ require "rake"
 
 HOME = ENV["HOME"]
 PWD = File.dirname(__FILE__)
+DESKTOP_DIR = File.join(ENV["HOME"], ".local/share/applications")
 
 class SyncSpec
   module Commands
@@ -153,6 +154,7 @@ end
   SyncSpec.new(".subversion", options),
   SyncSpec.new(".vnc", options),
   SyncSpec.new(".config", options),
+  SyncSpec.new("desktop", options.merge(dest_dir: DESKTOP_DIR)),
 
   WholeDirectorySyncSpec.new(".remmina", options),
   WholeDirectorySyncSpec.new("devilspie2", options.merge(dest_dir: File.join(HOME, ".config/devilspie2"))),
