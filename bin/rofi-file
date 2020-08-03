@@ -1,18 +1,33 @@
 #!/usr/bin/env ruby
 #
-#  for syntax and usage of rofi scripts, read ~/code/oss/rofi/doc/rofi-script.5.markdown
+#  for syntax and usage of rofi scripts, read:
+#  > ~/code/oss/rofi/doc/rofi-script.5.markdown
 #
-require "digest"
-require "singleton"
-require "uri"
+
+#
+#  let's start with the minimum necessary to talk to Rofi and handle file launch
+#
+require "getoptlong"
+
+NAME = File.basename(__FILE__)
 
 # relative to ~
 search_directories = ["Documents", "Downloads", "Desktop", "Videos"]
 
 module Rofi
-  def self.open(path)
-    pid = Process.spawn("xdg-open", path, [:out, :err] => "/dev/null")
+  def self.spawn(command, *args)
+    pid = Process.spawn(command, *args, [:out, :err] => "/dev/null")
     Process.detach(pid)
+  end
+
+  def self.generate_cache
+    STDERR.puts "#{NAME}: NOTE: generating cache in the background ..."
+    spawn(__FILE__, "--generate-cache")
+  end
+
+  def self.open(path)
+    STDERR.puts "#{NAME}: NOTE: opening '#{path}' ..."
+    spawn "xdg-open", path
   end
 
   def self.meta(key, value)
@@ -22,6 +37,104 @@ module Rofi
   def self.set_prompt(user_prompt)
     puts meta("prompt", user_prompt)
   end
+end
+
+class CacheFile
+  MAX_AGE_MINUTES = 60
+
+  attr_reader :path
+
+  def initialize(name)
+    @path = File.join(ENV["HOME"], ".cache", "#{NAME}.cache")
+  end
+
+  def exist?
+    File.exist?(@path)
+  end
+
+  def age_in_minutes
+    (Time.now - File.mtime(@path)) / 60
+  end
+
+  def expired?
+    (!exist?) || (age_in_minutes > MAX_AGE_MINUTES)
+  end
+
+  def contents
+    File.read(path)
+  end
+
+  def save(contents)
+    File.open(path, "w") do |cache|
+      cache.write(contents.to_s)
+    end
+    STDERR.puts "#{NAME}: wrote #{contents.length} bytes to #{path}"
+  end
+end
+
+cache_file = CacheFile.new(NAME)
+
+def show_help_and_exit(cache_file, exit_code)
+  puts "USAGE: #{NAME} [--generate-cache] [--help|-h] [path-of-file-to-open]"
+  puts
+  puts "  By default, #{NAME} will write a cache to #{cache_file.path}"
+  puts "  if it is older than #{CacheFile::MAX_AGE_MINUTES} minutes."
+  exit exit_code
+end
+
+generate_cache = false
+
+begin
+  opts = GetoptLong.new(
+    ["--generate-cache", GetoptLong::NO_ARGUMENT],
+    ["--help", "-h", GetoptLong::NO_ARGUMENT],
+  )
+
+  opts.each do |opt, arg|
+    case opt
+    when "--generate-cache"
+      generate_cache = true
+    else
+      show_help_and_exit cache_file, 0
+    end
+  end
+rescue GetoptLong::InvalidOption
+  show_help_and_exit cache_file, 1
+end
+
+if !generate_cache
+  Rofi.set_prompt "File"
+
+  if ARGV[0]
+    Rofi.open(ARGV[0])
+    exit 0
+  end
+
+  if cache_file.exist?
+    puts cache_file.contents
+  end
+
+  if cache_file.expired?
+    Rofi.generate_cache # in the background
+  end
+
+  exit 0
+end
+
+#
+#  ok, now we'll probably need to list files, let's do more work
+#
+require "digest"
+require "singleton"
+require "uri"
+
+begin
+  # this may need to be sudo-installed into the system ruby
+  gem "mimemagic"
+  require "mimemagic"
+rescue Exception => e
+  puts Rofi.meta("message", e.message.split("\n").first)
+  exit 1
 end
 
 class Thumbnail
@@ -68,8 +181,23 @@ module FileFinder
     Digest::MD5.hexdigest(uri)
   end
 
-  def self.thumbnail(relative_path)
+  def self.thumbnail_for(relative_path)
     Thumbnail.instance[digest(file_uri(File.absolute_path(relative_path)))]
+  end
+
+  def self.mimetype_by_mimemagic_for(relative_path)
+    MimeMagic.by_path(relative_path)
+  end
+
+  def self.mimetype_by_file_for(relative_path)
+    command = %Q'file --brief --mime-type "#{relative_path}"'
+    %x'#{command}'
+  end
+
+  def self.mimetype_for(relative_path)
+    type = mimetype_by_mimemagic_for(relative_path) ||
+           mimetype_by_file_for(relative_path)
+    type.to_s.gsub("/", "-")
   end
 
   def self.paths(directories)
@@ -77,27 +205,20 @@ module FileFinder
     directories + Dir.glob(globs, base: BASE)
   end
 
-  def self.thumbnail_for(path)
+  def self.icon_for(path)
     return "folder" if File.directory?(path)
-    thumbnail(path)
+    thumbnail_for(path) || mimetype_for(path)
   end
 
   def self.find(directories)
     paths(directories).map do |path|
-      if tb = thumbnail_for(path)
-        path + Rofi.meta("icon", tb)
+      if icon = icon_for(path)
+        path + Rofi.meta("icon", icon)
       else
         path
       end
-    end
+    end.join("\n")
   end
 end
 
-if ARGV.length > 0
-  path = ARGV[0]
-  Rofi.open(path)
-  exit 0
-end
-
-Rofi.set_prompt "File"
-puts FileFinder.find(search_directories)
+cache_file.save(FileFinder.find(search_directories))
