@@ -1,10 +1,9 @@
 [Desktop Entry]
 Version=1.0
-Name=Suspend System
-GenericName=Suspend to memory
-Comment=Power management
+Name=Suspend To Memory
+GenericName=Go into low power state
+Icon=system-suspend
+Exec=systemctl suspend
 Terminal=false
 Type=Application
 Categories=System;
-Icon=system-suspend
-Exec=systemctl suspend
