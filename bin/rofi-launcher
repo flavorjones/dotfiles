@@ -16,6 +16,7 @@ ROFI_FINDER="rofi-file"
               button { text-color: rgba ( 129, 147, 150, 50 % ); }
               element-icon { size: 2em; }
               element-text { vertical-align: 0.5; }
+              textbox { text-color: rgba ( 129, 147, 150, 50 % ); }
    " \
   -font "Ubuntu 14" \
   -show-icons \
