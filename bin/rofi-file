@@ -125,107 +125,107 @@ if !generate_cache
   exit 0
 end
 
-#
-#  ok, now we'll probably need to list files, let's do more work
-#
-require "digest"
-require "singleton"
-require "uri"
-
 begin
+  #
+  #  ok, now we'll probably need to list files, let's do more work
+  #
+  require "digest"
+  require "singleton"
+  require "uri"
+
   # this may need to be sudo-installed into the system ruby
   gem "mimemagic"
   require "mimemagic"
+
+  class Thumbnail
+    include Singleton
+
+    THUMBNAIL_BASE = File.join(ENV["HOME"], ".cache", "thumbnails")
+
+    def [](digest)
+      hash[digest]
+    end
+
+    def hash
+      @hash ||= generate_hash
+    end
+
+    private
+
+    def generate_hash
+      Hash.new.tap do |thumbnail_hash|
+        Dir.glob(File.join(THUMBNAIL_BASE, "**", "*")).each do |thumbnail_path|
+          digest = File.basename(thumbnail_path, ".*")
+          thumbnail_hash[digest] = thumbnail_path
+        end
+      end
+    end
+  end
+
+  module FileFinder
+    BASE = ENV["HOME"]
+    URI_PREFIX = "file://"
+    URI_PARSER = URI::Parser.new
+
+    attr_reader :directories
+
+    def initialize(directories)
+      @directories = directories
+    end
+
+    def self.file_uri(absolute_path)
+      URI_PREFIX + URI_PARSER.escape(absolute_path)
+    end
+
+    def self.digest(uri)
+      Digest::MD5.hexdigest(uri)
+    end
+
+    def self.thumbnail_for(relative_path)
+      Thumbnail.instance[digest(file_uri(File.absolute_path(relative_path)))]
+    end
+
+    def self.mimetype_by_mimemagic_for(relative_path)
+      MimeMagic.by_path(relative_path)
+    end
+
+    def self.mimetype_by_file_for(relative_path)
+      command = %Q'file --brief --mime-type "#{relative_path}"'
+      %x'#{command}'
+    end
+
+    def self.mimetype_for(relative_path)
+      type = mimetype_by_mimemagic_for(relative_path) ||
+             mimetype_by_file_for(relative_path)
+      type.to_s.gsub("/", "-")
+    end
+
+    def self.paths(directories)
+      globs = directories.map { |directory| File.join(directory, "**", "*") }
+      directories + Dir.glob(globs, base: BASE)
+    end
+
+    def self.icon_for(path)
+      return "folder" if File.directory?(path)
+      thumbnail_for(path) || mimetype_for(path)
+    end
+
+    def self.find(directories)
+      paths(directories).map do |path|
+        if icon = icon_for(path)
+          path + Rofi.meta("icon", icon)
+        else
+          path
+        end
+      end
+    end
+  end
+
   output = [Rofi.message("File cache generated at #{Time.now}")]
   output << FileFinder.find(search_directories)
   cache_file.save(output.join("\n"))
 rescue Exception => e
-  puts Rofi.meta("message", e.message.split("\n").first)
+  cache_file.save(Rofi.message(e.message.split("\n").first))
+  STDERR.puts("ERROR: #{e}")
   exit 1
 end
-
-class Thumbnail
-  include Singleton
-
-  THUMBNAIL_BASE = File.join(ENV["HOME"], ".cache", "thumbnails")
-
-  def [](digest)
-    hash[digest]
-  end
-
-  def hash
-    @hash ||= generate_hash
-  end
-
-  private
-
-  def generate_hash
-    Hash.new.tap do |thumbnail_hash|
-      Dir.glob(File.join(THUMBNAIL_BASE, "**", "*")).each do |thumbnail_path|
-        digest = File.basename(thumbnail_path, ".*")
-        thumbnail_hash[digest] = thumbnail_path
-      end
-    end
-  end
-end
-
-module FileFinder
-  BASE = ENV["HOME"]
-  URI_PREFIX = "file://"
-  URI_PARSER = URI::Parser.new
-
-  attr_reader :directories
-
-  def initialize(directories)
-    @directories = directories
-  end
-
-  def self.file_uri(absolute_path)
-    URI_PREFIX + URI_PARSER.escape(absolute_path)
-  end
-
-  def self.digest(uri)
-    Digest::MD5.hexdigest(uri)
-  end
-
-  def self.thumbnail_for(relative_path)
-    Thumbnail.instance[digest(file_uri(File.absolute_path(relative_path)))]
-  end
-
-  def self.mimetype_by_mimemagic_for(relative_path)
-    MimeMagic.by_path(relative_path)
-  end
-
-  def self.mimetype_by_file_for(relative_path)
-    command = %Q'file --brief --mime-type "#{relative_path}"'
-    %x'#{command}'
-  end
-
-  def self.mimetype_for(relative_path)
-    type = mimetype_by_mimemagic_for(relative_path) ||
-           mimetype_by_file_for(relative_path)
-    type.to_s.gsub("/", "-")
-  end
-
-  def self.paths(directories)
-    globs = directories.map { |directory| File.join(directory, "**", "*") }
-    directories + Dir.glob(globs, base: BASE)
-  end
-
-  def self.icon_for(path)
-    return "folder" if File.directory?(path)
-    thumbnail_for(path) || mimetype_for(path)
-  end
-
-  def self.find(directories)
-    paths(directories).map do |path|
-      if icon = icon_for(path)
-        path + Rofi.meta("icon", icon)
-      else
-        path
-      end
-    end.join("\n")
-  end
-end
-
-cache_file.save(FileFinder.find(search_directories))
