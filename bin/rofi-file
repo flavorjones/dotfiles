@@ -30,6 +30,10 @@ module Rofi
     spawn "xdg-open", path
   end
 
+  def self.message(message)
+    Rofi.meta("message", message)
+  end
+
   def self.meta(key, value)
     "\x00" + key + "\x1f" + value
   end
@@ -132,6 +136,9 @@ begin
   # this may need to be sudo-installed into the system ruby
   gem "mimemagic"
   require "mimemagic"
+  output = [Rofi.message("File cache generated at #{Time.now}")]
+  output << FileFinder.find(search_directories)
+  cache_file.save(output.join("\n"))
 rescue Exception => e
   puts Rofi.meta("message", e.message.split("\n").first)
   exit 1
