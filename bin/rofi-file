@@ -191,7 +191,7 @@ begin
 
     def self.mimetype_by_file_for(relative_path)
       command = %Q'file --brief --mime-type "#{relative_path}"'
-      %x'#{command}'
+      %x'#{command}'.strip
     end
 
     def self.mimetype_for(relative_path)
