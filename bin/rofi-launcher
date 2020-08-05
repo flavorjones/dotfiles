@@ -26,13 +26,12 @@ ROFI_FINDER="rofi-file"
   -dpi 1 \
   -pid /tmp/${LOGNAME}-rofi.pid \
 \
-  -show drun \
-  -modi drun,run,file:${ROFI_FINDER},window,keys \
+  -show combi \
+  -combi-modi drun,window,${ROFI_FINDER}:${ROFI_FINDER} \
+  -modi       drun,window,${ROFI_FINDER}:${ROFI_FINDER},combi \
   -drun-show-actions \
   -display-drun "Launch" \
   -display-window "Window" \
-  -display-run "Run" \
-  -display-keys "Keys" \
 \
   -terminal gnome-terminal \
 \
