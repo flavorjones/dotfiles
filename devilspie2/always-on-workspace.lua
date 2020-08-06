@@ -5,7 +5,8 @@ patterns = {
    "^Google Play Music$",
    "^YouTube Music$",
    "^Signal$",
-   "^Slack"
+   "^Slack",
+   "Qt Client Leader Window", -- OBS Studio ¯\_(ツ)_/¯
 }
 
 debug_print("always-on-workspace: examining '" .. get_application_name() .. "'")
