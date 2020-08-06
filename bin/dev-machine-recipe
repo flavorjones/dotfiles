@@ -388,6 +388,11 @@ if $linux_p ; then
     #
     # if the virtual camera isn't working, try a "modprobe -r" /
     # "modprobe" cycle on v4l2loopback
+    #
+    # for installing the v4l2sink extension support, see:
+    #
+    # > https://github.com/flathub/com.obsproject.Studio/issues/65#issuecomment-657221604
+    #
     if [[ ! -e /etc/modprobe.d/v4l2loopback.conf ]] ; then
       echo "options v4l2loopback devices=1 video_nr=99 card_label=VirtualCam exclusive_caps=1" \
         | sudo tee /etc/modprobe.d/v4l2loopback.conf
