@@ -1,0 +1,60 @@
+#! /usr/bin/env bash
+
+set -eu
+
+export DISPLAY=":0"
+
+function say {
+  echo "${0}: $*" 1>&2
+  logger "${0}: $*"
+}
+
+say "Looking for cameras on ${DISPLAY} ..."
+
+function device_for {
+  device_name=$(v4l2-ctl --list-devices | grep -A1 "$@" | fgrep "/dev" | tr -d '[:space:]')
+  if [[ -z "$device_name" ]] ; then
+    say "ERROR: could not find device for \"$@\""
+    exit 1
+  fi
+  say "found \"$@\" at $device_name"
+  echo $device_name
+}
+
+function device_in_use_by {
+  fuser $1 2> /dev/null | tr -d '[:space:]'
+}
+
+#
+#  configure v4l2loopback virtual camera
+#
+#  30fps is the highest our webcam can push, so going higher than this is ¯\_(ツ)_/¯
+#
+virtcam=$(device_for "VirtualCam")
+v4l2loopback-ctl set-fps 30 $virtcam
+
+#
+#  configure Logitech C920 webcam
+#
+#  we want 800x448@30fps since 30fps is the max, and 800x448 is the
+#  highest res at which it can do that rate.
+#
+#  run `v4l2-ctl -d /dev/video4 --list-formats-ext` for more info on
+#  supported resolution/rate combinations
+#
+webcam=$(device_for "HD Pro Webcam C920")
+webcam_user=$(device_in_use_by $webcam)
+if [[ -n "$webcam_user" ]] ; then
+  say "skipping $webcam, in use by process $webcam_user"
+else
+  v4l2-ctl -d $webcam --set-fmt-video width=800,height=448
+  v4l2-ctl -d $webcam --get-fmt-video
+  v4l2-ctl -d $webcam --set-parm 30
+  v4l2-ctl -d $webcam --get-parm
+
+  # # these also might be nice to set according to some people on the internet
+  # v4l2-ctl --set-ctrl white_balance_temperature_auto=0
+  # v4l2-ctl --set-ctrl focus_auto=0
+  # v4l2-ctl --set-ctrl exposure_auto=1
+  # v4l2-ctl --set-ctrl backlight_compensation=0
+fi
