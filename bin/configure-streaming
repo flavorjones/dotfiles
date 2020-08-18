@@ -45,7 +45,7 @@ function device_in_use_by {
 #
 virtcam=$(device_for "VirtualCam")
 v4l2loopback-ctl set-fps 30 $virtcam > /dev/null
-v4l2-ctl -d $virtcam --set-ctrl sustain_framerate=1
+v4l2-ctl -d $virtcam --set-ctrl sustain_framerate=0
 if verbose ; then
   v4l2-ctl -d $virtcam --list-ctrls
 fi
@@ -90,4 +90,6 @@ else
     v4l2-ctl -d $elgato --get-fmt-video
     v4l2-ctl -d $elgato --get-parm
   fi
+
+  # v4l2-ctl -d $elgato --list-formats-ext
 fi
