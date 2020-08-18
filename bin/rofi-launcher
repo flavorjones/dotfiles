@@ -26,9 +26,8 @@ ROFI_FINDER="rofi-file"
   -dpi 1 \
   -pid /tmp/${LOGNAME}-rofi.pid \
 \
-  -show combi \
-  -combi-modi drun,window,${ROFI_FINDER}:${ROFI_FINDER} \
-  -modi       drun,window,${ROFI_FINDER}:${ROFI_FINDER},combi \
+  -show drun \
+  -modi       drun,window,${ROFI_FINDER}:${ROFI_FINDER} \
   -drun-show-actions \
   -display-drun "Launch" \
   -display-window "Window" \
