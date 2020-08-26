@@ -1,0 +1,21 @@
+[Desktop Entry]
+Encoding=UTF-8
+Type=Application
+Name=Folding@home Client Control
+Exec=FAHClient --send-command unpause
+Categories=Education;Science;Biology;;
+Comment=Folding@home Client Control
+Icon=/usr/share/pixmaps/FAHClient.png
+Actions=start;stop;finish
+
+[Desktop Action start]
+Name=Start (Unpause) Folding@home Client Processing
+Exec=FAHClient --send-command unpause
+
+[Desktop Action stop]
+Name=Stop (Pause) Folding@home Client Processing
+Exec=FAHClient --send-command pause
+
+[Desktop Action finish]
+Name=Finish Folding@home Client Processing
+Exec=FAHClient --send-command finish
