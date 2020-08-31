@@ -29,6 +29,7 @@ ROFI_FINDER="rofi-file"
   -show drun \
   -modi drun,window,${ROFI_FINDER}:${ROFI_FINDER},run \
   -drun-show-actions \
+  -drun-match-fields name,generic,keywords \
   -display-run "Command" \
   -display-drun "Launch" \
   -display-window "Window" \
