@@ -18,8 +18,9 @@ include "/%H/code/oss/xcompose/emoji.compose"
 <Multi_key> <Multi_key> <e> <u> <r> <o>                 : "€"
 <Multi_key> <Multi_key> <g> <b> <p>                     : "￡"
 
-# Checkmarks
+# Checkmarks and other workflow
 <Multi_key> <Multi_key> <c> <h> <e> <c> <k>             : "✔"
 <Multi_key> <Multi_key> <y> <e> <r> <p>                 : "✔"
 <Multi_key> <Multi_key> <x> <x> <x>                     : "✖"
 <Multi_key> <Multi_key> <n> <e> <r> <p>                 : "✖"
+<Multi_key> <Multi_key> <p> <o> <m> <o>                 : "🍅"  # pomodoro tomato
