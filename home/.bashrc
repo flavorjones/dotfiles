@@ -98,6 +98,8 @@ export LC_COLLATE=C # so sort acts the way i want it to
 
 if [[ -a /proc/cpuinfo ]] ; then
   export NUM_PROCESSORS=$(grep -c processor /proc/cpuinfo)
+elif [[ $I_AM_A_MAC -eq 1 && -e /usr/sbin/sysctl ]] ; then
+  export NUM_PROCESSORS=$(sysctl -n hw.ncpu)
 else
   export NUM_PROCESSORS=1
 fi
