@@ -12,7 +12,7 @@ require "getoptlong"
 NAME = File.basename(__FILE__)
 
 # relative to ~
-search_directories = ["Documents", "Downloads", "Desktop", "Videos"]
+search_directories = ["Documents", "Downloads", "Desktop", "Videos", "Pictures"]
 
 module Rofi
   def self.spawn(command, *args)
