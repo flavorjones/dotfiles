@@ -382,7 +382,8 @@ if $linux_p ; then
     #
     #  graphics, screencaps, video and sound recording, etc.
     #
-    ${install} sox krita kazam gnome-sound-recorder \
+    ${install} sox libsox-fmt-mp3 \
+               krita kazam gnome-sound-recorder \
                libmagickcore-dev libmagick++-dev \
                v4l2loopback-dkms v4l2loopback-utils
 
