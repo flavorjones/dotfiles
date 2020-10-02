@@ -13,6 +13,7 @@ include "/%H/code/oss/xcompose/emoji.compose"
 <Multi_key> <Multi_key> <h> <o> <u> <s> <e>             : "🏡"	# U1F3E1 HOUSE WITH GARDEN
 <Multi_key> <Multi_key> <c> <o> <f> <f>                 : "☕"		# U+2615 HOT BEVERAGE
 <Multi_key> <Multi_key> <t> <h> <i> <n> <k>             : "🤔"	# U+1F914 THINKING FACE
+<Multi_key> <Multi_key> <c> <r> <y>                     : "😢"
 
 # Money
 <Multi_key> <Multi_key> <e> <u> <r> <o>                 : "€"
@@ -24,3 +25,4 @@ include "/%H/code/oss/xcompose/emoji.compose"
 <Multi_key> <Multi_key> <x> <x> <x>                     : "✖"
 <Multi_key> <Multi_key> <n> <e> <r> <p>                 : "✖"
 <Multi_key> <Multi_key> <p> <o> <m> <o>                 : "🍅"  # pomodoro tomato
+<Multi_key> <Multi_key> <w> <a> <r> <n>                 : "⚠"   # warning
