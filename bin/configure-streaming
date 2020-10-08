@@ -27,11 +27,12 @@ fi
 function device_for {
   device_name=$(v4l2-ctl --list-devices | grep -A1 "$@" | fgrep "/dev" | tr -d '[:space:]')
   if [[ -z "$device_name" ]] ; then
-    say "ERROR: could not find device for \"$@\""
-    exit 1
+    say "WARNING: could not find \"$@\""
+    echo ""
+  else
+    say "Found $device_name \"$@\""
+    echo $device_name
   fi
-  say "Found $device_name \"$@\""
-  echo $device_name
 }
 
 function device_in_use_by {
@@ -44,10 +45,12 @@ function device_in_use_by {
 #  see https://github.com/umlaeute/v4l2loopback
 #
 virtcam=$(device_for "VirtualCam")
-v4l2loopback-ctl set-fps 30 $virtcam > /dev/null
-v4l2-ctl -d $virtcam --set-ctrl sustain_framerate=0
-if verbose ; then
-  v4l2-ctl -d $virtcam --list-ctrls
+if [[ -n "$virtcam" ]] ; then
+  v4l2loopback-ctl set-fps 30 $virtcam > /dev/null
+  v4l2-ctl -d $virtcam --set-ctrl sustain_framerate=0
+  if verbose ; then
+    v4l2-ctl -d $virtcam --list-ctrls
+  fi
 fi
 
 #
@@ -60,36 +63,40 @@ fi
 #  supported resolution/rate combinations
 #
 logitech=$(device_for "HD Pro Webcam C920")
-logitech_user=$(device_in_use_by $logitech)
-if [[ -n "$logitech_user" ]] ; then
-  say "skipping $logitech, in use by process $logitech_user"
-else
-  v4l2-ctl -d $logitech --set-fmt-video width=800,height=448
-  v4l2-ctl -d $logitech --set-parm 30 > /dev/null
-  if verbose ; then
-    v4l2-ctl -d $logitech --get-fmt-video
-    v4l2-ctl -d $logitech --get-parm
-  fi
+if [[ -n "$logitech" ]] ; then
+  logitech_user=$(device_in_use_by $logitech)
+  if [[ -n "$logitech_user" ]] ; then
+    say "skipping $logitech, in use by process $logitech_user"
+  else
+    v4l2-ctl -d $logitech --set-fmt-video width=800,height=448
+    v4l2-ctl -d $logitech --set-parm 30 > /dev/null
+    if verbose ; then
+      v4l2-ctl -d $logitech --get-fmt-video
+      v4l2-ctl -d $logitech --get-parm
+    fi
 
-  # # these also might be nice to set according to some people on the internet
-  # v4l2-ctl --set-ctrl white_balance_temperature_auto=0
-  # v4l2-ctl --set-ctrl focus_auto=0
-  # v4l2-ctl --set-ctrl exposure_auto=1
-  # v4l2-ctl --set-ctrl backlight_compensation=0
+    # # these also might be nice to set according to some people on the internet
+    # v4l2-ctl --set-ctrl white_balance_temperature_auto=0
+    # v4l2-ctl --set-ctrl focus_auto=0
+    # v4l2-ctl --set-ctrl exposure_auto=1
+    # v4l2-ctl --set-ctrl backlight_compensation=0
+  fi
 fi
 
 #
 #  configure Elgato Cam Link (Sony a6000)
 #
 elgato=$(device_for "Cam Link 4K")
-elgato_user=$(device_in_use_by $elgato)
-if [[ -n "$elgato_user" ]] ; then
-  say "skipping $elgato, in use by process $elgato_user"
-else
-  if verbose ; then
-    v4l2-ctl -d $elgato --get-fmt-video
-    v4l2-ctl -d $elgato --get-parm
-  fi
+if [[ -n "$elgato" ]] ; then
+  elgato_user=$(device_in_use_by $elgato)
+  if [[ -n "$elgato_user" ]] ; then
+    say "skipping $elgato, in use by process $elgato_user"
+  else
+    if verbose ; then
+      v4l2-ctl -d $elgato --get-fmt-video
+      v4l2-ctl -d $elgato --get-parm
+    fi
 
-  # v4l2-ctl -d $elgato --list-formats-ext
+    # v4l2-ctl -d $elgato --list-formats-ext
+  fi
 fi
