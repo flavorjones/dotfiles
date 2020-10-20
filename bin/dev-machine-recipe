@@ -263,6 +263,7 @@ if $linux_p ; then
       python3 python-is-python3 \
       nodejs npm node-marked \
       markdown \
+      graphviz gv \
 
 
     #
