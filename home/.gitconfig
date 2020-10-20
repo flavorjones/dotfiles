@@ -10,6 +10,7 @@
 	loosecompression = 1
 	abbrev = 7
 	commitGraph = true
+  attributesfile = /home/flavorjones/.gitattributes
 
 [pager]
 	branch = false
