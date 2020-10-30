@@ -1,22 +1,36 @@
 #! /usr/bin/env ruby
 
+require 'getoptlong'
 require 'date'
 
-bold = "\e[1m"
-reset = "\e[0m"
-
 def _usage
-  puts "USAGE: git-branch-overview [origin|local]"
+  puts "USAGE: git-branch-overview [--help|-h] [<remote>]"
   exit 1
 end
 
-branches = case ARGV[0]
-           when "origin"
-             `git branch -r | fgrep origin/`.split("\n").map(&:strip).reject { |b| b =~ /^origin\/(master$|HEAD)/ }
-           when "local"
-             `git branch | cut -c2-`.split("\n").map(&:strip).reject { |b| b =~ /^master$/ }
+begin
+  GetoptLong.new(
+    ["--help", "-h", GetoptLong::NO_ARGUMENT],
+  ).each do |opt, arg|
+    case opt
+    when "--help"
+      _usage
+    end
+  end
+rescue GetoptLong::InvalidOption
+  _usage
+end
+
+remote = ARGV[0]
+
+branches = if remote.nil? # local
+             `git branch | cut -c2-`
+               .split("\n").map(&:strip)
+               .reject { |b| b =~ /^master$/ }
            else
-             _usage
+             `git branch -r | egrep '^\\s+#{remote}/'`
+               .split("\n").map(&:strip)
+               .reject { |b| b =~ %r{^#{remote}/(master$|HEAD)} }
            end
 
 branches_dates = branches.inject({}) do |hash, branch|
@@ -26,18 +40,21 @@ branches_dates = branches.inject({}) do |hash, branch|
 end
 
 branches_logs = branches.inject({}) do |hash, branch|
-  commit = `git log -n1 #{branch}` # alt: --pretty=short
-  hash[branch] = commit
+  commit = `git log --color --decorate=short --date=iso8601 -n1 #{branch}`
+  hash[branch] = commit + "\n"
   hash
 end
+
+pager_command = ENV['GIT_PAGER'] || ENV['PAGER']
+pager = begin
+          pager_command ? IO.popen(pager_command, "w") : STDOUT
+        rescue
+          STDOUT
+        end
 
 branches_dates
   .sort_by { |branch, date| date }
   .reverse
-  .each do |branch, date|
-      puts "----------"
-      puts "#{bold}#{date}: #{branch}#{reset}"
-      puts
-      puts branches_logs[branch]
-      puts
-end
+  .each { |branch, date| pager.puts branches_logs[branch] }
+
+pager.close
