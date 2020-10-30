@@ -86,14 +86,15 @@ if [[ $I_AM_A_MAC == 1 ]] ; then
   export PATH=${PATH}:/Applications/Emacs.app//Contents/MacOS/bin-x86_64-10_10
 fi
 
+export LESS="-i -j5 -M -x4 -R"
+eval "$(lesspipe)" # for reading .gz files and such
+
 export EDITOR="emacsclient -c"
 export GIT_EDITOR=$EDITOR
 export VISUAL=$EDITOR
 export PAGER=less
 export BROWSER="google-chrome"
 
-export LESS="-i -j5 -M -x4 -R"
-# export LESSCHARSET="latin1"
 export LC_COLLATE=C # so sort acts the way i want it to
 
 if [[ -a /proc/cpuinfo ]] ; then
