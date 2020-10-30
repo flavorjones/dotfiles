@@ -27,7 +27,7 @@ ROFI_FINDER="rofi-file"
   -pid /tmp/${LOGNAME}-rofi.pid \
 \
   -show drun \
-  -modi drun,window,${ROFI_FINDER}:${ROFI_FINDER},run \
+  -modi drun,${ROFI_FINDER}:${ROFI_FINDER},run,window \
   -drun-show-actions \
   -drun-match-fields name,generic,keywords \
   -display-run "Command" \
@@ -36,7 +36,8 @@ ROFI_FINDER="rofi-file"
 \
   -terminal gnome-terminal \
 \
-  -sort -cache-dir $HOME/.config/rofi \
+  -sort \
+  -cache-dir $HOME/.config/rofi \
 \
   -kb-remove-word-back "Alt+BackSpace" \
   -kb-row-tab "" -kb-mode-next "Tab" \
