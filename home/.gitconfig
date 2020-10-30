@@ -10,7 +10,7 @@
 	loosecompression = 1
 	abbrev = 7
 	commitGraph = true
-  attributesfile = /home/flavorjones/.gitattributes
+	attributesfile = /home/flavorjones/.gitattributes
 
 [pager]
 	branch = false
@@ -31,6 +31,7 @@
 [log]
 	abbrevCommit = true
 	decorate = short
+	date = iso8601
 
 [tag]
 	sort=version:refname
