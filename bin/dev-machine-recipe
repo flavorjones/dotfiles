@@ -26,6 +26,7 @@
 # 3. install cxoffice and microsoft office stuff
 # 4. (Dell XPS) connect to dell apt repositories and install custom packages (https://www.dell.com/community/XPS/XPS-13-9300-Does-fingerprint-reader-work-on-linux/td-p/7514958)
 # 5. Set "Input Settings" to use XIM (see XCompose notes below)
+# 6. update firmware, `fwupdmgr get-updates` and `fwupdmgr update`
 #
 # Low Priority
 # ------------
@@ -136,29 +137,51 @@ fi
 
 install_p=true
 config_p=true
+update_p=true
 if [[ $1 == "config" ]] ; then
   echo "## configuration only"
   install_p=false
+  update_p=false
+elif [[ $1 == "update" ]] ; then
+  echo "## update only"
+  install_p=false
+  config_p=false
 fi
 
 kernel_release=$(uname -r)
 ossdir="${HOME}/code/oss"
 
 if $linux_p ; then
-  install="apt install -y -q"
-  update="apt update -q"
+  function apt_install {
+    apt install -y -q $*
+  }
+  function apt_update {
+    apt update -q
+  }
+  function apt_upgrade {
+    apt_update
+    apt upgrade -y -q
+  }
+
+  function firmware_upgrade {
+    fwupdmgr get-updates
+    fwupdmgr update
+  }
+
   open="gnome-open"
+
   snap_install="sudo snap install"
-  snap_update="sudo snap refresh"
+  snap_upgrade="sudo snap refresh"
+
   flatpak_install="flatpak install -y flathub"
-  flatpak_update="flatpak update"
+  flatpak_upgrade="flatpak update"
 
   if [[ `which snap` == "" ]] ; then
-    ${install} snapd
+    apt_install snapd
   fi
 
   if [[ `which flatpak-builder` == "" ]] ; then
-    ${install} flatpak-builder
+    apt_install flatpak-builder
   fi
 
 elif $apple_p ; then
@@ -171,10 +194,11 @@ elif $apple_p ; then
   fi
 fi
 
-if $install_p ; then
-  ${update}
-  ${snap_update}
-  ${flatpak_update}
+if $update_p ; then
+  firmware_upgrade
+  apt_upgrade
+  ${snap_upgrade}
+  ${flatpak_upgrade}
 fi
 
 if $config_p ; then
@@ -188,7 +212,7 @@ if $apple_p ; then
     #
     #  basic shit
     #
-    ${install} coreutils ack tmate ruby pkg-config ispell
+    apt_install coreutils ack tmate ruby pkg-config ispell
   fi
 fi
 
@@ -197,7 +221,7 @@ if $linux_p ; then
     #
     #  basic usability
     #
-    ${install} \
+    apt_install \
       libnotify-bin \
       keepassx \
       gconf-editor dconf-cli \
@@ -210,7 +234,7 @@ if $linux_p ; then
       cheese \
       pavucontrol \
       gnome-shell-pomodoro \
-      rofi
+
 
     # see https://bugs.launchpad.net/ubuntu/+source/msttcorefonts/+bug/1713615
     wget http://ftp.de.debian.org/debian/pool/contrib/m/msttcorefonts/ttf-mscorefonts-installer_3.6_all.deb
@@ -221,9 +245,9 @@ if $linux_p ; then
     #  gpg
     #
     if $linux_p ; then
-      ${install} gnupg
+      apt_install gnupg
     elif $darwin_p ; then
-      ${install} gpg
+      apt_install gpg
     fi
 
 
@@ -239,7 +263,7 @@ if $linux_p ; then
     #
     #  basics for development and related activities
     #
-    ${install} \
+    apt_install \
       git-core gitk subversion mercurial bzr \
       ruby rake \
       build-essential valgrind \
@@ -293,8 +317,8 @@ if $linux_p ; then
     #   wget -q -O - https://packages.cloudfoundry.org/debian/cli.cloudfoundry.org.key | sudo apt-key add -
     #   echo "deb http://packages.cloudfoundry.org/debian stable main" | \
     #     sudo tee /etc/apt/sources.list.d/cloudfoundry-cli.list
-    #   ${update}
-    #   ${install} cf-cli
+    #   apt_update
+    #   apt_install cf-cli
     # fi
 
     # LPASSD="${ossdir}/lastpass-cli"
@@ -314,7 +338,7 @@ if $linux_p ; then
     # #
     # #  licensefinder development
     # #
-    # ${install} npm maven gradle rebar
+    # apt_install npm maven gradle rebar
 
     # if [[ ! -e /usr/bin/node ]] ; then
     #   # https://github.com/joyent/node/issues/3911
@@ -327,7 +351,7 @@ if $linux_p ; then
     # fi
 
     # if [[ `which pip` == "" ]] ; then
-    #   ${install} python-pip python-dev
+    #   apt_install python-pip python-dev
     #   sudo pip install --upgrade pip
     #   sudo pip install --upgrade virtualenv
     # fi
@@ -336,33 +360,33 @@ if $linux_p ; then
     #
     #  filesystems, vpn, RDP, bootable drives, backups, etc.
     #
-    ${install} \
+    apt_install \
       hfsprogs cryptsetup \
       network-manager-openvpn-gnome \
       network-manager-vpnc-gnome \
       gufw \
       timeshift
 
-    # ${install} \
+    # apt_install \
     #   remmina remmina-plugin-rdp libfreerdp-plugins-standard remmina-plugin-vnc
 
 
     #
     #  dropbox
     #
-    ${install} dropbox 
+    apt_install dropbox 
 
 
     #
     #  cinnamon system monitor
     #
-    ${install} gir1.2-gtop-2.0
+    apt_install gir1.2-gtop-2.0
 
 
     #
     #  virtualbox
     #
-    ${install} \
+    apt_install \
       virtualbox-qt virtualbox-dkms \
       nfs-common nfs-kernel-server
 
@@ -371,7 +395,7 @@ if $linux_p ; then
     #  docker
     #
     if [[ `which docker` == "" ]] ; then
-      ${install} docker.io
+      apt_install docker.io
       sudo usermod -a -G docker $USER
     else
       #  this will fail until you re-login to have the above user group take effect
@@ -383,7 +407,7 @@ if $linux_p ; then
     #
     #  graphics, screencaps, video and sound recording, etc.
     #
-    ${install} sox libsox-fmt-mp3 \
+    apt_install sox libsox-fmt-mp3 \
                krita kazam gnome-sound-recorder \
                libmagickcore-dev libmagick++-dev \
                v4l2loopback-dkms v4l2loopback-utils
@@ -421,13 +445,13 @@ if $linux_p ; then
     #  http://linrunner.de/en/tlp/docs/tlp-configuration.html#rdw
     #  TODO: make sure touchscreen is added to USB_WHITELIST in /etc/default/tlp
     #
-    ${install} tlp tlp-config tlp-rdw acpi-call-dkms smartmontools powertop
+    apt_install tlp tlp-config tlp-rdw acpi-call-dkms smartmontools powertop
 
 
     # #
     # #  system debugging tools
     # #
-    # ${install} linux-tools-common \
+    # apt_install linux-tools-common \
     #           linux-tools-generic linux-tools-${kernel_release} \
     #           wireshark \
     #           sysdig
@@ -443,7 +467,7 @@ if $linux_p ; then
       popd
     fi
     if [[ `which ukuu` == "" ]] ; then
-      ${install} libgee-0.8-dev libjson-glib-dev libvte-2.91-dev valac
+      apt_install libgee-0.8-dev libjson-glib-dev libvte-2.91-dev valac
       pushd ${UKUUDIR}
       git pull
       make all
@@ -480,7 +504,7 @@ if $linux_p ; then
     #
     #  flux-like
     #
-    ${install} redshift redshift-gtk
+    apt_install redshift redshift-gtk
 
 
     #
