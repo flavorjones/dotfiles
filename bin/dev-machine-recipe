@@ -26,7 +26,7 @@
 # 3. install cxoffice and microsoft office stuff
 # 4. (Dell XPS) connect to dell apt repositories and install custom packages (https://www.dell.com/community/XPS/XPS-13-9300-Does-fingerprint-reader-work-on-linux/td-p/7514958)
 # 5. Set "Input Settings" to use XIM (see XCompose notes below)
-# 6. update firmware, `fwupdmgr get-updates` and `fwupdmgr update`
+# 6. `apt install linux-lowlatency`
 #
 # Low Priority
 # ------------
@@ -123,6 +123,14 @@
 #  - "System Power Management Sleep States" https://www.kernel.org/doc/Documentation/power/states.txt
 #  - https://01.org/blogs/rzhang/2015/best-practice-debug-linux-suspend/hibernate-issues
 #  - https://01.org/linuxgraphics/gfx-docs/drm/admin-guide/pm/sleep-states.html
+#
+#
+#  2020-11 things I had to do to get my kernel modules running on the 5.8 kernel (Mint 20)
+#
+#  - download v4l2loopback-dkms 0.12.5 or later from debian.org (system is 0.12.3)
+#    - https://packages.debian.org/testing/kernel/v4l2loopback-dkms
+#  - download virtualbox-dkms 6.1.14 or later from debian.org (system is 6.1.10)
+#    - https://packages.debian.org/sid/virtualbox-dkms
 
 set -o errexit
 set -o xtrace
