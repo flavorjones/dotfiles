@@ -97,12 +97,18 @@ export BROWSER="google-chrome"
 
 export LC_COLLATE=C # so sort acts the way i want it to
 
-if [[ -a /proc/cpuinfo ]] ; then
+if [[ `which nproc` != "" ]] ; then
+  export NUM_PROCESSORS=$(nproc)
+elif [[ -a /proc/cpuinfo ]] ; then
   export NUM_PROCESSORS=$(grep -c processor /proc/cpuinfo)
 elif [[ $I_AM_A_MAC -eq 1 && -e /usr/sbin/sysctl ]] ; then
   export NUM_PROCESSORS=$(sysctl -n hw.ncpu)
-else
+fi
+
+if [[ -z "${NUM_PROCESSORS}" ]] ; then
   export NUM_PROCESSORS=1
+else
+  export NUM_PROCESSORS=$(($NUM_PROCESSORS - 1))
 fi
 
 export MAKEFLAGS=-j${NUM_PROCESSORS}
