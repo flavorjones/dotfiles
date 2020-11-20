@@ -172,6 +172,7 @@ if $linux_p ; then
   }
 
   function firmware_upgrade {
+    fwupdmgr refresh --force
     fwupdmgr get-updates
     fwupdmgr update
   }
