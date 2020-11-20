@@ -277,7 +277,7 @@ if $linux_p ; then
       ruby rake \
       build-essential valgrind \
       direnv \
-      emacs-gtk autocutsel \
+      emacs autocutsel \
       mariadb-server mariadb-client libmysqlclient-dev \
       postgresql postgresql-client libpq-dev postgresql-contrib \
       openjdk-8-jdk \
