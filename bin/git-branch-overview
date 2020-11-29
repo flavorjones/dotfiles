@@ -3,6 +3,11 @@
 require 'getoptlong'
 require 'date'
 
+DEFAULT_BRANCH = "master"
+ANSI_REVERSE = "\u001b[7m"
+ANSI_BOLD = "\u001b[1m"
+ANSI_RESET = "\u001b[0m"
+
 def _usage
   puts "USAGE: git-branch-overview [--help|-h] [<remote>]"
   exit 1
@@ -26,22 +31,28 @@ remote = ARGV[0]
 branches = if remote.nil? # local
              `git branch | cut -c2-`
                .split("\n").map(&:strip)
-               .reject { |b| b =~ /^master$/ }
+               .reject { |b| b =~ /^#{DEFAULT_BRANCH}$/ }
            else
              `git branch -r | egrep '^\\s+#{remote}/'`
                .split("\n").map(&:strip)
-               .reject { |b| b =~ %r{^#{remote}/(master$|HEAD)} }
+               .reject { |b| b =~ %r{^#{remote}/(#{DEFAULT_BRANCH}$|HEAD)} }
            end
 
 branches_dates = branches.inject({}) do |hash, branch|
-  date = Date.parse `git log -n1 --format='%ai' #{branch}`.split(" ").first
+  date = Date.parse `git log -n1 --format='%ai' "#{branch}"`.split(" ").first
   hash[branch] = date
   hash
 end
 
 branches_logs = branches.inject({}) do |hash, branch|
-  commit = `git log --color --decorate=short --date=iso8601 -n1 #{branch}`
+  commit = `git log --color --decorate=short --date=iso8601 -n1 "#{branch}"`
   hash[branch] = commit + "\n"
+  hash
+end
+
+branches_merged_to_default_branch = branches.inject({}) do |hash, branch|
+  merged = system %{git branch -r --contains #{branch} | egrep "^\s+origin/#{DEFAULT_BRANCH}" > /dev/null}
+  hash[branch] = merged
   hash
 end
 
@@ -55,6 +66,15 @@ pager = begin
 branches_dates
   .sort_by { |branch, date| date }
   .reverse
-  .each { |branch, date| pager.puts branches_logs[branch] }
+  .each do |branch, date|
+
+  if branches_merged_to_default_branch[branch]
+    commit_lines = branches_logs[branch].split("\n")
+    commit_lines[0] += " #{ANSI_REVERSE}#{ANSI_BOLD}MERGED TO DEFAULT BRANCH#{ANSI_RESET}"
+    branches_logs[branch] = commit_lines.join("\n")
+  end
+
+  pager.puts branches_logs[branch]
+end
 
 pager.close
