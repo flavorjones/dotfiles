@@ -1,6 +1,13 @@
 #! /usr/bin/env ruby
 
-require 'getoptlong'
+require "bundler/inline"
+
+gemfile do
+  source "https://rubygems.org/"
+  gem "slop"
+end
+
+require 'slop'
 require 'date'
 
 DEFAULT_BRANCH = "master"
@@ -13,29 +20,29 @@ def _usage
   exit 1
 end
 
-begin
-  GetoptLong.new(
-    ["--help", "-h", GetoptLong::NO_ARGUMENT],
-  ).each do |opt, arg|
-    case opt
-    when "--help"
-      _usage
-    end
+merge_opts = ""
+opts = Slop.parse do |opt|
+  opt.on("--merged", "Show only branches merged into #{DEFAULT_BRANCH} (default is show all branches)") do
+    merge_opts = "--merged"
   end
-rescue GetoptLong::InvalidOption
-  _usage
+  opt.bool("--no-merged", "Show only branches not merged into #{DEFAULT_BRANCH} (default is show all branches)") do
+    merge_opts = "--no-merged"
+  end
+  opt.string "-r", "--remote", "Focus on a remote (default is to show local)"
+  opt.on("-h", "--help", "See command usage") do
+    puts opt
+    exit 1
+  end
 end
 
-remote = ARGV[0]
-
-branches = if remote.nil? # local
-             `git branch | cut -c2-`
+branches = if opts[:remote]
+             `git branch -r --list '#{opts[:remote]}/*' #{merge_opts}`
+               .split("\n").map(&:strip)
+               .reject { |b| b =~ %r{^#{opts[:remote]}/(#{DEFAULT_BRANCH}$|HEAD)} }
+           else
+             `git branch --list #{merge_opts} | cut -c2-`
                .split("\n").map(&:strip)
                .reject { |b| b =~ /^#{DEFAULT_BRANCH}$/ }
-           else
-             `git branch -r | egrep '^\\s+#{remote}/'`
-               .split("\n").map(&:strip)
-               .reject { |b| b =~ %r{^#{remote}/(#{DEFAULT_BRANCH}$|HEAD)} }
            end
 
 branches_dates = branches.inject({}) do |hash, branch|
@@ -45,14 +52,7 @@ branches_dates = branches.inject({}) do |hash, branch|
 end
 
 branches_logs = branches.inject({}) do |hash, branch|
-  commit = `git log --color --decorate=short --date=iso8601 -n1 "#{branch}"`
-  hash[branch] = commit + "\n"
-  hash
-end
-
-branches_merged_to_default_branch = branches.inject({}) do |hash, branch|
-  merged = system %{git branch -r --contains #{branch} | egrep "^\s+origin/#{DEFAULT_BRANCH}" > /dev/null}
-  hash[branch] = merged
+  hash[branch] = `git log --color --decorate=short --date=iso8601 -n1 "#{branch}"`
   hash
 end
 
@@ -68,13 +68,8 @@ branches_dates
   .reverse
   .each do |branch, date|
 
-  if branches_merged_to_default_branch[branch]
-    commit_lines = branches_logs[branch].split("\n")
-    commit_lines[0] += " #{ANSI_REVERSE}#{ANSI_BOLD}MERGED TO DEFAULT BRANCH#{ANSI_RESET}"
-    branches_logs[branch] = commit_lines.join("\n")
-  end
-
   pager.puts branches_logs[branch]
+  pager.puts
 end
 
 pager.close
