@@ -1,7 +1,7 @@
 patterns = {
-   "^Slack",
-   "^Terminal$",
-   "^emacs$",
+   -- "^Slack",
+   -- "^Terminal$",
+   -- "^emacs$",
 }
 
 

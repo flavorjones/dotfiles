@@ -7,6 +7,7 @@ patterns = {
    "^Signal$",
    "^Slack",
    "Qt Client Leader Window", -- OBS Studio ¯\_(ツ)_/¯
+   "^Obsidian",
 }
 
 debug_print("always-on-workspace: examining '" .. get_application_name() .. "'")
