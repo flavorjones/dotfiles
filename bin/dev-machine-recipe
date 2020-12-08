@@ -69,6 +69,9 @@
 # Do this: https://gist.github.com/SeppoTakalo/f526f761a44f07464cb5df89c8a9389e
 # - iterm2, set profile colors to Solarized Dark
 #
+# Iterm2 key bindings (forward-word, backward-word, delete-word)
+# - https://apple.stackexchange.com/a/204802/169366
+#
 # Emacs: https://emacsformacosx.com/
 #
 # To stop from sleeping when locking screen:
@@ -127,11 +130,14 @@
 #
 #  2020-11 things I had to do to get my kernel modules running on the 5.8 kernel (Mint 20)
 #
+#  - install headers like this:
+#    - `apt install --install-suggests linux-image-5.8.0-31-lowlatency`
+#    - which will grab the headers when it installs the kernel
 #  - download v4l2loopback-dkms 0.12.5 or later from debian.org (system is 0.12.3)
 #    - https://packages.debian.org/testing/kernel/v4l2loopback-dkms
 #  - download virtualbox-dkms 6.1.14 or later from debian.org (system is 6.1.10)
 #    - https://packages.debian.org/sid/virtualbox-dkms
-
+#
 set -o errexit
 set -o xtrace
 
