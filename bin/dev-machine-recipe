@@ -586,6 +586,10 @@ if $linux_p ; then
     if [[ `which purevpn` == "" ]] ; then
       ${open} https://my.purevpn.com/apps
     fi
+
+    if [[ `which vagrant` == "" ]] ; then
+      ${open} https://www.vagrantup.com/downloads.html
+    fi
   fi
 
 
