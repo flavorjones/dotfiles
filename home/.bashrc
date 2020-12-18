@@ -272,6 +272,14 @@ function gocd {
   fi
 }
 
+function make-targets {
+  if [ -n $1 ] ; then
+    file=$1
+  else
+    file=Makefile
+  fi
+  grep '^[^#[:space:]].*:' $file | cut -d: -f1
+}
 
 #
 #  kubernetes hacks - thanks to colin humphreys
