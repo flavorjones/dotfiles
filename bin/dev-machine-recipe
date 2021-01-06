@@ -27,6 +27,10 @@
 # 4. (Dell XPS) connect to dell apt repositories and install custom packages (https://www.dell.com/community/XPS/XPS-13-9300-Does-fingerprint-reader-work-on-linux/td-p/7514958)
 # 5. Set "Input Settings" to use XIM (see XCompose notes below)
 # 6. `apt install linux-lowlatency`
+# 7. (Dell XPS) BIOS: Turn off "Sign of Life"
+#    - https://www.dell.com/community/XPS/XPS-13-9300-Wake-from-sleep/m-p/7535386/highlight/true#M59272
+# 8. (Dell XPS) BIOS: Turn off SpeedStep
+#    - https://www.dell.com/community/XPS/XPS-13-9370-max-performance-on-battery/m-p/7251711/highlight/true#M25539
 #
 # Low Priority
 # ------------
@@ -35,7 +39,7 @@
 # 2. desktop config (automation in progress!)
 # 3. color: clone https://github.com/Mayccoll/Gogh and install solarized theme for gnome terminal
 # 4. color: clone https://github.com/seebi/dircolors-solarized and use the 'ansi-dark' config
-# 5. multi-monitor: use something like `xrandr --output DP-3 --pos 1720+303` to position the wide
+# 5. multi-monitor: use something like `xrandr --output DP-3 --pos 1728x303` to position the wide
 #    monitor to the right of the tall narrow monitor. (0,0) is the top left of the virtual desktop.
 #
 # Chrome Extensions
