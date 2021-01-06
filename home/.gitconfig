@@ -57,7 +57,7 @@
 	rpo = remote prune origin
 
 	ss = status --short
-	w = whatchanged
+	w = log --name-status
 	st = status
 
 	logp = log --pretty='format:"%h %C(yellow)%ci%Creset %Cgreen%an%Creset | %s"'
