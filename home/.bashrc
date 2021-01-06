@@ -204,6 +204,12 @@ alias dockerkillall='docker kill $(docker ps -q)'
 alias dockercleanc='printf "\n>>> Deleting stopped containers\n\n" && docker rm $(docker ps -a -q)'
 alias dockercleani='printf "\n>>> Deleting untagged images\n\n" && docker rmi $(docker images -q -f dangling=true)'
 alias dockerclean='dockercleanc || true && dockercleani'
+function dockerdocker {
+  image=$1
+  shift
+  pwd=$(pwd)
+  docker run -it --mount=type=bind,source=${pwd},target=/$(basename $pwd) $image $*
+}
 
 # calendar assistant FTW
 alias ca="calendar-assistant"
