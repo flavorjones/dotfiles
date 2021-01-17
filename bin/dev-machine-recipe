@@ -26,7 +26,7 @@
 # 3. install cxoffice and microsoft office stuff
 # 4. (Dell XPS) connect to dell apt repositories and install custom packages (https://www.dell.com/community/XPS/XPS-13-9300-Does-fingerprint-reader-work-on-linux/td-p/7514958)
 # 5. Set "Input Settings" to use XIM (see XCompose notes below)
-# 6. `apt install linux-lowlatency`
+# 6. `apt install linux-lowlatency` for the default linux kernel version as lowlatency
 # 7. (Dell XPS) BIOS: Turn off "Sign of Life"
 #    - https://www.dell.com/community/XPS/XPS-13-9300-Wake-from-sleep/m-p/7535386/highlight/true#M59272
 # 8. (Dell XPS) BIOS: Turn off SpeedStep
