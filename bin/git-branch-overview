@@ -10,7 +10,7 @@ end
 require 'slop'
 require 'date'
 
-DEFAULT_BRANCH = "master"
+DEFAULT_BRANCH = File.basename(`git symbolic-ref refs/remotes/origin/HEAD`.strip)
 ANSI_REVERSE = "\u001b[7m"
 ANSI_BOLD = "\u001b[1m"
 ANSI_RESET = "\u001b[0m"
@@ -23,10 +23,10 @@ end
 merge_opts = ""
 opts = Slop.parse do |opt|
   opt.on("--merged", "Show only branches merged into #{DEFAULT_BRANCH} (default is show all branches)") do
-    merge_opts = "--merged"
+    merge_opts = "--merged #{DEFAULT_BRANCH}"
   end
   opt.bool("--no-merged", "Show only branches not merged into #{DEFAULT_BRANCH} (default is show all branches)") do
-    merge_opts = "--no-merged"
+    merge_opts = "--no-merged #{DEFAULT_BRANCH}"
   end
   opt.string "-r", "--remote", "Focus on a remote (default is to show local)"
   opt.on("-h", "--help", "See command usage") do
