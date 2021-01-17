@@ -12,60 +12,10 @@ else
 fi
 
 #
-#  git stuff
+#  completion
 #
-export GIT_PS1_SHOWDIRTYSTATE=1
 . ~/.git-completion.bash
-
-#
-#  prompts, environment, etc.
-#
 [[ -s /etc/bash_completion ]] && source /etc/bash_completion
-
-function ps1_haxxor_info {
-  prompt=""
-
-  if [[ $rvm_path != "" ]] ; then
-    prompt="${prompt} $(rvm-prompt)"
-  fi
-
-  if [[ $GVM_ROOT != "" ]] ; then
-    prompt="${prompt} $(gvm-prompt)"
-  fi
-
-  prompt="${prompt} $(__git_ps1)"
-
-  echo $prompt
-}
-
-function ps1_working_directory {
-  if [[ -n "${GOPATH}" && $PWD =~ "${GOPATH}/src" ]] ; then
-    echo "(${gvm_go_name}) $(realpath --relative-to "${GOPATH}/src" "${PWD}")"
-  elif [[ $PWD == $HOME ]] ; then
-    echo "~"
-  elif [[ $PWD =~ "${HOME}/" ]] ; then
-    echo "~/$(realpath --relative-to "${HOME}" "${PWD}")"
-  else
-    echo $PWD
-  fi
-}
-
-shift_to_titlebar='\[\e]0;'
-shift_to_tty='\a\]'
-color="34" # blue
-color_bold_text='\[\e[${color};1;7m\]'
-color_text='\[\e[0;${color};1m\]'
-regular_text='\[\e[0m\]'
-export XTERM_PS1="${shift_to_titlebar}\$(ps1_working_directory)${shift_to_tty}"
-export REGULAR_PS1="\n${color_text}\h \$(ps1_haxxor_info)\n${color_bold_text}\W${color_text} \$ ${regular_text}"
-export BRIEF_PS1="\n${color_text}\h \$ ${regular_text}"
-export REALLY_BRIEF_PS1="\n${color_text}\$ ${regular_text}"
-
-if [[ "${INSIDE_EMACS}" != '' ]] ; then
-  export PS1=$REGULAR_PS1
-else
-  export PS1="${XTERM_PS1}${REGULAR_PS1}"
-fi
 
 #
 #  cached values (for use in scripts?)
@@ -77,6 +27,18 @@ export HOST=$(hostname)
 #
 export TZ="America/New_York" # home sweet home
 export PATH=${PATH}:${HOME}/bin:${HOME}/.emacs.d
+
+#
+#  ~/local/ and ~/.local/
+#
+for localdir in ${HOME}/local ${HOME}/.local ; do
+  if test -a ${localdir} ; then
+    export PATH=${localdir}/bin:${PATH}
+    export LD_LIBRARY_PATH=${localdir}/lib:${LD_LIBRARY_PATH}
+    export MANPATH=${MANPATH}:${localdir}/man
+    export INFOPATH=${INFOPATH:+${INFOPATH}:}${localdir}/info
+  fi
+done
 
 #
 #  application-related
@@ -122,30 +84,40 @@ set -o notify  #  asynchronous job notification
 export IGNOREEOF=1
 export INPUTRC="~/.inputrc"
 
-#
-#  ~/local/ and ~/.local/
-#
-for localdir in ${HOME}/local ${HOME}/.local ; do
-  if test -a ${localdir} ; then
-    export PATH=${localdir}/bin:${PATH}
-    export LD_LIBRARY_PATH=${localdir}/lib:${LD_LIBRARY_PATH}
-    export MANPATH=${MANPATH}:${localdir}/man
-    export INFOPATH=${INFOPATH:+${INFOPATH}:}${localdir}/info
-  fi
-done
-
 # jruby dev
 export JRUBY_OPTS="${JRUBY_OPTS} --dev"
 
 # more jruby dev - see https://github.com/jruby/jruby/issues/4834
 export JAVA_OPTS="$(echo --add-opens=java.base/{java.lang,java.security,java.util,java.security.cert,java.util.zip,java.lang.reflect,java.util.regex,java.net,java.io,java.lang,javax.crypto}=ALL-UNNAMED) --illegal-access=warn"
 
-
 #
 #  local config (should be before aliases)
 #
 if test -a ~/.bashrc_local ; then
   . ~/.bashrc_local
+fi
+
+#
+#  PS1 using starship
+#
+function ps1_working_directory {
+  if [[ -n "${GOPATH}" && $PWD =~ "${GOPATH}/src" ]] ; then
+    echo "(${gvm_go_name}) $(realpath --relative-to "${GOPATH}/src" "${PWD}")"
+  elif [[ $PWD == $HOME ]] ; then
+    echo "~"
+  elif [[ $PWD =~ "${HOME}/" ]] ; then
+    echo "~/$(realpath --relative-to "${HOME}" "${PWD}")"
+  else
+    echo $PWD
+  fi
+}
+function set_window_title {
+  echo -ne "\033]0; $(ps1_working_directory) \007"
+}
+starship_precmd_user_func=set_window_title
+
+if [[ `which starship` != "" ]] ; then
+  eval "$(starship init bash)"
 fi
 
 
