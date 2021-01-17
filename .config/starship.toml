@@ -1,0 +1,12 @@
+[character]
+success_symbol = '[\$](bold blue)'
+error_symbol = '[!](bold bg:red fg:0)'
+
+[gcloud]
+disabled = true
+
+[git_commit]
+tag_disabled = false
+
+[hostname]
+ssh_only = false
