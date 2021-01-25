@@ -90,6 +90,7 @@
 # If you want to connect the bluetooth trackpoint keyboard, you'll need to figure out something for enabling middle-click scrolling.
 # - https://medium.com/@takezoe/thinkpad-bluetooth-wireless-keyboard-with-macbook-7a911ed77c28 points at https://github.com/pqrs-org/Karabiner-Elements
 #
+#
 # Disk Help
 # =========
 #
@@ -106,6 +107,13 @@
 # root - 20GB ext4
 # swap - 8GB - 16GB swap
 # home - whatever's left ext4
+#
+# OMG BIOS settings after battery dies
+# ------------------------------------
+#
+# On 2020-01-25 I saw the BIOS settings get fucked up when my battery died.
+# See https://forums.linuxmint.com/viewtopic.php?t=322351
+# Make sure you set the disk controller to AHCI (it was set to RAID after battery discharge)
 #
 #
 # Input Font config
