@@ -20,7 +20,7 @@ fi
 #
 #  cached values (for use in scripts?)
 #
-export HOST=$(hostname)
+export HOST=$(hostname -s)
 
 #
 #  it's-a-me
@@ -112,7 +112,7 @@ function ps1_working_directory {
   fi
 }
 function set_window_title {
-  echo -ne "\033]0; $(ps1_working_directory) \007"
+  echo -ne "\033]0;$HOST:$(ps1_working_directory)\007"
 }
 starship_precmd_user_func=set_window_title
 
