@@ -31,6 +31,10 @@
 #    - https://www.dell.com/community/XPS/XPS-13-9300-Wake-from-sleep/m-p/7535386/highlight/true#M59272
 # 8. (Dell XPS) BIOS: Turn off SpeedStep
 #    - https://www.dell.com/community/XPS/XPS-13-9370-max-performance-on-battery/m-p/7251711/highlight/true#M25539
+# 9. monitors / fractional scaling. what seems to work is:
+#    - hi-res at 175%
+#    - low-res at 125%
+#    - but watch out for chrome perf: [Chrome menus too slow after enabling fractional scaling](https://askubuntu.com/questions/1274719/chrome-menus-too-slow-after-enabling-fractional-scaling-in-ubuntu-20-04)
 #
 # Low Priority
 # ------------
