@@ -46,6 +46,14 @@
 # 5. multi-monitor: use something like `xrandr --output DP-3 --pos 1728x303` to position the wide
 #    monitor to the right of the tall narrow monitor. (0,0) is the top left of the virtual desktop.
 #
+# Chrome Flags
+# ----------
+# chrome://flags/#read-later
+# chrome://flags/#enable-tab-search
+# chrome://flags/#tab-groups-collapse
+# chrome://flags/#tab-groups-auto-create
+# chrome://flags/#tab-groups-collapse-freezing
+#
 # Chrome Extensions
 # ----------
 # Todoist for Chrome: https://chrome.google.com/webstore/detail/todoist-for-chrome/jldhpllghnbhlbpcmnajkpdmadaolakh
