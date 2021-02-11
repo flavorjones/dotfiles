@@ -142,6 +142,10 @@ alias df="df -k"
 alias edit=$EDITOR
 alias ed="ed -p '*'"
 alias ec="emacsclient -n"
+function ecnw {
+  # see terminfo section in bin/dev-machine-recipe
+  TERM=xterm-24bits emacsclient -nw $*
+}
 
 alias flock="chmod 444"
 alias funlock="chmod 664"  #  644

@@ -677,6 +677,24 @@ if $linux_p ; then
       echo -e "\n***\n*** please update $GRUB_FILE to have 'mem_sleep_default=deep' in GRUB_CMDLINE_LINUX_DEFAULT\n***"
       ${open} https://askubuntu.com/questions/1029474/ubuntu-18-04-dell-xps13-9370-no-longer-suspends-on-lid-close
     fi
+
+    #
+    #  terminfo for emacsclient in a 256-color terminal
+    #  see https://github.com/bbatsov/solarized-emacs/issues/18#issuecomment-294374266
+    #
+    #  see .bashrc for usage but in summary:
+    #
+    #    TERM=xterm-24bits emacsclient -nw
+    #
+    if [[ ! -e $HOME/.terminfo/x/xterm-24bits ]] ; then
+      cat <<EOF | tic -x -o $HOME/.terminfo -
+xterm-24bits|xterm with 24-bit direct color mode,
+        use=xterm-256color,
+        Tc,
+        setb24=\E[48;2;%p1%{65536}%/%d;%p1%{256}%/%{255}%&%d;%p1%{255}%&%dm,
+        setf24=\E[38;2;%p1%{65536}%/%d;%p1%{256}%/%{255}%&%d;%p1%{255}%&%dm,
+EOF
+    fi
   fi
 fi
 
