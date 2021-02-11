@@ -45,6 +45,8 @@
 # 4. color: clone https://github.com/seebi/dircolors-solarized and use the 'ansi-dark' config
 # 5. multi-monitor: use something like `xrandr --output DP-3 --pos 1728x303` to position the wide
 #    monitor to the right of the tall narrow monitor. (0,0) is the top left of the virtual desktop.
+#    you can edit ~/.config/cinnamon-monitors.xml to make this permanent.
+# 6. multi-monitor: cursor flickering on hidpi monitor. run `xrandr --output DP-3 --scale 0.9999x0.9999`
 #
 # Chrome Flags
 # ----------
