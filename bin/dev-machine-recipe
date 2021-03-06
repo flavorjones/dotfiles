@@ -280,7 +280,7 @@ if $linux_p ; then
 
 
     # see https://bugs.launchpad.net/ubuntu/+source/msttcorefonts/+bug/1713615
-    wget http://ftp.de.debian.org/debian/pool/contrib/m/msttcorefonts/ttf-mscorefonts-installer_3.6_all.deb
+    wget -c http://ftp.de.debian.org/debian/pool/contrib/m/msttcorefonts/ttf-mscorefonts-installer_3.6_all.deb
     sudo dpkg -i ttf-mscorefonts-installer_3.6_all.deb
     apt hold ttf-mscorefonts-installer
 
