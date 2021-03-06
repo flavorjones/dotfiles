@@ -246,7 +246,7 @@ fi
 
 if $config_p ; then
   if [[ `which bundle` != "" ]] ; then
-    bundle config jobs 2
+    bundle config set jobs 2
   fi
 fi
 
@@ -349,9 +349,11 @@ if $linux_p ; then
     #
     #  github cli
     #
-    apt-key adv --keyserver keyserver.ubuntu.com --recv-key C99B11DEB97541F0
-    apt-add-repository https://cli.github.com/packages
-    apt install gh
+    if [[ `which gh` == "" ]] ; then
+      apt-key adv --keyserver keyserver.ubuntu.com --recv-key C99B11DEB97541F0
+      sudo apt-add-repository https://cli.github.com/packages
+      apt install gh
+    fi
 
     # #
     # #  cf usage and development
@@ -550,21 +552,21 @@ if $linux_p ; then
     apt_install redshift redshift-gtk
 
 
-    #
-    #  golang stuff
-    #
-    #  https://johnsogg.github.io/emacs-golang
-    #
-    if [[ "$GOPATH" != "" ]] ; then
-      go get -u golang.org/x/tools/cmd/...
-      go get -u github.com/rogpeppe/godef/...
-      go get -u github.com/nsf/gocode
-      go get -u golang.org/x/tools/cmd/goimports
-      go get -u golang.org/x/tools/cmd/guru
-      go get -u github.com/dougm/goflymake
+    # #
+    # #  golang stuff
+    # #
+    # #  https://johnsogg.github.io/emacs-golang
+    # #
+    # if [[ "$GOPATH" != "" ]] ; then
+    #   go get -u golang.org/x/tools/cmd/...
+    #   go get -u github.com/rogpeppe/godef/...
+    #   go get -u github.com/nsf/gocode
+    #   go get -u golang.org/x/tools/cmd/goimports
+    #   go get -u golang.org/x/tools/cmd/guru
+    #   go get -u github.com/dougm/goflymake
 
-      rm ${GOPATH}/bin/bundle
-    fi
+    #   rm ${GOPATH}/bin/bundle
+    # fi
 
 
     #
