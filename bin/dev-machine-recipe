@@ -211,13 +211,23 @@ if $linux_p ; then
     fwupdmgr update
   }
 
-  open="gnome-open"
+  function open {
+    gnome-open $*
+  }
 
-  snap_install="sudo snap install"
-  snap_upgrade="sudo snap refresh"
+  function snap_install {
+    sudo snap install $*
+  }
+  function snap_upgrade {
+    sudo snap refresh
+  }
 
-  flatpak_install="flatpak install -y flathub"
-  flatpak_upgrade="flatpak update"
+  function flatpak_install {
+    flatpak install -y flathub $*
+  }
+  function flatpak_upgrade {
+    flatpak update
+  }
 
   if [[ `which snap` == "" ]] ; then
     apt_install snapd
@@ -230,7 +240,6 @@ if $linux_p ; then
 elif $apple_p ; then
   install="brew install"
   update="brew update"
-  open="open"
 
   if [[ `which brew` == "" ]] ; then
     /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
@@ -240,8 +249,8 @@ fi
 if $update_p ; then
   firmware_upgrade
   apt_upgrade
-  ${snap_upgrade}
-  ${flatpak_upgrade}
+  snap_upgrade
+  flatpak_upgrade
 fi
 
 if $config_p ; then
@@ -336,14 +345,24 @@ if $linux_p ; then
     #
     #  REST client
     #
-    ${snap_install} insomnia
+    snap_install insomnia
 
+
+    #
+    #  better sound hardware management
+    #  https://yktoo.com/en/software/sound-switcher-indicator/
+    #
+    if [[`which indicator-sound-switcher` == ""]] ; then
+      sudo apt-add-repository ppa:yktooo/ppa
+      apt_update
+      apt_install indicator-sound-switcher
+    fi
 
     #
     #  heroku
     #
     if [[ `which heroku` == "" ]] ; then
-      ${snap_install} --classic heroku
+      snap_install --classic heroku
     fi
 
     #
@@ -457,8 +476,8 @@ if $linux_p ; then
                libmagickcore-dev libmagick++-dev \
                v4l2loopback-dkms v4l2loopback-utils
 
-    ${flatpak_install} org.glimpse_editor.Glimpse
-    ${flatpak_install} com.uploadedlobster.peek
+    flatpak_install org.glimpse_editor.Glimpse
+    flatpak_install com.uploadedlobster.peek
 
     # from https://github.com/snapcrafters/obs-studio
     #
@@ -480,7 +499,7 @@ if $linux_p ; then
       echo "v4l2loopback" \
         | sudo tee /etc/modules-load.d/v4l2loopback.conf
     fi
-    ${flatpak_install} com.obsproject.Studio
+    flatpak_install com.obsproject.Studio
 
 
     #
@@ -583,10 +602,10 @@ if $linux_p ; then
     #  chrome. pick one!
     #
     # if [[ `which google-chrome-beta` == "" ]] ; then
-    #     ${open} https://www.google.com/intl/en/chrome/browser/beta.html
+    #     open https://www.google.com/intl/en/chrome/browser/beta.html
     # fi
     if [[ `which google-chrome-stable` == "" ]] ; then
-      ${open} https://www.google.com/intl/en/chrome/browser/desktop/index.html
+      open https://www.google.com/intl/en/chrome/browser/desktop/index.html
     fi
 
 
@@ -594,31 +613,31 @@ if $linux_p ; then
     #  things i have to manually install (pending further automation)
     #
     if ! [[ -e /opt/zoom/ZoomLauncher ]] ; then
-      ${open} https://zoom.us/download
+      open https://zoom.us/download
     fi
 
     if [[ `which discord` == "" ]] ; then
-      ${open} https://discordapp.com/download
+      open https://discordapp.com/download
     fi
 
     if [[ `which steam` == "" ]] ; then
-      ${open} https://store.steampowered.com/about/
+      open https://store.steampowered.com/about/
     fi
 
     if ! [[ -e /usr/bin/slack ]] ; then
-      ${open} https://slack.com/downloads/linux
+      open https://slack.com/downloads/linux
     fi
 
     if ! [[ -e /usr/bin/signal-desktop ]] ; then
-      ${open} https://signal.org/download/
+      open https://signal.org/download/
     fi
 
     if [[ `which purevpn` == "" ]] ; then
-      ${open} https://my.purevpn.com/apps
+      open https://my.purevpn.com/apps
     fi
 
     if [[ `which vagrant` == "" ]] ; then
-      ${open} https://www.vagrantup.com/downloads.html
+      open https://www.vagrantup.com/downloads.html
     fi
   fi
 
@@ -677,7 +696,7 @@ if $linux_p ; then
     GRUB_FILE=/etc/default/grub
     if ! fgrep mem_sleep_default $GRUB_FILE ; then
       echo -e "\n***\n*** please update $GRUB_FILE to have 'mem_sleep_default=deep' in GRUB_CMDLINE_LINUX_DEFAULT\n***"
-      ${open} https://askubuntu.com/questions/1029474/ubuntu-18-04-dell-xps13-9370-no-longer-suspends-on-lid-close
+      open https://askubuntu.com/questions/1029474/ubuntu-18-04-dell-xps13-9370-no-longer-suspends-on-lid-close
     fi
 
     #
