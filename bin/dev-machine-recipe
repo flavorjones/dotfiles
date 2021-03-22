@@ -314,7 +314,7 @@ if $linux_p ; then
       emacs autocutsel \
       mariadb-server mariadb-client libmysqlclient-dev \
       postgresql postgresql-client libpq-dev postgresql-contrib \
-      openjdk-8-jdk \
+      openjdk-11-jdk \
       ack-grep \
       curl wget \
       cmake autoconf libtool \
