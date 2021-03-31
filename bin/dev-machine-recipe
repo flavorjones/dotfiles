@@ -491,8 +491,10 @@ if $linux_p ; then
     #
     # > https://github.com/flathub/com.obsproject.Studio/issues/65#issuecomment-657221604
     #
+    # but note that the `sirn` branch has been updated since then, so you'll need SDK 5.15 and need
+    # to use the YML file.
     if [[ ! -e /etc/modprobe.d/v4l2loopback.conf ]] ; then
-      echo "options v4l2loopback devices=1 video_nr=99 card_label=VirtualCam exclusive_caps=1" \
+      echo "options v4l2loopback devices=1 video_nr=63 card_label=VirtualCam exclusive_caps=1" \
         | sudo tee /etc/modprobe.d/v4l2loopback.conf
     fi
     if [[ ! -e /etc/modules-load.d/v4l2loopback.conf ]] ; then
