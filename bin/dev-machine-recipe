@@ -675,18 +675,6 @@ if $linux_p ; then
     dconf write /org/cinnamon/desktop/keybindings/custom-list "['rofi-binding']"
 
     #
-    #  gnome-terminal should show up in gnome-do/albert
-    #
-    GT_DESKTOP_FILE=org.gnome.Terminal.desktop
-    SYSTEM_DESKTOP_PATH=/usr/share/applications
-    LOCAL_DESKTOP_PATH=${HOME}/.local/share/applications
-    if [[ ! -e ${LOCAL_DESKTOP_PATH}/${GT_DESKTOP_FILE} ]] ; then
-      cat ${SYSTEM_DESKTOP_PATH}/${GT_DESKTOP_FILE} \
-        | fgrep -v OnlyShowIn \
-        | tee ${LOCAL_DESKTOP_PATH}/${GT_DESKTOP_FILE}
-    fi
-
-    #
     #  deep sleep
     #  https://askubuntu.com/questions/1029474/ubuntu-18-04-dell-xps13-9370-no-longer-suspends-on-lid-close
     #
