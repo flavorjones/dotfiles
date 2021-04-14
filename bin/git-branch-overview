@@ -5,11 +5,16 @@ require "bundler/inline"
 gemfile do
   source "https://rubygems.org/"
   gem "slop"
+  gem "ruby-progressbar"
+  gem "concurrent-ruby"
 end
 
+require 'concurrent-ruby'
+require 'ruby-progressbar'
 require 'slop'
 require 'date'
 
+THREAD_POOL_SIZE=32
 DEFAULT_BRANCH = File.basename(`git symbolic-ref refs/remotes/origin/HEAD`.strip)
 ANSI_REVERSE = "\u001b[7m"
 ANSI_BOLD = "\u001b[1m"
@@ -45,16 +50,31 @@ branches = if opts[:remote]
                .reject { |b| b =~ /^#{DEFAULT_BRANCH}$/ }
            end
 
-branches_dates = branches.inject({}) do |hash, branch|
-  date = Date.parse `git log -n1 --format='%ai' "#{branch}"`.split(" ").first
-  hash[branch] = date
-  hash
-end
+progress_bar = branches.length > THREAD_POOL_SIZE ? ProgressBar.create(total: branches.length * 2, title: "#{branches.length} branches", output: $stderr) : nil
 
-branches_logs = branches.inject({}) do |hash, branch|
-  hash[branch] = `git log --color --decorate=short --date=iso8601 -n1 "#{branch}"`
-  hash
+pool = Concurrent::FixedThreadPool.new(THREAD_POOL_SIZE)
+branches_dates = Concurrent::Hash.new
+branches.each do |branch|
+  pool.post do
+    date = Date.parse `git log -n1 --format='%ai' "#{branch}"`.split(" ").first
+    progress_bar.increment if progress_bar
+    branches_dates[branch] = date
+  end
 end
+pool.shutdown
+pool.wait_for_termination
+
+pool = Concurrent::FixedThreadPool.new(THREAD_POOL_SIZE)
+branches_logs = Concurrent::Hash.new
+branches.each do |branch|
+  pool.post do
+    log = `git log --color --decorate=short --date=iso8601 -n1 "#{branch}"`
+    progress_bar.increment if progress_bar
+    branches_logs[branch] = log
+  end
+end
+pool.shutdown
+pool.wait_for_termination
 
 pager_command = ENV['GIT_PAGER'] || ENV['PAGER']
 pager = begin
