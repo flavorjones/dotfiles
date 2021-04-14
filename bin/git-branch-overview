@@ -1,4 +1,5 @@
 #! /usr/bin/env ruby
+# frozen_string_literal: true
 
 require "bundler/inline"
 
@@ -9,20 +10,20 @@ gemfile do
   gem "concurrent-ruby"
 end
 
-require 'concurrent-ruby'
-require 'ruby-progressbar'
-require 'slop'
-require 'date'
+require "concurrent-ruby"
+require "ruby-progressbar"
+require "slop"
+require "date"
 
-THREAD_POOL_SIZE=32
-DEFAULT_BRANCH = File.basename(`git symbolic-ref refs/remotes/origin/HEAD`.strip)
+THREAD_POOL_SIZE = 32
+DEFAULT_BRANCH = File.basename(%x(git symbolic-ref refs/remotes/origin/HEAD).strip)
 ANSI_REVERSE = "\u001b[7m"
 ANSI_BOLD = "\u001b[1m"
 ANSI_RESET = "\u001b[0m"
 
 def _usage
   puts "USAGE: git-branch-overview [--help|-h] [<remote>]"
-  exit 1
+  exit(1)
 end
 
 merge_opts = ""
@@ -33,30 +34,33 @@ opts = Slop.parse do |opt|
   opt.bool("--no-merged", "Show only branches not merged into #{DEFAULT_BRANCH} (default is show all branches)") do
     merge_opts = "--no-merged #{DEFAULT_BRANCH}"
   end
-  opt.string "-r", "--remote", "Focus on a remote (default is to show local)"
+  opt.string("-r", "--remote", "Focus on a remote (default is to show local)")
   opt.on("-h", "--help", "See command usage") do
     puts opt
-    exit 1
+    exit(1)
   end
 end
 
 branches = if opts[:remote]
-             `git branch -r --list '#{opts[:remote]}/*' #{merge_opts}`
-               .split("\n").map(&:strip)
-               .reject { |b| b =~ %r{^#{opts[:remote]}/(#{DEFAULT_BRANCH}$|HEAD)} }
-           else
-             `git branch --list #{merge_opts} | cut -c2-`
-               .split("\n").map(&:strip)
-               .reject { |b| b =~ /^#{DEFAULT_BRANCH}$/ }
-           end
+  %x(git branch -r --list '#{opts[:remote]}/*' #{merge_opts})
+    .split("\n").map(&:strip)
+    .reject { |b| b =~ %r{^#{opts[:remote]}/(#{DEFAULT_BRANCH}$|HEAD)} }
+else
+  %x(git branch --list #{merge_opts} | cut -c2-)
+    .split("\n").map(&:strip)
+    .reject { |b| b =~ /^#{DEFAULT_BRANCH}$/ }
+end
 
-progress_bar = branches.length > THREAD_POOL_SIZE ? ProgressBar.create(total: branches.length * 2, title: "#{branches.length} branches", output: $stderr) : nil
+progress_bar = if branches.length > THREAD_POOL_SIZE
+  ProgressBar.create(total: branches.length * 2,
+title: "#{branches.length} branches", output: $stderr)
+end
 
 pool = Concurrent::FixedThreadPool.new(THREAD_POOL_SIZE)
 branches_dates = Concurrent::Hash.new
 branches.each do |branch|
   pool.post do
-    date = Date.parse `git log -n1 --format='%ai' "#{branch}"`.split(" ").first
+    date = Date.parse(%x(git log -n1 --format='%ai' "#{branch}").split(" ").first)
     progress_bar.increment if progress_bar
     branches_dates[branch] = date
   end
@@ -68,7 +72,7 @@ pool = Concurrent::FixedThreadPool.new(THREAD_POOL_SIZE)
 branches_logs = Concurrent::Hash.new
 branches.each do |branch|
   pool.post do
-    log = `git log --color --decorate=short --date=iso8601 -n1 "#{branch}"`
+    log = %x(git log --color --decorate=short --date=iso8601 -n1 "#{branch}")
     progress_bar.increment if progress_bar
     branches_logs[branch] = log
   end
@@ -76,7 +80,7 @@ end
 pool.shutdown
 pool.wait_for_termination
 
-pager_command = ENV['GIT_PAGER'] || ENV['PAGER']
+pager_command = ENV["GIT_PAGER"] || ENV["PAGER"]
 pager = begin
           pager_command ? IO.popen(pager_command, "w") : STDOUT
         rescue
@@ -87,7 +91,6 @@ branches_dates
   .sort_by { |branch, date| date }
   .reverse
   .each do |branch, date|
-
   pager.puts branches_logs[branch]
   pager.puts
 end
