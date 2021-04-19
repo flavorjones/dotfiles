@@ -52,8 +52,7 @@ else
 end
 
 progress_bar = if branches.length > THREAD_POOL_SIZE
-  ProgressBar.create(total: branches.length * 2,
-title: "#{branches.length} branches", output: $stderr)
+  ProgressBar.create(total: branches.length * 2, title: "#{branches.length} branches", output: $stderr)
 end
 
 pool = Concurrent::FixedThreadPool.new(THREAD_POOL_SIZE)
