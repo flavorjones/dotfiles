@@ -1,15 +1,14 @@
 patterns = {
    "KeePassX",
    "emacs\d*",
-   "Tomboy",
-   "^Google Play Music$",
    "^YouTube Music$",
    "^Signal$",
    "^Slack",
-   "Qt Client Leader Window", -- OBS Studio ¯\_(ツ)_/¯
-   "flavorjones.*Obsidian",
+   "^obs$",
+   "flavorjones - Obsidian",
    "Meet - ",
    "^Zoom Meeting$",
+   "^lofi.cafe.* - lofi music"
 }
 
 debug_print("always-on-workspace: examining '" .. get_application_name() .. "'")
