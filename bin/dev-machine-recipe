@@ -321,6 +321,7 @@ if $linux_p ; then
       build-essential valgrind \
       direnv \
       emacs autocutsel \
+      universal-ctags \
       mariadb-server mariadb-client libmysqlclient-dev \
       postgresql postgresql-client libpq-dev postgresql-contrib \
       openjdk-11-jdk \
