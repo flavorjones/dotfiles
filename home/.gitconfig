@@ -71,8 +71,9 @@
 	untracked = red
 	changed = yellow
 
-[url "git@github.com:"]
+[url "https://github.com/"]
 	insteadOf = "gh:" # shorthand
+	insteadOf = "git@github.com:"
 
 [url "git@github.com:"]
 	pushInsteadOf = "https://github.com/" # always push with authn
