@@ -5,7 +5,7 @@ patterns = {
    "^Signal$",
    "^Slack",
    "^obs$",
-   "flavorjones - Obsidian",
+   "^flavorjones.*Obsidian",
    "Meet - ",
    "^Zoom Meeting$",
    "^lofi.cafe.* - lofi music"
