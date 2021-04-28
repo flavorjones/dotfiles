@@ -19,6 +19,9 @@
 [branch]
 	autosetupmerge = true
 
+[init]
+	defaultBranch = main
+
 [push]
 	default = current
 
