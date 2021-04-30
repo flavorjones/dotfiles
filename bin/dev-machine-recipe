@@ -238,8 +238,12 @@ if $linux_p ; then
   fi
 
 elif $apple_p ; then
-  install="brew install"
-  update="brew update"
+  function brew_install {
+    brew install $*
+  }
+  function brew_update {
+    brew update
+  }
 
   if [[ `which brew` == "" ]] ; then
     /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
@@ -247,29 +251,34 @@ elif $apple_p ; then
 fi
 
 if $update_p ; then
-  firmware_upgrade
-  apt_upgrade
-  snap_upgrade
-  flatpak_upgrade
-fi
-
-if $config_p ; then
-  if [[ `which bundle` != "" ]] ; then
-    bundle config set jobs 2
+  if $apple_p ; then
+    brew_update
+  fi
+  if $linux_p ; then
+    firmware_upgrade
+    apt_upgrade
+    snap_upgrade
+    flatpak_upgrade
   fi
 fi
 
-if $apple_p ; then
-  if $install_p ; then
+if $install_p ; then
+  if $apple_p ; then
     #
     #  basic shit
     #
-    apt_install coreutils ack tmate ruby pkg-config ispell
-  fi
-fi
+    brew_install \
+      coreutils \
+      ack \
+      tmate \
+      ruby \
+      pkg-config \
+      ispell \
+      gpg \
 
-if $linux_p ; then
-  if $install_p ; then
+  fi
+
+  if $linux_p ; then
     #
     #  basic usability
     #
@@ -286,22 +295,13 @@ if $linux_p ; then
       cheese \
       pavucontrol \
       gnome-applets gnome-shell-pomodoro \
+      gpg \
 
 
     # see https://bugs.launchpad.net/ubuntu/+source/msttcorefonts/+bug/1713615
     wget -c http://ftp.de.debian.org/debian/pool/contrib/m/msttcorefonts/ttf-mscorefonts-installer_3.6_all.deb
     sudo dpkg -i ttf-mscorefonts-installer_3.6_all.deb
     apt hold ttf-mscorefonts-installer
-
-    #
-    #  gpg
-    #
-    if $linux_p ; then
-      apt_install gnupg
-    elif $darwin_p ; then
-      apt_install gpg
-    fi
-
 
     #
     #  rvm
@@ -643,9 +643,33 @@ if $linux_p ; then
       open https://www.vagrantup.com/downloads.html
     fi
   fi
+fi
 
+if $config_p ; then
+  if [[ `which bundle` != "" ]] ; then
+    bundle config set jobs 2
+  fi
 
-  if $config_p ; then
+  #
+  #  terminfo for emacsclient in a 256-color terminal
+  #  see https://github.com/bbatsov/solarized-emacs/issues/18#issuecomment-294374266
+  #
+  #  see .bashrc for usage but in summary:
+  #
+  #    TERM=xterm-24bits emacsclient -nw
+  #
+  if [[ ! -e $HOME/.terminfo/x/xterm-24bits ]] ; then
+    cat <<EOF > /tmp/xterminfo.$$
+xterm-24bits|xterm with 24-bit direct color mode,
+        use=xterm-256color,
+        Tc,
+        setb24=\E[48;2;%p1%{65536}%/%d;%p1%{256}%/%{255}%&%d;%p1%{255}%&%dm,
+        setf24=\E[38;2;%p1%{65536}%/%d;%p1%{256}%/%{255}%&%d;%p1%{255}%&%dm,
+EOF
+    tic -x -o $HOME/.terminfo /tmp/xterminfo.$$
+  fi
+
+  if $linux_p ; then
     #
     #  cinnamon + gnome config
     #
@@ -689,26 +713,9 @@ if $linux_p ; then
       echo -e "\n***\n*** please update $GRUB_FILE to have 'mem_sleep_default=deep' in GRUB_CMDLINE_LINUX_DEFAULT\n***"
       open https://askubuntu.com/questions/1029474/ubuntu-18-04-dell-xps13-9370-no-longer-suspends-on-lid-close
     fi
-
-    #
-    #  terminfo for emacsclient in a 256-color terminal
-    #  see https://github.com/bbatsov/solarized-emacs/issues/18#issuecomment-294374266
-    #
-    #  see .bashrc for usage but in summary:
-    #
-    #    TERM=xterm-24bits emacsclient -nw
-    #
-    if [[ ! -e $HOME/.terminfo/x/xterm-24bits ]] ; then
-      cat <<EOF | tic -x -o $HOME/.terminfo -
-xterm-24bits|xterm with 24-bit direct color mode,
-        use=xterm-256color,
-        Tc,
-        setb24=\E[48;2;%p1%{65536}%/%d;%p1%{256}%/%{255}%&%d;%p1%{255}%&%dm,
-        setf24=\E[38;2;%p1%{65536}%/%d;%p1%{256}%/%{255}%&%d;%p1%{255}%&%dm,
-EOF
-    fi
   fi
 fi
+
 
 set +o xtrace
 echo
