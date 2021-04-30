@@ -74,11 +74,8 @@
 	untracked = red
 	changed = yellow
 
-[url "https://github.com/"]
-	insteadOf = "gh:" # shorthand
-	insteadOf = "git@github.com:"
-
 [url "git@github.com:"]
+	insteadOf = "gh:" # shorthand
 	pushInsteadOf = "https://github.com/" # always push with authn
 
 ## because `go get` on private repos is an awful UX
