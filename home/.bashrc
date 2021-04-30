@@ -26,7 +26,7 @@ export HOST=$(hostname -s)
 #  it's-a-me
 #
 export TZ="America/New_York" # home sweet home
-export PATH=${PATH}:${HOME}/bin:${HOME}/.emacs.d
+export PATH=${PATH}:${HOME}/bin
 
 #
 #  ~/local/ and ~/.local/
@@ -43,21 +43,28 @@ done
 #
 #  application-related
 #
+export LESS="-i -j5 -M -x4 -R"
+if [[ `which lesspipe` != "" ]] ; then
+  eval "$(lesspipe)" # for reading .gz files and such
+fi
+export PAGER=less
+export LC_COLLATE=C # so sort acts the way i want it to
+
+export BROWSER="google-chrome"
+
 if [[ $I_AM_A_MAC == 1 ]] ; then
   # for emacsclient
   export PATH=${PATH}:/Applications/Emacs.app//Contents/MacOS/bin-x86_64-10_10
 fi
-
-export LESS="-i -j5 -M -x4 -R"
-eval "$(lesspipe)" # for reading .gz files and such
-
 export EDITOR="emacsclient -c"
 export GIT_EDITOR=$EDITOR
 export VISUAL=$EDITOR
-export PAGER=less
-export BROWSER="google-chrome"
-
-export LC_COLLATE=C # so sort acts the way i want it to
+alias ed="ed -p '*'"
+alias ec="emacsclient -n"
+function ecnw {
+  # see terminfo section in bin/dev-machine-recipe
+  TERM=xterm-24bits emacsclient -nw $*
+}
 
 if [[ `which nproc` != "" ]] ; then
   export NUM_PROCESSORS=$(nproc)
@@ -74,7 +81,6 @@ else
 fi
 
 export MAKEFLAGS=-j${NUM_PROCESSORS}
-export VALGRIND_OPTS="--num-callers=50 --error-limit=no"
 
 #
 #  bash options
@@ -139,14 +145,6 @@ alias mv="mv -i"
 alias jobs="jobs -l"
 alias df="df -k"
 
-alias edit=$EDITOR
-alias ed="ed -p '*'"
-alias ec="emacsclient -n"
-function ecnw {
-  # see terminfo section in bin/dev-machine-recipe
-  TERM=xterm-24bits emacsclient -nw $*
-}
-
 alias flock="chmod 444"
 alias funlock="chmod 664"  #  644
 alias dlock="chmod 555"
@@ -162,6 +160,7 @@ alias fyeo="chmod g-r-w-x,o-r-w-x"
 #
 #  C dev
 #
+export VALGRIND_OPTS="--num-callers=50 --error-limit=no"
 alias valgrind-m="valgrind --leak-check=yes --show-reachable=yes"
 alias valgrind-ruby="valgrind --num-callers=50 --error-limit=no --partial-loads-ok=yes --undef-value-errors=no"
 alias valgrind-ruby-mem0="valgrind --num-callers=50 --error-limit=no --partial-loads-ok=yes --undef-value-errors=no --freelist-vol=100000000 --malloc-fill=00 --free-fill=00"
@@ -294,17 +293,13 @@ if [[ `which kubectl` != "" ]] ; then
 fi
 
 #
-#  crap added by other packages
+#  crap added by other packages, or for other packages
 #
-### Added by the Heroku Toolbelt
-export PATH="/usr/local/heroku/bin:$PATH"
-
 # rvm!
-[[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm" # Load RVM into a shell session *as a function*
-PATH=$PATH:$HOME/.rvm/bin # Add RVM to PATH for scripting
-
-# added by travis gem
-[ -f /home/flavorjones/.travis/travis.sh ] && source /home/flavorjones/.travis/travis.sh
+if [[ -s "$HOME/.rvm/scripts/rvm" ]] ; then
+  source "$HOME/.rvm/scripts/rvm" # Load RVM into a shell session *as a function*
+  PATH=$PATH:$HOME/.rvm/bin # Add RVM to PATH for scripting
+fi
 
 # gvm!
 [[ -s "/home/flavorjones/.gvm/scripts/gvm" ]] && source "/home/flavorjones/.gvm/scripts/gvm"
@@ -319,8 +314,15 @@ if [[ -f ~/.dir_colors/dircolors ]] ; then
 fi
 
 # ugh npm
-export NPM_CONFIG_PREFIX=~/.npm-global
-export PATH=${PATH}:${NPM_CONFIG_PREFIX}/bin
+if [[ -d ${HOME}/.npm-global ]] ; then
+  export NPM_CONFIG_PREFIX=${HOME}/.npm-global
+  export PATH=${PATH}:${NPM_CONFIG_PREFIX}/bin
+fi
 
 # Added by Krypton
 export GPG_TTY=$(tty)
+
+# shopify dev
+if [[ -f /opt/dev/dev.sh ]] && [[ $- == *i* ]]; then
+  source /opt/dev/dev.sh
+fi
