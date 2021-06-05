@@ -93,6 +93,7 @@
 # - https://apple.stackexchange.com/a/204802/169366
 #
 # Emacs: https://emacsformacosx.com/
+# - configure browse-url to use mac default browser
 #
 # To stop from sleeping when locking screen:
 #   brew cask install keepingyouawake
@@ -275,6 +276,7 @@ if $install_p ; then
       pkg-config \
       ispell \
       gpg \
+      marked \
 
   fi
 
