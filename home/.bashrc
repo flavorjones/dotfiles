@@ -295,11 +295,9 @@ fi
 #
 #  crap added by other packages, or for other packages
 #
-# rvm!
-if [[ -s "$HOME/.rvm/scripts/rvm" ]] ; then
-  source "$HOME/.rvm/scripts/rvm" # Load RVM into a shell session *as a function*
-  PATH=$PATH:$HOME/.rvm/bin # Add RVM to PATH for scripting
-fi
+# rbenv
+export PATH="${HOME}/.rbenv/bin:${PATH}"
+eval "$(rbenv init -)"
 
 # gvm!
 [[ -s "/home/flavorjones/.gvm/scripts/gvm" ]] && source "/home/flavorjones/.gvm/scripts/gvm"
