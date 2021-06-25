@@ -15,7 +15,6 @@ fi
 #  completion
 #
 . ~/.git-completion.bash
-[[ -s /etc/bash_completion ]] && source /etc/bash_completion
 
 #
 #  cached values (for use in scripts?)
