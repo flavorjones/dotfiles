@@ -149,7 +149,6 @@ end
   SyncSpec.new("home", options.merge(dest_dir: HOME)),
   SyncSpec.new("Music", options),
   SyncSpec.new(".fonts", options),
-  SyncSpec.new(".gem", options),
   SyncSpec.new(".gdb", options),
   SyncSpec.new(".subversion", options),
   SyncSpec.new(".vnc", options),
