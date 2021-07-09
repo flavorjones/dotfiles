@@ -1,6 +1,6 @@
 #! /usr/bin/env bash
 #
-# Recovering From A Complete Loss
+# Starting from a fresh machine
 # ===============================
 #
 # High Priority
@@ -17,6 +17,7 @@
 # 9. set up chrome profiles
 # 10. add guake and devilspie2 to startup applications
 # 11. add cinnamon applet: "Multi-Core System Monitor"
+#
 #
 # Medium Priority
 # --------------
@@ -36,6 +37,7 @@
 #    - low-res at 125%
 #    - but watch out for chrome perf: [Chrome menus too slow after enabling fractional scaling](https://askubuntu.com/questions/1274719/chrome-menus-too-slow-after-enabling-fractional-scaling-in-ubuntu-20-04)
 #
+#
 # Low Priority
 # ------------
 #
@@ -48,6 +50,7 @@
 #    you can edit ~/.config/cinnamon-monitors.xml to make this permanent.
 # 6. multi-monitor: cursor flickering on hidpi monitor. run `xrandr --output DP-3 --scale 0.9999x0.9999`
 #
+#
 # Chrome Flags
 # ----------
 # chrome://flags/#read-later
@@ -55,6 +58,7 @@
 # chrome://flags/#tab-groups-collapse
 # chrome://flags/#tab-groups-auto-create
 # chrome://flags/#tab-groups-collapse-freezing
+#
 #
 # Chrome Extensions
 # ----------
@@ -75,7 +79,7 @@
 # Synergy - desktop share
 # ==========
 #
-# When sharing with a mac, set up a hotkey so that you can lock the Mac
+# When sharing with a mac (as client), set up a hotkey so that you can lock the Mac
 #
 # * Control+Alt+k on linux (server) → Control+Alt+q on macos (catalina only?)
 #
@@ -98,12 +102,13 @@
 # To stop from sleeping when locking screen:
 #   brew cask install keepingyouawake
 #
-#
 # To stop horizontal scrolling from being interpreted as "back in history" in Chrome:
 #   System Prefs → Trackpad → More Gestures → turn off "Swipe between pages"
 #
 # If you want to connect the bluetooth trackpoint keyboard, you'll need to figure out something for enabling middle-click scrolling.
 # - https://medium.com/@takezoe/thinkpad-bluetooth-wireless-keyboard-with-macbook-7a911ed77c28 points at https://github.com/pqrs-org/Karabiner-Elements
+#
+# Emacs won't have access to ~/Documents - fix it with https://apple.stackexchange.com/questions/371888/restore-access-to-file-system-for-emacs-on-macos-catalina
 #
 #
 # Disk Help
@@ -116,12 +121,14 @@
 #
 # https://help.ubuntu.com/community/ResizeEncryptedPartitions
 #
+#
 # Recommended disk config if you're going to fiddle
 # -------------------------------------------------
 #
 # root - 20GB ext4
 # swap - 8GB - 16GB swap
 # home - whatever's left ext4
+#
 #
 # OMG BIOS settings after battery dies
 # ------------------------------------
