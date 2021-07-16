@@ -25,14 +25,9 @@
 # 1. configure timeshift backups
 # 2. install gvm
 # 3. install cxoffice and microsoft office stuff
-# 4. (Dell XPS) connect to dell apt repositories and install custom packages (https://www.dell.com/community/XPS/XPS-13-9300-Does-fingerprint-reader-work-on-linux/td-p/7514958)
 # 5. Set "Input Settings" to use XIM (see XCompose notes below)
 # 6. `apt install linux-lowlatency` for the default linux kernel version as lowlatency
-# 7. (Dell XPS) BIOS: Turn off "Sign of Life"
-#    - https://www.dell.com/community/XPS/XPS-13-9300-Wake-from-sleep/m-p/7535386/highlight/true#M59272
-# 8. (Dell XPS) BIOS: Turn off SpeedStep
-#    - https://www.dell.com/community/XPS/XPS-13-9370-max-performance-on-battery/m-p/7251711/highlight/true#M25539
-# 9. monitors / fractional scaling. what seems to work is:
+# 7. monitors / fractional scaling. what seems to work is:
 #    - hi-res at 175%
 #    - low-res at 125%
 #    - but watch out for chrome perf: [Chrome menus too slow after enabling fractional scaling](https://askubuntu.com/questions/1274719/chrome-menus-too-slow-after-enabling-fractional-scaling-in-ubuntu-20-04)
@@ -130,12 +125,29 @@
 # home - whatever's left ext4
 #
 #
-# OMG BIOS settings after battery dies
+# DELL XPS
+# ========
+#
+# Upstream software
+# -----------------
+#
+# Connect to dell apt repositories and install custom packages
+# - https://www.dell.com/community/XPS/XPS-13-9300-Does-fingerprint-reader-work-on-linux/td-p/7514958
+#
+#
+# BIOS settings
 # ------------------------------------
 #
-# On 2020-01-25 I saw the BIOS settings get fucked up when my battery died.
-# See https://forums.linuxmint.com/viewtopic.php?t=322351
-# Make sure you set the disk controller to AHCI (it was set to RAID after battery discharge)
+# OMG BIOS settings can get changed when the battery discharges, WTF
+#
+# Make sure you set the disk controller to AHCI (may get set to RAID, that's bad)
+# - https://forums.linuxmint.com/viewtopic.php?t=322351
+#
+# Turn off "Sign of Life"
+# - https://www.dell.com/community/XPS/XPS-13-9300-Wake-from-sleep/m-p/7535386/highlight/true#M59272
+#
+# Turn off SpeedStep
+# - https://www.dell.com/community/XPS/XPS-13-9370-max-performance-on-battery/m-p/7251711/highlight/true#M25539
 #
 #
 # Input Font config
@@ -145,11 +157,11 @@
 #
 #   config:
 #     Alternates
-#     	--asterisk=height
-#     	--g=ss
-#     	--i=serifs
-#     	--l=serifs_round
-#    
+#       --asterisk=height
+#       --g=ss
+#       --i=serifs
+#       --l=serifs_round
+#
 #     Line Height: 1.2×
 #
 #
@@ -439,7 +451,7 @@ if $install_p ; then
     #
     #  dropbox
     #
-    apt_install dropbox 
+    apt_install dropbox
 
 
     #
