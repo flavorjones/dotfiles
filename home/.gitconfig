@@ -23,7 +23,7 @@
 	defaultBranch = main
 
 [push]
-	default = current
+	default = upstream
 
 [diff]
 	renames = copies
