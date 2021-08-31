@@ -89,12 +89,6 @@ set -o notify  #  asynchronous job notification
 export IGNOREEOF=1
 export INPUTRC="~/.inputrc"
 
-# jruby dev
-export JRUBY_OPTS="${JRUBY_OPTS} --dev"
-
-# more jruby dev - see https://github.com/jruby/jruby/issues/4834
-export JAVA_OPTS="$(echo --add-opens=java.base/{java.lang,java.security,java.util,java.security.cert,java.util.zip,java.lang.reflect,java.util.regex,java.net,java.io,java.lang,javax.crypto}=ALL-UNNAMED) --illegal-access=warn"
-
 #
 #  local config (should be before aliases)
 #
@@ -170,6 +164,7 @@ alias valgrind-ruby-mem="valgrind --num-callers=50 --error-limit=no --partial-lo
 #
 alias be="bundle exec"
 alias bi="bundle install"
+export JRUBY_OPTS="${JRUBY_OPTS} --dev"
 
 #
 #  docker things - from https://www.calazan.com/docker-cleanup-commands/
