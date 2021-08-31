@@ -484,10 +484,11 @@ if $install_p ; then
     apt_install sox libsox-fmt-mp3 \
                krita kazam gnome-sound-recorder \
                libmagickcore-dev libmagick++-dev \
-               v4l2loopback-dkms v4l2loopback-utils
+               v4l2loopback-dkms v4l2loopback-utils \
+               peek
 
     flatpak_install org.glimpse_editor.Glimpse
-    flatpak_install com.uploadedlobster.peek
+    snap_install shotcut
 
     # from https://github.com/snapcrafters/obs-studio
     #
