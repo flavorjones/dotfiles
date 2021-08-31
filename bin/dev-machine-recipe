@@ -146,9 +146,6 @@
 # Turn off "Sign of Life"
 # - https://www.dell.com/community/XPS/XPS-13-9300-Wake-from-sleep/m-p/7535386/highlight/true#M59272
 #
-# Turn off SpeedStep
-# - https://www.dell.com/community/XPS/XPS-13-9370-max-performance-on-battery/m-p/7251711/highlight/true#M25539
-#
 #
 # Input Font config
 # =================
@@ -722,9 +719,6 @@ EOF
     #
     #  deep sleep
     #  https://askubuntu.com/questions/1029474/ubuntu-18-04-dell-xps13-9370-no-longer-suspends-on-lid-close
-    #
-    #  note that the xps 9300 also requires bios settings to be turned off ("sign of life"):
-    #  https://www.dell.com/community/XPS/XPS-13-9300-Wake-from-sleep/m-p/7535386/highlight/true#M59272
     #
     GRUB_FILE=/etc/default/grub
     if ! fgrep mem_sleep_default $GRUB_FILE ; then
