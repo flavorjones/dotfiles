@@ -173,11 +173,16 @@
 #  - https://01.org/linuxgraphics/gfx-docs/drm/admin-guide/pm/sleep-states.html
 #
 #
-#  2020-11 things I had to do to get my kernel modules running on the 5.8 kernel (Mint 20)
+#  Use a more-modern lowlatency kernel
+#  --------------------
 #
-#  - install headers like this:
-#    - `apt install --install-suggests linux-image-5.8.0-31-lowlatency`
-#    - which will grab the headers when it installs the kernel
+#  There's usually a meta-package, like `linux-lowlatency-hwe-20.04-edge` that will keep you up to
+#  date with the latest lowlatency kernel. You can poke around with `apt-cache search lowlatency`
+#
+#  Otherwise, install a specific version with `apt install --install-suggests linux-image-5.8.0-31-lowlatency`
+#
+#  You may have problems with some specific kernel modules ...
+#
 #  - download v4l2loopback-dkms 0.12.5 or later from debian.org (system is 0.12.3)
 #    - https://packages.debian.org/testing/kernel/v4l2loopback-dkms
 #  - download virtualbox-dkms 6.1.14 or later from debian.org (system is 6.1.10)
