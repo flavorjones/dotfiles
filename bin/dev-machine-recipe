@@ -318,8 +318,12 @@ if $install_p ; then
       cheese \
       pavucontrol \
       gnome-applets gnome-shell-pomodoro \
-      gpg \
+      gpg
 
+    #
+    #  fonts
+    #
+    apt_install fonts-cmu
 
     # see https://bugs.launchpad.net/ubuntu/+source/msttcorefonts/+bug/1713615
     wget -c http://ftp.de.debian.org/debian/pool/contrib/m/msttcorefonts/ttf-mscorefonts-installer_3.6_all.deb
