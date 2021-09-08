@@ -169,10 +169,6 @@ export JRUBY_OPTS="${JRUBY_OPTS} --dev"
 #
 #  docker things - from https://www.calazan.com/docker-cleanup-commands/
 #
-alias dockerkillall='docker kill $(docker ps -q)'
-alias dockercleanc='printf "\n>>> Deleting stopped containers\n\n" && docker rm $(docker ps -a -q)'
-alias dockercleani='printf "\n>>> Deleting untagged images\n\n" && docker rmi $(docker images -q -f dangling=true)'
-alias dockerclean='dockercleanc || true && dockercleani'
 function dockerdocker {
   image=$1
   shift
