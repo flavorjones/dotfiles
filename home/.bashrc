@@ -60,7 +60,7 @@ export GIT_EDITOR=$EDITOR
 export VISUAL=$EDITOR
 alias ed="ed -p '*'"
 alias ec="emacsclient -n"
-function ecnw {
+function en {
   # see terminfo section in bin/dev-machine-recipe
   TERM=xterm-24bits emacsclient -nw $*
 }
