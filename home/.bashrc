@@ -286,8 +286,10 @@ fi
 #  crap added by other packages, or for other packages
 #
 # rbenv
-export PATH="${HOME}/.rbenv/bin:${PATH}"
-eval "$(rbenv init -)"
+if [[ -d $HOME/.rbenv ]] ; then
+  export PATH="${HOME}/.rbenv/bin:${PATH}"
+  eval "$(rbenv init -)"
+fi
 
 # gvm!
 [[ -s "/home/flavorjones/.gvm/scripts/gvm" ]] && source "/home/flavorjones/.gvm/scripts/gvm"
