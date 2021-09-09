@@ -44,7 +44,7 @@
 #    monitor to the right of the tall narrow monitor. (0,0) is the top left of the virtual desktop.
 #    you can edit ~/.config/cinnamon-monitors.xml to make this permanent.
 # 6. multi-monitor: cursor flickering on hidpi monitor. run `xrandr --output DP-3 --scale 0.9999x0.9999`
-#
+# 7. mouse theme for screencasts https://github.com/iPAS/DMZ-White-Highlighted
 #
 # Chrome Flags
 # ----------
