@@ -31,6 +31,9 @@
 #    - hi-res at 175%
 #    - low-res at 125%
 #    - but watch out for chrome perf: [Chrome menus too slow after enabling fractional scaling](https://askubuntu.com/questions/1274719/chrome-menus-too-slow-after-enabling-fractional-scaling-in-ubuntu-20-04)
+# 8. firewall rules
+#    > sudo ufw allow from 192.168.86.0/24 proto tcp to any port 22 # ssh
+#    > sudo ufw allow from 192.168.86.0/24 proto tcp to any port 24800 # synergy
 #
 #
 # Low Priority
