@@ -1,5 +1,9 @@
 #! /usr/bin/env bash
 
+# see
+# https://www.thinkwiki.org/wiki/How_to_configure_the_TrackPoint
+# for ideas on how to maybe set sensitivity through udev
+
 for device_name in "ThinkPad Compact USB Keyboard" "ThinkPad Compact Bluetooth Keyboard with TrackPoint" "TPPS/2 IBM TrackPoint" ; do
   dev=$(find /sys/devices -name uevent -print0 | xargs -0 grep -l "HID_NAME=$device_name")
   if [[ -n $dev ]] ; then
