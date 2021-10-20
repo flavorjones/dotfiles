@@ -1,0 +1,9 @@
+#! /usr/bin/env bash
+
+for device_name in "ThinkPad Compact USB Keyboard" "ThinkPad Compact Bluetooth Keyboard with TrackPoint" "TPPS/2 IBM TrackPoint" ; do
+  dev=$(find /sys/devices -name uevent -print0 | xargs -0 grep -l "HID_NAME=$device_name")
+  if [[ -n $dev ]] ; then
+    dir=$(dirname $dev)
+    echo "echo 155 > $dir/sensitivity"
+  fi
+done
