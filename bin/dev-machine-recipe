@@ -706,7 +706,7 @@ EOF
     tic -x -o $HOME/.terminfo /tmp/xterminfo.$$
   fi
 
-  if $linux_p ; then
+  if $linux_p && test -n $DISPLAY ; then
     #
     #  cinnamon + gnome config
     #
@@ -737,7 +737,9 @@ EOF
     dconf write /org/cinnamon/desktop/keybindings/custom-keybindings/rofi-binding/name "'rofi-launcher'"
     dconf write /org/cinnamon/desktop/keybindings/custom-keybindings/rofi-binding/binding "['<Alt>space']"
     dconf write /org/cinnamon/desktop/keybindings/custom-list "['rofi-binding']"
+  fi
 
+  if $linux_p ; then
     #
     #  deep sleep
     #  https://askubuntu.com/questions/1029474/ubuntu-18-04-dell-xps13-9370-no-longer-suspends-on-lid-close
