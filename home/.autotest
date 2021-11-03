@@ -1,5 +1,0 @@
-# -*-ruby-*-
-
-gem "test_notifier"
-require "test_notifier/runner/autotest"
-TestNotifier.default_notifier = :notify_send

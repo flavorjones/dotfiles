@@ -1,3 +1,0 @@
-DEFAULT
-  # because I've got ^] bound to gnome-terminal tab switching
-  set rlogin ~
