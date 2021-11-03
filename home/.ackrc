@@ -1,0 +1,9 @@
+--type-add=lisp=.clj
+--type-add=ruby=.feature
+--type-add=ruby=.haml
+--type-add=css=.sass
+--type-add=css=.scss
+--type-set=cmake=.cmake,.txt
+--color
+--pager=less
+--ignore-dir=tmp

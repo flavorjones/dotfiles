@@ -1,0 +1,45 @@
+#! /usr/bin/env ruby
+#
+#  this script reads text/html from the X clipboard, changes bullshit gdoc font styling to real html styling,
+#  and places it back onto the clipboard so that apps (like discourse) read italic and bold text correctly.
+#
+#  to use:
+#  1) select and copy the google doc contents
+#  2) run this script
+#  3) paste it into another app
+#
+
+require "nokogiri"
+require "open3"
+
+def error(message)
+  puts "ERROR: #{message}"
+  exit 1
+end
+
+html = ""
+Open3.popen3("xclip -selection clipboard -o -t text/html") do |stdin, stdout, stderr, wait_thr|
+  html = stdout.read
+  error "could not read text/html from clipboard" unless wait_thr.value.success?
+end
+puts "read  #{html.length} bytes from clipboard"
+
+doc = Nokogiri::HTML html
+
+doc.xpath(".//span[@style]").each do |node|
+  if node["style"] =~ /font-weight:700/
+    node.children.wrap("<b></b>")
+    node.replace node.children
+  end
+
+  if node["style"] =~ /font-style:italic/
+    node.children.wrap("<i></i>")
+    node.replace node.children
+  end
+end
+
+Open3.popen3("xclip -selection clipboard -i -t text/html") do |stdin, stdout, stderr, wait_thr|
+  stdin.write doc.to_html
+end
+
+puts "wrote #{doc.to_html.length} bytes back to clipboard"

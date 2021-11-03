@@ -1,0 +1,98 @@
+[user]
+	name = Mike Dalessio
+	email = mike.dalessio@gmail.com
+
+[github]
+	user = flavorjones
+
+[core]
+	compression = 1
+	loosecompression = 1
+	abbrev = 7
+	commitGraph = true
+	attributesfile = /home/flavorjones/.gitattributes
+
+[pager]
+	branch = false
+	tag = false
+
+[branch]
+	autosetupmerge = true
+
+[init]
+	defaultBranch = main
+
+[push]
+	default = upstream
+
+[diff]
+	renames = copies
+	compactionHeuristic = true
+	wordRegex = "[^[:space:]_:.,()/`]+"
+	algorithm = patience
+
+[log]
+	abbrevCommit = true
+	decorate = short
+	date = iso8601
+
+[tag]
+	sort=version:refname
+
+[rebase]
+	autoStash = true
+
+[alias]
+	c = commit -v
+	ci = commit
+	co = checkout
+
+	d = diff -w -b
+	ds = diff -w -b --staged
+	dw = diff -w -b --word-diff
+	dsw = diff -w -b --word-diff --staged
+	lw = log -p --word-diff
+
+	showw = show -w -b --word-diff
+
+	pr = pull --rebase
+	ru = remote update
+	rpo = remote prune origin
+
+	ss = status --short
+	w = log --name-status
+	st = status
+
+	logp = log --pretty='format:"%h %C(yellow)%ci%Creset %Cgreen%an%Creset | %s"'
+	logf = log --pretty=fuller --decorate
+	logg = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative
+	logl = log --graph --decorate --oneline
+	logla = log --graph --decorate --oneline --all
+
+[color.status]
+	added = green
+	untracked = red
+	changed = yellow
+
+[url "https://github.com/"]
+	insteadOf = "gh:"
+
+[url "git@github.com:"]
+	# always push with authn
+	pushInsteadOf = "gh:"
+	pushInsteadOf = "https://github.com/"
+
+## because `go get` on private repos is an awful UX
+## maybe leave this commented, and uncomment when needed
+# [url "git@github.com:"]
+#   insteadOf = https://github.com/
+
+[gc]
+	writeCommitGraph = true
+
+[commit]
+	gpgSign = true
+[gpg]
+	program = /usr/bin/krgpg
+[tag]
+	forceSignAnnotated = true

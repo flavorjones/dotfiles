@@ -1,0 +1,59 @@
+#! /usr/bin/env ruby
+#
+# from http://hints.macworld.com/article.php?story=20081116113445565
+#
+require 'nokogiri'
+
+GAIN_ON = "1"
+GAIN_OFF = "0"
+DEFAULT_GAIN = GAIN_ON
+
+LINUX_FILE = File.join ENV['HOME'], ".Skype", "shared.xml"
+OSX_FILE = File.join ENV['HOME'], "Library", "Application Support", "Skype", "shared.xml"
+filename = LINUX_FILE
+
+truthy = /^y|^on$/i
+falsy = /^n|^off$/i
+
+def usage
+  puts "USAGE: #{File.basename __FILE__} <on|off|show>"
+  puts
+  puts "  Turn autogain on by passing 'on' or 'yes'"
+  puts "  Turn autogain off by passing 'off' or 'no'"
+  puts "  Show current autogain status by passing 'show'"
+  puts
+  exit 1
+end
+
+def modify_gain value, filename
+  xml = Nokogiri.XML File.read(filename)
+  micvolume_node = xml.at_xpath("//MicVolume")
+  gain_node   = micvolume_node.at_xpath("./AGC")
+  gain_node ||= micvolume_node.add_child("<AGC>#{DEFAULT_GAIN}</AGC>").first
+
+  unless value.nil?
+    gain_node.content = value
+    File.open(filename, "w") do |f|
+      f.write xml.to_xml
+    end
+  end
+
+  gain_value = gain_node.inner_text
+
+  printf "gain is %s (%s)\n", gain_value == GAIN_ON ? "on" : "off", gain_value
+end
+
+usage unless ARGV[0]
+
+raise "Could not find skype config file #{filename}" unless File.exists?(filename)
+
+case ARGV[0]
+when "show"
+  modify_gain nil, filename
+when truthy
+  modify_gain GAIN_ON, filename
+when falsy
+  modify_gain GAIN_OFF, filename
+else
+  usage
+end

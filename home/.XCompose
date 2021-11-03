@@ -1,0 +1,28 @@
+include "/%H/code/oss/xcompose/dotXCompose"
+include "/%H/code/oss/xcompose/emoji.compose"
+
+# Multi-character emojicons
+<Multi_key> <Multi_key> <s> <h> <r> <u> <g>             : "¯\\_(ツ)_/¯"				# SHRUG
+<Multi_key> <Multi_key> <c> <o> <n> <c> <e> <r> <n>     : "ಠ_ಠ"								# CONCERNED LOOK
+<Multi_key> <Multi_key> <f> <l> <i> <p>                 : "(╯°□°）╯︵ ┻━┻"	# TABLE FLIP
+<Multi_key> <Multi_key> <a> <f> <l> <i> <p>             : "(ﾉಥ益ಥ）ﾉ﻿ ┻━┻"		# ANGRY TABLE FLIP
+
+# Emojis
+<Multi_key> <Multi_key> <a> <i> <r> <q>                 : "✌"		# U270C # VICTORY / AIRQUOTE
+<Multi_key> <Multi_key> <1> <colon> <1>                 : "👫"		# MAN AND WOMAN HOLDING HANDS
+<Multi_key> <Multi_key> <h> <o> <u> <s> <e>             : "🏡"	# U1F3E1 HOUSE WITH GARDEN
+<Multi_key> <Multi_key> <c> <o> <f> <f>                 : "☕"		# U+2615 HOT BEVERAGE
+<Multi_key> <Multi_key> <t> <h> <i> <n> <k>             : "🤔"	# U+1F914 THINKING FACE
+<Multi_key> <Multi_key> <c> <r> <y>                     : "😢"
+
+# Money
+<Multi_key> <Multi_key> <e> <u> <r> <o>                 : "€"
+<Multi_key> <Multi_key> <g> <b> <p>                     : "￡"
+
+# Checkmarks and other workflow
+<Multi_key> <Multi_key> <c> <h> <e> <c> <k>             : "✔"
+<Multi_key> <Multi_key> <y> <e> <r> <p>                 : "✔"
+<Multi_key> <Multi_key> <x> <x> <x>                     : "✖"
+<Multi_key> <Multi_key> <n> <e> <r> <p>                 : "✖"
+<Multi_key> <Multi_key> <p> <o> <m> <o>                 : "🍅"  # pomodoro tomato
+<Multi_key> <Multi_key> <w> <a> <r> <n>                 : "⚠"   # warning

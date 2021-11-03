@@ -1,0 +1,64 @@
+#! /usr/bin/env ruby
+
+require 'getoptlong'
+
+def _usage
+  puts "USAGE: clup [-e][-c][-x][s] [-R] [directory1 [ ... [directoryN]]]"
+  puts "  where -e, --emacs     will clean up emacs files (*~, etc.) (DEFAULT)"
+  puts "        -s, --scm       will clean up source code revision files (svn-commit*tmp, etc.)"
+  puts "        -c, --compiled  will clean up intermediate compiled files (*.o, etc.)"
+  puts "        -x, --tex       will clean up intermediate TeX/LaTeX files (*.toc, etc.)"
+  puts ""
+  puts "        -R, --recurse   will recurse through all directories"
+  puts "        -N, --dry-run   will show what would have been deleted"
+  puts ""
+  puts "        -h, --help       will display this help message"
+  exit 1
+end
+
+globs = []
+recurse = false
+dry_run = false
+EMACS_GLOBS = %w{*~ .*~ #*# .#*}
+opts = GetoptLong.new(
+                      ["--emacs",       "-e", GetoptLong::NO_ARGUMENT],
+                      ["--scm",         "-s", GetoptLong::NO_ARGUMENT],
+                      ["--compiled",    "-c", GetoptLong::NO_ARGUMENT],
+                      ["--tex",         "-x", GetoptLong::NO_ARGUMENT],
+                      ["--recurse",     "-R", GetoptLong::NO_ARGUMENT],
+                      ["--dry-run",     "-N", GetoptLong::NO_ARGUMENT],
+                      ["--help",        "-h", GetoptLong::NO_ARGUMENT]
+                      )
+opts.each do |opt, arg|
+  case opt
+  when "--emacs"
+    globs << EMACS_GLOBS
+  when "--scm"
+    globs << %w{svn-commit*.tmp}
+  when "--compiled"
+    globs << %w{*.o *.s *.d *.err *.class *.obj}
+  when "--tex"
+    globs << %w{*.aux *.dvi *.out *.toc *.log}
+  when "--recurse"
+    recurse = true
+  when "--dry-run"
+    dry_run = true
+  when "--help"
+    _usage
+  end
+end
+
+directories = ARGV
+
+globs << EMACS_GLOBS if globs.empty?
+directories = ["."] if directories.empty?
+
+globs.flatten!
+globs.collect! { |j| j = File.join("**", j) } if recurse
+
+puts "(performing dry-run, no files will be deleted)" if dry_run
+directories.each do |jdir|
+  list = Dir.glob( globs.collect { |jglob| File.join(jdir, jglob) } )
+  File.unlink(*list) unless dry_run
+  list.each { |jfn| puts "deleted '#{jfn}'" }
+end

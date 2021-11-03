@@ -1,0 +1,29 @@
+[gcloud]
+disabled = true
+
+[git_commit]
+tag_disabled = false
+
+[hostname]
+ssh_only = false
+
+[status]
+disabled = false
+symbol = "×"
+
+[character]
+success_symbol = '[\$](bold blue)'
+error_symbol = '[\$](bold red)'
+
+[directory]
+truncation_length = 10
+
+# # for screencasts, uncomment below here
+# [git_status]
+# disabled = true
+
+# [git_branch]
+# disabled = true
+
+# [ruby]
+# disabled = true

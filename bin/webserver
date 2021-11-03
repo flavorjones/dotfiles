@@ -1,0 +1,15 @@
+#! /usr/bin/ruby
+
+require 'webrick'
+include WEBrick
+
+s = HTTPServer.new(
+  :Port            => 2000,
+  :DocumentRoot    => Dir::pwd
+)
+
+## mount subdirectories
+s.mount(".", HTTPServlet::FileHandler, "/")
+
+trap("INT"){ s.shutdown }
+s.start
