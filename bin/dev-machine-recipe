@@ -253,12 +253,14 @@ if $linux_p ; then
     flatpak update
   }
 
-  if [[ `which snap` == "" ]] ; then
-    apt_install snapd
-  fi
+  if $install_p || $update_p ; then
+    if [[ `which snap` == "" ]] ; then
+      apt_install snapd
+    fi
 
-  if [[ `which flatpak-builder` == "" ]] ; then
-    apt_install flatpak-builder
+    if [[ `which flatpak-builder` == "" ]] ; then
+      apt_install flatpak-builder
+    fi
   fi
 
 elif $apple_p ; then
