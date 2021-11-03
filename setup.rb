@@ -144,24 +144,22 @@ if ARGV.include?("--verbose")
   options[:verbose] = true
 end
 
-[
+specs = [
   SyncSpec.new("bin", options),
   SyncSpec.new("home", options.merge(dest_dir: HOME)),
-  SyncSpec.new("Music", options),
-  SyncSpec.new(".fonts", options),
   SyncSpec.new(".gdb", options),
-  SyncSpec.new(".subversion", options),
-  SyncSpec.new(".vnc", options),
   SyncSpec.new(".config", options),
-  SyncSpec.new("desktop", options.merge(dest_dir: DESKTOP_DIR)),
+]
 
+specs += [
+  SyncSpec.new(".fonts", options),
+  SyncSpec.new("desktop", options.merge(dest_dir: DESKTOP_DIR)),
   WholeDirectorySyncSpec.new(".remmina", options),
   WholeDirectorySyncSpec.new("devilspie2", options.merge(dest_dir: File.join(HOME, ".config/devilspie2"))),
-
   PrivilegedFileSyncSpec.new("etc", options.merge(dest_dir: "/etc")),
-].each do |spec|
-  spec.sync!
-end
+] if ENV['I_AM_LINUX'] == "1" && ENV['DISPLAY']
+
+specs.each(&:sync!)
 
 # # todo:
 # # i think this could be refactored as:
