@@ -706,7 +706,7 @@ EOF
     tic -x -o $HOME/.terminfo /tmp/xterminfo.$$
   fi
 
-  if $linux_p && test -n $DISPLAY ; then
+  if $linux_p && test -n "$DISPLAY" ; then
     #
     #  cinnamon + gnome config
     #
