@@ -428,6 +428,7 @@
              )))
 
 (eval-after-load 'rspec-mode '(rspec-install-snippets))
+(define-key ruby-mode-map (kbd "C-c m") 'toggle-poly-ruby-mode)
 
 
 ;;;;;;;;;;
