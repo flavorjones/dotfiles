@@ -113,7 +113,11 @@ function ps1_working_directory {
 function set_window_title {
   echo -ne "\033]0;$HOST:$(ps1_working_directory)\007"
 }
-starship_precmd_user_func=set_window_title
+if [[ "$INSIDE_EMACS" == "" ]] ; then
+  starship_precmd_user_func=set_window_title
+else
+  unset starship_precmd_user_func
+fi
 
 if [[ `which starship` != "" ]] ; then
   eval "$(starship init bash)"
