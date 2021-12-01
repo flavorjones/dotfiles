@@ -74,39 +74,34 @@
 # AdBlock: https://chrome.google.com/webstore/detail/adblock-%E2%80%94-best-ad-blocker/gighmmpiobklfepjocnamgkkbiglidom/related
 #
 #
-# Synergy - desktop share
-# ==========
-#
-# When sharing with a mac (as client), set up a hotkey so that you can lock the Mac
-#
-# * Control+Alt+k on linux (server) → Control+Alt+q on macos (catalina only?)
-#
-#
 # Mac Setup
 # ==========
+#
+# Fonts:
+# - https://www.jetbrains.com/lp/mono/
 #
 # Window resizing and tiling: use https://rectangleapp.com/ and default keys
 # (previously you had used ShiftIt and before that SizeUp)
 #
-# Do this: https://gist.github.com/SeppoTakalo/f526f761a44f07464cb5df89c8a9389e
-# - iterm2, set profile colors to Solarized Dark
+# Install iterm2, set profile color to Solarized Dark
+#
+# Change shell to bash and add "source ~/.bashrc" to ~/.profile
 #
 # Iterm2 key bindings (forward-word, backward-word, delete-word)
-# - https://apple.stackexchange.com/a/204802/169366
-#
-# Emacs: https://emacsformacosx.com/
-# - configure browse-url to use mac default browser
-#
-# To stop from sleeping when locking screen:
-#   brew cask install keepingyouawake
+# - https://apple.stackexchange.com/a/204802/169366o
 #
 # To stop horizontal scrolling from being interpreted as "back in history" in Chrome:
 #   System Prefs → Trackpad → More Gestures → turn off "Swipe between pages"
 #
+# Emacs needs to be granted access to ~/Documents
+# - https://apple.stackexchange.com/questions/371888/restore-access-to-file-system-for-emacs-on-macos-catalina
+#
+# Emacs: configure browse-url to use mac default browser
+#
+# Other random help: https://gist.github.com/SeppoTakalo/f526f761a44f07464cb5df89c8a9389e
+#
 # If you want to connect the bluetooth trackpoint keyboard, you'll need to figure out something for enabling middle-click scrolling.
 # - https://medium.com/@takezoe/thinkpad-bluetooth-wireless-keyboard-with-macbook-7a911ed77c28 points at https://github.com/pqrs-org/Karabiner-Elements
-#
-# Emacs won't have access to ~/Documents - fix it with https://apple.stackexchange.com/questions/371888/restore-access-to-file-system-for-emacs-on-macos-catalina
 #
 #
 # Disk Help
@@ -302,7 +297,10 @@ if $install_p ; then
       ispell \
       gpg \
       marked \
+      starship \
+      direnv \
 
+    brew_install --cask emacs --no-quarantine
   fi
 
   if $linux_p ; then
