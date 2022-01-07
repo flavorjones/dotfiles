@@ -83,7 +83,7 @@
 # Window resizing and tiling: use https://rectangleapp.com/ and default keys
 # (previously you had used ShiftIt and before that SizeUp)
 #
-# Install iterm2, set profile color to Solarized Dark
+# Install iterm2, set profile color to Solarized Dark, set font to JetBrains Mono
 #
 # Change shell to bash and add "source ~/.bashrc" to ~/.profile
 #
