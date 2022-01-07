@@ -57,7 +57,7 @@
 
 	pr = pull --rebase
 	ru = remote update
-	rpo = remote prune origin
+	rup = remote update --prune
 
 	ss = status --short
 	w = log --name-status
