@@ -264,6 +264,7 @@ elif $apple_p ; then
   }
   function brew_update {
     brew update
+    brew upgrade
   }
 
   if [[ `which brew` == "" ]] ; then
@@ -285,22 +286,22 @@ fi
 
 if $install_p ; then
   if $apple_p ; then
-    #
-    #  basic shit
-    #
     brew_install \
-      coreutils \
       ack \
-      tmate \
-      ruby \
-      pkg-config \
-      ispell \
-      gpg \
-      marked \
-      starship \
+      coreutils \
       direnv \
+      gpg \
+      htop \
+      ispell \
+      marked \
+      pkg-config libxml2 libxslt \
+      ruby ruby-build \
+      starship \
+      tmate \
 
     brew_install --cask emacs --no-quarantine
+    brew_install --cask keycastr
+    brew_install --cask rectangle
   fi
 
   if $linux_p ; then
