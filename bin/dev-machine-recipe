@@ -17,6 +17,10 @@
 # 9. set up chrome profiles
 # 10. add guake and devilspie2 to startup applications
 # 11. add cinnamon applet: "Multi-Core System Monitor"
+# 12. add cinnamon extensions:
+#     - "gTile"
+#     - "Transparent panels"
+#     - "User Shadows" using 10px radius for everything
 #
 #
 # Medium Priority
@@ -48,6 +52,7 @@
 #    you can edit ~/.config/cinnamon-monitors.xml to make this permanent.
 # 6. multi-monitor: cursor flickering on hidpi monitor. run `xrandr --output DP-3 --scale 0.9999x0.9999`
 # 7. mouse theme for screencasts https://github.com/iPAS/DMZ-White-Highlighted
+#
 #
 # Chrome Flags
 # ----------
@@ -298,6 +303,8 @@ if $install_p ; then
       ruby ruby-build \
       starship \
       tmate \
+      direnv \
+      bat \
 
     brew_install --cask emacs --no-quarantine
     brew_install --cask keycastr
@@ -347,6 +354,10 @@ if $install_p ; then
       postgresql postgresql-client libpq-dev postgresql-contrib \
       openjdk-11-jdk \
       ack-grep \
+      bat \
+      colordiff \
+      markdown \
+      jq \
       curl wget \
       cmake autoconf libtool \
       libpcre++0v5 libpcre++-dev libevent-dev \
@@ -355,12 +366,9 @@ if $install_p ; then
       libxml2 libxml2-dev libxslt1.1 libxslt-dev \
       libyajl-dev libyaml-dev \
       libcurl4-openssl-dev \
-      colordiff \
       zip \
-      jq \
       python3 python-is-python3 \
       nodejs npm node-marked \
-      markdown \
       graphviz gv \
 
 
