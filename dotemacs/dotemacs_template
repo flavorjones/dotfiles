@@ -40,7 +40,7 @@
 (if flavorjones:i-am-a-mac (setq mac-command-modifier 'meta))
 
 (line-number-mode t)
-(global-linum-mode t)
+(global-display-line-numbers-mode t)
 
 (global-hl-todo-mode)
 
@@ -846,7 +846,6 @@ The key typed is executed unless it is SPC."
              ;; critical collisions with camelCase mode (M-right, M-left).
              (setq minor-mode-overriding-map-alist (list (cons t (copy-keymap org-mode-map))))
 
-             (linum-mode -1) ; omg this slows org-mode to a crawl if it's on
              (local-set-key (kbd "C-S-SPC") 'org-toggle-checkbox)
              ))
 
