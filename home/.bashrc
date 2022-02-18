@@ -49,7 +49,9 @@ fi
 export PAGER=less
 export LC_COLLATE=C # so sort acts the way i want it to
 
-alias bat="batcat"
+if [[ $I_AM_LINUX == 1 ]] ; then
+  alias bat="batcat"
+fi
 export BAT_THEME="TwoDark"
 
 export BROWSER="google-chrome"
