@@ -32,11 +32,12 @@ end
 
 merge_opts = ""
 opts = Slop.parse do |opt|
-  opt.on("--merged", "Show only branches merged into #{DEFAULT_BRANCH} (default is show all branches)") do
-    merge_opts = "--merged #{DEFAULT_BRANCH}"
+  opt.string("--base", "The base to use for `--[no-]merged` (default is #{DEFAULT_BRANCH})", default: DEFAULT_BRANCH)
+  opt.on("--merged", "Show only branches merged into base (default is show all branches)") do
+    merge_opts = "--merged"
   end
-  opt.bool("--no-merged", "Show only branches not merged into #{DEFAULT_BRANCH} (default is show all branches)") do
-    merge_opts = "--no-merged #{DEFAULT_BRANCH}"
+  opt.on("--no-merged", "Show only branches not merged into #{DEFAULT_BRANCH} (default is show all branches)") do
+    merge_opts = "--no-merged"
   end
   opt.string("-r", "--remote", "Focus on a remote (default is to show local)")
   opt.on("-h", "--help", "See command usage") do
@@ -45,14 +46,18 @@ opts = Slop.parse do |opt|
   end
 end
 
+if merge_opts.length > 0
+  merge_opts = "#{merge_opts} #{opts[:base]}"
+end
+
 branches = if opts[:remote]
   %x(git branch -r --list '#{opts[:remote]}/*' #{merge_opts})
     .split("\n").map(&:strip)
-    .reject { |b| b =~ %r{^#{opts[:remote]}/(#{DEFAULT_BRANCH}$|HEAD)} }
+    .reject { |b| b =~ %r{^#{opts[:remote]}/(#{opts[:base]}$|HEAD)} }
 else
   %x(git branch --list #{merge_opts} | cut -c2-)
     .split("\n").map(&:strip)
-    .reject { |b| b =~ /^#{DEFAULT_BRANCH}$/ }
+    .reject { |b| b =~ /^#{opts[:base]}$/ }
 end
 
 progress_bar = if branches.length > THREAD_POOL_SIZE
