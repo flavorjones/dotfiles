@@ -305,6 +305,8 @@ if $install_p ; then
       tmate \
       direnv \
       bat \
+      diff-so-fancy \
+      hexyl
 
     brew_install --cask emacs --no-quarantine
     brew_install --cask keycastr
@@ -369,14 +371,16 @@ if $install_p ; then
       zip \
       python3 python-is-python3 \
       nodejs npm node-marked \
-      graphviz gv \
+      graphviz gv
 
+    # apt_install hexyl # hex editor # commented out because it conflicts with `bat`
+
+    snap_install diff-so-fancy
 
     #
     #  REST client
     #
     snap_install insomnia
-
 
     #
     #  better sound hardware management
