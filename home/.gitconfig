@@ -13,6 +13,9 @@
 	attributesfile = /home/flavorjones/.gitattributes
 	pager = diff-so-fancy | less --tabs=4 -RFX
 
+[interactive]
+	diffFilter = diff-so-fancy --patch
+
 [pager]
 	branch = false
 	tag = false
@@ -70,10 +73,27 @@
 	logl = log --graph --decorate --oneline
 	logla = log --graph --decorate --oneline --all
 
+[color]
+	ui = true
+
 [color.status]
 	added = green
 	untracked = red
 	changed = yellow
+
+[color.diff]
+	meta = yellow
+	frag = magenta bold
+	commit = yellow bold
+	old = red bold
+	new = green bold
+	whitespace = red reverse
+
+[color.diff-highlight]
+	oldNormal = red bold
+	oldHighlight = red bold 52
+	newNormal = green bold
+	newHighlight = green bold 22
 
 [url "https://github.com/"]
 	insteadOf = "gh:"
@@ -97,5 +117,3 @@
 	program = /usr/bin/krgpg
 [tag]
 	forceSignAnnotated = true
-[interactive]
-	diffFilter = diff-so-fancy --patch
