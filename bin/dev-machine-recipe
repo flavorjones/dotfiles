@@ -356,7 +356,6 @@ if $install_p ; then
       postgresql postgresql-client libpq-dev postgresql-contrib \
       openjdk-11-jdk \
       ack-grep \
-      bat \
       colordiff \
       markdown \
       jq \
@@ -373,7 +372,7 @@ if $install_p ; then
       nodejs npm node-marked \
       graphviz gv
 
-    # apt_install hexyl # hex editor # commented out because it conflicts with `bat`
+    apt_install -o Dpkg::Options::="--force-overwrite" bat hexyl
 
     snap_install diff-so-fancy
 
