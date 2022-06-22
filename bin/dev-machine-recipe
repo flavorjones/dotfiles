@@ -372,6 +372,8 @@ if $install_p ; then
       nodejs npm node-marked \
       graphviz gv
 
+    # see https://askubuntu.com/questions/1290262/unable-to-install-bat-error-trying-to-overwrite-usr-crates2-json-which
+    # shouldn't be necessary after 20.04
     apt_install -o Dpkg::Options::="--force-overwrite" bat hexyl
 
     snap_install diff-so-fancy
