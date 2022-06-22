@@ -39,7 +39,6 @@
 (setq flavorjones:i-am-a-mac (boundp 'mac-command-modifier))
 (if flavorjones:i-am-a-mac (setq mac-command-modifier 'meta))
 
-(line-number-mode t)
 (global-display-line-numbers-mode t)
 
 (global-hl-todo-mode)
