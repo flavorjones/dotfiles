@@ -305,7 +305,6 @@ if $install_p ; then
       tmate \
       direnv \
       bat \
-      diff-so-fancy \
       hexyl
 
     brew_install --cask emacs --no-quarantine
@@ -375,8 +374,6 @@ if $install_p ; then
     # see https://askubuntu.com/questions/1290262/unable-to-install-bat-error-trying-to-overwrite-usr-crates2-json-which
     # shouldn't be necessary after 20.04
     apt_install -o Dpkg::Options::="--force-overwrite" bat hexyl
-
-    snap_install diff-so-fancy
 
     #
     #  REST client

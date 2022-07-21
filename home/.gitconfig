@@ -11,10 +11,6 @@
 	abbrev = 7
 	commitGraph = true
 	attributesfile = /home/flavorjones/.gitattributes
-	pager = diff-so-fancy | less --tabs=4 -RFX
-
-[interactive]
-	diffFilter = diff-so-fancy --patch
 
 [pager]
 	branch = false
