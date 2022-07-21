@@ -696,7 +696,7 @@ fi
 
 if $config_p ; then
   if [[ `which bundle` != "" ]] ; then
-    bundle config set jobs 2
+    bundle config set jobs 4
   fi
 
   #
