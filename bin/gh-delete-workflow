@@ -1,0 +1,32 @@
+#! /usr/bin/env bash
+
+set -eu
+
+OWNER=$1
+REPO=$2
+WORKFLOW=$3
+
+# {
+#   "total_count": 531,
+#   "workflow_runs": [
+#     {
+#       "id": 900077533,
+# ...
+
+
+function get_ids_for_workflow() {
+  runs_url="/repos/${OWNER}/${REPO}/actions/workflows/${WORKFLOW}/runs"
+  echo "getting ids from ${runs_url} ... " >&2
+  gh api --paginate ${runs_url} | jq ".workflow_runs[] | .id"
+}
+
+function delete_ids() {
+  while read -r id ; do
+    url="/repos/${OWNER}/${REPO}/actions/runs/${id}"
+    echo -n "deleting run at ${url} ... " >&2
+    gh api -X DELETE ${url} --silent && echo "✔" || echo "✖"
+    sleep 0.25
+  done
+}
+
+get_ids_for_workflow | delete_ids
