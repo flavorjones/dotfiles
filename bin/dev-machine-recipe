@@ -146,8 +146,8 @@
 # Make sure you set the disk controller to AHCI (may get set to RAID, that's bad)
 # - https://forums.linuxmint.com/viewtopic.php?t=322351
 #
-# Turn off "Sign of Life"
-# - https://www.dell.com/community/XPS/XPS-13-9300-Wake-from-sleep/m-p/7535386/highlight/true#M59272
+# Turn off "Sign of Life" which will interfere with resume-from-suspend
+# - https://www.dell.com/community/XPS/XPS-13-9300-Wake-from-sleep/m-p/7535386/highlight/true#M59272 
 #
 #
 # Input Font config
@@ -236,7 +236,7 @@ if $linux_p ; then
   }
 
   function open {
-    gnome-open $*
+    xdg-open $*
   }
 
   function snap_install {
@@ -684,9 +684,9 @@ if $install_p ; then
       open https://signal.org/download/
     fi
 
-    if [[ `which purevpn` == "" ]] ; then
-      open https://my.purevpn.com/apps
-    fi
+    # if [[ `which purevpn` == "" ]] ; then
+    #   open https://my.purevpn.com/apps
+    # fi
 
     if [[ `which vagrant` == "" ]] ; then
       open https://www.vagrantup.com/downloads.html
