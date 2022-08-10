@@ -5,6 +5,9 @@ require "erb"
 
 CHROME = "google-chrome"
 CHROME_PATH = "/usr/bin/#{CHROME}"
+CHROME_ARGS = [
+  "--disable-features=AvoidEarlyExtensionScriptContextCreation", # https://github.com/gioxx/MarvellousSuspender/issues/185
+]
 DESKTOP_DIR = File.join(ENV["HOME"], ".local/share/applications")
 DESKTOP_FILE = File.join(DESKTOP_DIR, "chrome-profiles.desktop")
 
@@ -84,7 +87,7 @@ def generate_desktop_file
   get_profiles.each do |directory, name|
     key = snakecase(name)
     actions[key] = name
-    commands[key] = %Q{#{CHROME_PATH} --profile-directory="#{directory}"}
+    commands[key] = %Q{#{CHROME_PATH} --profile-directory="#{directory}" #{CHROME_ARGS.join(" ")}}
   end
 
   desktop_contents = ERB.new(DESKTOP_MAIN_ERB, trim_mode: "%-").result(binding)
