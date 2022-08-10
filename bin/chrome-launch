@@ -87,7 +87,7 @@ def generate_desktop_file
     commands[key] = %Q{#{CHROME_PATH} --profile-directory="#{directory}"}
   end
 
-  desktop_contents = ERB.new(DESKTOP_MAIN_ERB, nil, "%-").result(binding)
+  desktop_contents = ERB.new(DESKTOP_MAIN_ERB, trim_mode: "%-").result(binding)
   puts desktop_contents
 
   File.open(DESKTOP_FILE, "w") do |f|
