@@ -2,6 +2,11 @@
 
 set -eu
 
+if [[ $# -lt 3 ]] ; then
+  echo "USAGE: $(basename $0) <owner> <repo> <workflow>"
+  exit 1
+fi
+
 OWNER=$1
 REPO=$2
 WORKFLOW=$3
