@@ -1,0 +1,33 @@
+#! /usr/bin/env ruby
+
+require 'open3'
+require 'yaml'
+
+issue_file_regex = /\A([0-9]+)-/
+
+repros = Dir.glob("*").select { |f| issue_file_regex.match?(f) }
+repro_issues = repros.map { |r| issue_file_regex.match(r)[1].to_i }.sort.uniq
+
+branches = `git branch`.split.select { |f| issue_file_regex.match?(f) }
+branch_issues = branches.map { |r| issue_file_regex.match(r)[1].to_i }.sort.uniq
+
+issue_numbers = (repro_issues + branch_issues).sort.uniq
+
+def get_state(issue)
+  response, status = Open3.capture2("gh issue view #{issue} --json=state,title")
+  unless status.success?
+    STDERR.puts response
+    return nil
+  end
+  YAML.load(response)
+end
+
+issue_numbers.each do |issue_number|
+  data = get_state(issue_number)
+  if data
+    desc = {"repro" => repro_issues, "branch" => branch_issues}.filter_map do |name, issues|
+      name if issues.include?(issue_number)
+    end.join(",")
+    puts "#{issue_number} - #{data["state"]} - #{desc} - #{data["title"]}"
+  end
+end
