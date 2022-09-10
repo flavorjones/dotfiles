@@ -313,12 +313,6 @@ if [[ -f ~/.dir_colors/dircolors ]] ; then
   eval `dircolors ~/.dir_colors/dircolors`
 fi
 
-# ugh npm
-if [[ -d ${HOME}/.npm-global ]] ; then
-  export NPM_CONFIG_PREFIX=${HOME}/.npm-global
-  export PATH=${PATH}:${NPM_CONFIG_PREFIX}/bin
-fi
-
 # Added by Krypton
 export GPG_TTY=$(tty)
 

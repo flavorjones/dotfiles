@@ -217,6 +217,7 @@ fi
 
 kernel_release=$(uname -r)
 ossdir="${HOME}/code/oss"
+bashrc_local="${HOME}/.bashrc_local"
 
 if $linux_p ; then
   function apt_install {
@@ -368,7 +369,6 @@ if $install_p ; then
       libcurl4-openssl-dev \
       zip \
       python3 python-is-python3 \
-      nodejs npm node-marked \
       graphviz gv
 
     # see https://askubuntu.com/questions/1290262/unable-to-install-bat-error-trying-to-overwrite-usr-crates2-json-which
@@ -612,6 +612,21 @@ if $install_p ; then
       git clone https://github.com/rbenv/ruby-build.git $HOME/.rbenv/plugins/ruby-build
     else
       (cd $HOME/.rbenv/plugins/ruby-build && git pull)
+    fi
+
+    #  node (pronounced like seinfeld pronounces "newman")
+    if [[ ! -d ${ossdir}/nvm ]] ; then
+      pushd ${ossdir}
+      git clone "https://github.com/nvm-sh/nvm"
+      popd
+    fi
+    if ! fgrep NVM_DIR ${bashrc_local} ; then
+      cat <<EOF >> ${bashrc_local}
+# nvm - added by $0
+export NVM_DIR="${ossdir}/nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+EOF
     fi
 
     # rust
