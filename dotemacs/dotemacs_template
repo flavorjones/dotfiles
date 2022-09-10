@@ -294,6 +294,7 @@
              ;;           nil t) ;; the t is for making the hook local to buffer
              (electric-pair-mode 0)
              (local-set-key (kbd "C-S-SPC") 'markdown-toggle-gfm-checkbox)
+             (local-set-key (kbd "C-c C-s >") 'markdown-insert-blockquote)
              )))
 (setq markdown-command "marked")
 (setq markdown-css-paths '("__DIR__/github.css"))
