@@ -319,7 +319,6 @@ if $install_p ; then
     #
     apt_install \
       libnotify-bin \
-      keepassx \
       gconf-editor dconf-cli \
       xclip \
       tree \
