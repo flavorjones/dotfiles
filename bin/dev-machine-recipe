@@ -368,6 +368,7 @@ if $install_p ; then
       libcurl4-openssl-dev \
       zip \
       python3 python-is-python3 \
+      node-marked \
       graphviz gv
 
     # see https://askubuntu.com/questions/1290262/unable-to-install-bat-error-trying-to-overwrite-usr-crates2-json-which
