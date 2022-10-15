@@ -879,14 +879,10 @@ The key typed is executed unless it is SPC."
 
 
 ;;;
-;;;  edit-server for my chrome extension
+;;;  edit servers for emacsclient and ghost text browser extension
 ;;;
-(if (locate-library "edit-server")
-    (progn
-      (add-hook 'after-init-hook 'server-start t)
-      (add-hook 'after-init-hook 'edit-server-start t)
-      (setq edit-server-new-frame nil)
-      ))
+(server-start)
+(atomic-chrome-start-server)
 
 ;;;  raise the window when we launch a file from the commandline
 (add-hook 'server-switch-hook
