@@ -314,6 +314,10 @@ if $install_p ; then
     brew_install --cask emacs --no-quarantine
     brew_install --cask keycastr
     brew_install --cask rectangle
+
+    brew tap dimentium/autoraise
+    brew_install autoraise
+    brew services start autoraise
   fi
 
   if $linux_p ; then
