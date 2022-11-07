@@ -323,7 +323,7 @@ if $install_p ; then
     brew_install --cask rectangle
 
     brew tap dimentium/autoraise
-    brew_install autoraise
+    brew_install autoraise --with-dexperimental_focus_first
     brew services start autoraise
   fi
 

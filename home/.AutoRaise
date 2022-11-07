@@ -1,4 +1,4 @@
 # https://github.com/sbmpost/AutoRaise
-pollMillis=20
-delay=2
-focusDelay=2
+pollMillis=50
+delay=0
+focusDelay=1
