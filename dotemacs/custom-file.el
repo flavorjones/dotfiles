@@ -5,21 +5,19 @@
  ;; If there is more than one, they won't work right.
  '(ac-delay 0.5)
  '(ac-trigger-key "")
- '(browse-url-browser-function (quote browse-url-chrome))
  '(create-lockfiles nil)
  '(custom-safe-themes
-   (quote
-    ("4c56af497ddf0e30f65a7232a8ee21b3d62a8c332c6b268c81e9ea99b11da0d3" "fee7287586b17efbfda432f05539b58e86e059e78006ce9237b8732fde991b4c" "830877f4aab227556548dc0a28bf395d0abe0e3a0ab95455731c9ea5ab5fe4e1" "c433c87bd4b64b8ba9890e8ed64597ea0f8eb0396f4c9a9e01bd20a04d15d358" "2809bcb77ad21312897b541134981282dc455ccd7c14d74cc333b6e549b824f3" "a8245b7cc985a0610d71f9852e9f2767ad1b852c2bdea6f4aadc12cce9c4d6d0" "8aebf25556399b58091e533e455dd50a6a9cba958cc4ebb0aab175863c25b9a4" "d677ef584c6dfc0697901a44b885cc18e206f05114c8a3b7fde674fce6180879" default)))
+   '("4c56af497ddf0e30f65a7232a8ee21b3d62a8c332c6b268c81e9ea99b11da0d3" "fee7287586b17efbfda432f05539b58e86e059e78006ce9237b8732fde991b4c" "830877f4aab227556548dc0a28bf395d0abe0e3a0ab95455731c9ea5ab5fe4e1" "c433c87bd4b64b8ba9890e8ed64597ea0f8eb0396f4c9a9e01bd20a04d15d358" "2809bcb77ad21312897b541134981282dc455ccd7c14d74cc333b6e549b824f3" "a8245b7cc985a0610d71f9852e9f2767ad1b852c2bdea6f4aadc12cce9c4d6d0" "8aebf25556399b58091e533e455dd50a6a9cba958cc4ebb0aab175863c25b9a4" "d677ef584c6dfc0697901a44b885cc18e206f05114c8a3b7fde674fce6180879" default))
  '(dired-listing-switches "-alG")
  '(dired-use-ls-dired t)
- '(electric-pair-pairs (quote ((34 . 34) (8216 . 8217) (8220 . 8221) (96 . 96))))
- '(electric-pair-text-pairs (quote ((34 . 34) (8216 . 8217) (8220 . 8221) (96 . 96))))
+ '(electric-pair-pairs '((34 . 34) (8216 . 8217) (8220 . 8221) (96 . 96)))
+ '(electric-pair-text-pairs '((34 . 34) (8216 . 8217) (8220 . 8221) (96 . 96)))
  '(fill-column 100)
  '(fringe-mode nil nil (fringe))
  '(global-undo-tree-mode t)
- '(highlight-indent-guides-method (quote character))
+ '(highlight-indent-guides-method 'character)
  '(inhibit-startup-screen t)
- '(initial-major-mode (quote gfm-mode))
+ '(initial-major-mode 'gfm-mode)
  '(initial-scratch-message "# scratch buffer
 ")
  '(js2-auto-indent-flag nil)
@@ -30,64 +28,42 @@
  '(markdown-fontify-code-blocks-natively t)
  '(markdown-link-space-sub-char "-")
  '(markdown-wiki-link-search-subdirectories t)
- '(neo-keymap-style (quote concise))
+ '(neo-keymap-style 'concise)
  '(neo-smart-open t)
- '(org-agenda-files (quote ("~/docs/notes/todo.org")))
+ '(org-agenda-files '("~/docs/notes/todo.org"))
  '(org-file-apps
-   (quote
-    (("txt" . emacs)
+   '(("txt" . emacs)
      ("tex" . emacs)
      ("ltx" . emacs)
      ("org" . emacs)
      ("el" . emacs)
      ("bib" . emacs)
-     ("pdf" . "evince '%s'"))))
+     ("pdf" . "evince '%s'")))
  '(org-hide-leading-stars t)
- '(org-log-done (quote time))
+ '(org-log-done 'time)
  '(org-odd-levels-only t)
- '(org-startup-folded (quote content))
+ '(org-startup-folded 'content)
  '(package-selected-packages
-   (quote
-    (atomic-chrome protobuf-mode bison-mode git-link poly-ruby polymode hide-mode-line projectile-rails edit-indirect editorconfig rubocopfmt interaction-log bazel-mode ivy json-mode projectile nix-mode auto-compile crystal-mode csharp-mode direnv dockerfile-mode elm-mode exec-path-from-shell feature-mode git-commit go-mode haml-mode hl-todo julia-mode lua-mode magit markdown-toc neotree powershell rspec-mode ruby-hash-syntax sass-mode use-package yaml-mode markdown-mode udev-mode bicycle web-mode solarized-theme gnu-elpa-keyring-update ruby-additional ruby-end ruby-refactor rvm slim-mode toml-mode unicode-fonts markdown-mode+ go-autocomplete go-snippets golint gitattributes-mode gitconfig-mode gitignore-mode flymake-ruby rufo flycheck-julia undo-tree rnc-mode org minimap git-blame css-mode auto-highlight-symbol)))
+   '(atomic-chrome protobuf-mode bison-mode git-link poly-ruby polymode hide-mode-line projectile-rails edit-indirect editorconfig rubocopfmt interaction-log bazel-mode ivy json-mode projectile nix-mode auto-compile crystal-mode csharp-mode direnv dockerfile-mode elm-mode exec-path-from-shell feature-mode git-commit go-mode haml-mode hl-todo julia-mode lua-mode magit markdown-toc neotree powershell rspec-mode ruby-hash-syntax sass-mode use-package yaml-mode markdown-mode udev-mode bicycle web-mode solarized-theme gnu-elpa-keyring-update ruby-additional ruby-end ruby-refactor rvm slim-mode toml-mode unicode-fonts markdown-mode+ go-autocomplete go-snippets golint gitattributes-mode gitconfig-mode gitignore-mode flymake-ruby rufo flycheck-julia undo-tree rnc-mode org minimap git-blame css-mode auto-highlight-symbol))
  '(paradox-github-token t)
  '(projectile-rails-global-mode t)
  '(rubocopfmt-use-bundler-when-possible nil)
  '(ruby-align-to-stmt-keywords t)
  '(ruby-flymake-use-rubocop-if-available nil)
  '(safe-local-variable-values
-   (quote
-    ((eval c-set-offset
-           (quote inlambda)
-           0)
-     (eval c-set-offset
-           (quote access-label)
-           (quote -))
-     (eval c-set-offset
-           (quote substatement-open)
-           0)
-     (eval c-set-offset
-           (quote arglist-cont-nonempty)
-           (quote +))
-     (eval c-set-offset
-           (quote arglist-cont)
-           0)
-     (eval c-set-offset
-           (quote arglist-intro)
-           (quote +))
-     (eval c-set-offset
-           (quote inline-open)
-           0)
-     (eval c-set-offset
-           (quote defun-open)
-           0)
-     (eval c-set-offset
-           (quote innamespace)
-           0)
+   '((eval c-set-offset 'inlambda 0)
+     (eval c-set-offset 'access-label '-)
+     (eval c-set-offset 'substatement-open 0)
+     (eval c-set-offset 'arglist-cont-nonempty '+)
+     (eval c-set-offset 'arglist-cont 0)
+     (eval c-set-offset 'arglist-intro '+)
+     (eval c-set-offset 'inline-open 0)
+     (eval c-set-offset 'defun-open 0)
+     (eval c-set-offset 'innamespace 0)
      (indicate-empty-lines . t)
      (whitespace-line-column . 80)
      (eval when
-           (fboundp
-            (quote rainbow-mode))
+           (fboundp 'rainbow-mode)
            (rainbow-mode 1))
      (require-final-newline . t)
      (mangle-whitespace . t)
@@ -96,11 +72,11 @@
      (ruby-compilation-executable . "ruby1.8")
      (ruby-compilation-executable . "ruby1.9")
      (ruby-compilation-executable . "rbx")
-     (ruby-compilation-executable . "jruby"))))
+     (ruby-compilation-executable . "jruby")))
  '(sh-basic-offset 2)
  '(undo-tree-visualizer-diff t)
  '(undo-tree-visualizer-timestamps t)
- '(visual-line-fringe-indicators (quote (nil right-curly-arrow))))
+ '(visual-line-fringe-indicators '(nil right-curly-arrow)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.

@@ -101,10 +101,6 @@
   (run-with-idle-timer 30 t (lambda () (desktop-save-in-desktop-dir)))
   )
 
-;; let's let gnome make the decision on how emacs should open URLs
-(setq browse-url-browser-function 'browse-url-generic
-      browse-url-generic-program  (if flavorjones:i-am-a-mac "open" "gnome-open"))
-
 ;;;
 ;;;  miscellaneous file types linked to modes
 ;;;
