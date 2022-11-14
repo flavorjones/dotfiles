@@ -1,0 +1,150 @@
+#! /usr/bin/env ruby
+# frozen_string_literal: true
+#
+#
+# Script to scrape download stats by version and architecture from rubygems.org.
+# Update the constants for your use case:
+# - GEM: the gem name
+# - INCLUDE_PRERELEASES: true or false, should we include prerelease downloads
+# - AGGREGATE_PATCH_RELEASES: true or false, should we count patch releases or just minor releases
+# - EPOCHS: an array of version constraints to use to bucket version ranges
+#
+#
+# The MIT License
+#
+# Copyright 2022 by Mike Dalessio
+#
+# Permission is hereby granted, free of charge, to any person obtaining a copy of this software and
+# associated documentation files (the "Software"), to deal in the Software without restriction,
+# including without limitation the rights to use, copy, modify, merge, publish, distribute,
+# sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is
+# furnished to do so, subject to the following conditions:
+#
+# The above copyright notice and this permission notice shall be included in all copies or
+# substantial portions of the Software.
+#
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT
+# NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+# NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+# DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT
+# OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+#
+require "bundler/inline"
+
+PRINT_COUNTS = true
+
+# GEM = "sqlite3"
+# INCLUDE_PRERELEASES = false
+# AGGREGATE_PATCH_RELEASES = false
+# EPOCHS = []
+
+GEM = "nokogiri"
+INCLUDE_PRERELEASES = false
+AGGREGATE_PATCH_RELEASES = false
+EPOCHS = [
+  ["< 1.6"], # pre-packaged-tarball
+  [">= 1.6", "< 1.11"], # packaged-tarball
+  [">= 1.11"], # precompiled
+]
+
+gemfile do
+  source "https://rubygems.org"
+  gem "activesupport"
+  gem "json"
+  gem "yaml"
+end
+
+require "json"
+require "yaml"
+require "date"
+require "open-uri"
+require "active_support"
+
+# downloads[version][arch] = download_count
+def new_downloads_hash
+  Hash.new do |h, version|
+    h[version] = Hash.new do |h, arch|
+      h[arch] = 0
+    end
+  end
+end
+
+downloads = new_downloads_hash
+total_downloads = Hash.new { |h, arch| h[arch] = 0 }
+epoch_downloads = new_downloads_hash
+EPOCHS.each { |epoch| epoch_downloads[epoch] }
+
+date_first = {}
+
+def print_int(int)
+  ActiveSupport::NumberHelper.number_to_delimited(int)
+end
+
+def print_archs_table(archs, total: false)
+  archs.sort_by { |arch, count| -count }
+    .reject { |arch, _| !total && arch == "total" }
+    .each do |arch, count|
+    if PRINT_COUNTS
+      printf("- %-15s %11s (%5.2f%%)\n", arch + ":", print_int(count), 100.0 * count / archs["total"])
+    else
+      printf("- %-15s %5.2f%%\n", arch + ":", 100.0 * count / archs["total"])
+    end
+  end
+end
+
+versions = JSON.parse(URI.open("https://rubygems.org/api/v1/versions/#{GEM}.json").read)
+
+versions.each do |gem_version|
+  version = Gem::Version.new(gem_version["number"])
+  next if version.prerelease? && !INCLUDE_PRERELEASES
+
+  maj_min = if AGGREGATE_PATCH_RELEASES
+    Gem::Version.new(version.segments[0..1].join(".")) # if you want counts rolled up to minor
+  else
+    version # if you want every version
+  end
+
+  downloads[maj_min][gem_version["platform"]] += gem_version["downloads_count"]
+  downloads[maj_min]["total"] += gem_version["downloads_count"]
+  date = Date.parse(gem_version["built_at"])
+  if date_first[maj_min].nil? || date_first[maj_min] > date
+    date_first[maj_min] = date
+  end
+
+  key = if EPOCHS.empty?
+    nil
+  else
+    EPOCHS.find do |v|
+      Gem::Requirement.new(v).satisfied_by?(Gem::Version.new(version))
+    end
+  end
+  if key
+    epoch_downloads[key][gem_version["platform"]] += gem_version["downloads_count"]
+    epoch_downloads[key]["total"] += gem_version["downloads_count"]
+  end
+  total_downloads[gem_version["platform"]] += gem_version["downloads_count"]
+  total_downloads["total"] += gem_version["downloads_count"]
+end
+
+downloads.sort_by { |maj_min, archs| maj_min }.each do |maj_min, archs|
+  if PRINT_COUNTS
+    printf("# v%-14s %11s / %s\n", maj_min, print_int(archs["total"]), date_first[maj_min])
+  else    
+    printf("# v%-14s %s\n", maj_min, date_first[maj_min])
+  end
+  print_archs_table(archs)
+  puts
+end
+
+epoch_downloads.each do |version, archs|
+  if PRINT_COUNTS
+    printf("# %-14s  %11s\n", version.join(", "), print_int(archs["total"]))
+  else
+    printf("# %-14s\n", version)
+  end
+  print_archs_table(archs)
+  puts
+end
+
+printf("# all time\n")
+print_archs_table(total_downloads, total: true)
