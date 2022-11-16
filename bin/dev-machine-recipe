@@ -47,6 +47,7 @@
 # 3. color: clone https://github.com/Mayccoll/Gogh and install solarized theme for gnome terminal
 # 4. color: clone https://github.com/seebi/dircolors-solarized and use the 'ansi-dark' config
 # 5. mouse theme for screencasts https://github.com/iPAS/DMZ-White-Highlighted
+# 6. create a postgres user role for yourself: `sudo -u postgres createuser -s flavorjones`
 #
 #
 # Multi-Monitor Settings

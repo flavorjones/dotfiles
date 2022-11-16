@@ -11,19 +11,20 @@ ROFI_FINDER="rofi-file"
 # because the ubuntu package version is 1.5.4
 
 ~/local/bin/rofi \
-  -theme "solarized_alternate" \
-  -theme-str "window { border: 2; }
-              button { text-color: rgba ( 129, 147, 150, 50 % ); }
-              element-icon { size: 2em; }
-              element-text { vertical-align: 0.5; }
-              textbox { text-color: rgba ( 129, 147, 150, 50 % ); }
-   " \
-  -font "Ubuntu 10" \
+  -theme "solarized" \
+  -theme-str "
+      window { border: 2; }
+      button { text-color: rgba ( 129, 147, 150, 50 % ); }
+      element-icon { size: 2em; }
+      element-text { vertical-align: 0.5; }
+      textbox { text-color: rgba ( 129, 147, 150, 50 % ); }
+  " \
+  -font "Ubuntu 40" \
   -show-icons \
   -sidebar-mode \
 \
   -monitor primary \
-  -dpi 1 \
+  -dpi 0 \
   -pid /tmp/${LOGNAME}-rofi.pid \
 \
   -show drun \
