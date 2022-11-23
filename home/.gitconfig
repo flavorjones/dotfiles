@@ -98,9 +98,11 @@
 	insteadOf = "gh:"
 
 [url "git@github.com:"]
-	# always push with authn
 	pushInsteadOf = "gh:"
 	pushInsteadOf = "https://github.com/"
+
+[url "git@ssh.gitlab.gnome.org:"]
+	pushInsteadOf = "https://gitlab.gnome.org"
 
 ## because `go get` on private repos is an awful UX
 ## maybe leave this commented, and uncomment when needed
