@@ -176,11 +176,9 @@ export JRUBY_OPTS="${JRUBY_OPTS} --dev"
 #  docker things
 #
 function dockerdocker {
-  image=$1
-  shift
   pwd=$(pwd)
-  echo -ne "\033]0;docker run ${image}\007"
-  docker run -it --mount=type=bind,source=${pwd},target=/$(basename $pwd) $image $*
+  echo -ne "\033]0;docker run ${*}\007"
+  docker run -it --mount=type=bind,source=${pwd},target=/$(basename $pwd) $*
 }
 
 # calendar assistant FTW
