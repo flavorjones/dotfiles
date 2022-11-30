@@ -41,4 +41,4 @@ ROFI_FINDER="rofi-file"
   -cache-dir $HOME/.config/rofi \
 \
   -kb-remove-word-back "Alt+BackSpace" \
-  -kb-row-tab "" -kb-mode-next "Tab" \
+  -kb-element-next "" -kb-mode-next "Tab" \
