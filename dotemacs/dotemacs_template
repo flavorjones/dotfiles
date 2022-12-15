@@ -1056,6 +1056,8 @@ The key typed is executed unless it is SPC."
                               'solarized-dark
                               'solarized-gruvbox-dark
                               'solarized-light
+                              'night-owl
+                              'monokai
                               ))
 
 (defun flavorjones:set-theme (theme)
