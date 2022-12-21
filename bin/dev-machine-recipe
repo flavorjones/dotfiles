@@ -654,8 +654,8 @@ EOF
     gsettings set org.gnome.desktop.peripherals.touchpad two-finger-scrolling-enabled true
     gsettings set org.gnome.desktop.peripherals.touchpad scroll-method 'two-finger-scrolling'
 
-    gsettings set org.gnome.libgnomekbd.keyboard layouts "['us']" # 'us\tnorman' might go here if capslock wasn't broken
-    gsettings set org.gnome.libgnomekbd.keyboard options "['Compose key\tcompose:ralt', 'caps\tcaps:ctrl_modifier']"
+    gsettings set org.gnome.libgnomekbd.keyboard layouts "['us', 'jp']" # 'us\tnorman' might go here if capslock wasn't broken
+    gsettings set org.gnome.libgnomekbd.keyboard options "['Compose key\tcompose:ralt', 'caps\tcaps:ctrl_modifier', 'grp\tgrp:shifts_toggle']"
 
     gsettings set org.cinnamon.settings-daemon.peripherals.mouse locate-pointer true
 
