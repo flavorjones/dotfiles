@@ -85,9 +85,9 @@ def print_archs_table(archs, total: false)
     .reject { |arch, _| !total && arch == "total" }
     .each do |arch, count|
     if PRINT_COUNTS
-      printf("- %-15s %11s (%5.2f%%)\n", arch + ":", print_int(count), 100.0 * count / archs["total"])
+      printf("  - %-15s %11s (%5.2f%%)\n", arch + ":", print_int(count), 100.0 * count / archs["total"])
     else
-      printf("- %-15s %5.2f%%\n", arch + ":", 100.0 * count / archs["total"])
+      printf("  - %-15s %5.2f%%\n", arch + ":", 100.0 * count / archs["total"])
     end
   end
 end
@@ -127,24 +127,16 @@ versions.each do |gem_version|
 end
 
 downloads.sort_by { |maj_min, archs| maj_min }.each do |maj_min, archs|
-  if PRINT_COUNTS
-    printf("# v%-14s %11s / %s\n", maj_min, print_int(archs["total"]), date_first[maj_min])
-  else    
-    printf("# v%-14s %s\n", maj_min, date_first[maj_min])
-  end
-  print_archs_table(archs)
+  printf("- v%s / %s:\n", maj_min, date_first[maj_min])
+  print_archs_table(archs, total: true)
   puts
 end
 
 epoch_downloads.each do |version, archs|
-  if PRINT_COUNTS
-    printf("# %-14s  %11s\n", version.join(", "), print_int(archs["total"]))
-  else
-    printf("# %-14s\n", version)
-  end
-  print_archs_table(archs)
+  printf("- epoch %s:\n", version.join(", "))
+  print_archs_table(archs, total: true)
   puts
 end
 
-printf("# all time\n")
+printf("- all time:\n")
 print_archs_table(total_downloads, total: true)
