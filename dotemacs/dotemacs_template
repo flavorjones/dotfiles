@@ -117,6 +117,7 @@
                                 ("\\.liquid$" . web-mode)
                                 ("\\.star$" . bazel-starlark-mode)
                                 ("\\.rhtml$" . web-mode)
+                                ("\\.html.erb$" . web-mode)
                                 )
                               auto-mode-alist))
 (setq auto-mode-alist
