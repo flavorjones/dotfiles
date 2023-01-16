@@ -8,7 +8,7 @@
 [core]
 	compression = 1
 	loosecompression = 1
-	abbrev = 7
+	abbrev = 8
 	commitGraph = true
 	attributesfile = /home/flavorjones/.gitattributes
 
