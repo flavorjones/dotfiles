@@ -19,12 +19,12 @@ ROFI_FINDER="rofi-file"
       element-text { vertical-align: 0.5; }
       textbox { text-color: rgba ( 129, 147, 150, 50 % ); }
   " \
-  -font "Ubuntu 40" \
+  -font "Ubuntu 12" \
   -show-icons \
   -sidebar-mode \
 \
   -monitor primary \
-  -dpi 0 \
+  -dpi 1 \
   -pid /tmp/${LOGNAME}-rofi.pid \
 \
   -show drun \
