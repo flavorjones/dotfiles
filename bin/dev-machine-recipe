@@ -435,8 +435,9 @@ if $install_p ; then
 
     #  docker
     if [[ `which docker` == "" ]] ; then
-      apt_install docker.io
-      sudo usermod -a -G docker $USER
+      open "https://docs.docker.com/engine/install/debian/#install-using-the-repository"
+      # apt_install docker.io
+      # sudo usermod -a -G docker $USER
     else
       #  this will fail until you re-login to have the above user group take effect
       echo "checking that docker was installed correctly ..."
