@@ -313,8 +313,3 @@ export GPG_TTY=$(tty)
 
 # shopify/ejson
 export EJSON_KEYDIR=${HOME}/.config/ejson/keys
-
-# shopify dev
-if [[ -f /opt/dev/dev.sh ]] && [[ $- == *i* ]]; then
-  source /opt/dev/dev.sh
-fi
