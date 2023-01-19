@@ -55,7 +55,9 @@ export BROWSER="google-chrome"
 
 if [[ $I_AM_A_MAC == 1 ]] ; then
   # for emacsclient
-  export PATH=${PATH}:/Applications/Emacs.app//Contents/MacOS/bin-x86_64-10_10
+  export PATH="${PATH}:/Applications/Emacs.app/Contents/MacOS/bin-x86_64-10_10"
+  # for bash utilities
+  export PATH="$(brew --prefix coreutils)/libexec/gnubin:${PATH}"
 fi
 export EDITOR="emacsclient -c"
 export GIT_EDITOR=$EDITOR
