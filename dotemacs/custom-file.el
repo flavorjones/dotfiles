@@ -17,6 +17,13 @@
  '(fringe-mode nil nil (fringe))
  '(global-undo-tree-mode t)
  '(highlight-indent-guides-method (quote character))
+ '(ido-buffer-disable-smart-matches nil)
+ '(ido-case-fold nil)
+ '(ido-enable-dot-prefix t)
+ '(ido-enable-flex-matching t)
+ '(ido-enter-matching-directory (quote first))
+ '(ido-everywhere t)
+ '(ido-mode (quote both) nil (ido))
  '(inhibit-startup-screen t)
  '(initial-major-mode (quote gfm-mode))
  '(initial-scratch-message "# scratch buffer
