@@ -132,6 +132,14 @@ class PrivilegedFileSyncSpec < SyncSpec
   end
 end
 
+# # todo:
+# # i think this could be refactored as:
+# syncer = SyncMaster.new(options)
+# syncer.hardlink_dir_contents "home" # (requires remapping, e.g. ./bin → ./home/bin)
+# syncer.symlink_dir_contents "etc", to: "/etc"
+# syncer.symlink_dir ".remmina"
+# syncer.symlink_dir ".devilspie"
+
 options = Hash.new
 if ARGV.include?("--force")
   options[:force] = true
@@ -161,10 +169,19 @@ specs += [
 
 specs.each(&:sync!)
 
-# # todo:
-# # i think this could be refactored as:
-# syncer = SyncMaster.new(options)
-# syncer.hardlink_dir_contents "home" # (requires remapping, e.g. ./bin → ./home/bin)
-# syncer.symlink_dir_contents "etc", to: "/etc"
-# syncer.symlink_dir ".remmina"
-# syncer.symlink_dir ".devilspie"
+File.join(HOME, ".gitconfig").tap do |gitconfig_path|
+  unless File.exist?(gitconfig_path)
+    puts "writing new #{gitconfig_path} ..."
+    File.open(gitconfig_path, "w") do |f|
+      f.write(<<~EOF)
+        # this is a local file with ephemeral edits.
+
+        # the permanent, generic profile is here:
+        [include]
+          path = .gitconfig_generic
+
+        # local edits follow.
+      EOF
+    end
+  end
+end

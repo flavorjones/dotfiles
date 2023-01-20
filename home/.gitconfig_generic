@@ -1,3 +1,4 @@
+# -*- gitconfig -*-
 [user]
 	name = Mike Dalessio
 	email = mike.dalessio@gmail.com
@@ -109,10 +110,3 @@
 
 [gc]
 	writeCommitGraph = true
-
-[commit]
-	gpgSign = true
-[gpg]
-	program = /usr/bin/krgpg
-[tag]
-	forceSignAnnotated = true
