@@ -12,6 +12,9 @@
 	commitGraph = true
 	attributesfile = /home/flavorjones/.gitattributes
 
+[feature]
+	manyFiles = true
+
 [pager]
 	branch = false
 	tag = false
@@ -103,11 +106,6 @@
 
 [url "git@ssh.gitlab.gnome.org:"]
 	pushInsteadOf = "https://gitlab.gnome.org"
-
-## because `go get` on private repos is an awful UX
-## maybe leave this commented, and uncomment when needed
-# [url "git@github.com:"]
-#   insteadOf = https://github.com/
 
 [gc]
 	writeCommitGraph = true
