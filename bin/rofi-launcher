@@ -23,7 +23,6 @@ ROFI_FINDER="rofi-file"
   -show-icons \
   -sidebar-mode \
 \
-  -monitor primary \
   -dpi 1 \
   -pid /tmp/${LOGNAME}-rofi.pid \
 \
