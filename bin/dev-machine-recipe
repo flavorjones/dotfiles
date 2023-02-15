@@ -451,7 +451,7 @@ if $install_p ; then
                v4l2loopback-dkms v4l2loopback-utils \
                peek
 
-    flatpak_install org.glimpse_editor.Glimpse
+    flatpak_install org.gimp.GIMP
     snap_install shotcut
 
     # from https://github.com/snapcrafters/obs-studio
