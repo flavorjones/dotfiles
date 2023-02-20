@@ -582,6 +582,15 @@ EOF
       mv starship ${HOME}/local/bin/
     fi
 
+    #  yubikey
+    #  https://tenderlovemaking.com/2021/10/26/publishing-gems-with-your-yubikey.html
+    #  https://docs.yubico.com/software/yubikey/tools/ykman/Install_ykman.html#linux
+    if [[ `which ykman` == "" ]] ; then
+      apt-add-repository ppa:yubico/stable
+      apt update
+      apt_install yubikey-manager
+    fi
+
     # # chrome. pick one!
     # if [[ `which google-chrome-beta` == "" ]] ; then
     #     open https://www.google.com/intl/en/chrome/browser/beta.html
