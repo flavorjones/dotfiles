@@ -216,6 +216,7 @@ fi
 install_p=true
 config_p=true
 update_p=true
+clean_p=false
 if [[ $1 == "config" ]] ; then
   echo "## configuration only"
   install_p=false
@@ -224,6 +225,12 @@ elif [[ $1 == "update" ]] ; then
   echo "## update only"
   install_p=false
   config_p=false
+elif [[ $1 == "clean" ]] ; then
+  echo "## cleaning"
+  install_p=false
+  config_p=false
+  update_p=false
+  clean_p=true
 fi
 
 kernel_release=$(uname -r)
@@ -703,6 +710,19 @@ EOF
   fi
 fi
 
+if $clean_p ; then
+  if $linux_p ; then
+    # clean snap
+    snap list --all | awk '/disabled/{print $1, $3}' |
+      while read snapname revision; do
+        snap remove "$snapname" --revision="$revision"
+      done
+
+    # clean flatpak
+    flatpak uninstall -y --unused
+    sudo flatpak uninstall -y --unused
+  fi
+fi
 
 set +o xtrace
 echo
