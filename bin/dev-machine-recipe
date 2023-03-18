@@ -341,7 +341,7 @@ if $install_p ; then
     #
     apt_install \
       libnotify-bin \
-      gconf-editor dconf-cli \
+      dconf-editor dconf-cli \
       xclip \
       tree \
       terminator \
@@ -491,7 +491,7 @@ if $install_p ; then
     #  http://linrunner.de/en/tlp/docs/tlp-linux-advanced-power-management.html
     #  http://linrunner.de/en/tlp/docs/tlp-configuration.html#rdw
     #  TODO: make sure touchscreen is added to USB_WHITELIST in /etc/default/tlp
-    apt_install tlp tlp-config tlp-rdw acpi-call-dkms smartmontools powertop
+    apt_install tlp tlp-rdw acpi-call-dkms smartmontools powertop
 
 
     # #
@@ -602,7 +602,7 @@ EOF
     #  https://tenderlovemaking.com/2021/10/26/publishing-gems-with-your-yubikey.html
     #  https://docs.yubico.com/software/yubikey/tools/ykman/Install_ykman.html#linux
     if [[ `which ykman` == "" ]] ; then
-      apt-add-repository ppa:yubico/stable
+      sudo apt-add-repository ppa:yubico/stable
       apt update
       apt_install yubikey-manager
     fi
@@ -677,23 +677,21 @@ EOF
     #  cinnamon + gnome config
     #
     gsettings set org.cinnamon.desktop.wm.preferences focus-mode 'sloppy'
-    gsettings set org.cinnamon.desktop.wm.preferences num-workspaces 3
+    gsettings set org.cinnamon.desktop.wm.preferences num-workspaces 4
 
-    gsettings set org.cinnamon.settings-daemon.peripherals.touchpad tap-to-click false
+    gsettings set org.cinnamon.desktop.peripherals.touchpad tap-to-click false
     gsettings set org.gnome.desktop.peripherals.touchpad tap-to-click false
 
-    gsettings set org.cinnamon.settings-daemon.peripherals.touchpad disable-while-typing true
+    gsettings set org.cinnamon.desktop.peripherals.touchpad disable-while-typing true
     gsettings set org.gnome.desktop.peripherals.touchpad disable-while-typing true
 
-    gsettings set org.cinnamon.settings-daemon.peripherals.touchpad horizontal-scrolling true
-
+    gsettings set org.cinnamon.desktop.peripherals.touchpad two-finger-scrolling-enabled true
     gsettings set org.gnome.desktop.peripherals.touchpad two-finger-scrolling-enabled true
-    gsettings set org.gnome.desktop.peripherals.touchpad scroll-method 'two-finger-scrolling'
 
-    gsettings set org.gnome.libgnomekbd.keyboard layouts "['us', 'jp']" # 'us\tnorman' might go here if capslock wasn't broken
+    gsettings set org.gnome.libgnomekbd.keyboard layouts "['us']"
     gsettings set org.gnome.libgnomekbd.keyboard options "['Compose key\tcompose:ralt', 'caps\tcaps:ctrl_modifier', 'grp\tgrp:shifts_toggle']"
 
-    gsettings set org.cinnamon.settings-daemon.peripherals.mouse locate-pointer true
+    gsettings set org.cinnamon.desktop.peripherals.mouse locate-pointer true
 
     gsettings set org.cinnamon.desktop.keybindings.wm toggle-maximized "['<Alt>F10', '<Alt><Super>Up']"
     gsettings set org.cinnamon.desktop.keybindings.wm minimize "['<Alt><Super>Down']"
