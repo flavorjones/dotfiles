@@ -196,6 +196,10 @@ fi
 
 alias xc="xclip -selection clipboard"
 
+function gem_push {
+  gem push --otp $(ykman oath accounts code -s rubygems.org) $*
+}
+
 function psg {
   pgrep -f ${*} | xargs --no-run-if-empty ps -F --pid
 }
