@@ -523,14 +523,23 @@ if $install_p ; then
     #  - electron apps (like signal-desktop)
     #
     #  ----
-    #  2022-12 japanese
     #
-    #  go to "input method" and follow the instructions to get set up with Fcitx, and use ctrl-space
-    #  to switch.
+    #  2023-02 japanese notes - the following instructions end up conflicting with emacs, so
+    #  probably don't do it unless you're going to invest a chunk of time to figure it all out.
     #
-    #  it works in the gnome text editor, terminal, and chrome.
+    #  Some resources:
+    #  - [#958784 - emacs: Compose key fails with "<Multi\_key> is undefined" if XMODIFIERS is set - Debian Bug report logs](https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=958784)
+    #  - [JapaneseEnvironmentE - Debian Wiki](https://wiki.debian.org/JapaneseEnvironmentE)
+    #  - [key bindings - Compose key in Emacs: <Multi\_key> is undefined - Emacs Stack Exchange](https://emacs.stackexchange.com/questions/3650/compose-key-in-emacs-multi-key-is-undefined)
     #
-    #  to get it to work in emacs, try setting LC_CTYPE=ja_JP.UTF-8
+    #  Here are the instructions I wrote down in 2022-12:
+    #
+    # >  go to "input method" and follow the instructions to get set up with Fcitx, and use
+    # >  ctrl-space to switch.
+    # >
+    # >  it works in the gnome text editor, terminal, and chrome.
+    # >
+    # >  to get it to work in emacs, try setting LC_CTYPE=ja_JP.UTF-8
     #
     XCOMPOSEDIR="${ossdir}/xcompose"
     if [[ ! -d ${XCOMPOSEDIR} ]] ; then
