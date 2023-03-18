@@ -11,6 +11,10 @@ Phil "Technomancy" Hagelberg's emacs-starter-kit:
 You'll probably learn something from reading his code (I know I
 did). My codes will just make you dumber.
 
+Or, you can check out @eightbitraptor's literate emacs config:
+
+  https://github.com/eightbitraptor/dotemacs/blob/main/init.org
+
 
 
 
