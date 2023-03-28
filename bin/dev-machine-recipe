@@ -369,7 +369,7 @@ if $install_p ; then
       ruby rake \
       build-essential valgrind \
       direnv \
-      emacs autocutsel \
+      autocutsel \
       universal-ctags \
       mariadb-server mariadb-client libmysqlclient-dev \
       postgresql postgresql-client libpq-dev postgresql-contrib \
@@ -578,18 +578,6 @@ EOF
 
     # rust version manager
     snap_install rustup
-
-    # #  golang stuff
-    # #  https://johnsogg.github.io/emacs-golang
-    # if [[ "$GOPATH" != "" ]] ; then
-    #   go get -u golang.org/x/tools/cmd/...
-    #   go get -u github.com/rogpeppe/godef/...
-    #   go get -u github.com/nsf/gocode
-    #   go get -u golang.org/x/tools/cmd/goimports
-    #   go get -u golang.org/x/tools/cmd/guru
-    #   go get -u github.com/dougm/goflymake
-    #   rm ${GOPATH}/bin/bundle
-    # fi
 
     #  starship bash prompt
     if [[ `which starship` == "" ]] ; then

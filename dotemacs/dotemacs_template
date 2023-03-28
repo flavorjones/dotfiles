@@ -25,6 +25,8 @@
 (add-to-list 'package-archives
              '("melpa" . "http://melpa.org/packages/") t)
 (package-initialize)
+(require 'use-package)
+(require 'quelpa-use-package)
 
 (setq load-prefer-newer t)
 (require 'auto-compile)
@@ -1084,3 +1086,12 @@ The key typed is executed unless it is SPC."
 (global-set-key
  (kbd "C-h C-l")
  (lambda () (interactive) (display-buffer ilog-buffer-name)))
+
+
+;;; copilot
+(use-package copilot
+  :quelpa (copilot :fetcher github
+                   :repo "zerolfx/copilot.el"
+                   :branch "main"
+                   :files ("dist" "*.el")))
+(add-hook 'prog-mode-hook 'copilot-mode)

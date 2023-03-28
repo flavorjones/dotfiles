@@ -2,6 +2,10 @@
 
 export DISPLAY=":0"
 
+# local .desktop files
+export XDG_DATA_DIRS=${XDG_DATA_DIRS}:${HOME}/local/share
+export PATH=${PATH}:${HOME}/local/bin
+
 function say {
   echo "${0}: $*"
   logger "${0}: $*"
