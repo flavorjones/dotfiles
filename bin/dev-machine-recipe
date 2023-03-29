@@ -195,13 +195,6 @@
 #
 #  Otherwise, install a specific version with `apt install --install-suggests linux-image-5.8.0-31-lowlatency`
 #
-#  You may have problems with some specific kernel modules ...
-#
-#  - download v4l2loopback-dkms 0.12.5 or later from debian.org (system is 0.12.3)
-#    - https://packages.debian.org/testing/kernel/v4l2loopback-dkms
-#  - download virtualbox-dkms 6.1.14 or later from debian.org (system is 6.1.10)
-#    - https://packages.debian.org/sid/virtualbox-dkms
-#
 set -o errexit
 set -o xtrace
 
@@ -389,11 +382,8 @@ if $install_p ; then
       zip \
       python3 python-is-python3 \
       node-marked \
-      graphviz gv
-
-    # see https://askubuntu.com/questions/1290262/unable-to-install-bat-error-trying-to-overwrite-usr-crates2-json-which
-    # shouldn't be necessary after 20.04
-    apt_install -o Dpkg::Options::="--force-overwrite" bat hexyl
+      graphviz gv \
+      bat hexyl
 
     apt_install redshift redshift-gtk geoclue-2.0 geoclue-2-demo
 
@@ -630,9 +620,9 @@ EOF
     #   open https://my.purevpn.com/apps
     # fi
 
-    if [[ `which vagrant` == "" ]] ; then
-      open https://www.vagrantup.com/downloads.html
-    fi
+    # if [[ `which vagrant` == "" ]] ; then
+    #   open https://www.vagrantup.com/downloads.html
+    # fi
   fi
 fi
 

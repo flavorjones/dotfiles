@@ -50,6 +50,7 @@ export PAGER=less
 export LC_COLLATE=C # so sort acts the way i want it to
 
 export BAT_THEME="TwoDark"
+alias bat=batcat
 
 export BROWSER="google-chrome"
 
