@@ -1095,3 +1095,7 @@ The key typed is executed unless it is SPC."
                    :branch "main"
                    :files ("dist" "*.el")))
 (add-hook 'prog-mode-hook 'copilot-mode)
+
+(define-key copilot-mode-map (kbd "M-C-<return>") #'copilot-accept-completion)
+(define-key copilot-mode-map (kbd "M-C-<next>") #'copilot-next-completion)
+(define-key copilot-mode-map (kbd "M-C-<prior>") #'copilot-previous-completion)
