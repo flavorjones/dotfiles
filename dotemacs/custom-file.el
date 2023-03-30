@@ -31,7 +31,7 @@
  '(js2-enter-indents-newline nil)
  '(js2-mirror-mode nil)
  '(js2-mode-indent-ignore-first-tab t)
- '(markdown-command "marked" t)
+ '(markdown-command "marked")
  '(markdown-fontify-code-blocks-natively t)
  '(markdown-link-space-sub-char "-")
  '(markdown-wiki-link-search-subdirectories t)
@@ -95,6 +95,7 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(copilot-overlay-face ((t (:inherit (shadow highlight italic)))))
  '(escape-glyph ((t (:foreground "dim gray"))))
  '(markdown-header-face-1 ((t (:foreground "#1e90ff" :weight bold))))
  '(markdown-header-face-2 ((t (:foreground "#1ea2ee" :weight bold))))
