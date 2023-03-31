@@ -1094,7 +1094,7 @@ The key typed is executed unless it is SPC."
 (define-key yas-minor-mode-map (kbd "M-C-<return>") 'yas-expand)
 
 
-;;; copilot
+;;; copilot - see https://robert.kra.hn/posts/2023-02-22-copilot-emacs-setup/
 (use-package copilot
   :quelpa (copilot :fetcher github
                    :repo "zerolfx/copilot.el"
@@ -1102,6 +1102,12 @@ The key typed is executed unless it is SPC."
                    :files ("dist" "*.el")))
 (add-hook 'prog-mode-hook 'copilot-mode)
 
-(define-key copilot-mode-map (kbd "TAB") #'copilot-accept-completion)
+(defun my-copilot-tab ()
+  "Tab command that will complete with copilot if a completion is available, or else fall back to tab-indent"
+  (interactive)
+  (or (copilot-accept-completion)
+      (indent-for-tab-command)))
+
+(define-key copilot-mode-map (kbd "TAB") #'my-copilot-tab)
 (define-key copilot-mode-map (kbd "M-C-p") #'copilot-previous-completion)
 (define-key copilot-mode-map (kbd "M-C-n") #'copilot-next-completion)
