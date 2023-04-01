@@ -16,6 +16,7 @@
  '(fringe-mode nil nil (fringe))
  '(global-goto-address-mode t)
  '(global-undo-tree-mode t)
+ '(goto-address-fontify-p nil)
  '(goto-address-highlight-p nil)
  '(highlight-indent-guides-method 'character)
  '(ido-buffer-disable-smart-matches nil)
