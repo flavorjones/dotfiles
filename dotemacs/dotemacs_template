@@ -1101,6 +1101,7 @@ The key typed is executed unless it is SPC."
                    :branch "main"
                    :files ("dist" "*.el")))
 (add-hook 'prog-mode-hook 'copilot-mode)
+(add-hook 'yaml-mode-hook 'copilot-mode)
 
 (defun my-copilot-tab ()
   "Tab command that will complete with copilot if a completion is available, or else fall back to tab-indent"
