@@ -1104,11 +1104,25 @@ The key typed is executed unless it is SPC."
 (add-hook 'yaml-mode-hook 'copilot-mode)
 
 (defun my-copilot-tab ()
-  "Tab command that will complete with copilot if a completion is available, or else fall back to tab-indent"
+  "Command that will complete with copilot if a completion is available, or else fall back to tab-indent"
   (interactive)
   (or (copilot-accept-completion)
       (indent-for-tab-command)))
 
+(defun my-copilot-next ()
+  "Command that will move to the next copilot completion if copilot is active, or else fall back to next-line"
+  (interactive)
+  (if (copilot--overlay-visible)
+      (copilot-next-completion)
+    (next-line)))
+
+(defun my-copilot-previous ()
+  "Command that will move to the previous copilot completion if copilot is active, or else fall back to previous-line"
+  (interactive)
+  (if (copilot--overlay-visible)
+      (copilot-previous-completion)
+    (previous-line)))
+
 (define-key copilot-mode-map (kbd "TAB") #'my-copilot-tab)
-(define-key copilot-mode-map (kbd "M-C-p") #'copilot-previous-completion)
-(define-key copilot-mode-map (kbd "M-C-n") #'copilot-next-completion)
+(define-key copilot-mode-map (kbd "<down>") #'my-copilot-next)
+(define-key copilot-mode-map (kbd "<up>") #'my-copilot-previous)
