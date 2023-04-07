@@ -5,13 +5,15 @@ require 'yaml'
 
 issue_file_regex = /\A([0-9]+)-/
 
-repros = Dir.glob("*").select { |f| issue_file_regex.match?(f) }
+repros = Dir.glob(["*", "issues/*"])
+           .map { |f| File.basename(f) }
+           .select { |f| issue_file_regex.match?(File.basename(f)) }
 repro_issues = repros.map { |r| issue_file_regex.match(r)[1].to_i }.sort.uniq
 
 branches = `git branch`.split.select { |f| issue_file_regex.match?(f) }
 branch_issues = branches.map { |r| issue_file_regex.match(r)[1].to_i }.sort.uniq
 
-issue_numbers = (repro_issues + branch_issues).sort.uniq
+issue_numbers = (repro_issues + branch_issues).uniq
 
 def get_state(issue)
   response, status = Open3.capture2("gh issue view #{issue} --json=state,title")
