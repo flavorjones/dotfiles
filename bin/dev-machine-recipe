@@ -6,18 +6,17 @@
 # High Priority
 # -------------
 #
-# 1. set CapsLock to Ctrl, compose key to right-alt, set sloppy window focus
+# 1. set CapsLock to Ctrl, compose key to right-alt, set 'mouse' window focus
 # 2. recover ssh keys - use krypton!! https://krypt.co/
 # 3. `sudo apt-get install git ruby rake`
 # 4. clone dotfiles repo, run setup, re-login
 # 5. run `dev-machine-recipe` (this script!)
-# 6. clone emacs.d repo, run rake
-# 7. set up dropbox
-# 8. symlink Documents → Dropbox/Mike
-# 9. set up chrome profiles
-# 10. add guake and devilspie2 to startup applications
-# 11. add cinnamon applet: "Multi-Core System Monitor"
-# 12. add cinnamon extensions:
+# 6. set up dropbox
+# 7. symlink Documents → Dropbox/Mike
+# 8. set up chrome profiles
+# 9. add guake and devilspie2 to startup applications
+# 10. add cinnamon applet: "Multi-Core System Monitor"
+# 11. add cinnamon extensions:
 #     - "gTile"
 #     - "Transparent panels"
 #     - "User Shadows" using 10px radius for everything
@@ -654,7 +653,7 @@ EOF
     #
     #  cinnamon + gnome config
     #
-    gsettings set org.cinnamon.desktop.wm.preferences focus-mode 'sloppy'
+    gsettings set org.cinnamon.desktop.wm.preferences focus-mode 'mouse'
     gsettings set org.cinnamon.desktop.wm.preferences num-workspaces 4
 
     gsettings set org.cinnamon.desktop.peripherals.touchpad tap-to-click false
