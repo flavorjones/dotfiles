@@ -1050,6 +1050,10 @@ The key typed is executed unless it is SPC."
 (global-set-key [?\C--] 'flavorjones:decrease-font-size)
 (global-set-key (kbd "C-M-_") 'flavorjones:next-font)
 
+(when (member "Noto Color Emoji" (font-family-list))
+  (set-fontset-font
+    t 'symbol (font-spec :family "Noto Color Emoji") nil 'prepend))
+
 ;;;
 ;;;  personal theme stuff
 ;;;

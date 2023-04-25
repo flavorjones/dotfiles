@@ -164,6 +164,7 @@ specs += [
   SyncSpec.new("desktop", options.merge(dest_dir: DESKTOP_DIR)),
   WholeDirectorySyncSpec.new(".remmina", options),
   WholeDirectorySyncSpec.new("devilspie2", options.merge(dest_dir: File.join(HOME, ".config/devilspie2"))),
+  WholeDirectorySyncSpec.new("fontconfig", options.merge(dest_dir: File.join(HOME, ".config/fontconfig"))),
   PrivilegedFileSyncSpec.new("etc", options.merge(dest_dir: "/etc")),
 ] if ENV['I_AM_LINUX'] == "1" && ENV['DISPLAY']
 
