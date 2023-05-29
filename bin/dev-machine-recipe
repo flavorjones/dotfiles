@@ -604,7 +604,7 @@ EOF
     fi
 
     if [[ `which steam` == "" ]] ; then
-      open https://store.steampowered.com/about/
+      snap_install steam
     fi
 
     if ! [[ -e /usr/bin/slack ]] ; then
