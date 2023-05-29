@@ -4,6 +4,9 @@ disabled = true
 [git_commit]
 tag_disabled = false
 
+[vagrant]
+disabled = true
+
 [hostname]
 ssh_only = false
 
