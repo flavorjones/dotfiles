@@ -622,7 +622,6 @@
 
 (use-package prog-mode
              :config
-             (add-hook 'prog-mode-hook 'outline-minor-mode)
              (add-hook 'prog-mode-hook 'hs-minor-mode))
 
 
@@ -781,9 +780,6 @@ The key typed is executed unless it is SPC."
   (interactive)
   (bury-buffer (current-buffer))
   (yic-next (buffer-list)))
-
-;; (global-set-key [\C-tab] 'yic-next-buffer)
-;; (global-set-key [\S-tab] 'yic-prev-buffer)
 
 ;;;
 ;;;  dos whisperer
@@ -1097,7 +1093,6 @@ The key typed is executed unless it is SPC."
 ;; (define-key yas-minor-mode-map (kbd "TAB") nil) ; undo default because I want to use TAB for copilot
 ;; (define-key yas-minor-mode-map (kbd "M-C-<return>") 'yas-expand)
 
-
 ;;; copilot - see https://robert.kra.hn/posts/2023-02-22-copilot-emacs-setup/
 (use-package copilot
   :quelpa (copilot :fetcher github
@@ -1127,6 +1122,6 @@ The key typed is executed unless it is SPC."
       (copilot-previous-completion)
     (previous-line)))
 
-(define-key copilot-mode-map (kbd "<backtab>") #'my-copilot-tab)
+(define-key copilot-mode-map (kbd "S-<tab>") #'my-copilot-tab)
 (define-key copilot-mode-map (kbd "<down>") #'my-copilot-next)
 (define-key copilot-mode-map (kbd "<up>") #'my-copilot-previous)
