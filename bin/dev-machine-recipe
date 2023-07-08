@@ -7,7 +7,7 @@
 # -------------
 #
 # 1. set CapsLock to Ctrl, compose key to right-alt, set 'mouse' window focus
-# 2. recover ssh keys - use krypton!! https://krypt.co/
+# 2. recover ssh keys - you have a yubikey, right?
 # 3. `sudo apt-get install git ruby rake`
 # 4. clone dotfiles repo, run setup, re-login
 # 5. run `dev-machine-recipe` (this script!)
@@ -157,7 +157,7 @@
 # - https://forums.linuxmint.com/viewtopic.php?t=322351
 #
 # Turn off "Sign of Life" which will interfere with resume-from-suspend
-# - https://www.dell.com/community/XPS/XPS-13-9300-Wake-from-sleep/m-p/7535386/highlight/true#M59272 
+# - https://www.dell.com/community/XPS/XPS-13-9300-Wake-from-sleep/m-p/7535386/highlight/true#M59272
 #
 #
 # Input Font config
@@ -342,8 +342,16 @@ if $install_p ; then
       guake \
       cheese \
       pavucontrol \
-      gnome-applets gnome-shell-pomodoro \
-      gpg
+      gnome-applets gnome-shell-pomodoro
+
+    #
+    # key management
+    #
+    sudo add-apt-repository ppa:yubico/stable
+    apt_install \
+      pcscd gnupg2 scdaemon \
+      yubikey-manager
+
 
     #
     #  fonts
