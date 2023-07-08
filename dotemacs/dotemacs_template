@@ -1123,5 +1123,6 @@ The key typed is executed unless it is SPC."
     (previous-line)))
 
 (define-key copilot-mode-map (kbd "S-<tab>") #'my-copilot-tab)
+(define-key copilot-mode-map (kbd "<backtab>") #'my-copilot-tab)
 (define-key copilot-mode-map (kbd "<down>") #'my-copilot-next)
 (define-key copilot-mode-map (kbd "<up>") #'my-copilot-previous)
