@@ -809,7 +809,11 @@ The key typed is executed unless it is SPC."
 (autoload 'camelCase-mode "camelCase-mode" nil t)
 (add-hook 'find-file-hook '(lambda () (camelCase-mode 1))) ; all files. (all buffers?)
 
-
+;;; I need a mode where I can edit a file without a trailing newline (for test input files)
+(add-hook 'fundamental-mode-hook
+          '(lambda ()
+             (setq require-final-newline nil)
+             ))
 
 ;;;  js mode
 (add-to-list 'auto-mode-alist '("\\.js$" . js-mode))
