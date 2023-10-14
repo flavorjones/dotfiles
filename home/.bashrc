@@ -73,20 +73,20 @@ function en {
 }
 
 if [[ `which nproc` != "" ]] ; then
-  export NUM_PROCESSORS=$(nproc)
+  export NCPU=$(nproc)
 elif [[ -a /proc/cpuinfo ]] ; then
-  export NUM_PROCESSORS=$(grep -c processor /proc/cpuinfo)
+  export NCPU=$(grep -c processor /proc/cpuinfo)
 elif [[ $I_AM_A_MAC -eq 1 && -e /usr/sbin/sysctl ]] ; then
-  export NUM_PROCESSORS=$(sysctl -n hw.ncpu)
+  export NCPU=$(sysctl -n hw.ncpu)
 fi
 
-if [[ -z "${NUM_PROCESSORS}" ]] ; then
-  export NUM_PROCESSORS=1
+if [[ -z "${NCPU}" ]] ; then
+  export NCPU=1
 else
-  export NUM_PROCESSORS=$(($NUM_PROCESSORS - 1))
+  export NCPU=$(($NCPU - 1))
 fi
 
-export MAKEFLAGS=-j${NUM_PROCESSORS}
+export MAKEFLAGS=-j${NCPU}
 
 #
 #  bash options
