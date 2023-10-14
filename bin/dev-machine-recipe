@@ -105,6 +105,9 @@
 # Iterm2 key bindings (forward-word, backward-word, delete-word)
 # - https://apple.stackexchange.com/a/204802/169366o
 #
+# Iterm2 shell integration
+# - https://iterm2.com/documentation-shell-integration.html
+
 # To stop horizontal scrolling from being interpreted as "back in history" in Chrome:
 #   System Prefs → Trackpad → More Gestures → turn off "Swipe between pages"
 #
