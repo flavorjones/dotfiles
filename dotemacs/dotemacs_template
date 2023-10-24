@@ -75,6 +75,7 @@
 (editorconfig-mode 1)
 
 ;;; lsp-mode: let's opt into servers that we know we want to use
+(require 'lsp-mode)
 (add-to-list 'lsp-enabled-clients 'ruby-lsp-ls)
 
 ;;;
