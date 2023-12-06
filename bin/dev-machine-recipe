@@ -253,6 +253,8 @@ if $linux_p ; then
     xdg-open $*
   }
 
+  # delete with `snap uninstall` or `snap uninstall --purge`
+  # delete old snapshots with `snap forget <id>`
   function snap_install {
     sudo snap install $*
   }
@@ -361,10 +363,10 @@ if $install_p ; then
     #
     apt_install fonts-cmu
 
-    # see https://bugs.launchpad.net/ubuntu/+source/msttcorefonts/+bug/1713615
-    wget -c http://ftp.de.debian.org/debian/pool/contrib/m/msttcorefonts/ttf-mscorefonts-installer_3.6_all.deb
-    sudo dpkg -i ttf-mscorefonts-installer_3.6_all.deb
-    apt hold ttf-mscorefonts-installer
+    # # see https://bugs.launchpad.net/ubuntu/+source/msttcorefonts/+bug/1713615
+    # wget -c http://ftp.de.debian.org/debian/pool/contrib/m/msttcorefonts/ttf-mscorefonts-installer_3.6_all.deb
+    # sudo dpkg -i ttf-mscorefonts-installer_3.6_all.deb
+    # apt hold ttf-mscorefonts-installer
 
     # basics for development and related activities
     apt_install \
