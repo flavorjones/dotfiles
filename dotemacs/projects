@@ -1,0 +1,7 @@
+;;; -*- lisp-data -*-
+(("/home/flavorjones/code/oss/sqlite3-ruby/")
+ ("/home/flavorjones/code/oss/minitest-reporters/")
+ ("/home/flavorjones/code/oss/rake-compiler-dock/")
+ ("/home/flavorjones/code/oss/rails/")
+ ("/home/flavorjones/code/oss/nokogiri/")
+ ("/home/flavorjones/code/oss/loofah/"))
