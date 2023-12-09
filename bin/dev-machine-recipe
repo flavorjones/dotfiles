@@ -26,6 +26,9 @@
 # --------------
 #
 # 1. configure timeshift backups
+#    - exclude /root/**
+#    - exclude /home/flavorjones/**
+#    - exclude /var/lib/docker/**
 # 2. install gvm
 # 3. install cxoffice and microsoft office stuff
 # 5. Set "Input Settings" to use XIM (see XCompose notes below)
@@ -710,14 +713,17 @@ fi
 if $clean_p ; then
   if $linux_p ; then
     # clean snap
-    snap list --all | awk '/disabled/{print $1, $3}' |
+    sudo snap list --all | awk '/disabled/{print $1, $3}' |
       while read snapname revision; do
-        snap remove "$snapname" --revision="$revision"
+        sudo snap remove "$snapname" --revision="$revision"
       done
 
     # clean flatpak
     flatpak uninstall -y --unused
     sudo flatpak uninstall -y --unused
+
+    docker system prune --all --force
+    docker volume prune --all --force
   fi
 fi
 
