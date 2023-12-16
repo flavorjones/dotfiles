@@ -1,0 +1,33 @@
+#!/usr/bin/env ruby
+
+require "fileutils"
+
+unless ARGV.length == 2
+  puts "USAGE: #{File.basename $0} <zip-file> <output-dir>"
+  exit 1
+end
+
+zip_file, output_dir = *ARGV
+
+unless File.exist?(zip_file)
+  puts "ERROR: #{zip_file.inspect} does not exist"
+  exit 1
+end
+
+puts "unzipping #{zip_file.inspect} to #{output_dir.inspect}"
+
+require "bundler/inline"
+gemfile do
+  source "https://rubygems.org"
+  gem "rubyzip", require: "zip"
+end
+
+Zip.on_exists_proc = true # allow for upgrades by overwriting existing files
+Zip::File.open(zip_file) do |archive|
+  archive.each do |file|
+    new_path = File.join(output_dir, file.name.split(File::SEPARATOR).drop(1))
+    puts "extracting: #{file.name.inspect} → #{new_path.inspect} ..."
+    file.restore_permissions = true
+    file.extract(new_path)
+  end
+end
