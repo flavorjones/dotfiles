@@ -28,10 +28,7 @@
 #  2. firewall rules
 #     > sudo ufw allow from 192.168.86.0/24 proto tcp to any port 22 # ssh
 #     > sudo ufw allow from 192.168.86.0/24 proto tcp to any port 24800 # synergy/barrier
-#  3. set up a cert for barrier. look at the error message to see where the file is expected to be, then:
-#     > cd path/to/barrier/SSL
-#     > openssl req -x509 -nodes -days 365 -subj /CN=Barrier -newkey rsa:4096 -keyout Barrier.pem -out Barrier.pem
-#  4. create a postgres user role for yourself: `sudo -u postgres createuser -s flavorjones`
+#  3. create a postgres user role for yourself: `sudo -u postgres createuser -s flavorjones`
 #
 #  ## Low Priority
 #
@@ -293,21 +290,16 @@ if $install_p || $bootstrap_p ; then
        build-essential cmake autoconf libtool \
        git-core ruby rake curl wget
 
-    # synergy/barrier replacement
-    INPUT_LEAP_DIR="${ossdir}/input-leap"
-    if [[ ! -d ${INPUT_LEAP_DIR} ]] ; then
-      pushd ${ossdir}
-      git clone --recurse-submodules https://github.com/input-leap/input-leap.git
-      popd
-    fi
-    if [[ `which input-leap` == "" ]] ; then
-      apt_install xorg-dev libcurl4-openssl-dev \
-           libavahi-compat-libdnssd-dev libssl-dev libx11-dev \
-           qttools5-dev qtbase5-dev
-
-      pushd ${INPUT_LEAP_DIR}
-      ./clean_build.sh
-      cmake --install build --prefix ${HOME_LOCAL}
+    # sharing keyboard and mouse (synergy / barrier / input-leap)
+    #
+    # on client systems make sure you're using X11 not wayland (/etc/gdm3/custom.conf)
+    # but once input-leap supports wayland, we should try that instead.
+    apt_install barrier
+    BARRIER_SSL_CONFIG_DIR="${HOME}/.local/share/barrier/SSL"
+    if [[ ! -f "${BARRIER_SSL_CONFIG_DIR}/Barrier.pem" ]] ; then
+      mkdir -p "${BARRIER_SSL_CONFIG_DIR}"
+      pushd "${BARRIER_SSL_CONFIG_DIR}"
+      openssl req -x509 -nodes -days 365 -subj /CN=Barrier -newkey rsa:4096 -keyout Barrier.pem -out Barrier.pem
       popd
     fi
 
