@@ -216,14 +216,14 @@ bashrc_local="${HOME}/.bashrc_local"
 
 if $linux_p ; then
   function apt_install {
-    apt install -y -q $*
+    sudo apt install -y -q $*
   }
   function apt_update {
-    apt update -q
+    sudo apt update -q
   }
   function apt_upgrade {
     apt_update
-    apt upgrade -y -q
+    sudo apt upgrade -y -q
   }
 
   function firmware_upgrade {
