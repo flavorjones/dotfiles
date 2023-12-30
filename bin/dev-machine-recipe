@@ -13,6 +13,7 @@
 #  7. symlink Documents → Dropbox/Mike
 #  8. set up chrome profiles
 #  9. add guake to startup applications
+# 10. install 1password
 #
 #  ## Medium Priority
 #
@@ -23,8 +24,8 @@
 #  2. firewall rules
 #     > sudo ufw allow from 192.168.86.0/24 proto tcp to any port 22 # ssh
 #     > sudo ufw allow from 192.168.86.0/24 proto tcp to any port 24800 # synergy/barrier
-#  3. set up a cert for barrier. look at the error message to see where the snap installation is, then:
-#     > cd ~/snap/barrier/NNN/.local/share/barrier/SSL
+#  3. set up a cert for barrier. look at the error message to see where the file is expected to be, then:
+#     > cd path/to/barrier/SSL
 #     > openssl req -x509 -nodes -days 365 -subj /CN=Barrier -newkey rsa:4096 -keyout Barrier.pem -out Barrier.pem
 #  4. create a postgres user role for yourself: `sudo -u postgres createuser -s flavorjones`
 #
@@ -198,6 +199,7 @@ elif [[ $1 == "clean" ]] ; then
 fi
 
 kernel_release=$(uname -r)
+HOME_LOCAL="${HOME}/local"
 ossdir="${HOME}/code/oss"
 bashrc_local="${HOME}/.bashrc_local"
 
@@ -541,7 +543,7 @@ EOF
     if [[ `which starship` == "" ]] ; then
       wget -q --show-progress https://github.com/starship/starship/releases/latest/download/starship-x86_64-unknown-linux-gnu.tar.gz
       tar xvf starship-x86_64-unknown-linux-gnu.tar.gz
-      mv starship ${HOME}/local/bin/
+      mv starship ${HOME_LOCAL}/bin/
     fi
 
     # key management
@@ -619,37 +621,37 @@ EOF
     tic -x -o $HOME/.terminfo /tmp/xterminfo.$$
   fi
 
-  if $linux_p && test -n "$DISPLAY" ; then
-    # #
-    # #  cinnamon + gnome config
-    # #
-    # gsettings set org.cinnamon.desktop.wm.preferences focus-mode 'mouse'
-    # gsettings set org.cinnamon.desktop.wm.preferences num-workspaces 4
+  # if $linux_p && test -n "$DISPLAY" ; then
+  #   #
+  #   #  cinnamon + gnome config
+  #   #
+  #   gsettings set org.cinnamon.desktop.wm.preferences focus-mode 'mouse'
+  #   gsettings set org.cinnamon.desktop.wm.preferences num-workspaces 4
 
-    # gsettings set org.cinnamon.desktop.peripherals.touchpad tap-to-click false
-    # gsettings set org.gnome.desktop.peripherals.touchpad tap-to-click false
+  #   gsettings set org.cinnamon.desktop.peripherals.touchpad tap-to-click false
+  #   gsettings set org.gnome.desktop.peripherals.touchpad tap-to-click false
 
-    # gsettings set org.cinnamon.desktop.peripherals.touchpad disable-while-typing true
-    # gsettings set org.gnome.desktop.peripherals.touchpad disable-while-typing true
+  #   gsettings set org.cinnamon.desktop.peripherals.touchpad disable-while-typing true
+  #   gsettings set org.gnome.desktop.peripherals.touchpad disable-while-typing true
 
-    # gsettings set org.cinnamon.desktop.peripherals.touchpad two-finger-scrolling-enabled true
-    # gsettings set org.gnome.desktop.peripherals.touchpad two-finger-scrolling-enabled true
+  #   gsettings set org.cinnamon.desktop.peripherals.touchpad two-finger-scrolling-enabled true
+  #   gsettings set org.gnome.desktop.peripherals.touchpad two-finger-scrolling-enabled true
 
-    # gsettings set org.gnome.libgnomekbd.keyboard layouts "['us']"
-    # gsettings set org.gnome.libgnomekbd.keyboard options "['Compose key\tcompose:ralt', 'caps\tcaps:ctrl_modifier', 'grp\tgrp:shifts_toggle']"
+  #   gsettings set org.gnome.libgnomekbd.keyboard layouts "['us']"
+  #   gsettings set org.gnome.libgnomekbd.keyboard options "['Compose key\tcompose:ralt', 'caps\tcaps:ctrl_modifier', 'grp\tgrp:shifts_toggle']"
 
-    # gsettings set org.cinnamon.desktop.peripherals.mouse locate-pointer true
+  #   gsettings set org.cinnamon.desktop.peripherals.mouse locate-pointer true
 
-    # gsettings set org.cinnamon.desktop.keybindings.wm toggle-maximized "['<Alt>F10', '<Alt><Super>Up']"
-    # gsettings set org.cinnamon.desktop.keybindings.wm minimize "['<Alt><Super>Down']"
+  #   gsettings set org.cinnamon.desktop.keybindings.wm toggle-maximized "['<Alt>F10', '<Alt><Super>Up']"
+  #   gsettings set org.cinnamon.desktop.keybindings.wm minimize "['<Alt><Super>Down']"
 
-    # # move alt-space keybinding from "window menu" to rofi
-    # gsettings set org.cinnamon.desktop.keybindings.wm activate-window-menu "[]"
-    # dconf write /org/cinnamon/desktop/keybindings/custom-keybindings/rofi-binding/command "'rofi-launcher'"
-    # dconf write /org/cinnamon/desktop/keybindings/custom-keybindings/rofi-binding/name "'rofi-launcher'"
-    # dconf write /org/cinnamon/desktop/keybindings/custom-keybindings/rofi-binding/binding "['<Alt>space']"
-    # dconf write /org/cinnamon/desktop/keybindings/custom-list "['rofi-binding']"
-  fi
+  #   # move alt-space keybinding from "window menu" to rofi
+  #   gsettings set org.cinnamon.desktop.keybindings.wm activate-window-menu "[]"
+  #   dconf write /org/cinnamon/desktop/keybindings/custom-keybindings/rofi-binding/command "'rofi-launcher'"
+  #   dconf write /org/cinnamon/desktop/keybindings/custom-keybindings/rofi-binding/name "'rofi-launcher'"
+  #   dconf write /org/cinnamon/desktop/keybindings/custom-keybindings/rofi-binding/binding "['<Alt>space']"
+  #   dconf write /org/cinnamon/desktop/keybindings/custom-list "['rofi-binding']"
+  # fi
 
   if $linux_p ; then
     #
