@@ -1,6 +1,16 @@
 #! /usr/bin/env ruby
 # frozen_string_literal: true
 
+#
+# 2023-12-20 looking into detecting merged branches
+#   some ideas:
+#     - git cherry
+#     - git branch --merged
+#
+#   neither of these worked for me today with ruby_memcheck merged branches, but maybe I'm doing it
+#   wrong. Should try again with a clearer case (like Ruby or my next ruby_memcheck PR)
+#
+
 require "bundler/inline"
 
 gemfile do
