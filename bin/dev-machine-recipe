@@ -10,19 +10,14 @@
 #      git clone https://github.com/flavorjones/dotfiles
 #      dotfiles/bin/dev-machine-recipe bootstrap
 #
-#
 #  ## High Priority
 #
-#  1. set CapsLock to Ctrl, compose key to right-alt, set 'mouse' window focus
-#  2. recover ssh keys - you have a yubikey, right?
-#  3. `sudo apt-get install git ruby rake`
-#  4. clone dotfiles repo, run setup, re-login
-#  5. run `dev-machine-recipe` (this script!)
-#  6. set up dropbox
-#  7. symlink Documents → Dropbox/Mike
-#  8. set up chrome profiles
-#  9. add guake to startup applications
-# 10. install 1password
+#  1. configure barrier to share keyboard/mouse
+#  2. run the full `dev-machine-recipe` (this script!)
+#  3. install all the apps that require manual intervention
+#  3. configure dropbox, and symlink Documents → Dropbox/Mike
+#  4. check chrome profiles - regenerate if necessary
+#  5. set up fingerprint reader (Settings → Users → Fingerprint Login)
 #
 #  ## Medium Priority
 #
@@ -30,10 +25,11 @@
 #     - exclude /root/**
 #     - exclude /home/flavorjones/**
 #     - exclude /var/lib/docker/**
-#  2. firewall rules
+#  2. firewall rules for incoming connections
 #     > sudo ufw allow from 192.168.86.0/24 proto tcp to any port 22 # ssh
 #     > sudo ufw allow from 192.168.86.0/24 proto tcp to any port 24800 # synergy/barrier
 #  3. create a postgres user role for yourself: `sudo -u postgres createuser -s flavorjones`
+#  4. add guake to startup applications
 #
 #  ## Low Priority
 #
@@ -349,9 +345,7 @@ if $install_p ; then
   fi
 
   if $linux_p ; then
-    #
-    #  basic usability
-    #
+    # basic usability
     apt_install \
       libnotify-bin \
       dconf-editor dconf-cli \
@@ -363,18 +357,9 @@ if $install_p ; then
       pavucontrol \
       gnome-applets gnome-shell-pomodoro
 
-    #
-    #  fonts
-    #
-    apt_install fonts-cmu
-
-    # # see https://bugs.launchpad.net/ubuntu/+source/msttcorefonts/+bug/1713615
-    # wget -c http://ftp.de.debian.org/debian/pool/contrib/m/msttcorefonts/ttf-mscorefonts-installer_3.6_all.deb
-    # sudo dpkg -i ttf-mscorefonts-installer_3.6_all.deb
-    # apt hold ttf-mscorefonts-installer
-
     # basics for development and related activities
     apt_install \
+      emacs \
       gitk subversion mercurial bzr \
       valgrind \
       direnv \
@@ -398,22 +383,8 @@ if $install_p ; then
       graphviz gv \
       bat hexyl
 
-    # apt_install redshift redshift-gtk geoclue-2.0 geoclue-2-demo
-
-    # snap_install insomnia # REST client
-
-    # # better sound hardware management
-    # # https://yktoo.com/en/software/sound-switcher-indicator/
-    # if [[`which indicator-sound-switcher` == ""]] ; then
-    #   sudo apt-add-repository ppa:yktooo/ppa
-    #   apt_update
-    #   apt_install indicator-sound-switcher
-    # fi
-
-    # #  heroku
-    # if [[ `which heroku` == "" ]] ; then
-    #   snap_install --classic heroku
-    # fi
+    # fonts
+    apt_install fonts-cmu ttf-mscorefonts-installer
 
     #  github cli
     if [[ `which gh` == "" ]] ; then
@@ -432,13 +403,6 @@ if $install_p ; then
       gufw \
       timeshift
 
-    # # #  virtualbox
-    # #    wget -O- https://www.virtualbox.org/download/oracle_vbox_2016.asc | sudo gpg --dearmor --yes --output /usr/share/keyrings/oracle-virtualbox-2016.gpg
-    # #    deb [arch=amd64 signed-by=/usr/share/keyrings/oracle-virtualbox-2016.gpg] https://download.virtualbox.org/virtualbox/debian ${UBUNTU_CODENAME} contrib
-    # apt_install \
-    #   virtualbox-7.0 \
-    #   nfs-common nfs-kernel-server
-
     #  docker
     if [[ `which docker` == "" ]] ; then
       open "https://docs.docker.com/engine/install/debian/#install-using-the-repository"
@@ -450,6 +414,103 @@ if $install_p ; then
       docker run hello-world
     fi
 
+    # power management
+    # - http://linrunner.de/en/tlp/docs/tlp-linux-advanced-power-management.html
+    # - http://linrunner.de/en/tlp/docs/tlp-configuration.html#rdw
+    apt_install tlp tlp-rdw acpi-call-dkms smartmontools powertop
+
+    #  some xcompose shortcuts
+    XCOMPOSEDIR="${ossdir}/xcompose"
+    if [[ ! -d ${XCOMPOSEDIR} ]] ; then
+      pushd ${ossdir}
+      git clone "https://github.com/kragen/xcompose"
+      popd
+    fi
+
+    # rbenv + ruby-build
+    if [[ ! -d $HOME/.rbenv ]] ; then
+      git clone https://github.com/rbenv/rbenv.git $HOME/.rbenv
+    else
+      (cd $HOME/.rbenv && git pull)
+    fi
+    if [[ ! -d $HOME/.rbenv/plugins/ruby-build ]] ; then
+      mkdir -p $HOME/.rbenv/plugins
+      git clone https://github.com/rbenv/ruby-build.git $HOME/.rbenv/plugins/ruby-build
+    else
+      (cd $HOME/.rbenv/plugins/ruby-build && git pull)
+    fi
+
+    # node
+    if [[ ! -d ${ossdir}/nvm ]] ; then
+      pushd ${ossdir}
+      git clone "https://github.com/nvm-sh/nvm"
+      popd
+    fi
+    if ! fgrep NVM_DIR ${bashrc_local} ; then
+      cat <<EOF >> ${bashrc_local}
+# nvm - added by $0
+export NVM_DIR="${ossdir}/nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+EOF
+    fi
+
+    # rust version manager
+    snap_install --classic rustup
+
+    # starship bash prompt
+    if [[ `which starship` == "" ]] ; then
+      wget -q --show-progress https://github.com/starship/starship/releases/latest/download/starship-x86_64-unknown-linux-gnu.tar.gz
+      tar xvf starship-x86_64-unknown-linux-gnu.tar.gz
+      mv starship ${HOME_LOCAL}/bin/
+    fi
+
+    # # chrome. pick one!
+    # if [[ `which google-chrome-beta` == "" ]] ; then
+    #     open https://www.google.com/intl/en/chrome/browser/beta.html
+    # fi
+    if [[ `which google-chrome-stable` == "" ]] ; then
+      open https://www.google.com/intl/en/chrome/browser/desktop/index.html
+    fi
+
+    #
+    #  things i have to manually install (pending further automation)
+    #
+    if ! [[ -e /opt/zoom/ZoomLauncher ]] ; then
+      open https://zoom.us/download
+    fi
+
+    if [[ `which discord` == "" ]] ; then
+      open https://discordapp.com/download
+    fi
+
+    if ! [[ -e /usr/bin/slack ]] ; then
+      open https://slack.com/downloads/linux
+    fi
+
+    if ! [[ -e /usr/bin/signal-desktop ]] ; then
+      open https://signal.org/download/
+    fi
+
+    if [[ `which dropbox` == "" ]] ; then
+      open https://www.dropbox.com/install-linux
+    fi
+
+    if [[ `which 1password` == "" ]] ; then
+      open https://support.1password.com/get-the-apps/
+    fi
+
+    ###
+    ###  things below here need to be scripted again, or I'm not sure I need them
+    ###
+    # # #  virtualbox
+    # #    wget -O- https://www.virtualbox.org/download/oracle_vbox_2016.asc | sudo gpg --dearmor --yes --output /usr/share/keyrings/oracle-virtualbox-2016.gpg
+    # #    deb [arch=amd64 signed-by=/usr/share/keyrings/oracle-virtualbox-2016.gpg] https://download.virtualbox.org/virtualbox/debian ${UBUNTU_CODENAME} contrib
+    # apt_install \
+    #   virtualbox-7.0 \
+    #   nfs-common nfs-kernel-server
+
+
     # #  graphics, screencaps, video and sound recording, etc.
     # apt_install sox libsox-fmt-mp3 \
     #            krita kazam gnome-sound-recorder \
@@ -458,6 +519,7 @@ if $install_p ; then
     #            peek
     # flatpak_install org.gimp.GIMP
     # snap_install shotcut
+
 
     # # from https://github.com/snapcrafters/obs-studio
     # #
@@ -484,152 +546,9 @@ if $install_p ; then
     # flatpak_install com.obsproject.Studio
 
 
-    #  power management
-    #
-    #  http://linrunner.de/en/tlp/docs/tlp-linux-advanced-power-management.html
-    #  http://linrunner.de/en/tlp/docs/tlp-configuration.html#rdw
-    #  TODO: make sure touchscreen is added to USB_WHITELIST in /etc/default/tlp
-    apt_install tlp tlp-rdw acpi-call-dkms smartmontools powertop
-
-
-    # #
-    # #  system debugging tools
-    # #
-    # apt_install linux-tools-common \
-    #           linux-tools-generic linux-tools-${kernel_release} \
-    #           wireshark \
-    #           sysdig
-
-
-    #
-    #  WAIT!!! Before doing the below on a fresh system - install
-    #  gnome-tweaks and see if setting Keyboard → Compose Key to Right
-    #  Alt works without having to do the XIM bit. Maybe yes, maybe
-    #  no, but worth a try.
-    #
-    #  --------------------
-    #
-    #  .XCompose unicode input
-    #
-    #  Note that in order to get the custom .XCompose bindings to work
-    #  in some applications, I've needed to go to "System Settings" →
-    #  "Input Method" and set it to XIM. And then logout/login. IBus
-    #  doesn't seem to work in:
-    #
-    #  - google-chrome
-    #  - gnome-terminal
-    #  - electron apps (like signal-desktop)
-    #
-    #  ----
-    #
-    #  2023-02 japanese notes - the following instructions end up conflicting with emacs, so
-    #  probably don't do it unless you're going to invest a chunk of time to figure it all out.
-    #
-    #  Some resources:
-    #  - [#958784 - emacs: Compose key fails with "<Multi\_key> is undefined" if XMODIFIERS is set - Debian Bug report logs](https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=958784)
-    #  - [JapaneseEnvironmentE - Debian Wiki](https://wiki.debian.org/JapaneseEnvironmentE)
-    #  - [key bindings - Compose key in Emacs: <Multi\_key> is undefined - Emacs Stack Exchange](https://emacs.stackexchange.com/questions/3650/compose-key-in-emacs-multi-key-is-undefined)
-    #
-    #  Here are the instructions I wrote down in 2022-12:
-    #
-    # >  go to "input method" and follow the instructions to get set up with Fcitx, and use
-    # >  ctrl-space to switch.
-    # >
-    # >  it works in the gnome text editor, terminal, and chrome.
-    # >
-    # >  to get it to work in emacs, try setting LC_CTYPE=ja_JP.UTF-8
-    #
-    XCOMPOSEDIR="${ossdir}/xcompose"
-    if [[ ! -d ${XCOMPOSEDIR} ]] ; then
-      pushd ${ossdir}
-      git clone "https://github.com/kragen/xcompose"
-      popd
-    fi
-
-    #  rbenv + ruby-build
-    if [[ ! -d $HOME/.rbenv ]] ; then
-      git clone https://github.com/rbenv/rbenv.git $HOME/.rbenv
-    else
-      (cd $HOME/.rbenv && git pull)
-    fi
-    if [[ ! -d $HOME/.rbenv/plugins/ruby-build ]] ; then
-      mkdir -p $HOME/.rbenv/plugins
-      git clone https://github.com/rbenv/ruby-build.git $HOME/.rbenv/plugins/ruby-build
-    else
-      (cd $HOME/.rbenv/plugins/ruby-build && git pull)
-    fi
-
-    #  node (pronounced like seinfeld pronounces "newman")
-    if [[ ! -d ${ossdir}/nvm ]] ; then
-      pushd ${ossdir}
-      git clone "https://github.com/nvm-sh/nvm"
-      popd
-    fi
-    if ! fgrep NVM_DIR ${bashrc_local} ; then
-      cat <<EOF >> ${bashrc_local}
-# nvm - added by $0
-export NVM_DIR="${ossdir}/nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
-EOF
-    fi
-
-    # rust version manager
-    snap_install --classic rustup
-
-    #  starship bash prompt
-    if [[ `which starship` == "" ]] ; then
-      wget -q --show-progress https://github.com/starship/starship/releases/latest/download/starship-x86_64-unknown-linux-gnu.tar.gz
-      tar xvf starship-x86_64-unknown-linux-gnu.tar.gz
-      mv starship ${HOME_LOCAL}/bin/
-    fi
-
-    # # chrome. pick one!
-    # if [[ `which google-chrome-beta` == "" ]] ; then
-    #     open https://www.google.com/intl/en/chrome/browser/beta.html
-    # fi
-    if [[ `which google-chrome-stable` == "" ]] ; then
-      open https://www.google.com/intl/en/chrome/browser/desktop/index.html
-    fi
-
-    #
-    #  things i have to manually install (pending further automation)
-    #
-    if ! [[ -e /opt/zoom/ZoomLauncher ]] ; then
-      open https://zoom.us/download
-    fi
-
-    if [[ `which discord` == "" ]] ; then
-      open https://discordapp.com/download
-    fi
-
-    if [[ `which steam` == "" ]] ; then
-      snap_install steam
-    fi
-
-    if ! [[ -e /usr/bin/slack ]] ; then
-      open https://slack.com/downloads/linux
-    fi
-
-    if ! [[ -e /usr/bin/signal-desktop ]] ; then
-      open https://signal.org/download/
-    fi
-
-    if [[ `which emacs` == "" ]] ; then
-      # install at least 29.1
-      open https://www.gnu.org/software/emacs/download.html
-    fi
-
-    if [[ `which dropbox` == "" ]] ; then
-      open https://www.dropbox.com/install-linux
-    fi
-
-    # if [[ `which purevpn` == "" ]] ; then
-    #   open https://my.purevpn.com/apps
-    # fi
-
-    # if [[ `which vagrant` == "" ]] ; then
-    #   open https://www.vagrantup.com/downloads.html
+    # # still not happy with this. see notes in obsidian.
+    # if [[ `which steam` == "" ]] ; then
+    #   snap_install steam
     # fi
   fi
 fi
@@ -658,48 +577,36 @@ EOF
     tic -x -o $HOME/.terminfo /tmp/xterminfo.$$
   fi
 
-  # if $linux_p && test -n "$DISPLAY" ; then
-  #   #
-  #   #  cinnamon + gnome config
-  #   #
-  #   gsettings set org.cinnamon.desktop.wm.preferences focus-mode 'mouse'
-  #   gsettings set org.cinnamon.desktop.wm.preferences num-workspaces 4
-
-  #   gsettings set org.cinnamon.desktop.peripherals.touchpad tap-to-click false
-  #   gsettings set org.gnome.desktop.peripherals.touchpad tap-to-click false
-
-  #   gsettings set org.cinnamon.desktop.peripherals.touchpad disable-while-typing true
-  #   gsettings set org.gnome.desktop.peripherals.touchpad disable-while-typing true
-
-  #   gsettings set org.cinnamon.desktop.peripherals.touchpad two-finger-scrolling-enabled true
-  #   gsettings set org.gnome.desktop.peripherals.touchpad two-finger-scrolling-enabled true
-
-  #   gsettings set org.gnome.libgnomekbd.keyboard layouts "['us']"
-  #   gsettings set org.gnome.libgnomekbd.keyboard options "['Compose key\tcompose:ralt', 'caps\tcaps:ctrl_modifier', 'grp\tgrp:shifts_toggle']"
-
-  #   gsettings set org.cinnamon.desktop.peripherals.mouse locate-pointer true
-
-  #   gsettings set org.cinnamon.desktop.keybindings.wm toggle-maximized "['<Alt>F10', '<Alt><Super>Up']"
-  #   gsettings set org.cinnamon.desktop.keybindings.wm minimize "['<Alt><Super>Down']"
-
-  #   # move alt-space keybinding from "window menu" to rofi
-  #   gsettings set org.cinnamon.desktop.keybindings.wm activate-window-menu "[]"
-  #   dconf write /org/cinnamon/desktop/keybindings/custom-keybindings/rofi-binding/command "'rofi-launcher'"
-  #   dconf write /org/cinnamon/desktop/keybindings/custom-keybindings/rofi-binding/name "'rofi-launcher'"
-  #   dconf write /org/cinnamon/desktop/keybindings/custom-keybindings/rofi-binding/binding "['<Alt>space']"
-  #   dconf write /org/cinnamon/desktop/keybindings/custom-list "['rofi-binding']"
-  # fi
-
-  if $linux_p ; then
+  if $linux_p && test -n "$DISPLAY" ; then
     #
-    #  deep sleep
-    #  https://askubuntu.com/questions/1029474/ubuntu-18-04-dell-xps13-9370-no-longer-suspends-on-lid-close
+    #  use "dconf watch /" to see what changes when you use the UI, then add the command here.
     #
-    GRUB_FILE=/etc/default/grub
-    if ! fgrep mem_sleep_default $GRUB_FILE ; then
-      echo -e "\n***\n*** please update $GRUB_FILE to have 'mem_sleep_default=deep' in GRUB_CMDLINE_LINUX_DEFAULT\n***"
-      open https://askubuntu.com/questions/1029474/ubuntu-18-04-dell-xps13-9370-no-longer-suspends-on-lid-close
-    fi
+    # keyboard bindings
+    dconf write /org/gnome/desktop/input-sources/xkb-options "['compose:rctrl', 'caps:ctrl_modifier']"
+
+    # disable touchpad tap-to-click
+    dconf write /org/gnome/desktop/peripherals/touchpad/tap-to-click "false"
+
+    # put the gnome-shell dock on the bottom
+    dconf write /org/gnome/shell/extensions/dash-to-dock/dock-position "'BOTTOM'"
+
+    # do not show home folder on gnome-shell desktop
+    dconf write /org/gnome/shell/extensions/ding/show-home "false"
+
+    # time format
+    dconf write /org/gnome/desktop/interface/clock-show-weekday "true"
+    dconf write /org/gnome/desktop/interface/clock-format "'12h'"
+    dconf write /org/gtk/settings/file-chooser/clock-format "'12h'"
+
+    # let's change timezones automatically
+    dconf write /org/gnome/desktop/datetime/automatic-timezone "true"
+
+    #   # move alt-space keybinding from "window menu" to rofi
+    #   gsettings set org.cinnamon.desktop.keybindings.wm activate-window-menu "[]"
+    #   dconf write /org/cinnamon/desktop/keybindings/custom-keybindings/rofi-binding/command "'rofi-launcher'"
+    #   dconf write /org/cinnamon/desktop/keybindings/custom-keybindings/rofi-binding/name "'rofi-launcher'"
+    #   dconf write /org/cinnamon/desktop/keybindings/custom-keybindings/rofi-binding/binding "['<Alt>space']"
+    #   dconf write /org/cinnamon/desktop/keybindings/custom-list "['rofi-binding']"
   fi
 fi
 
