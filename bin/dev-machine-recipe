@@ -2,6 +2,10 @@
 #
 #  # Starting from a fresh machine
 #
+#  ## Bootstrap
+#
+#  Do this first to get basic tools installed to make everything else easier.
+#
 #  ## High Priority
 #
 #  1. set CapsLock to Ctrl, compose key to right-alt, set 'mouse' window focus
@@ -182,6 +186,7 @@ install_p=true
 config_p=true
 update_p=true
 clean_p=false
+bootstrap_p=false
 if [[ $1 == "config" ]] ; then
   echo "## configuration only"
   install_p=false
@@ -196,6 +201,12 @@ elif [[ $1 == "clean" ]] ; then
   config_p=false
   update_p=false
   clean_p=true
+elif [[ $1 == "bootstrap" ]] ; then
+  echo "## bootstrapping"
+  install_p=false
+  config_p=false
+  update_p=false
+  bootstrap_p=true
 fi
 
 kernel_release=$(uname -r)
@@ -276,6 +287,43 @@ if $update_p ; then
   fi
 fi
 
+if $install_p || $bootstrap_p ; then
+  if $linux_p ; then
+    apt_install \
+       build-essential cmake autoconf libtool \
+       git-core ruby rake curl wget
+
+    # synergy/barrier replacement
+    INPUT_LEAP_DIR="${ossdir}/input-leap"
+    if [[ ! -d ${INPUT_LEAP_DIR} ]] ; then
+      pushd ${ossdir}
+      git clone --recurse-submodules https://github.com/input-leap/input-leap.git
+      popd
+    fi
+    if [[ `which input-leap` == "" ]] ; then
+      apt_install xorg-dev libcurl4-openssl-dev \
+           libavahi-compat-libdnssd-dev libssl-dev libx11-dev \
+           qttools5-dev qtbase5-dev
+
+      pushd ${INPUT_LEAP_DIR}
+      ./clean_build.sh
+      cmake --install build --prefix ${HOME_LOCAL}
+      popd
+    fi
+
+    # key management
+    #
+    # - https://tenderlovemaking.com/2021/10/26/publishing-gems-with-your-yubikey.html
+    # - https://docs.yubico.com/software/yubikey/tools/ykman/Install_ykman.html#linux
+    if [[ `which ykman` == "" ]] ; then
+      sudo apt-add-repository ppa:yubico/stable
+      apt update
+      apt_install pcscd gnupg2 scdaemon yubikey-manager
+    fi
+  fi
+fi
+
+
 if $install_p ; then
   if $apple_p ; then
     brew_install \
@@ -331,9 +379,8 @@ if $install_p ; then
 
     # basics for development and related activities
     apt_install \
-      git-core gitk subversion mercurial bzr \
-      ruby rake \
-      build-essential valgrind \
+      gitk subversion mercurial bzr \
+      valgrind \
       direnv \
       autocutsel \
       universal-ctags \
@@ -344,8 +391,6 @@ if $install_p ; then
       colordiff \
       markdown \
       jq \
-      curl wget \
-      cmake autoconf libtool \
       libpcre++0v5 libpcre++-dev libevent-dev \
       libssl-dev libcrypto++-dev \
       libreadline-dev \
@@ -397,25 +442,6 @@ if $install_p ; then
     # apt_install \
     #   virtualbox-7.0 \
     #   nfs-common nfs-kernel-server
-
-    # #  synergy replacement
-    # apt_install barrier
-    INPUT_LEAP_DIR="${ossdir}/input-leap"
-    if [[ ! -d ${INPUT_LEAP_DIR} ]] ; then
-      pushd ${ossdir}
-      git clone --recurse-submodules https://github.com/input-leap/input-leap.git
-      popd
-    fi
-    if [[ `which input-leap` == "" ]] ; then
-      apt_install xorg-dev libcurl4-openssl-dev \
-           libavahi-compat-libdnssd-dev libssl-dev libx11-dev \
-           qttools5-dev qtbase5-dev
-
-      pushd ${INPUT_LEAP_DIR}
-      ./clean_build.sh
-      cmake --install build --prefix ${HOME_LOCAL}
-      popd
-    fi
 
     #  docker
     if [[ `which docker` == "" ]] ; then
@@ -560,16 +586,6 @@ EOF
       wget -q --show-progress https://github.com/starship/starship/releases/latest/download/starship-x86_64-unknown-linux-gnu.tar.gz
       tar xvf starship-x86_64-unknown-linux-gnu.tar.gz
       mv starship ${HOME_LOCAL}/bin/
-    fi
-
-    # key management
-    #
-    # - https://tenderlovemaking.com/2021/10/26/publishing-gems-with-your-yubikey.html
-    # - https://docs.yubico.com/software/yubikey/tools/ykman/Install_ykman.html#linux
-    if [[ `which ykman` == "" ]] ; then
-      sudo apt-add-repository ppa:yubico/stable
-      apt update
-      apt_install pcscd gnupg2 scdaemon yubikey-manager
     fi
 
     # # chrome. pick one!
