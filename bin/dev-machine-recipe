@@ -413,8 +413,10 @@ if $install_p ; then
 
     #  github cli
     if [[ `which gh` == "" ]] ; then
-      apt-key adv --keyserver keyserver.ubuntu.com --recv-key C99B11DEB97541F0
-      sudo apt-add-repository https://cli.github.com/packages
+      # https://github.com/cli/cli/blob/trunk/docs/install_linux.md
+      curl -fsSL https://cli.github.com/packages/githubcli-archive-keyring.gpg | sudo dd of=/usr/share/keyrings/githubcli-archive-keyring.gpg
+      echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/githubcli-archive-keyring.gpg] https://cli.github.com/packages stable main" | sudo tee /etc/apt/sources.list.d/github-cli.list
+      apt_update
       apt_install gh
     fi
 
@@ -425,8 +427,6 @@ if $install_p ; then
       network-manager-vpnc-gnome \
       gufw \
       timeshift
-
-    apt_install dropbox
 
     # # #  virtualbox
     # #    wget -O- https://www.virtualbox.org/download/oracle_vbox_2016.asc | sudo gpg --dearmor --yes --output /usr/share/keyrings/oracle-virtualbox-2016.gpg
@@ -571,7 +571,7 @@ EOF
     fi
 
     # rust version manager
-    snap_install rustup
+    snap_install --classic rustup
 
     #  starship bash prompt
     if [[ `which starship` == "" ]] ; then
@@ -614,6 +614,10 @@ EOF
     if ! [[ `which emacs` == "" ]] ; then
       # install at least 29.1
       open https://www.gnu.org/software/emacs/download.html
+    fi
+
+    if ! [[ `which dropbox` == "" ]] ; then
+      open https://www.dropbox.com/install-linux
     fi
 
     # if [[ `which purevpn` == "" ]] ; then
