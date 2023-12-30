@@ -317,7 +317,7 @@ if $install_p || $bootstrap_p ; then
     # - https://docs.yubico.com/software/yubikey/tools/ykman/Install_ykman.html#linux
     if [[ `which ykman` == "" ]] ; then
       sudo apt-add-repository ppa:yubico/stable
-      apt update
+      apt_update
       apt_install pcscd gnupg2 scdaemon yubikey-manager
     fi
   fi
@@ -423,7 +423,7 @@ if $install_p ; then
     if [[ `which gh` == "" ]] ; then
       apt-key adv --keyserver keyserver.ubuntu.com --recv-key C99B11DEB97541F0
       sudo apt-add-repository https://cli.github.com/packages
-      apt install gh
+      apt_install gh
     fi
 
     #  filesystems, vpn, RDP, bootable drives, backups, etc.
