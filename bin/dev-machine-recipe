@@ -615,12 +615,12 @@ EOF
       open https://signal.org/download/
     fi
 
-    if ! [[ `which emacs` == "" ]] ; then
+    if [[ `which emacs` == "" ]] ; then
       # install at least 29.1
       open https://www.gnu.org/software/emacs/download.html
     fi
 
-    if ! [[ `which dropbox` == "" ]] ; then
+    if [[ `which dropbox` == "" ]] ; then
       open https://www.dropbox.com/install-linux
     fi
 
