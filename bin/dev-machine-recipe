@@ -383,7 +383,7 @@ if $install_p ; then
       colordiff \
       markdown \
       jq \
-      libpcre++0v5 libpcre++-dev libevent-dev \
+      libevent-dev \
       libssl-dev libcrypto++-dev \
       libreadline-dev \
       libxml2 libxml2-dev libxslt1.1 libxslt-dev \
@@ -609,6 +609,11 @@ EOF
 
     if ! [[ -e /usr/bin/signal-desktop ]] ; then
       open https://signal.org/download/
+    fi
+
+    if ! [[ `which emacs` == "" ]] ; then
+      # install at least 29.1
+      open https://www.gnu.org/software/emacs/download.html
     fi
 
     # if [[ `which purevpn` == "" ]] ; then
