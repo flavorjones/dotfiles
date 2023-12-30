@@ -398,8 +398,24 @@ if $install_p ; then
     #   virtualbox-7.0 \
     #   nfs-common nfs-kernel-server
 
-    #  synergy replacement
-    snap_install barrier
+    # #  synergy replacement
+    # apt_install barrier
+    INPUT_LEAP_DIR="${ossdir}/input-leap"
+    if [[ ! -d ${INPUT_LEAP_DIR} ]] ; then
+      pushd ${ossdir}
+      git clone --recurse-submodules https://github.com/input-leap/input-leap.git
+      popd
+    fi
+    if [[ `which input-leap` == "" ]] ; then
+      apt_install xorg-dev libcurl4-openssl-dev \
+           libavahi-compat-libdnssd-dev libssl-dev libx11-dev \
+           qttools5-dev qtbase5-dev
+
+      pushd ${INPUT_LEAP_DIR}
+      ./clean_build.sh
+      cmake --install build --prefix ${HOME_LOCAL}
+      popd
+    fi
 
     #  docker
     if [[ `which docker` == "" ]] ; then
