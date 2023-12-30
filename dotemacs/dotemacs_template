@@ -91,10 +91,6 @@
 (ido-mode)
 
 ;; x clipboard
-(when (not flavorjones:i-am-a-mac)
-  (setq x-select-enable-clipboard t)
-  (setq interprogram-paste-function 'x-cut-buffer-or-selection-value)
-  )
 (if (fboundp 'menu-bar-enable-clipboard) (menu-bar-enable-clipboard))
 
 ;; save desktop only when in windowing mode, to avoid getting prompted for
