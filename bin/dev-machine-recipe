@@ -318,15 +318,6 @@ if $install_p ; then
       gnome-applets gnome-shell-pomodoro
 
     #
-    # key management
-    #
-    sudo add-apt-repository ppa:yubico/stable
-    apt_install \
-      pcscd gnupg2 scdaemon \
-      yubikey-manager
-
-
-    #
     #  fonts
     #
     apt_install fonts-cmu
@@ -346,7 +337,7 @@ if $install_p ; then
       universal-ctags \
       mariadb-server mariadb-client libmysqlclient-dev \
       postgresql postgresql-client libpq-dev postgresql-contrib \
-      openjdk-11-jdk \
+      openjdk-21-jdk \
       ack-grep \
       colordiff \
       markdown \
@@ -361,26 +352,25 @@ if $install_p ; then
       libcurl4-openssl-dev \
       zip \
       python3 python-is-python3 \
-      node-marked \
       graphviz gv \
       bat hexyl
 
-    apt_install redshift redshift-gtk geoclue-2.0 geoclue-2-demo
+    # apt_install redshift redshift-gtk geoclue-2.0 geoclue-2-demo
 
-    snap_install insomnia # REST client
+    # snap_install insomnia # REST client
 
-    # better sound hardware management
-    # https://yktoo.com/en/software/sound-switcher-indicator/
-    if [[`which indicator-sound-switcher` == ""]] ; then
-      sudo apt-add-repository ppa:yktooo/ppa
-      apt_update
-      apt_install indicator-sound-switcher
-    fi
+    # # better sound hardware management
+    # # https://yktoo.com/en/software/sound-switcher-indicator/
+    # if [[`which indicator-sound-switcher` == ""]] ; then
+    #   sudo apt-add-repository ppa:yktooo/ppa
+    #   apt_update
+    #   apt_install indicator-sound-switcher
+    # fi
 
-    #  heroku
-    if [[ `which heroku` == "" ]] ; then
-      snap_install --classic heroku
-    fi
+    # #  heroku
+    # if [[ `which heroku` == "" ]] ; then
+    #   snap_install --classic heroku
+    # fi
 
     #  github cli
     if [[ `which gh` == "" ]] ; then
@@ -399,12 +389,12 @@ if $install_p ; then
 
     apt_install dropbox
 
-    #  virtualbox
-    #    wget -O- https://www.virtualbox.org/download/oracle_vbox_2016.asc | sudo gpg --dearmor --yes --output /usr/share/keyrings/oracle-virtualbox-2016.gpg
-    #    deb [arch=amd64 signed-by=/usr/share/keyrings/oracle-virtualbox-2016.gpg] https://download.virtualbox.org/virtualbox/debian ${UBUNTU_CODENAME} contrib
-    apt_install \
-      virtualbox-7.0 \
-      nfs-common nfs-kernel-server
+    # # #  virtualbox
+    # #    wget -O- https://www.virtualbox.org/download/oracle_vbox_2016.asc | sudo gpg --dearmor --yes --output /usr/share/keyrings/oracle-virtualbox-2016.gpg
+    # #    deb [arch=amd64 signed-by=/usr/share/keyrings/oracle-virtualbox-2016.gpg] https://download.virtualbox.org/virtualbox/debian ${UBUNTU_CODENAME} contrib
+    # apt_install \
+    #   virtualbox-7.0 \
+    #   nfs-common nfs-kernel-server
 
     #  synergy replacement
     snap_install barrier
@@ -420,39 +410,38 @@ if $install_p ; then
       docker run hello-world
     fi
 
-    #  graphics, screencaps, video and sound recording, etc.
-    apt_install sox libsox-fmt-mp3 \
-               krita kazam gnome-sound-recorder \
-               libmagickcore-dev libmagick++-dev \
-               v4l2loopback-dkms v4l2loopback-utils \
-               peek
+    # #  graphics, screencaps, video and sound recording, etc.
+    # apt_install sox libsox-fmt-mp3 \
+    #            krita kazam gnome-sound-recorder \
+    #            libmagickcore-dev libmagick++-dev \
+    #            v4l2loopback-dkms v4l2loopback-utils \
+    #            peek
+    # flatpak_install org.gimp.GIMP
+    # snap_install shotcut
 
-    flatpak_install org.gimp.GIMP
-    snap_install shotcut
-
-    # from https://github.com/snapcrafters/obs-studio
-    #
-    # use the flatpak, not the snap, because it renders better with
-    # hidpi as of 2020-07. also it seems to be better supported.
-    #
-    # if the virtual camera isn't working, try a "modprobe -r" /
-    # "modprobe" cycle on v4l2loopback
-    #
-    # for installing the v4l2sink extension support, see:
-    #
-    # > https://github.com/flathub/com.obsproject.Studio/issues/65#issuecomment-657221604
-    #
-    # but note that the `sirn` branch has been updated since then, so you'll need SDK 5.15 and need
-    # to use the YML file.
-    if [[ ! -e /etc/modprobe.d/v4l2loopback.conf ]] ; then
-      echo "options v4l2loopback devices=1 video_nr=63 card_label=VirtualCam exclusive_caps=1" \
-        | sudo tee /etc/modprobe.d/v4l2loopback.conf
-    fi
-    if [[ ! -e /etc/modules-load.d/v4l2loopback.conf ]] ; then
-      echo "v4l2loopback" \
-        | sudo tee /etc/modules-load.d/v4l2loopback.conf
-    fi
-    flatpak_install com.obsproject.Studio
+    # # from https://github.com/snapcrafters/obs-studio
+    # #
+    # # use the flatpak, not the snap, because it renders better with
+    # # hidpi as of 2020-07. also it seems to be better supported.
+    # #
+    # # if the virtual camera isn't working, try a "modprobe -r" /
+    # # "modprobe" cycle on v4l2loopback
+    # #
+    # # for installing the v4l2sink extension support, see:
+    # #
+    # # > https://github.com/flathub/com.obsproject.Studio/issues/65#issuecomment-657221604
+    # #
+    # # but note that the `sirn` branch has been updated since then, so you'll need SDK 5.15 and need
+    # # to use the YML file.
+    # if [[ ! -e /etc/modprobe.d/v4l2loopback.conf ]] ; then
+    #   echo "options v4l2loopback devices=1 video_nr=63 card_label=VirtualCam exclusive_caps=1" \
+    #     | sudo tee /etc/modprobe.d/v4l2loopback.conf
+    # fi
+    # if [[ ! -e /etc/modules-load.d/v4l2loopback.conf ]] ; then
+    #   echo "v4l2loopback" \
+    #     | sudo tee /etc/modules-load.d/v4l2loopback.conf
+    # fi
+    # flatpak_install com.obsproject.Studio
 
 
     #  power management
@@ -555,13 +544,14 @@ EOF
       mv starship ${HOME}/local/bin/
     fi
 
-    #  yubikey
-    #  https://tenderlovemaking.com/2021/10/26/publishing-gems-with-your-yubikey.html
-    #  https://docs.yubico.com/software/yubikey/tools/ykman/Install_ykman.html#linux
+    # key management
+    #
+    # - https://tenderlovemaking.com/2021/10/26/publishing-gems-with-your-yubikey.html
+    # - https://docs.yubico.com/software/yubikey/tools/ykman/Install_ykman.html#linux
     if [[ `which ykman` == "" ]] ; then
       sudo apt-add-repository ppa:yubico/stable
       apt update
-      apt_install yubikey-manager
+      apt_install pcscd gnupg2 scdaemon yubikey-manager
     fi
 
     # # chrome. pick one!
