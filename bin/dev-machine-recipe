@@ -1,207 +1,173 @@
 #! /usr/bin/env bash
 #
-# Starting from a fresh machine
-# ===============================
+#  # Starting from a fresh machine
 #
-# High Priority
-# -------------
+#  ## High Priority
 #
-# 1. set CapsLock to Ctrl, compose key to right-alt, set 'mouse' window focus
-# 2. recover ssh keys - you have a yubikey, right?
-# 3. `sudo apt-get install git ruby rake`
-# 4. clone dotfiles repo, run setup, re-login
-# 5. run `dev-machine-recipe` (this script!)
-# 6. set up dropbox
-# 7. symlink Documents → Dropbox/Mike
-# 8. set up chrome profiles
-# 9. add guake and devilspie2 to startup applications
-# 10. add cinnamon applet: "Multi-Core System Monitor"
-# 11. add cinnamon extensions:
-#     - "gTile"
-#     - "Transparent panels"
-#     - "User Shadows" using 10px radius for everything
+#  1. set CapsLock to Ctrl, compose key to right-alt, set 'mouse' window focus
+#  2. recover ssh keys - you have a yubikey, right?
+#  3. `sudo apt-get install git ruby rake`
+#  4. clone dotfiles repo, run setup, re-login
+#  5. run `dev-machine-recipe` (this script!)
+#  6. set up dropbox
+#  7. symlink Documents → Dropbox/Mike
+#  8. set up chrome profiles
+#  9. add guake to startup applications
 #
+#  ## Medium Priority
 #
-# Medium Priority
-# --------------
+#  1. configure timeshift backups
+#     - exclude /root/**
+#     - exclude /home/flavorjones/**
+#     - exclude /var/lib/docker/**
+#  2. firewall rules
+#     > sudo ufw allow from 192.168.86.0/24 proto tcp to any port 22 # ssh
+#     > sudo ufw allow from 192.168.86.0/24 proto tcp to any port 24800 # synergy/barrier
+#  3. set up a cert for barrier. look at the error message to see where the snap installation is, then:
+#     > cd ~/snap/barrier/NNN/.local/share/barrier/SSL
+#     > openssl req -x509 -nodes -days 365 -subj /CN=Barrier -newkey rsa:4096 -keyout Barrier.pem -out Barrier.pem
+#  4. create a postgres user role for yourself: `sudo -u postgres createuser -s flavorjones`
 #
-# 1. configure timeshift backups
-#    - exclude /root/**
-#    - exclude /home/flavorjones/**
-#    - exclude /var/lib/docker/**
-# 2. install gvm
-# 3. install cxoffice and microsoft office stuff
-# 5. Set "Input Settings" to use XIM (see XCompose notes below)
-# 6. `apt install linux-lowlatency` for the default linux kernel version as lowlatency
-# 8. firewall rules
-#    > sudo ufw allow from 192.168.86.0/24 proto tcp to any port 22 # ssh
-#    > sudo ufw allow from 192.168.86.0/24 proto tcp to any port 24800 # synergy/barrier
-# 9. set up a cert for barrier. look at the error message to see where the snap installation is, then:
-#    > cd ~/snap/barrier/NNN/.local/share/barrier/SSL
-#    > openssl req -x509 -nodes -days 365 -subj /CN=Barrier -newkey rsa:4096 -keyout Barrier.pem -out Barrier.pem
+#  ## Low Priority
+#
+#  1. Set "Input Settings" to use XIM (see XCompose notes below)
+#  2. color: clone https://github.com/Mayccoll/Gogh and install solarized theme for gnome terminal
+#  3. color: clone https://github.com/seebi/dircolors-solarized and use the 'ansi-dark' config
+#  4. mouse theme for screencasts https://github.com/iPAS/DMZ-White-Highlighted
 #
 #
-# Low Priority
-# ------------
+#  # Chrome
 #
-# 1. set background images from Documents/Pictures/Desktop\ Backgrounds
-# 2. desktop config (automation in progress!)
-# 3. color: clone https://github.com/Mayccoll/Gogh and install solarized theme for gnome terminal
-# 4. color: clone https://github.com/seebi/dircolors-solarized and use the 'ansi-dark' config
-# 5. mouse theme for screencasts https://github.com/iPAS/DMZ-White-Highlighted
-# 6. create a postgres user role for yourself: `sudo -u postgres createuser -s flavorjones`
+#  ## Chrome Flags
 #
-#
-# Multi-Monitor Settings
-# ----------------
-# What seems to work best is HiDPI (200%) on external monitors, and 50% fractional scaling on the laptop LCD.
-#
-# In the past, with two different resolution monitors, you had used fractional scaling across
-# monitors (hi-res monitor at 175%, low-res at 125%), but it wasn't always a good size and there
-# were some bugs with chrome performance:
-# https://askubuntu.com/questions/1274719/chrome-menus-too-slow-after-enabling-fractional-scaling-in-ubuntu-20-04
-#
-# Use something like `xrandr --output DP-3 --pos 1728x303` to position the wide
-#    monitor to the right of the tall narrow monitor. (0,0) is the top left of the virtual desktop.
-#    you can edit ~/.config/cinnamon-monitors.xml to make this permanent.
-# 6. multi-monitor: cursor flickering on hidpi monitor. run `xrandr --output DP-3 --scale 0.9999x0.9999`
-
-#
-# Chrome Flags
-# ----------
-# chrome://flags/#read-later
-# chrome://flags/#enable-tab-search
-# chrome://flags/#tab-groups-collapse
-# chrome://flags/#tab-groups-auto-create
-# chrome://flags/#tab-groups-collapse-freezing
+#  chrome://flags/#read-later
+#  chrome://flags/#enable-tab-search
+#  chrome://flags/#tab-groups-collapse
+#  chrome://flags/#tab-groups-auto-create
+#  chrome://flags/#tab-groups-collapse-freezing
 #
 #
-# Chrome Extensions
-# ----------
-# Quick Tabs: https://chrome.google.com/webstore/detail/quick-tabs/jnjfeinjfmenlddahdjdmgpbokiacbbb
-# Session Buddy: https://chrome.google.com/webstore/detail/session-buddy/edacconmaakjimmfgnblocblbcdcpbko
-# [The Marvellous Suspender - Chrome Web Store](https://chrome.google.com/webstore/detail/the-marvellous-suspender/noogafoofpebimajpfpamcfhoaifemoa?hl=en-US)
-# Calendar Event Merge: https://chrome.google.com/webstore/detail/event-merge-for-google-ca/idehaflielbgpaokehlhidbjlehlfcep
+#  ## Chrome Extensions
 #
-# [Simplify Gmail](https://simpl.fyi/)
-# [Gmail Quick Links - Chrome Web Store](https://chrome.google.com/webstore/detail/gmail-quick-links/ecbkcjeoffcjnppapdlncohmehhnfibd/related?hl=en-US)
-#
-# [Copy as Markdown - Chrome Web Store](https://chrome.google.com/webstore/detail/copy-as-markdown/fkeaekngjflipcockcnpobkpbbfbhmdn/related?hl=en)
-#
-# AdGuard Adblocker: https://chrome.google.com/webstore/detail/adguard-adblocker/bgnkhhnnamicmpeenaelnjfhikgbkllg
-# AdBlock: https://chrome.google.com/webstore/detail/adblock-%E2%80%94-best-ad-blocker/gighmmpiobklfepjocnamgkkbiglidom/related
+#  [Simplify Gmail](https://simpl.fyi/)
+#  Session Buddy: https://chrome.google.com/webstore/detail/session-buddy/edacconmaakjimmfgnblocblbcdcpbko
+#  [Gmail Quick Links - Chrome Web Store](https://chrome.google.com/webstore/detail/gmail-quick-links/ecbkcjeoffcjnppapdlncohmehhnfibd/related?hl=en-US)
+#  [Copy as Markdown - Chrome Web Store](https://chrome.google.com/webstore/detail/copy-as-markdown/fkeaekngjflipcockcnpobkpbbfbhmdn/related?hl=en)
+#  [AutoplayStopper](https://chromewebstore.google.com/detail/autoplaystopper/ejddcgojdblidajhngkogefpkknnebdh?pli=1)
+#  [GhostText](https://chromewebstore.google.com/detail/ghosttext/godiecgffnchndlihlpaajjcplehddca)
+#  [AdGuard](https://chromewebstore.google.com/detail/adguard-adblocker/bgnkhhnnamicmpeenaelnjfhikgbkllg)
+#  1password
 #
 #
-# Mac Setup
-# ==========
+#  # Dell XPS
 #
-# Fonts:
-# - https://www.jetbrains.com/lp/mono/
+#  ## xps 9320 (2023) BIOS settings
 #
-# Window resizing and tiling: use https://rectangleapp.com/ and default keys
-# (previously you had used ShiftIt and before that SizeUp)
+#  Press F2 at boot menu to enter BIOS
 #
-# Install iterm2, set profile color to Solarized Dark, set font to JetBrains Mono
-#
-# Change shell to bash and add "source ~/.bashrc" to ~/.profile
-#
-# Iterm2 key bindings (forward-word, backward-word, delete-word)
-# - https://apple.stackexchange.com/a/204802/169366o
-#
-# Iterm2 shell integration
-# - https://iterm2.com/documentation-shell-integration.html
-
-# To stop horizontal scrolling from being interpreted as "back in history" in Chrome:
-#   System Prefs → Trackpad → More Gestures → turn off "Swipe between pages"
-#
-# Emacs needs to be granted access to ~/Documents
-# - https://apple.stackexchange.com/questions/371888/restore-access-to-file-system-for-emacs-on-macos-catalina
-#
-# Emacs: configure browse-url to use mac default browser
-#
-# Other random help: https://gist.github.com/SeppoTakalo/f526f761a44f07464cb5df89c8a9389e
-#
-# If you want to connect the bluetooth trackpoint keyboard, you'll need to figure out something for enabling middle-click scrolling.
-# - https://medium.com/@takezoe/thinkpad-bluetooth-wireless-keyboard-with-macbook-7a911ed77c28 points at https://github.com/pqrs-org/Karabiner-Elements
+#  sudo apt install oem-somerville-tentacool-meta
 #
 #
-# Disk Help
-# =========
+#  ## xps 9300 (2020) BIOS settings
 #
-# Mostly out of date these days, instead use the default LVM partitioning.
+#  OMG BIOS settings can get changed when the battery discharges, WTF
 #
-# Encrypted LVM help
-# ------------------
+#  Make sure you set the disk controller to AHCI (may get set to RAID, that's bad)
+#  - https://forums.linuxmint.com/viewtopic.php?t=322351
 #
-# https://help.ubuntu.com/community/ResizeEncryptedPartitions
-#
-#
-# Recommended disk config if you're going to fiddle
-# -------------------------------------------------
-#
-# root - 20GB ext4
-# swap - 8GB - 16GB swap
-# home - whatever's left ext4
+#  Turn off "Sign of Life" which will interfere with resume-from-suspend
+#  - https://www.dell.com/community/XPS/XPS-13-9300-Wake-from-sleep/m-p/7535386/highlight/true#M59272
 #
 #
-# DELL XPS
-# ========
+#  # Linux
 #
-# Upstream software
-# -----------------
+#  ## Encrypted LVM help
 #
-# Connect to dell apt repositories and install custom packages
-# - https://www.dell.com/community/XPS/XPS-13-9300-Does-fingerprint-reader-work-on-linux/td-p/7514958
+#  https://help.ubuntu.com/community/ResizeEncryptedPartitions
 #
 #
-# BIOS settings
-# ------------------------------------
-#
-# OMG BIOS settings can get changed when the battery discharges, WTF
-#
-# Make sure you set the disk controller to AHCI (may get set to RAID, that's bad)
-# - https://forums.linuxmint.com/viewtopic.php?t=322351
-#
-# Turn off "Sign of Life" which will interfere with resume-from-suspend
-# - https://www.dell.com/community/XPS/XPS-13-9300-Wake-from-sleep/m-p/7535386/highlight/true#M59272
-#
-#
-# Input Font config
-# =================
-#
-#   https://input.fontbureau.com/
-#
-#   config:
-#     Alternates
-#       --asterisk=height
-#       --g=ss
-#       --i=serifs
-#       --l=serifs_round
-#
-#     Line Height: 1.2×
-#
-#
-#  Diagnosing sleep problems / power states
-#  ====================
-#
-#  Resources
-#  --------------------
+#  ## Diagnosing sleep problems / power states
 #
 #  - "System Power Management Sleep States" https://www.kernel.org/doc/Documentation/power/states.txt
 #  - https://01.org/blogs/rzhang/2015/best-practice-debug-linux-suspend/hibernate-issues
 #  - https://01.org/linuxgraphics/gfx-docs/drm/admin-guide/pm/sleep-states.html
 #
 #
-#  Use a more-modern lowlatency kernel
-#  --------------------
+#  ## Use a more-modern lowlatency kernel
 #
 #  There's usually a meta-package, like `linux-lowlatency-hwe-20.04-edge` that will keep you up to
 #  date with the latest lowlatency kernel. You can poke around with `apt-cache search lowlatency`
 #
 #  Otherwise, install a specific version with `apt install --install-suggests linux-image-5.8.0-31-lowlatency`
 #
+#
+#  ## Multi-Monitor Settings
+#
+#  What seems to work best is HiDPI (200%) on external monitors, and 50% fractional scaling on the laptop LCD.
+#
+#  In the past, with two different resolution monitors, you had used fractional scaling across
+#  monitors (hi-res monitor at 175%, low-res at 125%), but it wasn't always a good size and there
+#  were some bugs with chrome performance:
+#  https://askubuntu.com/questions/1274719/chrome-menus-too-slow-after-enabling-fractional-scaling-in-ubuntu-20-04
+#
+#  Use something like `xrandr --output DP-3 --pos 1728x303` to position the wide
+#     monitor to the right of the tall narrow monitor. (0,0) is the top left of the virtual desktop.
+#     with cinnamon, you can edit ~/.config/cinnamon-monitors.xml to make this permanent.
+#
+#  to fix cursor flickering on hidpi monitor. run `xrandr --output DP-3 --scale 0.9999x0.9999`
+#
+#
+#  # Mac Setup
+#
+#  Fonts:
+#  - https://www.jetbrains.com/lp/mono/
+#
+#  Window resizing and tiling: use https://rectangleapp.com/ and default keys
+#  (previously you had used ShiftIt and before that SizeUp)
+#
+#  Install iterm2, set profile color to Solarized Dark, set font to JetBrains Mono
+#
+#  Change shell to bash and add "source ~/.bashrc" to ~/.profile
+#
+#  Iterm2 key bindings (forward-word, backward-word, delete-word)
+#  - https://apple.stackexchange.com/a/204802/169366o
+#
+#  Iterm2 shell integration
+#  - https://iterm2.com/documentation-shell-integration.html
+#
+#  To stop horizontal scrolling from being interpreted as "back in history" in Chrome:
+#    System Prefs → Trackpad → More Gestures → turn off "Swipe between pages"
+#
+#  Emacs needs to be granted access to ~/Documents
+#  - https://apple.stackexchange.com/questions/371888/restore-access-to-file-system-for-emacs-on-macos-catalina
+#
+#  Emacs: configure browse-url to use mac default browser
+#
+#  Other random help: https://gist.github.com/SeppoTakalo/f526f761a44f07464cb5df89c8a9389e
+#
+#  If you want to connect the bluetooth trackpoint keyboard, you'll need to figure out something for
+#  enabling middle-click scrolling.
+#  - https://medium.com/@takezoe/thinkpad-bluetooth-wireless-keyboard-with-macbook-7a911ed77c28 points at https://github.com/pqrs-org/Karabiner-Elements
+#
+#
+#  # Input Font config
+#
+#    https://input.fontbureau.com/
+#
+#    config:
+#      Alternates
+#        --asterisk=height
+#        --g=ss
+#        --i=serifs
+#        --l=serifs_round
+#
+#      Line Height: 1.2×
+#
+#
 set -o errexit
 set -o xtrace
+
+UBUNTU_CODENAME="mantic"
 
 if [[ $(uname) == "Linux" ]] ; then
   linux_p=true
@@ -345,7 +311,6 @@ if $install_p ; then
       xclip \
       tree \
       terminator \
-      devilspie2 \
       htop \
       guake \
       cheese \
@@ -434,12 +399,11 @@ if $install_p ; then
 
     apt_install dropbox
 
-    #  cinnamon system monitor
-    apt_install gir1.2-gtop-2.0
-
     #  virtualbox
+    #    wget -O- https://www.virtualbox.org/download/oracle_vbox_2016.asc | sudo gpg --dearmor --yes --output /usr/share/keyrings/oracle-virtualbox-2016.gpg
+    #    deb [arch=amd64 signed-by=/usr/share/keyrings/oracle-virtualbox-2016.gpg] https://download.virtualbox.org/virtualbox/debian ${UBUNTU_CODENAME} contrib
     apt_install \
-      virtualbox-qt virtualbox-dkms \
+      virtualbox-7.0 \
       nfs-common nfs-kernel-server
 
     #  synergy replacement
@@ -666,35 +630,35 @@ EOF
   fi
 
   if $linux_p && test -n "$DISPLAY" ; then
-    #
-    #  cinnamon + gnome config
-    #
-    gsettings set org.cinnamon.desktop.wm.preferences focus-mode 'mouse'
-    gsettings set org.cinnamon.desktop.wm.preferences num-workspaces 4
+    # #
+    # #  cinnamon + gnome config
+    # #
+    # gsettings set org.cinnamon.desktop.wm.preferences focus-mode 'mouse'
+    # gsettings set org.cinnamon.desktop.wm.preferences num-workspaces 4
 
-    gsettings set org.cinnamon.desktop.peripherals.touchpad tap-to-click false
-    gsettings set org.gnome.desktop.peripherals.touchpad tap-to-click false
+    # gsettings set org.cinnamon.desktop.peripherals.touchpad tap-to-click false
+    # gsettings set org.gnome.desktop.peripherals.touchpad tap-to-click false
 
-    gsettings set org.cinnamon.desktop.peripherals.touchpad disable-while-typing true
-    gsettings set org.gnome.desktop.peripherals.touchpad disable-while-typing true
+    # gsettings set org.cinnamon.desktop.peripherals.touchpad disable-while-typing true
+    # gsettings set org.gnome.desktop.peripherals.touchpad disable-while-typing true
 
-    gsettings set org.cinnamon.desktop.peripherals.touchpad two-finger-scrolling-enabled true
-    gsettings set org.gnome.desktop.peripherals.touchpad two-finger-scrolling-enabled true
+    # gsettings set org.cinnamon.desktop.peripherals.touchpad two-finger-scrolling-enabled true
+    # gsettings set org.gnome.desktop.peripherals.touchpad two-finger-scrolling-enabled true
 
-    gsettings set org.gnome.libgnomekbd.keyboard layouts "['us']"
-    gsettings set org.gnome.libgnomekbd.keyboard options "['Compose key\tcompose:ralt', 'caps\tcaps:ctrl_modifier', 'grp\tgrp:shifts_toggle']"
+    # gsettings set org.gnome.libgnomekbd.keyboard layouts "['us']"
+    # gsettings set org.gnome.libgnomekbd.keyboard options "['Compose key\tcompose:ralt', 'caps\tcaps:ctrl_modifier', 'grp\tgrp:shifts_toggle']"
 
-    gsettings set org.cinnamon.desktop.peripherals.mouse locate-pointer true
+    # gsettings set org.cinnamon.desktop.peripherals.mouse locate-pointer true
 
-    gsettings set org.cinnamon.desktop.keybindings.wm toggle-maximized "['<Alt>F10', '<Alt><Super>Up']"
-    gsettings set org.cinnamon.desktop.keybindings.wm minimize "['<Alt><Super>Down']"
+    # gsettings set org.cinnamon.desktop.keybindings.wm toggle-maximized "['<Alt>F10', '<Alt><Super>Up']"
+    # gsettings set org.cinnamon.desktop.keybindings.wm minimize "['<Alt><Super>Down']"
 
-    # move alt-space keybinding from "window menu" to rofi
-    gsettings set org.cinnamon.desktop.keybindings.wm activate-window-menu "[]"
-    dconf write /org/cinnamon/desktop/keybindings/custom-keybindings/rofi-binding/command "'rofi-launcher'"
-    dconf write /org/cinnamon/desktop/keybindings/custom-keybindings/rofi-binding/name "'rofi-launcher'"
-    dconf write /org/cinnamon/desktop/keybindings/custom-keybindings/rofi-binding/binding "['<Alt>space']"
-    dconf write /org/cinnamon/desktop/keybindings/custom-list "['rofi-binding']"
+    # # move alt-space keybinding from "window menu" to rofi
+    # gsettings set org.cinnamon.desktop.keybindings.wm activate-window-menu "[]"
+    # dconf write /org/cinnamon/desktop/keybindings/custom-keybindings/rofi-binding/command "'rofi-launcher'"
+    # dconf write /org/cinnamon/desktop/keybindings/custom-keybindings/rofi-binding/name "'rofi-launcher'"
+    # dconf write /org/cinnamon/desktop/keybindings/custom-keybindings/rofi-binding/binding "['<Alt>space']"
+    # dconf write /org/cinnamon/desktop/keybindings/custom-list "['rofi-binding']"
   fi
 
   if $linux_p ; then
