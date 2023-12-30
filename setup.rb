@@ -163,7 +163,7 @@ specs += [
   SyncSpec.new("desktop", options.merge(dest_dir: DESKTOP_DIR)),
   WholeDirectorySyncSpec.new(".remmina", options),
   WholeDirectorySyncSpec.new("fontconfig", options.merge(dest_dir: File.join(HOME, ".config/fontconfig"))),
-  PrivilegedFileSyncSpec.new("etc", options.merge(dest_dir: "/etc")),
+#  PrivilegedFileSyncSpec.new("etc", options.merge(dest_dir: "/etc")),
 ] if ENV['I_AM_LINUX'] == "1" && ENV['DISPLAY']
 
 specs.each(&:sync!)
