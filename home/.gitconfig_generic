@@ -13,8 +13,8 @@
 	commitGraph = true
 	attributesfile = /home/flavorjones/.gitattributes
 
-[feature]
-	manyFiles = true
+# [feature]
+# 	manyFiles = true
 
 [pager]
 	branch = false
