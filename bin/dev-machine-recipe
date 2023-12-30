@@ -6,6 +6,11 @@
 #
 #  Do this first to get basic tools installed to make everything else easier.
 #
+#      sudo apt install git-core
+#      git clone https://github.com/flavorjones/dotfiles
+#      dotfiles/bin/dev-machine-recipe bootstrap
+#
+#
 #  ## High Priority
 #
 #  1. set CapsLock to Ctrl, compose key to right-alt, set 'mouse' window focus
@@ -352,7 +357,6 @@ if $install_p ; then
       dconf-editor dconf-cli \
       xclip \
       tree \
-      terminator \
       htop \
       guake \
       cheese \
@@ -711,8 +715,10 @@ if $clean_p ; then
     flatpak uninstall -y --unused
     sudo flatpak uninstall -y --unused
 
-    docker system prune --all --force
-    docker volume prune --all --force
+    if [[ `which docker` != "" ]] ; then
+      docker system prune --all --force
+      docker volume prune --all --force
+    fi
   fi
 fi
 
