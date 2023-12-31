@@ -10,11 +10,12 @@
 #      git clone https://github.com/flavorjones/dotfiles
 #      dotfiles/bin/dev-machine-recipe bootstrap
 #
+#  then configure barrier to share keyboard/mouse.
+#
 #  ## High Priority
 #
-#  1. configure barrier to share keyboard/mouse
-#  2. run the full `dev-machine-recipe` (this script!)
-#  3. install all the apps that require manual intervention
+#  1. run the full `dev-machine-recipe` (this script!)
+#  2. install all the apps that require manual intervention
 #  3. configure dropbox, and symlink Documents → Dropbox/Mike
 #  4. check chrome profiles - regenerate if necessary
 #  5. set up fingerprint reader (Settings → Users → Fingerprint Login)
@@ -33,10 +34,9 @@
 #
 #  ## Low Priority
 #
-#  1. Set "Input Settings" to use XIM (see XCompose notes below)
-#  2. color: clone https://github.com/Mayccoll/Gogh and install solarized theme for gnome terminal
-#  3. color: clone https://github.com/seebi/dircolors-solarized and use the 'ansi-dark' config
-#  4. mouse theme for screencasts https://github.com/iPAS/DMZ-White-Highlighted
+#  1. color: clone https://github.com/Mayccoll/Gogh and install solarized theme for gnome terminal
+#  2. color: clone https://github.com/seebi/dircolors-solarized and use the 'ansi-dark' config
+#  3. mouse theme for screencasts https://github.com/iPAS/DMZ-White-Highlighted
 #
 #
 #  # Chrome
@@ -288,7 +288,8 @@ if $install_p || $bootstrap_p ; then
   if $linux_p ; then
     apt_install \
        build-essential cmake autoconf libtool \
-       git-core ruby rake curl wget
+       git-core ruby rake curl wget \
+       emacs
 
     # sharing keyboard and mouse (synergy / barrier / input-leap)
     #
@@ -358,7 +359,6 @@ if $install_p ; then
 
     # basics for development and related activities
     apt_install \
-      emacs \
       gitk subversion mercurial bzr \
       valgrind \
       direnv \
