@@ -66,9 +66,8 @@
 #
 #  ## xps 9320 (2023) BIOS settings
 #
-#  Press F2 at boot menu to enter BIOS
-#
-#  sudo apt install oem-somerville-tentacool-meta
+#  Press F2 at boot menu to enter BIOS.
+#  I haven't needed to change anything (yet).
 #
 #
 #  ## xps 9300 (2020) BIOS settings
@@ -84,9 +83,9 @@
 #
 #  # Linux
 #
-#  ## Encrypted LVM help
+#  ## Encrypted LVM with separate / and /home partitions
 #
-#  https://help.ubuntu.com/community/ResizeEncryptedPartitions
+#  TLDR: see obsidian://open?vault=flavorjones&file=Personal%2FLinux%20disk%20management
 #
 #
 #  ## Diagnosing sleep problems / power states
