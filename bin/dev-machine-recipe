@@ -31,6 +31,7 @@
 #     > sudo ufw allow from 192.168.86.0/24 proto tcp to any port 24800 # synergy/barrier
 #  3. create a postgres user role for yourself: `sudo -u postgres createuser -s flavorjones`
 #  4. add guake to startup applications
+#  5. add gTile extension, turn off Tiling Assistant
 #
 #  ## Low Priority
 #
@@ -591,6 +592,9 @@ EOF
     # do not show home folder on gnome-shell desktop
     dconf write /org/gnome/shell/extensions/ding/show-home "false"
 
+    # night light
+    dconf write /org/gnome/settings-daemon/plugins/color/night-light-enabled "true"
+
     # time format
     dconf write /org/gnome/desktop/interface/clock-show-weekday "true"
     dconf write /org/gnome/desktop/interface/clock-format "'12h'"
@@ -615,6 +619,9 @@ EOF
     # lock screen
     dconf write /org/gnome/desktop/session/idle-delay "uint32 900"
     dconf write /org/gnome/desktop/screensaver/lock-delay "uint32 30"
+
+    # gnome-terminal general config
+    dconf write /org/gnome/terminal/legacy/theme-variant "'system'"
 
     # configure the default gnome-terminal profile
     default_profile=$(dconf read /org/gnome/terminal/legacy/profiles:/default)
