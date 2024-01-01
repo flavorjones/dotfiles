@@ -19,6 +19,15 @@
 #  3. configure dropbox, and symlink Documents → Dropbox/Mike
 #  4. check chrome profiles - regenerate if necessary
 #  5. set up fingerprint reader (Settings → Users → Fingerprint Login)
+#  6. set up the yubikey: obsidian://open?vault=flavorjones&file=Personal%2FEncryption%20keys
+#     - PGP
+#       - `gpg --card-status` and make sure PGP keys are imported
+#       - configure .gitconfig for signing commits
+#     - SSH
+#       - add to bashrc local: export SSH_AUTH_SOCK=${XDG_RUNTIME_DIR}/gnupg/S.gpg-agent.ssh
+#       - copy any existing public/private ssh files (ecdsa files for yubikey), or generate new ones
+#     - TOTP
+#       - test it
 #
 #  ## Medium Priority
 #
@@ -622,6 +631,7 @@ EOF
 
     # gnome-terminal general config
     dconf write /org/gnome/terminal/legacy/theme-variant "'system'"
+    dconf write /org/guake/general/use-popup "false"
 
     # configure the default gnome-terminal profile
     default_profile=$(dconf read /org/gnome/terminal/legacy/profiles:/default)
