@@ -34,21 +34,14 @@
 #
 #  ## Low Priority
 #
-#  1. color: clone https://github.com/Mayccoll/Gogh and install solarized theme for gnome terminal
-#  2. color: clone https://github.com/seebi/dircolors-solarized and use the 'ansi-dark' config
+#  1. configure gnome-terminal to use solarized-dark theme
+#     - if necessary, clone https://github.com/Mayccoll/Gogh and install solarized theme for gnome terminal
+#     - but I'm not sure this is actually needed with modern gnome terminal
+#  2. clone https://github.com/seebi/dircolors-solarized and use the 'ansi-dark' config
 #  3. mouse theme for screencasts https://github.com/iPAS/DMZ-White-Highlighted
 #
 #
 #  # Chrome
-#
-#  ## Chrome Flags
-#
-#  chrome://flags/#read-later
-#  chrome://flags/#enable-tab-search
-#  chrome://flags/#tab-groups-collapse
-#  chrome://flags/#tab-groups-auto-create
-#  chrome://flags/#tab-groups-collapse-freezing
-#
 #
 #  ## Chrome Extensions
 #
@@ -208,8 +201,10 @@ fi
 
 kernel_release=$(uname -r)
 HOME_LOCAL="${HOME}/local"
-ossdir="${HOME}/code/oss"
+ossdir="${HOME}/code/bootstrap"
 bashrc_local="${HOME}/.bashrc_local"
+
+mkdir -p $ossdir
 
 if $linux_p ; then
   function apt_install {
@@ -355,7 +350,8 @@ if $install_p ; then
       guake \
       cheese \
       pavucontrol \
-      gnome-applets gnome-shell-pomodoro
+      gdebi \
+      gnome-applets gnome-shell-pomodoro gnome-tweaks
 
     # basics for development and related activities
     apt_install \
@@ -449,8 +445,8 @@ if $install_p ; then
       cat <<EOF >> ${bashrc_local}
 # nvm - added by $0
 export NVM_DIR="${ossdir}/nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+[ -s "\$NVM_DIR/nvm.sh" ] && \. "\$NVM_DIR/nvm.sh"  # This loads nvm
+[ -s "\$NVM_DIR/bash_completion" ] && \. "\$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 EOF
     fi
 
@@ -492,6 +488,7 @@ EOF
     fi
 
     if [[ `which dropbox` == "" ]] ; then
+      # in case you need CLI tools: https://help.dropbox.com/installs/linux-commands
       open https://www.dropbox.com/install-linux
     fi
 
@@ -586,7 +583,9 @@ EOF
     # disable touchpad tap-to-click
     dconf write /org/gnome/desktop/peripherals/touchpad/tap-to-click "false"
 
-    # put the gnome-shell dock on the bottom
+    # gnome-shell dock: detached, auto-hide, on the bottom
+    dconf write /org/gnome/shell/extensions/dash-to-dock/dock-fixed "false"
+    dconf write /org/gnome/shell/extensions/dash-to-dock/extend-height "false"
     dconf write /org/gnome/shell/extensions/dash-to-dock/dock-position "'BOTTOM'"
 
     # do not show home folder on gnome-shell desktop
@@ -600,12 +599,33 @@ EOF
     # let's change timezones automatically
     dconf write /org/gnome/desktop/datetime/automatic-timezone "true"
 
-    #   # move alt-space keybinding from "window menu" to rofi
-    #   gsettings set org.cinnamon.desktop.keybindings.wm activate-window-menu "[]"
-    #   dconf write /org/cinnamon/desktop/keybindings/custom-keybindings/rofi-binding/command "'rofi-launcher'"
-    #   dconf write /org/cinnamon/desktop/keybindings/custom-keybindings/rofi-binding/name "'rofi-launcher'"
-    #   dconf write /org/cinnamon/desktop/keybindings/custom-keybindings/rofi-binding/binding "['<Alt>space']"
-    #   dconf write /org/cinnamon/desktop/keybindings/custom-list "['rofi-binding']"
+    # focus-follows-mouse
+    dconf write /org/gnome/desktop/wm/preferences/focus-mode "'sloppy'"
+
+    # super-right-click to resize windows
+    dconf write /org/gnome/desktop/wm/preferences/resize-with-right-button "true"
+
+    # do not attach modal dialogs
+    dconf write /org/gnome/mutter/attach-modal-dialogs "false"
+
+    # quake
+    dconf write /org/guake/general/use-trayicon "false"
+    dconf write /org/guake/general/window-losefocus "true"
+
+    # lock screen
+    dconf write /org/gnome/desktop/session/idle-delay "uint32 900"
+    dconf write /org/gnome/desktop/screensaver/lock-delay "uint32 30"
+
+    # configure the default gnome-terminal profile
+    default_profile=$(dconf read /org/gnome/terminal/legacy/profiles:/default)
+    if [[ -z "$default_profile" ]] ; then
+      default_profile=$(dconf read /org/gnome/terminal/legacy/profiles:/list | cut -d\' -f2)
+    fi
+    if [[ -n "$default_profile" ]] ; then
+      dconf write /org/gnome/terminal/legacy/profiles:/:${default_profile}/use-system-font "false"
+      dconf write /org/gnome/terminal/legacy/profiles:/:${default_profile}/font "'JetBrains Mono 10'"
+      dconf write /org/gnome/terminal/legacy/profiles:/:${default_profile}/audible-bell "false"
+    fi
   fi
 fi
 
