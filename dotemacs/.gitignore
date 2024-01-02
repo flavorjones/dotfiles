@@ -10,6 +10,7 @@ elpa/*readme.txt
 ido.last
 projectile-bookmarks.eld
 session.*
+tramp
 transient/
 var
 
