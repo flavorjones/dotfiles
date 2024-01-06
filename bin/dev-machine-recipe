@@ -172,11 +172,14 @@
 set -o errexit
 set -o xtrace
 
-UBUNTU_CODENAME="mantic"
-
 if [[ $(uname) == "Linux" ]] ; then
   linux_p=true
   apple_p=false
+  if [[ -f /etc/linuxmint/info ]] ; then
+    mint_p=true
+  else
+    mint_p=false
+  fi
 elif [[ $(uname) == "Darwin" ]] ; then
   linux_p=false
   apple_p=true
@@ -300,6 +303,7 @@ if $install_p || $bootstrap_p ; then
     #
     # on client systems make sure you're using X11 not wayland (/etc/gdm3/custom.conf)
     # but once input-leap supports wayland, we should try that instead.
+    # (look at the github actions workflows in input-leap for how to build it)
     apt_install barrier
     BARRIER_SSL_CONFIG_DIR="${HOME}/.local/share/barrier/SSL"
     if [[ ! -f "${BARRIER_SSL_CONFIG_DIR}/Barrier.pem" ]] ; then
@@ -506,10 +510,26 @@ EOF
       open https://support.1password.com/get-the-apps/
     fi
 
+    if $mint_p ; then
+      ##
+      ##  cinnamon
+      ##
+      apt_install gir1.2-gtop-2.0 # for cinnamon system monitor
+
+      apt_install redshift redshift-gtk geoclue-2.0 geoclue-2-demo
+
+      if [[`which indicator-sound-switcher` == ""]] ; then
+        sudo apt-add-repository ppa:yktooo/ppa
+        apt_update
+        apt_install indicator-sound-switcher
+      fi
+    fi
+
     ###
     ###  things below here need to be scripted again, or I'm not sure I need them
     ###
     # # #  virtualbox
+    # # UBUNTU_CODENAME="jammy"
     # #    wget -O- https://www.virtualbox.org/download/oracle_vbox_2016.asc | sudo gpg --dearmor --yes --output /usr/share/keyrings/oracle-virtualbox-2016.gpg
     # #    deb [arch=amd64 signed-by=/usr/share/keyrings/oracle-virtualbox-2016.gpg] https://download.virtualbox.org/virtualbox/debian ${UBUNTU_CODENAME} contrib
     # apt_install \
@@ -584,64 +604,91 @@ EOF
   fi
 
   if $linux_p && test -n "$DISPLAY" ; then
-    #
-    #  use "dconf watch /" to see what changes when you use the UI, then add the command here.
-    #
-    # keyboard bindings
-    dconf write /org/gnome/desktop/input-sources/xkb-options "['compose:rctrl', 'caps:ctrl_modifier']"
+    if $mint_p ; then
+      ##
+      ##  cinnamon
+      ##
+      gsettings set org.cinnamon.desktop.wm.preferences focus-mode 'mouse'
+      gsettings set org.cinnamon.desktop.wm.preferences num-workspaces 4
+      gsettings set org.cinnamon.desktop.peripherals.touchpad tap-to-click false
+      gsettings set org.gnome.desktop.peripherals.touchpad tap-to-click false
+      gsettings set org.cinnamon.desktop.peripherals.touchpad disable-while-typing true
+      gsettings set org.gnome.desktop.peripherals.touchpad disable-while-typing true
+      gsettings set org.cinnamon.desktop.peripherals.touchpad two-finger-scrolling-enabled true
+      gsettings set org.gnome.desktop.peripherals.touchpad two-finger-scrolling-enabled true
+      gsettings set org.gnome.libgnomekbd.keyboard options "['Compose key\tcompose:ralt', 'caps\tcaps:ctrl_modifier']"
+      gsettings set org.cinnamon.desktop.keybindings.wm toggle-maximized "['<Alt>F10', '<Alt><Super>Up']"
+      gsettings set org.cinnamon.desktop.keybindings.wm minimize "['<Alt><Super>Down']"
 
-    # disable touchpad tap-to-click
-    dconf write /org/gnome/desktop/peripherals/touchpad/tap-to-click "false"
+      # move alt-space keybinding from "window menu" to rofi
+      gsettings set org.cinnamon.desktop.keybindings.wm activate-window-menu "[]"
+      dconf write /org/cinnamon/desktop/keybindings/custom-keybindings/rofi-binding/command "'rofi-launcher'"
+      dconf write /org/cinnamon/desktop/keybindings/custom-keybindings/rofi-binding/name "'rofi-launcher'"
+      dconf write /org/cinnamon/desktop/keybindings/custom-keybindings/rofi-binding/binding "['<Alt>space']"
+      dconf write /org/cinnamon/desktop/keybindings/custom-list "['rofi-binding']"
+    else
+      ##
+      ##  gnome-shell
+      ##
+      #
+      #  use "dconf watch /" to see what changes when you use the UI, then add the command here.
+      #
+      # keyboard bindings
+      dconf write /org/gnome/desktop/input-sources/xkb-options "['compose:rctrl', 'caps:ctrl_modifier']"
 
-    # gnome-shell dock: detached, auto-hide, on the bottom
-    dconf write /org/gnome/shell/extensions/dash-to-dock/dock-fixed "false"
-    dconf write /org/gnome/shell/extensions/dash-to-dock/extend-height "false"
-    dconf write /org/gnome/shell/extensions/dash-to-dock/dock-position "'BOTTOM'"
+      # disable touchpad tap-to-click
+      dconf write /org/gnome/desktop/peripherals/touchpad/tap-to-click "false"
 
-    # do not show home folder on gnome-shell desktop
-    dconf write /org/gnome/shell/extensions/ding/show-home "false"
+      # gnome-shell dock: detached, auto-hide, on the bottom
+      dconf write /org/gnome/shell/extensions/dash-to-dock/dock-fixed "false"
+      dconf write /org/gnome/shell/extensions/dash-to-dock/extend-height "false"
+      dconf write /org/gnome/shell/extensions/dash-to-dock/dock-position "'BOTTOM'"
 
-    # night light
-    dconf write /org/gnome/settings-daemon/plugins/color/night-light-enabled "true"
+      # do not show home folder on gnome-shell desktop
+      dconf write /org/gnome/shell/extensions/ding/show-home "false"
 
-    # time format
-    dconf write /org/gnome/desktop/interface/clock-show-weekday "true"
-    dconf write /org/gnome/desktop/interface/clock-format "'12h'"
-    dconf write /org/gtk/settings/file-chooser/clock-format "'12h'"
+      # night light
+      dconf write /org/gnome/settings-daemon/plugins/color/night-light-enabled "true"
 
-    # let's change timezones automatically
-    dconf write /org/gnome/desktop/datetime/automatic-timezone "true"
+      # time format
+      dconf write /org/gnome/desktop/interface/clock-show-weekday "true"
+      dconf write /org/gnome/desktop/interface/clock-format "'12h'"
+      dconf write /org/gtk/settings/file-chooser/clock-format "'12h'"
 
-    # focus-follows-mouse
-    dconf write /org/gnome/desktop/wm/preferences/focus-mode "'sloppy'"
+      # let's change timezones automatically
+      dconf write /org/gnome/desktop/datetime/automatic-timezone "true"
 
-    # super-right-click to resize windows
-    dconf write /org/gnome/desktop/wm/preferences/resize-with-right-button "true"
+      # focus-follows-mouse
+      dconf write /org/gnome/desktop/wm/preferences/focus-mode "'sloppy'"
 
-    # do not attach modal dialogs
-    dconf write /org/gnome/mutter/attach-modal-dialogs "false"
+      # super-right-click to resize windows
+      dconf write /org/gnome/desktop/wm/preferences/resize-with-right-button "true"
 
-    # quake
-    dconf write /org/guake/general/use-trayicon "false"
-    dconf write /org/guake/general/window-losefocus "true"
+      # do not attach modal dialogs
+      dconf write /org/gnome/mutter/attach-modal-dialogs "false"
 
-    # lock screen
-    dconf write /org/gnome/desktop/session/idle-delay "uint32 900"
-    dconf write /org/gnome/desktop/screensaver/lock-delay "uint32 30"
+      # quake
+      dconf write /org/guake/general/use-trayicon "false"
+      dconf write /org/guake/general/window-losefocus "true"
 
-    # gnome-terminal general config
-    dconf write /org/gnome/terminal/legacy/theme-variant "'system'"
-    dconf write /org/guake/general/use-popup "false"
+      # lock screen
+      dconf write /org/gnome/desktop/session/idle-delay "uint32 900"
+      dconf write /org/gnome/desktop/screensaver/lock-delay "uint32 30"
 
-    # configure the default gnome-terminal profile
-    default_profile=$(dconf read /org/gnome/terminal/legacy/profiles:/default)
-    if [[ -z "$default_profile" ]] ; then
-      default_profile=$(dconf read /org/gnome/terminal/legacy/profiles:/list | cut -d\' -f2)
-    fi
-    if [[ -n "$default_profile" ]] ; then
-      dconf write /org/gnome/terminal/legacy/profiles:/:${default_profile}/use-system-font "false"
-      dconf write /org/gnome/terminal/legacy/profiles:/:${default_profile}/font "'JetBrains Mono 10'"
-      dconf write /org/gnome/terminal/legacy/profiles:/:${default_profile}/audible-bell "false"
+      # gnome-terminal general config
+      dconf write /org/gnome/terminal/legacy/theme-variant "'system'"
+      dconf write /org/guake/general/use-popup "false"
+
+      # configure the default gnome-terminal profile
+      default_profile=$(dconf read /org/gnome/terminal/legacy/profiles:/default)
+      if [[ -z "$default_profile" ]] ; then
+        default_profile=$(dconf read /org/gnome/terminal/legacy/profiles:/list | cut -d\' -f2)
+      fi
+      if [[ -n "$default_profile" ]] ; then
+        dconf write /org/gnome/terminal/legacy/profiles:/:${default_profile}/use-system-font "false"
+        dconf write /org/gnome/terminal/legacy/profiles:/:${default_profile}/font "'JetBrains Mono 10'"
+        dconf write /org/gnome/terminal/legacy/profiles:/:${default_profile}/audible-bell "false"
+      fi
     fi
   fi
 fi

@@ -1,5 +1,5 @@
-include "/%H/code/oss/xcompose/dotXCompose"
-include "/%H/code/oss/xcompose/emoji.compose"
+include "/%H/code/bootstrap/xcompose/dotXCompose"
+include "/%H/code/bootstrap/xcompose/emoji.compose"
 
 # Multi-character emojicons
 <Multi_key> <Multi_key> <s> <h> <r> <u> <g>             : "¯\\_(ツ)_/¯"				# SHRUG
