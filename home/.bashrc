@@ -33,9 +33,12 @@ export PATH=${PATH}:${HOME}/bin
 for localdir in ${HOME}/local ${HOME}/.local ; do
   if test -a ${localdir} ; then
     export PATH=${localdir}/bin:${PATH}
-    export LD_LIBRARY_PATH=${localdir}/lib:${LD_LIBRARY_PATH}
+    export LD_LIBRARY_PATH=${localdir}/lib:${localdir}/lib/x86_64-linux-gnu:${LD_LIBRARY_PATH}
     export MANPATH=${MANPATH}:${localdir}/man
     export INFOPATH=${INFOPATH:+${INFOPATH}:}${localdir}/info
+    for d in $(find ${localdir} -type d -name pkgconfig) ; do
+      export PKG_CONFIG_PATH=${PKG_CONFIG_PATH}:${d}
+    done
   fi
 done
 
