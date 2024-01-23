@@ -525,6 +525,9 @@ EOF
       fi
     fi
 
+    # screencaps
+    apt_install peek screenkey
+
     ###
     ###  things below here need to be scripted again, or I'm not sure I need them
     ###
@@ -541,8 +544,7 @@ EOF
     # apt_install sox libsox-fmt-mp3 \
     #            krita kazam gnome-sound-recorder \
     #            libmagickcore-dev libmagick++-dev \
-    #            v4l2loopback-dkms v4l2loopback-utils \
-    #            peek
+    #            v4l2loopback-dkms v4l2loopback-utils
     # flatpak_install org.gimp.GIMP
     # snap_install shotcut
 
