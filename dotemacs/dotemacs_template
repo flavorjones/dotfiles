@@ -81,10 +81,10 @@
 
 ; opt into servers that we know we want to use (as opposed to opting out with lsp-disabled-clients)
 (add-to-list 'lsp-enabled-clients 'ruby-lsp-ls)
-(add-hook 'ruby-mode-hook #'lsp)
+(add-hook 'ruby-mode-hook #'lsp-deferred)
 
 (add-to-list 'lsp-enabled-clients 'clangd)
-(add-hook 'c-mode-hook #'lsp)
+(add-hook 'c-mode-hook #'lsp-deferred)
 
 ; which-key is hot
 (with-eval-after-load 'lsp-mode
