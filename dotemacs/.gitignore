@@ -1,14 +1,22 @@
+*.cache
 *.elc
 *~
-*.cache
-\#*\#
 .emacs
 .emacs.desktop*
+\#*\#
+ac-comphist.dat
 auto-save
 elpa/*readme.txt
 ido.last
-var
-session.*
-ac-comphist.dat
 projectile-bookmarks.eld
+session.*
 transient/
+var
+
+# package repositories
+quelpa/
+elpa/archives/
+
+# lsp
+.lsp-session-v1
+projects
