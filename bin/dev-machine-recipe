@@ -297,6 +297,7 @@ if $install_p || $bootstrap_p ; then
     apt_install \
        build-essential cmake autoconf libtool \
        git-core ruby rake curl wget \
+       clangd bear \
        emacs
 
     # sharing keyboard and mouse (synergy / barrier / input-leap)

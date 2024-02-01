@@ -74,9 +74,22 @@
 
 (editorconfig-mode 1)
 
-;;; lsp-mode: let's opt into servers that we know we want to use
+;;;
+;;; lsp-mode
+;;;
 (require 'lsp-mode)
+
+; opt into servers that we know we want to use (as opposed to opting out with lsp-disabled-clients)
 (add-to-list 'lsp-enabled-clients 'ruby-lsp-ls)
+(add-hook 'ruby-mode-hook #'lsp)
+
+(add-to-list 'lsp-enabled-clients 'clangd)
+(add-hook 'c-mode-hook #'lsp)
+
+; which-key is hot
+(with-eval-after-load 'lsp-mode
+  (add-hook 'lsp-mode-hook #'lsp-enable-which-key-integration))
+
 
 ;;;
 ;;;  ido-mode
