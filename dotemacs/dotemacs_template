@@ -90,6 +90,11 @@
 (with-eval-after-load 'lsp-mode
   (add-hook 'lsp-mode-hook #'lsp-enable-which-key-integration))
 
+; save buffers after refactoring operations
+(add-hook 'lsp-after-apply-edits-hook
+          (lambda (operation)
+            (when (eq operation 'rename)
+              (save-buffer))))
 
 ;;;
 ;;;  ido-mode
