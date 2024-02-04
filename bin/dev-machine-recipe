@@ -327,7 +327,7 @@ if $install_p || $bootstrap_p ; then
     #
     # because 22.04 doesn't have emacs 29, wtf man
     if ! command -v emacs &> /dev/null; then
-      apt_install libgtk-3-dev libwebkit2gtk-4.0-dev libgif-dev libxpm-dev
+      apt_install libgtk-3-dev libwebkit2gtk-4.0-dev libgif-dev libxpm-dev libgnutls28-dev
 
       emacs_version="29.2"
       emacs_file=emacs-${emacs_version}.tar.xz
