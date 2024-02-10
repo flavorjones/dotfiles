@@ -137,7 +137,7 @@ end
 # syncer = SyncMaster.new(options)
 # syncer.hardlink_dir_contents "home" # (requires remapping, e.g. ./bin → ./home/bin)
 # syncer.symlink_dir_contents "etc", to: "/etc"
-# syncer.symlink_dir ".remmina"
+# syncer.symlink_dir "fontconfig"
 
 options = Hash.new
 if ARGV.include?("--force")
@@ -161,7 +161,6 @@ specs = [
 specs += [
   SyncSpec.new(".fonts", options),
   SyncSpec.new("desktop", options.merge(dest_dir: DESKTOP_DIR)),
-  WholeDirectorySyncSpec.new(".remmina", options),
   WholeDirectorySyncSpec.new("fontconfig", options.merge(dest_dir: File.join(HOME, ".config/fontconfig"))),
 #  PrivilegedFileSyncSpec.new("etc", options.merge(dest_dir: "/etc")),
 ] if ENV['I_AM_LINUX'] == "1" && ENV['DISPLAY']
