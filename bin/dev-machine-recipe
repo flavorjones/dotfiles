@@ -362,7 +362,6 @@ if $install_p ; then
       ruby ruby-build \
       starship \
       tmate \
-      direnv \
       bat \
       hexyl
 
