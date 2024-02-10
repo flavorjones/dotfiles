@@ -217,7 +217,7 @@ fi
 kernel_release=$(uname -r)
 HOME_LOCAL="${HOME}/.local"
 ossdir="${HOME}/code/bootstrap"
-bashrc_local="${HOME}/.bashrc_local"
+bashrc="${HOME}/.bashrc"
 
 mkdir -p $ossdir
 
@@ -476,8 +476,8 @@ if $install_p ; then
       git clone "https://github.com/nvm-sh/nvm"
       popd
     fi
-    if ! fgrep NVM_DIR ${bashrc_local} ; then
-      cat <<EOF >> ${bashrc_local}
+    if ! fgrep NVM_DIR ${bashrc} ; then
+      cat <<EOF >> ${bashrc}
 # nvm - added by $0
 export NVM_DIR="${ossdir}/nvm"
 [ -s "\$NVM_DIR/nvm.sh" ] && \. "\$NVM_DIR/nvm.sh"  # This loads nvm
