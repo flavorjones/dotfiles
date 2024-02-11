@@ -17,7 +17,7 @@
 #  1. run the full `dev-machine-recipe` (this script!)
 #  2. install all the apps that require manual intervention
 #  3. configure dropbox, and symlink Documents → Dropbox/Mike
-#  4. check chrome profiles - regenerate if necessary
+#  4. check chrome profiles - regenerate if necessary (probably not necessary?)
 #  5. set up fingerprint reader (Settings → Users → Fingerprint Login)
 #  6. set up the yubikey: obsidian://open?vault=flavorjones&file=Personal%2FEncryption%20keys
 #     - PGP
@@ -41,6 +41,7 @@
 #  3. create a postgres user role for yourself: `sudo -u postgres createuser -s flavorjones`
 #  4. add guake to startup applications
 #  5. add gTile extension, turn off Tiling Assistant
+#  6. https://extensions.gnome.org/extension/1634/resource-monitor/
 #
 #  ## Low Priority
 #
@@ -413,8 +414,19 @@ if $install_p ; then
       graphviz gv \
       bat hexyl
 
+    # flatpak on ubuntu
+    apt_install flatpak gnome-software-plugin-flatpak
+    flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
+
     # fonts
-    apt_install fonts-cmu ttf-mscorefonts-installer
+    apt_install \
+      fonts-cmu ttf-mscorefonts-installer \
+      font-manager
+
+    # obsidian
+    if ! command -v obsidian &> /dev/null ; then
+      flatpak_install md.obsidian.Obsidian
+    fi
 
     #  github cli
     if [[ `which gh` == "" ]] ; then
@@ -504,18 +516,21 @@ EOF
     fi
 
     #
+    #  chat apps
+    #
+    if ! command -v slack &> /dev/null; then
+      snap_install slack
+    fi
+
+    if ! command -v discord &> /dev/null ; then
+      snap_install discord
+    fi
+
+    #
     #  things i have to manually install (pending further automation)
     #
     if ! [[ -e /opt/zoom/ZoomLauncher ]] ; then
       open https://zoom.us/download
-    fi
-
-    if [[ `which discord` == "" ]] ; then
-      open https://discordapp.com/download
-    fi
-
-    if ! [[ -e /usr/bin/slack ]] ; then
-      open https://slack.com/downloads/linux
     fi
 
     if ! [[ -e /usr/bin/signal-desktop ]] ; then
@@ -693,6 +708,9 @@ EOF
       # quake
       dconf write /org/guake/general/use-trayicon "false"
       dconf write /org/guake/general/window-losefocus "true"
+      dconf write /org/guake/general/use-popup "false"
+      dconf write /org/guake/general/use-default-font "false"
+      dconf write /org/guake/style/font/style "'JetBrains Mono 10'"
 
       # lock screen
       dconf write /org/gnome/desktop/session/idle-delay "uint32 900"
@@ -700,10 +718,12 @@ EOF
 
       # gnome-terminal general config
       dconf write /org/gnome/terminal/legacy/theme-variant "'system'"
-      dconf write /org/guake/general/use-popup "false"
+      dconf write /org/gnome/terminal/legacy/new-tab-position "'next'"
+      dconf write /org/gnome/terminal/legacy/keybindings/copy "'<Alt>c'"
+      dconf write /org/gnome/terminal/legacy/keybindings/paste "'<Alt>v'"
 
       # configure the default gnome-terminal profile
-      default_profile=$(dconf read /org/gnome/terminal/legacy/profiles:/default)
+      default_profile=$(dconf read /org/gnome/terminal/legacy/profiles:/default | cut -d\' -f2)
       if [[ -z "$default_profile" ]] ; then
         default_profile=$(dconf read /org/gnome/terminal/legacy/profiles:/list | cut -d\' -f2)
       fi
