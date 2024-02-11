@@ -167,10 +167,10 @@ specs += [
 
 specs.each(&:sync!)
 
-File.join(HOME, ".gitconfig").tap do |gitconfig_path|
-  unless File.exist?(gitconfig_path)
-    puts "writing new #{gitconfig_path} ..."
-    File.open(gitconfig_path, "w") do |f|
+File.join(HOME, ".gitconfig").tap do |path|
+  unless File.exist?(path)
+    puts "writing new #{path} ..."
+    File.open(path, "w") do |f|
       f.write(<<~EOF)
         # this is a local file with ephemeral edits.
 
@@ -179,6 +179,22 @@ File.join(HOME, ".gitconfig").tap do |gitconfig_path|
           path = .gitconfig_generic
 
         # local edits follow.
+      EOF
+    end
+  end
+end
+
+File.join(HOME, ".bashrc").tap do |path|
+  unless File.exist?(path)
+    puts "writing new #{path} ..."
+    File.open(path, "w") do |f|
+      f.write(<<~EOF)
+        # this is a local file with ephemeral edits.
+
+        # the permanent, generic profile is here:
+        source ~/.bashrc_generic
+
+        # local edits folloow.
       EOF
     end
   end
