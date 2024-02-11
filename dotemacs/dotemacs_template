@@ -905,6 +905,12 @@ The key typed is executed unless it is SPC."
             (select-frame-set-input-focus (selected-frame))
             ))
 
+(add-to-list 'after-make-frame-functions
+             (lambda (frame)
+               (flavorjones:enact-font-frame frame)
+               (set-frame-size frame 100 40)
+               ))
+
 ;;;
 ;;;  rdoc-mode
 ;;;
@@ -1001,10 +1007,13 @@ The key typed is executed unless it is SPC."
   (message (frame-parameter nil 'font)))
 
 (defun flavorjones:enact-font ()
+  (flavorjones:enact-font-frame (selected-frame)))
+
+(defun flavorjones:enact-font-frame (frame)
   (let* ((font (concat flavorjones:font-face
                        "-"
                        (number-to-string flavorjones:font-size))))
-    (set-frame-font font)
+    (set-frame-font font nil (list frame))
     (prin1 font)))
 
 (defun flavorjones:set-font-face (face)
