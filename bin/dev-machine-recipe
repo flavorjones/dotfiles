@@ -481,6 +481,16 @@ if $install_p ; then
     else
       (cd $HOME/.rbenv/plugins/ruby-build && git pull)
     fi
+    if ! fgrep "rbenv init" ${bashrc} ; then
+      cat <<EOF >> ${bashrc}
+# rbenv
+if [[ -d \$HOME/.rbenv ]] ; then
+  export PATH="\${HOME}/.rbenv/bin:\${PATH}"
+  eval "\$(rbenv init -)"
+fi
+
+EOF
+    fi
 
     # node
     if [[ ! -d ${ossdir}/nvm ]] ; then
@@ -494,6 +504,7 @@ if $install_p ; then
 export NVM_DIR="${ossdir}/nvm"
 [ -s "\$NVM_DIR/nvm.sh" ] && \. "\$NVM_DIR/nvm.sh"  # This loads nvm
 [ -s "\$NVM_DIR/bash_completion" ] && \. "\$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+
 EOF
     fi
 
