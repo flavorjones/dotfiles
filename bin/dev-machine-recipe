@@ -518,6 +518,11 @@ EOF
       mv starship ${HOME_LOCAL}/bin/
     fi
 
+    # slack
+    if ! command -v slack &> /dev/null; then
+      snap_install slack
+    fi
+
     # # chrome. pick one!
     # if [[ `which google-chrome-beta` == "" ]] ; then
     #     open https://www.google.com/intl/en/chrome/browser/beta.html
@@ -527,19 +532,12 @@ EOF
     fi
 
     #
-    #  chat apps
-    #
-    if ! command -v slack &> /dev/null; then
-      snap_install slack
-    fi
-
-    if ! command -v discord &> /dev/null ; then
-      snap_install discord
-    fi
-
-    #
     #  things i have to manually install (pending further automation)
     #
+    if ! command -v discord &> /dev/null ; then
+      open https://discord.com/download
+    fi
+
     if ! [[ -e /opt/zoom/ZoomLauncher ]] ; then
       open https://zoom.us/download
     fi
