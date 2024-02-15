@@ -387,7 +387,7 @@ if $install_p ; then
       cheese \
       pavucontrol \
       gdebi \
-      gnome-applets gnome-shell-pomodoro gnome-tweaks
+      gnome-shell-extensions gnome-applets gnome-shell-pomodoro gnome-tweaks
 
     # basics for development and related activities
     apt_install \
@@ -694,6 +694,17 @@ EOF
       # do not show home folder on gnome-shell desktop
       dconf write /org/gnome/shell/extensions/ding/show-home "false"
 
+      # use window tiling state; do not offer tiling popup; do not raise all tiled windows together
+      dconf write /org/gnome/shell/extensions/tiling-assistant/dynamic-keybinding-behavior 2
+      dconf write /org/gnome/shell/extensions/tiling-assistant/enable-tiling-popup "false"
+      dconf write /org/gnome/shell/extensions/tiling-assistant/enable-raise-tile-group "false"
+
+      # tiling shortcuts
+      dconf write /org/gnome/shell/extensions/tiling-assistant/tile-maximize "['<Control><Super>Up']"
+      dconf write /org/gnome/shell/extensions/tiling-assistant/restore-window "['<Control><Super>Down']"
+      dconf write /org/gnome/shell/extensions/tiling-assistant/tile-top-half "['<Super>Up']"
+      dconf write /org/gnome/shell/extensions/tiling-assistant/tile-bottom-half "['<Super>Down']"
+
       # night light
       dconf write /org/gnome/settings-daemon/plugins/color/night-light-enabled "true"
 
@@ -708,8 +719,10 @@ EOF
       # focus-follows-mouse
       dconf write /org/gnome/desktop/wm/preferences/focus-mode "'sloppy'"
 
-      # super-right-click to resize windows
+      # alt-left-click to move windows, alt-right-click to resize windows, touchpad right-click
       dconf write /org/gnome/desktop/wm/preferences/resize-with-right-button "true"
+      dconf write /org/gnome/desktop/peripherals/touchpad/click-method "'fingers'"
+      dconf write /org/gnome/desktop/wm/preferences/mouse-button-modifier "'<Alt>'"
 
       # do not attach modal dialogs
       dconf write /org/gnome/mutter/attach-modal-dialogs "false"
