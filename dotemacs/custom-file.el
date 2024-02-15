@@ -13,6 +13,7 @@
  '(electric-pair-pairs '((34 . 34) (8216 . 8217) (8220 . 8221) (96 . 96)))
  '(electric-pair-text-pairs '((34 . 34) (8216 . 8217) (8220 . 8221) (96 . 96)))
  '(fill-column 100)
+ '(frame-inhibit-implied-resize t)
  '(fringe-mode nil nil (fringe))
  '(global-goto-address-mode t)
  '(global-undo-tree-mode t)
