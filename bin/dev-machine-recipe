@@ -42,6 +42,9 @@
 #  4. add guake to startup applications
 #  5. add gTile extension, turn off Tiling Assistant
 #  6. https://extensions.gnome.org/extension/1634/resource-monitor/
+#     - CPU(% and load average), RAM(GB), net(wlan)
+#     - no decimals
+#     - align left
 #
 #  ## Low Priority
 #
