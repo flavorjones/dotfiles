@@ -685,6 +685,7 @@ EOF
       #
       # keyboard bindings
       dconf write /org/gnome/desktop/input-sources/xkb-options "['compose:rctrl', 'caps:ctrl_modifier']"
+      dconf write /org/gnome/shell/keybindings/show-screen-recording-ui "['<Shift><Control><Alt>Print']"
 
       # disable touchpad tap-to-click
       dconf write /org/gnome/desktop/peripherals/touchpad/tap-to-click "false"
@@ -696,6 +697,10 @@ EOF
 
       # do not show home folder on gnome-shell desktop
       dconf write /org/gnome/shell/extensions/ding/show-home "false"
+
+      # fixed number of workspaces
+      dconf write /org/gnome/mutter/dynamic-workspaces "false"
+      dconf write /org/gnome/desktop/wm/preferences/num-workspaces 5
 
       # use window tiling state; do not offer tiling popup; do not raise all tiled windows together
       dconf write /org/gnome/shell/extensions/tiling-assistant/dynamic-keybinding-behavior 2
@@ -737,15 +742,21 @@ EOF
       dconf write /org/guake/general/use-default-font "false"
       dconf write /org/guake/style/font/style "'JetBrains Mono 10'"
 
-      # lock screen
+      # lock screen, suspend when plugged in
       dconf write /org/gnome/desktop/session/idle-delay "uint32 900"
       dconf write /org/gnome/desktop/screensaver/lock-delay "uint32 30"
+      dconf write /org/gnome/settings-daemon/plugins/power/sleep-inactive-ac-type "'suspend'"
 
       # gnome-terminal general config
       dconf write /org/gnome/terminal/legacy/theme-variant "'system'"
       dconf write /org/gnome/terminal/legacy/new-tab-position "'next'"
       dconf write /org/gnome/terminal/legacy/keybindings/copy "'<Alt>c'"
       dconf write /org/gnome/terminal/legacy/keybindings/paste "'<Alt>v'"
+
+      # privacy
+      dconf write /org/gnome/desktop/privacy/recent-files-max-age "30"
+      dconf write /org/gnome/desktop/privacy/remove-old-trash-files "true"
+      dconf write /org/gnome/desktop/privacy/remove-old-temp-files "true"
 
       # configure the default gnome-terminal profile
       default_profile=$(dconf read /org/gnome/terminal/legacy/profiles:/default | cut -d\' -f2)
