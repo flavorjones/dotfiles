@@ -576,6 +576,11 @@ EOF
     # screencaps
     apt_install peek screenkey
 
+    # steam - https://github.com/flathub/com.valvesoftware.Steam/issues
+    if ! flatpak info com.valvesoftware.Steam &> /dev/null ; then
+      flatpak_install com.valvesoftware.Steam
+    fi
+
     ###
     ###  things below here need to be scripted again, or I'm not sure I need them
     ###
@@ -620,12 +625,6 @@ EOF
     #     | sudo tee /etc/modules-load.d/v4l2loopback.conf
     # fi
     # flatpak_install com.obsproject.Studio
-
-
-    # # still not happy with this. see notes in obsidian.
-    # if [[ `which steam` == "" ]] ; then
-    #   snap_install steam
-    # fi
   fi
 fi
 
