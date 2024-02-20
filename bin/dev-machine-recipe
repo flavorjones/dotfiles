@@ -427,7 +427,7 @@ if $install_p ; then
       font-manager
 
     # obsidian
-    if ! command -v obsidian &> /dev/null ; then
+    if ! flatpak info md.obsidian.Obsidian &> /dev/null ; then
       flatpak_install md.obsidian.Obsidian
     fi
 
