@@ -593,8 +593,9 @@ EOF
     #   nfs-common nfs-kernel-server
 
 
-    # #  graphics, screencaps, video and sound recording, etc.
-    # apt_install sox libsox-fmt-mp3 \
+    #  graphics, screencaps, video and sound recording, etc.
+    apt_install sox
+    #            libsox-fmt-mp3 \
     #            krita kazam gnome-sound-recorder \
     #            libmagickcore-dev libmagick++-dev \
     #            v4l2loopback-dkms v4l2loopback-utils
