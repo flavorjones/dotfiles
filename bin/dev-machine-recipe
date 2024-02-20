@@ -686,16 +686,18 @@ EOF
       # keyboard bindings
       dconf write /org/gnome/desktop/input-sources/xkb-options "['compose:rctrl', 'caps:ctrl_modifier']"
       dconf write /org/gnome/shell/keybindings/show-screen-recording-ui "['<Shift><Control><Alt>Print']"
-
-      # disable touchpad tap-to-click
-      dconf write /org/gnome/desktop/peripherals/touchpad/tap-to-click "false"
+      dconf write /org/gnome/shell/extensions/tiling-assistant/tile-maximize "['<Control><Super>Up']"
+      dconf write /org/gnome/shell/extensions/tiling-assistant/restore-window "['<Control><Super>Down']"
+      dconf write /org/gnome/shell/extensions/tiling-assistant/tile-top-half "['<Super>Up']"
+      dconf write /org/gnome/shell/extensions/tiling-assistant/tile-bottom-half "['<Super>Down']"
 
       # gnome-shell dock: detached, auto-hide, on the bottom
       dconf write /org/gnome/shell/extensions/dash-to-dock/dock-fixed "false"
       dconf write /org/gnome/shell/extensions/dash-to-dock/extend-height "false"
       dconf write /org/gnome/shell/extensions/dash-to-dock/dock-position "'BOTTOM'"
 
-      # do not show home folder on gnome-shell desktop
+      # icons: top bar size, do not show home folder on desktop
+      dconf write /org/gnome/shell/extensions/appindicator/icon-size "20"
       dconf write /org/gnome/shell/extensions/ding/show-home "false"
 
       # fixed number of workspaces
@@ -707,56 +709,51 @@ EOF
       dconf write /org/gnome/shell/extensions/tiling-assistant/enable-tiling-popup "false"
       dconf write /org/gnome/shell/extensions/tiling-assistant/enable-raise-tile-group "false"
 
-      # tiling shortcuts
-      dconf write /org/gnome/shell/extensions/tiling-assistant/tile-maximize "['<Control><Super>Up']"
-      dconf write /org/gnome/shell/extensions/tiling-assistant/restore-window "['<Control><Super>Down']"
-      dconf write /org/gnome/shell/extensions/tiling-assistant/tile-top-half "['<Super>Up']"
-      dconf write /org/gnome/shell/extensions/tiling-assistant/tile-bottom-half "['<Super>Down']"
-
       # night light
       dconf write /org/gnome/settings-daemon/plugins/color/night-light-enabled "true"
 
-      # time format
+      # time: format, change timezones automatically
       dconf write /org/gnome/desktop/interface/clock-show-weekday "true"
       dconf write /org/gnome/desktop/interface/clock-format "'12h'"
       dconf write /org/gtk/settings/file-chooser/clock-format "'12h'"
-
-      # let's change timezones automatically
       dconf write /org/gnome/desktop/datetime/automatic-timezone "true"
 
-      # focus-follows-mouse
-      dconf write /org/gnome/desktop/wm/preferences/focus-mode "'sloppy'"
-
-      # alt-left-click to move windows, alt-right-click to resize windows, touchpad right-click
+      # mouse and touchpad settings
+      # - <alt>+click to move and resize windows
+      # - two-finger right-click
+      # - disable touchpad tap-to-click
+      # - focus-follows-mouse
       dconf write /org/gnome/desktop/wm/preferences/resize-with-right-button "true"
       dconf write /org/gnome/desktop/peripherals/touchpad/click-method "'fingers'"
       dconf write /org/gnome/desktop/wm/preferences/mouse-button-modifier "'<Alt>'"
+      dconf write /org/gnome/desktop/peripherals/touchpad/tap-to-click "false"
+      dconf write /org/gnome/desktop/wm/preferences/focus-mode "'sloppy'"
 
-      # do not attach modal dialogs
+      # do not attach modal dialog windows
       dconf write /org/gnome/mutter/attach-modal-dialogs "false"
-
-      # quake
-      dconf write /org/guake/general/use-trayicon "false"
-      dconf write /org/guake/general/window-losefocus "true"
-      dconf write /org/guake/general/use-popup "false"
-      dconf write /org/guake/general/use-default-font "false"
-      dconf write /org/guake/style/font/style "'JetBrains Mono 10'"
 
       # lock screen, suspend when plugged in
       dconf write /org/gnome/desktop/session/idle-delay "uint32 900"
       dconf write /org/gnome/desktop/screensaver/lock-delay "uint32 30"
       dconf write /org/gnome/settings-daemon/plugins/power/sleep-inactive-ac-type "'suspend'"
 
-      # gnome-terminal general config
-      dconf write /org/gnome/terminal/legacy/theme-variant "'system'"
-      dconf write /org/gnome/terminal/legacy/new-tab-position "'next'"
-      dconf write /org/gnome/terminal/legacy/keybindings/copy "'<Alt>c'"
-      dconf write /org/gnome/terminal/legacy/keybindings/paste "'<Alt>v'"
-
       # privacy
       dconf write /org/gnome/desktop/privacy/recent-files-max-age "30"
       dconf write /org/gnome/desktop/privacy/remove-old-trash-files "true"
       dconf write /org/gnome/desktop/privacy/remove-old-temp-files "true"
+
+      # app: quake
+      dconf write /org/guake/general/use-trayicon "false"
+      dconf write /org/guake/general/window-losefocus "true"
+      dconf write /org/guake/general/use-popup "false"
+      dconf write /org/guake/general/use-default-font "false"
+      dconf write /org/guake/style/font/style "'JetBrains Mono 10'"
+
+      # app: gnome-terminal
+      dconf write /org/gnome/terminal/legacy/theme-variant "'system'"
+      dconf write /org/gnome/terminal/legacy/new-tab-position "'next'"
+      dconf write /org/gnome/terminal/legacy/keybindings/copy "'<Alt>c'"
+      dconf write /org/gnome/terminal/legacy/keybindings/paste "'<Alt>v'"
 
       # configure the default gnome-terminal profile
       default_profile=$(dconf read /org/gnome/terminal/legacy/profiles:/default | cut -d\' -f2)
