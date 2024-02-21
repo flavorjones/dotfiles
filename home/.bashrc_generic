@@ -107,14 +107,25 @@ function ps1_working_directory {
     echo "(${gvm_go_name}) $(realpath --relative-to "${GOPATH}/src" "${PWD}")"
   elif [[ $PWD == $HOME ]] ; then
     echo "~"
+  elif GITDIR=$(git rev-parse --show-toplevel 2> /dev/null) ; then
+    if [[ ${PWD} == ${GITDIR} ]] ; then
+      basename "${GITDIR}"
+    else
+      echo "$(basename "${GITDIR}")/$(realpath --relative-to "${GITDIR}" "${PWD}")"
+    fi
   elif [[ $PWD =~ "${HOME}/" ]] ; then
     echo "~/$(realpath --relative-to "${HOME}" "${PWD}")"
   else
     echo $PWD
   fi
 }
+function ps1_host {
+  if [[ -n "$SSH_TTY" ]] ; then
+    echo "${HOST}:"
+  fi
+}
 function set_window_title {
-  echo -ne "\033]0;$HOST:$(ps1_working_directory)\007"
+  echo -ne "\033]0;$(ps1_host)$(ps1_working_directory)\007"
 }
 if [[ "$INSIDE_EMACS" == "" ]] ; then
   starship_precmd_user_func=set_window_title
@@ -122,7 +133,7 @@ else
   unset starship_precmd_user_func
 fi
 
-if [[ `which starship` != "" ]] ; then
+if command -v starship &> /dev/null ; then
   eval "$(starship init bash)"
 fi
 
