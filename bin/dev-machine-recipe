@@ -446,7 +446,8 @@ if $install_p ; then
       network-manager-openvpn-gnome \
       network-manager-vpnc-gnome \
       gufw \
-      timeshift
+      timeshift \
+      openssh-server
 
     #  docker
     if [[ `which docker` == "" ]] ; then
