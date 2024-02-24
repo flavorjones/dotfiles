@@ -60,6 +60,7 @@
  '(paradox-github-token t)
  '(projectile-rails-global-mode t)
  '(remote-file-name-inhibit-locks t)
+ '(ring-bell-function 'ignore)
  '(rubocopfmt-use-bundler-when-possible nil)
  '(ruby-align-to-stmt-keywords t)
  '(ruby-flymake-use-rubocop-if-available nil)
