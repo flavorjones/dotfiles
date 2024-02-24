@@ -225,6 +225,27 @@ bashrc="${HOME}/.bashrc"
 
 mkdir -p $ossdir
 
+function have_cmd {
+  command -v $1 &> /dev/null
+}
+
+function missing_cmd {
+  ! have_cmd $1
+}
+
+# "ensure_install <command_name> <action>" runs the action if the command is not found
+function ensure_install {
+  if missing_cmd $1 ; then
+    # run the action
+    $2
+
+    # ensure the action resulted in the command being installed
+    if missing_cmd $1 ; then
+      return false
+    fi
+  fi
+}
+
 if $linux_p ; then
   function apt_install {
     sudo apt install -y -q $*
@@ -263,13 +284,8 @@ if $linux_p ; then
   }
 
   if $install_p || $update_p ; then
-    if [[ `which snap` == "" ]] ; then
-      apt_install snapd
-    fi
-
-    if [[ `which flatpak-builder` == "" ]] ; then
-      apt_install flatpak-builder
-    fi
+    ensure_install snap "apt_install snapd"
+    ensure_install flatpak-builder "apt_install flatpak-builder"
   fi
 
 elif $apple_p ; then
@@ -281,7 +297,7 @@ elif $apple_p ; then
     brew upgrade
   }
 
-  if [[ `which brew` == "" ]] ; then
+  if missing_cmd brew ; then
     /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
   fi
 fi
@@ -323,7 +339,7 @@ if $install_p || $bootstrap_p ; then
     #
     # - https://tenderlovemaking.com/2021/10/26/publishing-gems-with-your-yubikey.html
     # - https://docs.yubico.com/software/yubikey/tools/ykman/Install_ykman.html#linux
-    if [[ `which ykman` == "" ]] ; then
+    if missing_cmd ykman ; then
       sudo apt-add-repository ppa:yubico/stable
       apt_update
       apt_install pcscd gnupg2 scdaemon yubikey-manager
@@ -332,7 +348,7 @@ if $install_p || $bootstrap_p ; then
     # emacs - built from source
     #
     # because 22.04 doesn't have emacs 29, wtf man
-    if ! command -v emacs &> /dev/null; then
+    if missing_cmd emacs ; then
       apt_install libgtk-3-dev libwebkit2gtk-4.0-dev libgif-dev libxpm-dev libgnutls28-dev libncurses-dev
 
       emacs_version="29.2"
@@ -426,13 +442,13 @@ if $install_p ; then
       fonts-cmu ttf-mscorefonts-installer \
       font-manager
 
-    # obsidian
-    if ! flatpak info md.obsidian.Obsidian &> /dev/null ; then
-      flatpak_install md.obsidian.Obsidian
+    # obsidian - download the .deb file
+    if missing_cmd obsidian ; then
+      open https://obsidian.md/download
     fi
 
     #  github cli
-    if [[ `which gh` == "" ]] ; then
+    if missing_cmd gh ; then
       # https://github.com/cli/cli/blob/trunk/docs/install_linux.md
       curl -fsSL https://cli.github.com/packages/githubcli-archive-keyring.gpg | sudo dd of=/usr/share/keyrings/githubcli-archive-keyring.gpg
       echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/githubcli-archive-keyring.gpg] https://cli.github.com/packages stable main" | sudo tee /etc/apt/sources.list.d/github-cli.list
@@ -450,7 +466,7 @@ if $install_p ; then
       openssh-server
 
     #  docker
-    if [[ `which docker` == "" ]] ; then
+    if missing_cmd docker ; then
       open "https://docs.docker.com/engine/install/debian/#install-using-the-repository"
       # apt_install docker.io
       # sudo usermod -a -G docker $USER
@@ -516,46 +532,40 @@ EOF
     snap_install --classic rustup
 
     # starship bash prompt
-    if [[ `which starship` == "" ]] ; then
+    if missing_cmd starship ; then
       wget -q --show-progress https://github.com/starship/starship/releases/latest/download/starship-x86_64-unknown-linux-gnu.tar.gz
       tar xvf starship-x86_64-unknown-linux-gnu.tar.gz
       mv starship ${HOME_LOCAL}/bin/
     fi
 
     # slack
-    if ! command -v slack &> /dev/null; then
-      snap_install slack
-    fi
-
-    # # chrome. pick one!
-    # if [[ `which google-chrome-beta` == "" ]] ; then
-    #     open https://www.google.com/intl/en/chrome/browser/beta.html
-    # fi
-    if [[ `which google-chrome-stable` == "" ]] ; then
-      open https://www.google.com/intl/en/chrome/browser/desktop/index.html
-    fi
+    ensure_install slack "snap_install slack"
 
     #
     #  things i have to manually install (pending further automation)
     #
-    if ! command -v discord &> /dev/null ; then
+    if missing_cmd google-chrome-stable ; then
+      open https://www.google.com/intl/en/chrome/browser/desktop/index.html
+    fi
+
+    if missing_cmd discord ; then
       open https://discord.com/download
     fi
 
-    if ! [[ -e /opt/zoom/ZoomLauncher ]] ; then
+    if missing_cmd /opt/zoom/ZoomLauncher ; then
       open https://zoom.us/download
     fi
 
-    if ! [[ -e /usr/bin/signal-desktop ]] ; then
+    if missing_cmd signal-desktop ; then
       open https://signal.org/download/
     fi
 
-    if [[ `which dropbox` == "" ]] ; then
+    if missing_cmd dropbox ; then
       # in case you need CLI tools: https://help.dropbox.com/installs/linux-commands
       open https://www.dropbox.com/install-linux
     fi
 
-    if [[ `which 1password` == "" ]] ; then
+    if missing_cmd 1password ; then
       open https://support.1password.com/get-the-apps/
     fi
 
@@ -567,7 +577,7 @@ EOF
 
       apt_install redshift redshift-gtk geoclue-2.0 geoclue-2-demo
 
-      if [[`which indicator-sound-switcher` == ""]] ; then
+      if missing_cmd indicator-sound-switcher ; then
         sudo apt-add-repository ppa:yktooo/ppa
         apt_update
         apt_install indicator-sound-switcher
@@ -631,7 +641,7 @@ EOF
 fi
 
 if $config_p ; then
-  if [[ `which bundle` != "" ]] ; then
+  if have_cmd bundle ; then
     bundle config set jobs 4
   fi
 
@@ -782,7 +792,7 @@ if $clean_p ; then
     flatpak uninstall -y --unused
     sudo flatpak uninstall -y --unused
 
-    if [[ `which docker` != "" ]] ; then
+    if have_cmd docker ; then
       docker system prune --all --force
       docker volume prune --all --force
     fi
