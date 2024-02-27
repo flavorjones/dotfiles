@@ -1096,7 +1096,7 @@ The key typed is executed unless it is SPC."
     ))
 
 (setq flavorjones:font-face (cl-first flavorjones:font-list))
-(setq flavorjones:font-size 12)
+(setq flavorjones:font-size 10)
 (flavorjones:enact-font)
 
 (global-set-key [?\C-+] 'flavorjones:increase-font-size)
@@ -1120,7 +1120,8 @@ The key typed is executed unless it is SPC."
 
 (defun flavorjones:set-theme (theme)
   (load-theme theme)
-  (setq flavorjones:theme theme))
+  (setq flavorjones:theme theme)
+  (prin1 theme))
 
 (defun flavorjones:next-color-theme ()
   (interactive)
