@@ -697,10 +697,12 @@ EOF
       # keyboard bindings
       dconf write /org/gnome/desktop/input-sources/xkb-options "['compose:rctrl', 'caps:ctrl_modifier']"
       dconf write /org/gnome/shell/keybindings/show-screen-recording-ui "['<Shift><Control><Alt>Print']"
-      dconf write /org/gnome/shell/extensions/tiling-assistant/tile-maximize "['<Control><Super>Up']"
-      dconf write /org/gnome/shell/extensions/tiling-assistant/restore-window "['<Control><Super>Down']"
-      dconf write /org/gnome/shell/extensions/tiling-assistant/tile-top-half "['<Super>Up']"
-      dconf write /org/gnome/shell/extensions/tiling-assistant/tile-bottom-half "['<Super>Down']"
+      dconf write /org/gnome/shell/extensions/tiling-assistant/tile-maximize "['<Control><Super>Return']"
+      dconf write /org/gnome/shell/extensions/tiling-assistant/restore-window "['<Control><Super>BackSpace']"
+      dconf write /org/gnome/shell/extensions/tiling-assistant/tile-top-half "['<Control><Super>Up']"
+      dconf write /org/gnome/shell/extensions/tiling-assistant/tile-bottom-half "['<Control><Super>Down']"
+      dconf write /org/gnome/shell/extensions/tiling-assistant/tile-right-half "['<Control><Super>Right']"
+      dconf write /org/gnome/shell/extensions/tiling-assistant/tile-left-half "['<Control><Super>Left']"
 
       # gnome-shell dock: detached, auto-hide, on the bottom
       dconf write /org/gnome/shell/extensions/dash-to-dock/dock-fixed "false"
