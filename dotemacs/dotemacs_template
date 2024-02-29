@@ -47,7 +47,6 @@
 (setq default-major-mode 'gfm-mode)
 (put 'downcase-region 'disabled nil)
 (put 'upcase-region 'disabled nil)
-(display-time)
 (set-input-mode nil nil t)       ; so we can use ALT as a META key (?)
 (setq-default indent-tabs-mode nil)
 (setq-default tab-width 2)
