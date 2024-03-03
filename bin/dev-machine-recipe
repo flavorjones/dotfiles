@@ -697,7 +697,7 @@ EOF
       # keyboard bindings
       dconf write /org/gnome/desktop/input-sources/xkb-options "['compose:rctrl', 'caps:ctrl_modifier']"
       dconf write /org/gnome/shell/keybindings/show-screen-recording-ui "['<Shift><Control><Alt>Print']"
-      dconf write /org/gnome/shell/extensions/tiling-assistant/tile-maximize "['<Control><Super>Return']"
+      dconf write /org/gnome/desktop/wm/keybindings/toggle-maximized "['<Control><Super>Return']"
       dconf write /org/gnome/shell/extensions/tiling-assistant/restore-window "['<Control><Super>BackSpace']"
       dconf write /org/gnome/shell/extensions/tiling-assistant/tile-top-half "['<Control><Super>Up']"
       dconf write /org/gnome/shell/extensions/tiling-assistant/tile-bottom-half "['<Control><Super>Down']"
