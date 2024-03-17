@@ -28,12 +28,17 @@
 
 [push]
 	default = upstream
+	followtags = true
+
+[merge]
+	conflictStyle = zdiff3
 
 [diff]
 	renames = copies
 	compactionHeuristic = true
 	wordRegex = "[^[:space:]_:.,()/`]+"
-	algorithm = patience
+	# https://luppeng.wordpress.com/2020/10/10/when-to-use-each-of-the-git-diff-algorithms/
+	algorithm = histogram
 
 [log]
 	abbrevCommit = true
@@ -45,6 +50,10 @@
 
 [rebase]
 	autoStash = true
+	updateRefs = true
+
+[rerere]
+	enabled = true
 
 [alias]
 	c = commit -v
