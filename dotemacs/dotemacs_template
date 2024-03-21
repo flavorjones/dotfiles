@@ -1037,7 +1037,8 @@ The key typed is executed unless it is SPC."
 (defun flavorjones:enact-font-frame (frame)
   (let* ((font (concat flavorjones:font-face
                        "-"
-                       (number-to-string flavorjones:font-size))))
+                       (number-to-string flavorjones:font-size)
+                       ":medium")))
     (set-frame-font font nil (list frame))
     (prin1 font)))
 
