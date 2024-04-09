@@ -5,6 +5,7 @@ window-theme = system
 selection-foreground = #ffffff
 selection-background = #000000
 keybind = f11=toggle_fullscreen
+keybind = ctrl+enter=ignore
 keybind = alt+c=copy_to_clipboard
 keybind = alt+v=paste_from_clipboard
 
