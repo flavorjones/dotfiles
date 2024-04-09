@@ -55,6 +55,7 @@
 #     - run this script's "config" command to set up the rest of your terminal defaults
 #  2. clone https://github.com/seebi/dircolors-solarized and use the 'ansi-dark' config
 #  3. mouse theme for screencasts https://github.com/iPAS/DMZ-White-Highlighted
+#  4. https://extensions.gnome.org/extension/5353/window-state-manager/
 #
 #
 #  # Chrome
@@ -406,7 +407,7 @@ if $install_p ; then
       cheese \
       pavucontrol \
       gdebi \
-      gnome-shell-extensions gnome-applets gnome-shell-pomodoro gnome-tweaks
+      gnome-shell-extensions gnome-applets gnome-shell-pomodoro
 
     # basics for development and related activities
     apt_install \
