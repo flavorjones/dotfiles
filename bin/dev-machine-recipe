@@ -107,10 +107,9 @@
 #
 #  ## Use a more-modern lowlatency kernel
 #
-#  There's usually a meta-package, like `linux-lowlatency-hwe-20.04-edge` that will keep you up to
-#  date with the latest lowlatency kernel. You can poke around with `apt-cache search lowlatency`
+#  From https://linux-packages.com/ubuntu-mantic-minotaur/package/linux-image-lowlatency
 #
-#  Otherwise, install a specific version with `apt install --install-suggests linux-image-5.8.0-31-lowlatency`
+#      sudo apt install linux-image-lowlatency
 #
 #
 #  ## Multi-Monitor Settings
