@@ -464,7 +464,9 @@ if $install_p ; then
       timeshift \
       openssh-server
 
+    #
     #  docker
+    #
     if missing_cmd docker ; then
       open "https://docs.docker.com/engine/install/debian/#install-using-the-repository"
       # apt_install docker.io
@@ -475,9 +477,26 @@ if $install_p ; then
       docker run hello-world
     fi
 
-    # power management
-    # - http://linrunner.de/en/tlp/docs/tlp-linux-advanced-power-management.html
-    # - http://linrunner.de/en/tlp/docs/tlp-configuration.html#rdw
+    #
+    # docker credential helper (secretservice)
+    # from https://dev.to/mattdark/docker-setting-up-a-credential-helper-4nbh
+    #
+    # add to ~/.docker/config.json:
+    #     {
+    #       "credsStore": "secretservice"
+    #     }
+    #
+    # then `docker login ghcr.io` with a github PAT (classic) with permissions:
+    # - `delete:packages`
+    # - `write:packages`
+    # - `repo`
+    apt_install golang-docker-credential-helpers
+
+    #
+    #  power management
+    #
+    #  - http://linrunner.de/en/tlp/docs/tlp-linux-advanced-power-management.html
+    #  - http://linrunner.de/en/tlp/docs/tlp-configuration.html#rdw
     apt_install tlp tlp-rdw acpi-call-dkms smartmontools powertop
 
     #  some xcompose shortcuts
