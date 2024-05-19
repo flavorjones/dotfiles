@@ -14,6 +14,10 @@ include "/%H/code/bootstrap/xcompose/emoji.compose"
 <Multi_key> <Multi_key> <c> <o> <f> <f>                 : "☕"		# U+2615 HOT BEVERAGE
 <Multi_key> <Multi_key> <t> <h> <i> <n> <k>             : "🤔"	# U+1F914 THINKING FACE
 <Multi_key> <Multi_key> <c> <r> <y>                     : "😢"
+<Multi_key> <:> <P>                                     : "🤪" # :P
+<Multi_key> <Multi_key> <r> <o> <f> <l>                 : "🤣" # rofl
+<Multi_key> <Multi_key> <s> <w> <e> <a> <t>             : "😅" # cold sweat and a smile
+<Multi_key> <Multi_key> <l> <o> <l>                     : "😆" # LOL
 
 # Money
 <Multi_key> <Multi_key> <e> <u> <r> <o>                 : "€"
