@@ -474,9 +474,7 @@ if $install_p ; then
     #
     #  power management
     #
-    #  - http://linrunner.de/en/tlp/docs/tlp-linux-advanced-power-management.html
-    #  - http://linrunner.de/en/tlp/docs/tlp-configuration.html#rdw
-    apt_install tlp tlp-rdw acpi-call-dkms smartmontools powertop
+    apt_install acpi-call-dkms smartmontools powertop
 
     #  some xcompose shortcuts
     XCOMPOSEDIR="${ossdir}/xcompose"
