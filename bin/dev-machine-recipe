@@ -40,7 +40,6 @@
 #     > sudo ufw allow from 192.168.86.0/24 proto tcp to any port 24800 # synergy/barrier
 #  3. create a postgres user role for yourself: `sudo -u postgres createuser -s flavorjones`
 #  4. add guake to startup applications
-#  5. add gTile extension, turn off Tiling Assistant
 #  6. https://extensions.gnome.org/extension/1634/resource-monitor/
 #     - CPU(% and load average), RAM(GB), net(wlan)
 #     - no decimals
@@ -343,26 +342,6 @@ if $install_p || $bootstrap_p ; then
       sudo apt-add-repository ppa:yubico/stable
       apt_update
       apt_install pcscd gnupg2 scdaemon yubikey-manager
-    fi
-
-    # emacs - built from source
-    #
-    # because 22.04 doesn't have emacs 29, wtf man
-    if missing_cmd emacs ; then
-      apt_install libgtk-3-dev libwebkit2gtk-4.0-dev libgif-dev libxpm-dev libgnutls28-dev libncurses-dev
-
-      emacs_version="29.2"
-      emacs_file=emacs-${emacs_version}.tar.xz
-      emacs_url=http://ftpmirror.gnu.org/emacs/${emacs_file}
-
-      pushd ${ossdir}
-      wget -c ${emacs_url}
-      tar -xf ${emacs_file}
-      pushd emacs-${emacs_version}
-      ./configure --prefix=${HOME_LOCAL} --with-cairo --with-xwidgets --with-x-toolkit=gtk3
-      make install
-      popd
-      popd
     fi
   fi
 fi
