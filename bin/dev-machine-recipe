@@ -382,7 +382,7 @@ if $install_p ; then
       tree \
       htop \
       guake \
-      cheese \
+      pinhole \
       pavucontrol \
       gdebi \
       gnome-shell-extensions gnome-applets gnome-shell-pomodoro
