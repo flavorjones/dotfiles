@@ -578,6 +578,7 @@ EOF
     fi
 
     if missing_cmd 1password ; then
+      # install 1password and 1password-cli packages
       open https://support.1password.com/get-the-apps/
     fi
 

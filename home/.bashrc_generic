@@ -207,7 +207,7 @@ fi
 alias xc="xclip -selection clipboard"
 
 function gem_push {
-  gem push --otp $(ykman oath accounts code -s rubygems.org) $*
+  gem push --otp $(op item get rubygems.org --otp) $*
 }
 
 function psg {
