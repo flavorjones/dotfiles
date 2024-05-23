@@ -5,11 +5,13 @@
 #
 module ThemeSettings
   DARK_THEME_SUFFIX = "-dark"
-  SCHEME_KEY = "/org/gnome/desktop/interface/color-scheme"
+
+  SCHEME_DIR = "/org/gnome/desktop/interface/color-scheme"
   SCHEME_DEFAULT = "default"
   SCHEME_PREFER_DARK = "prefer-dark"
+
+  THEME_DIR = "/org/gnome/desktop/interface"
   THEME_KEYS = %w[gtk-theme icon-theme]
-  THEME_PATH = "/org/gnome/desktop/interface"
 
   class << self
     def toggle
@@ -35,22 +37,22 @@ module ThemeSettings
     end
 
     def color_scheme
-      dconf_read(SCHEME_KEY)
+      dconf_read(SCHEME_DIR)
     end
 
     def set_color_scheme(value)
-      dconf_write(SCHEME_KEY, value)
+      dconf_write(SCHEME_DIR, value)
     end
 
     def ensure_theme_light(key)
-      path = File.join(THEME_PATH, key)
+      path = File.join(THEME_DIR, key)
       value = dconf_read(path)
       value.delete_suffix!(DARK_THEME_SUFFIX)
       dconf_write(path, value)
     end
 
     def ensure_theme_dark(key)
-      path = File.join(THEME_PATH, key)
+      path = File.join(THEME_DIR, key)
       value = dconf_read(path)
       value += "-dark" unless value.end_with?(DARK_THEME_SUFFIX)
       dconf_write(path, value)
