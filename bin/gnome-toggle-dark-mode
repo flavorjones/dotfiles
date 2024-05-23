@@ -1,0 +1,75 @@
+#!/usr/bin/env ruby
+#
+# this script assumes the "dark" variant of the theme is suffixed with "-dark" and the light variant
+# does not have a suffix.
+#
+module ThemeSettings
+  DARK_THEME_SUFFIX = "-dark"
+  SCHEME_KEY = "/org/gnome/desktop/interface/color-scheme"
+  SCHEME_DEFAULT = "default"
+  SCHEME_PREFER_DARK = "prefer-dark"
+  THEME_KEYS = %w[gtk-theme icon-theme]
+  THEME_PATH = "/org/gnome/desktop/interface"
+
+  class << self
+    def toggle
+      if dark_mode?
+        set_light_mode
+      else
+        set_dark_mode
+      end
+    end
+
+    def dark_mode?
+      color_scheme == SCHEME_PREFER_DARK
+    end
+
+    def set_light_mode
+      set_color_scheme SCHEME_DEFAULT
+      THEME_KEYS.each { |k| ensure_theme_light k }
+    end
+
+    def set_dark_mode
+      set_color_scheme SCHEME_PREFER_DARK
+      THEME_KEYS.each { |k| ensure_theme_dark k }
+    end
+
+    def color_scheme
+      dconf_read(SCHEME_KEY)
+    end
+
+    def set_color_scheme(value)
+      dconf_write(SCHEME_KEY, value)
+    end
+
+    def ensure_theme_light(key)
+      path = File.join(THEME_PATH, key)
+      value = dconf_read(path)
+      value.delete_suffix!(DARK_THEME_SUFFIX)
+      dconf_write(path, value)
+    end
+
+    def ensure_theme_dark(key)
+      path = File.join(THEME_PATH, key)
+      value = dconf_read(path)
+      value += "-dark" unless value.end_with?(DARK_THEME_SUFFIX)
+      dconf_write(path, value)
+    end
+
+    def dconf_write(path, value)
+      command = %{dconf write #{path} "'#{value}'"}
+      puts ">> #{command}"
+      %x{#{command}}
+    end
+
+    def dconf_read(path)
+      command = %{dconf read #{path}}
+      puts ">> #{command}"
+      %x{#{command}}.strip
+        .delete_prefix("'")
+        .delete_suffix("'")
+    end
+  end
+end
+
+ThemeSettings.toggle
