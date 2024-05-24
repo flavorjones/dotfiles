@@ -597,6 +597,7 @@ EOF
 
 
     #  graphics, screencaps, video and sound recording, etc.
+    flatpak_install com.github.maoschanz.drawing
     apt_install sox
     #            libsox-fmt-mp3 \
     #            krita kazam gnome-sound-recorder \
