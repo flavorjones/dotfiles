@@ -19,15 +19,7 @@
 #  3. configure dropbox, and symlink Documents → Dropbox/Mike
 #  4. check chrome profiles - regenerate if necessary (probably not necessary?)
 #  5. set up fingerprint reader (Settings → Users → Fingerprint Login)
-#  6. set up the yubikey: obsidian://open?vault=flavorjones&file=Personal%2FEncryption%20keys
-#     - PGP
-#       - `gpg --card-status` and make sure PGP keys are imported
-#       - configure .gitconfig for signing commits
-#     - SSH
-#       - add to bashrc local: export SSH_AUTH_SOCK=${XDG_RUNTIME_DIR}/gnupg/S.gpg-agent.ssh
-#       - copy any existing public/private ssh files (ecdsa files for yubikey), or generate new ones
-#     - TOTP
-#       - test it
+#  6. set up 1password SSH agent, git signing, and TOTP (see obsidian notes)
 #
 #  ## Medium Priority
 #
@@ -332,16 +324,6 @@ if $install_p || $bootstrap_p ; then
       pushd "${BARRIER_SSL_CONFIG_DIR}"
       openssl req -x509 -nodes -days 365 -subj /CN=Barrier -newkey rsa:4096 -keyout Barrier.pem -out Barrier.pem
       popd
-    fi
-
-    # key management
-    #
-    # - https://tenderlovemaking.com/2021/10/26/publishing-gems-with-your-yubikey.html
-    # - https://docs.yubico.com/software/yubikey/tools/ykman/Install_ykman.html#linux
-    if missing_cmd ykman ; then
-      sudo apt-add-repository ppa:yubico/stable
-      apt_update
-      apt_install pcscd gnupg2 scdaemon yubikey-manager
     fi
   fi
 fi
