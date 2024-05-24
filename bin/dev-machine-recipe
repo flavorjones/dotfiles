@@ -31,11 +31,8 @@
 #     > sudo ufw allow from 192.168.86.0/24 proto tcp to any port 22 # ssh
 #     > sudo ufw allow from 192.168.86.0/24 proto tcp to any port 24800 # synergy/barrier
 #  3. create a postgres user role for yourself: `sudo -u postgres createuser -s flavorjones`
-#  4. add guake to startup applications
-#  6. https://extensions.gnome.org/extension/1634/resource-monitor/
-#     - CPU(% and load average), RAM(GB), net(wlan)
-#     - no decimals
-#     - align left
+#  4. add guake to startup applications, may have to remap from F12 (S+F12?)
+#  5. https://extensions.gnome.org/extension/1460/vitals/
 #
 #  ## Low Priority
 #
