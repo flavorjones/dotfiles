@@ -14,7 +14,7 @@ fi
 #
 #  completion
 #
-. ~/.git-completion.bash
+. /usr/share/bash-completion/completions/git
 
 #
 #  cached values (for use in scripts?)

@@ -59,6 +59,7 @@
 	c = commit -v
 	ci = commit
 	co = checkout
+	sw = switch
 
 	d = diff -w -b
 	ds = diff -w -b --staged
