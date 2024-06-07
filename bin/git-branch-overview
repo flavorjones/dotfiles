@@ -23,7 +23,7 @@ end
 require "concurrent-ruby"
 require "ruby-progressbar"
 require "slop"
-require "date"
+require "time"
 
 # if this fails with "fatal: ref refs/remotes/origin/HEAD is not a symbolic ref"
 # then run:
@@ -78,7 +78,7 @@ pool = Concurrent::FixedThreadPool.new(THREAD_POOL_SIZE)
 branches_dates = Concurrent::Hash.new
 branches.each do |branch|
   pool.post do
-    date = Date.parse(%x(git log -n1 --format='%ai' "#{branch}").split(" ").first)
+    date = Time.parse(%x(git log -n1 --format='%aI' "#{branch}").split(" ").first)
     progress_bar.increment if progress_bar
     branches_dates[branch] = date
   end
