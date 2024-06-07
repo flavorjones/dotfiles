@@ -28,7 +28,7 @@
 
 [push]
 	default = upstream
-	followtags = true
+	# followtags = true # causes problems when pushing to other people's branches
 
 [merge]
 	conflictStyle = zdiff3
