@@ -76,6 +76,13 @@
 ;;;
 ;;; lsp-mode
 ;;;
+(use-package lsp-mode
+  :init
+  (setq lsp-keymap-prefix "C-c C-e")
+  :config
+  (lsp-enable-which-key-integration t) ; which-key is hot
+  )
+
 (require 'lsp-mode)
 
 ; opt into servers that we know we want to use (as opposed to opting out with lsp-disabled-clients)
@@ -84,10 +91,6 @@
 
 (add-to-list 'lsp-enabled-clients 'clangd)
 (add-hook 'c-mode-hook #'lsp-deferred)
-
-; which-key is hot
-(with-eval-after-load 'lsp-mode
-  (add-hook 'lsp-mode-hook #'lsp-enable-which-key-integration))
 
 ; save buffers after refactoring operations
 (add-hook 'lsp-after-apply-edits-hook
