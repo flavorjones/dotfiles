@@ -12,7 +12,7 @@ ssh_only = false
 
 [status]
 disabled = false
-symbol = "×"
+symbol = "✖ "
 
 [character]
 success_symbol = '[\$](bold blue)'
@@ -21,7 +21,27 @@ error_symbol = '[\$](bold red)'
 [directory]
 truncation_length = 10
 
+#
+# for screencasts, comment the battery.display section
+#
+[[battery.display]]
+threshold = 15
+discharging_symbol = "💀 "
+
+[[battery.display]]
+threshold = 50
+
+[[battery.display]]
+threshold = 90
+style = 'blue'
+
+[[battery.display]]
+threshold = 99
+style = 'green'
+
+# #
 # # for screencasts, uncomment below here
+# #
 # [git_status]
 # disabled = true
 
