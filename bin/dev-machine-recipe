@@ -388,7 +388,8 @@ if $install_p ; then
       libcurl4-openssl-dev \
       zip \
       graphviz gv \
-      bat hexyl
+      bat hexyl \
+      fzf
 
     # flatpak on ubuntu
     apt_install flatpak gnome-software-plugin-flatpak
@@ -594,8 +595,10 @@ EOF
     fi
 
     #  graphics, screencaps, video and sound recording, etc.
-    flatpak_install com.github.maoschanz.drawing
-    apt_install sox gimp
+    apt_install sox gimp drawing
+
+    #  office tools
+    apt_install gnumeric
 
     ###
     ###  things below here need to be scripted again, or I'm not sure I need them
