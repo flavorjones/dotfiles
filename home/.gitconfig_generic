@@ -50,7 +50,7 @@
 
 [rebase]
 	autoStash = true
-	updateRefs = true
+	# updateRefs = true
 
 [rerere]
 	enabled = true
