@@ -969,6 +969,7 @@ The key typed is executed unless it is SPC."
            (lambda ()
              ; for some reason yaml-mode inherits from text mode, wtf?
              ;; (face-remap-add-relative 'default '(:family "Menlo")) ;; only needed if we're overriding in text-mode
+             (flyspell-prog-mode)
              )))
 
 (add-hook `dockerfile-mode-hook
