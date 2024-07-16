@@ -82,8 +82,11 @@
   :config
   (lsp-enable-which-key-integration t) ; which-key is hot
   )
-
 (require 'lsp-mode)
+
+; see https://emacs-lsp.github.io/lsp-mode/page/performance/
+(setq read-process-output-max (* 1024 1024)) ;; 1mb
+(setq gc-cons-threshold 100000000)
 
 ; opt into servers that we know we want to use (as opposed to opting out with lsp-disabled-clients)
 (add-to-list 'lsp-enabled-clients 'ruby-lsp-ls)
