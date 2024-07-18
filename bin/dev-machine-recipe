@@ -580,9 +580,11 @@ EOF
     # screencaps
     apt_install peek screenkey
 
-    # steam - https://github.com/flathub/com.valvesoftware.Steam/issues
-    if ! flatpak info com.valvesoftware.Steam &> /dev/null ; then
-      flatpak_install com.valvesoftware.Steam
+    # steam - obsidian://open?vault=flavorjones&file=Games%2FSteam
+    if missing_cmd steam ; then
+      sudo dpkg --add-architecture i386
+      apt_update
+      apt_install steam
     fi
 
     #  virtualbox
