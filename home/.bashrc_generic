@@ -144,7 +144,7 @@ fi
 if [[ $I_AM_A_MAC == 1 ]] ; then
   export MY_LSARGS="-F --color=auto -G"
 else
-  export MY_LSARGS="-F --color=auto --time-style=long-iso"
+  export MY_LSARGS="-F --color=auto --time-style=long-iso --hyperlink"
 fi
 alias ls="ls \${MY_LSARGS}"
 alias lsa="ls -a \${MY_LSARGS}"
