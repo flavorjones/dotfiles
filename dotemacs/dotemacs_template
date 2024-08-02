@@ -223,6 +223,8 @@
 (global-set-key [vertical-line down-mouse-1] 'mouse-drag-vertical-line)
 (global-set-key [vertical-scroll-bar S-down-mouse-1] 'mouse-drag-vertical-line)
 
+(global-set-key (kbd "C-x j") #'duplicate-dwim)
+
 ;;;  use projectile (instead of ffip)
 (projectile-mode +1)
 (projectile-rails-global-mode)
@@ -1191,3 +1193,17 @@ The key typed is executed unless it is SPC."
 (define-key copilot-mode-map (kbd "<backtab>") #'my-copilot-tab)
 (define-key copilot-mode-map (kbd "<down>") #'my-copilot-next)
 (define-key copilot-mode-map (kbd "<up>") #'my-copilot-previous)
+
+;;; diminish removes shit from the modeline
+(require 'diminish)
+(diminish 'hs-minor-mode)
+(diminish 'camelCase-mode)
+(diminish 'copilot-mode)
+(diminish 'yas-minor-mode)
+(diminish 'editorconfig-mode)
+(diminish 'undo-tree-mode)
+(diminish 'eldoc-mode)
+(diminish 'flymake-mode)
+(diminish 'ruby-end-mode)
+(diminish 'ruby-refactor-mode)
+(diminish 'lsp-lens-mode)

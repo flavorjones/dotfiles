@@ -29,6 +29,7 @@
  '(ido-enter-matching-directory 'first)
  '(ido-everywhere t)
  '(ido-mode 'both nil (ido))
+ '(indent-tabs-mode nil)
  '(inhibit-startup-screen t)
  '(initial-major-mode 'gfm-mode)
  '(initial-scratch-message "# scratch buffer\12")
@@ -58,8 +59,10 @@
  '(org-odd-levels-only t)
  '(org-startup-folded 'content)
  '(package-selected-packages
-   '(ligature zig-mode which-key minitest rust-mode lsp-ui lsp-mode nginx-mode copilot quelpa-use-package quelpa monokai-theme night-owl-theme atomic-chrome protobuf-mode bison-mode git-link poly-ruby polymode hide-mode-line projectile-rails edit-indirect editorconfig rubocopfmt interaction-log bazel-mode ivy json-mode projectile nix-mode auto-compile crystal-mode csharp-mode direnv dockerfile-mode elm-mode exec-path-from-shell feature-mode git-commit go-mode haml-mode hl-todo julia-mode lua-mode magit markdown-toc neotree powershell rspec-mode ruby-hash-syntax sass-mode use-package yaml-mode markdown-mode udev-mode bicycle web-mode solarized-theme gnu-elpa-keyring-update ruby-additional ruby-end ruby-refactor rvm slim-mode toml-mode unicode-fonts markdown-mode+ go-autocomplete go-snippets golint gitattributes-mode gitconfig-mode gitignore-mode flymake-ruby rufo flycheck-julia undo-tree rnc-mode org minimap git-blame css-mode auto-highlight-symbol))
+   '(diminish ligature zig-mode which-key minitest rust-mode lsp-ui lsp-mode nginx-mode copilot quelpa-use-package quelpa monokai-theme night-owl-theme atomic-chrome protobuf-mode bison-mode git-link poly-ruby polymode hide-mode-line projectile-rails edit-indirect editorconfig rubocopfmt interaction-log bazel-mode ivy json-mode projectile nix-mode auto-compile crystal-mode csharp-mode direnv dockerfile-mode elm-mode exec-path-from-shell feature-mode git-commit go-mode haml-mode hl-todo julia-mode lua-mode magit markdown-toc neotree powershell rspec-mode ruby-hash-syntax sass-mode use-package yaml-mode markdown-mode udev-mode bicycle web-mode solarized-theme gnu-elpa-keyring-update ruby-additional ruby-end ruby-refactor rvm slim-mode toml-mode unicode-fonts markdown-mode+ go-autocomplete go-snippets golint gitattributes-mode gitconfig-mode gitignore-mode flymake-ruby rufo flycheck-julia undo-tree rnc-mode org minimap git-blame css-mode auto-highlight-symbol))
  '(paradox-github-token t)
+ '(pixel-scroll-mode t)
+ '(pixel-scroll-precision-mode t)
  '(projectile-rails-global-mode t)
  '(remote-file-name-inhibit-locks t)
  '(ring-bell-function 'ignore)
@@ -98,8 +101,10 @@
  '(visual-line-fringe-indicators '(nil right-curly-arrow))
  '(web-mode-code-indent-offset 2)
  '(web-mode-css-indent-offset 2)
+ '(web-mode-enable-auto-indentation nil)
  '(web-mode-markup-indent-offset 2)
- '(web-mode-sql-indent-offset 2))
+ '(web-mode-sql-indent-offset 2)
+ '(web-mode-tests-directory "~/tests/"))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
