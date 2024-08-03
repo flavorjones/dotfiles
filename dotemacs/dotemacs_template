@@ -101,17 +101,17 @@
             (when (eq operation 'rename)
               (save-buffer))))
 
-;;;
-;;;  ido-mode
-;;;
-(setq ido-everywhere t)
-(setq ido-case-fold nil)
-(setq ido-confirm-unique-completion nil)
-(setq ido-enable-dot-prefix t)
-(setq ido-enable-flex-matching t)
-(setq ido-enter-matching-directory (quote first))
-;; (setq ido-ignore-buffers (quote ("\\` " "^\\*.*\\*$"))) // TODO *shell*
-(ido-mode)
+;; completion
+;; see https://www.masteringemacs.org/article/understanding-minibuffer-completion
+;; also see "M-x customize-group icomplete"
+(setq completion-cycle-threshold 3)
+(setq completion-styles '(flex basic partial-completion emacs22))
+(setq read-buffer-completion-ignore-case t)
+(setq read-file-name-completion-ignore-case t)
+(setq icomplete-mode t)
+(setq icomplete-vertical-mode t)
+(setq fido-mode t)
+(setq fido-vertical-mode t)
 
 ;; x clipboard
 (if (fboundp 'menu-bar-enable-clipboard) (menu-bar-enable-clipboard))
