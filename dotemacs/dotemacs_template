@@ -28,10 +28,7 @@
 (require 'use-package)
 (require 'quelpa-use-package)
 
-(setq load-prefer-newer t)
-(require 'auto-compile)
-(auto-compile-on-load-mode 1)
-
+(setq native-comp-async-report-warnings-errors nil)
 
 ;;;;;;;;;;
 ;;; general variables, functions
