@@ -508,6 +508,7 @@ EOF
     if missing_cmd starship ; then
       wget -q --show-progress https://github.com/starship/starship/releases/latest/download/starship-x86_64-unknown-linux-gnu.tar.gz
       tar xvf starship-x86_64-unknown-linux-gnu.tar.gz
+      mkdir -p ${HOME_LOCAL}/bin/
       mv starship ${HOME_LOCAL}/bin/
     fi
 
