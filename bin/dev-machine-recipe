@@ -169,11 +169,6 @@ set -o xtrace
 if [[ $(uname) == "Linux" ]] ; then
   linux_p=true
   apple_p=false
-  if [[ -f /etc/linuxmint/info ]] ; then
-    mint_p=true
-  else
-    mint_p=false
-  fi
 elif [[ $(uname) == "Darwin" ]] ; then
   linux_p=false
   apple_p=true
@@ -308,20 +303,6 @@ if $install_p || $bootstrap_p ; then
        build-essential cmake autoconf libtool \
        git-core ruby rake curl wget \
        clangd bear
-
-    # sharing keyboard and mouse (synergy / barrier / input-leap)
-    #
-    # on client systems make sure you're using X11 not wayland (/etc/gdm3/custom.conf)
-    # but once input-leap supports wayland, we should try that instead.
-    # (look at the github actions workflows in input-leap for how to build it)
-    apt_install barrier
-    BARRIER_SSL_CONFIG_DIR="${HOME}/.local/share/barrier/SSL"
-    if [[ ! -f "${BARRIER_SSL_CONFIG_DIR}/Barrier.pem" ]] ; then
-      mkdir -p "${BARRIER_SSL_CONFIG_DIR}"
-      pushd "${BARRIER_SSL_CONFIG_DIR}"
-      openssl req -x509 -nodes -days 365 -subj /CN=Barrier -newkey rsa:4096 -keyout Barrier.pem -out Barrier.pem
-      popd
-    fi
   fi
 fi
 
@@ -533,13 +514,28 @@ EOF
     # slack
     ensure_install slack "snap_install slack"
 
+    # brave browser
+    if missing_cmd brave ; then
+      # from https://brave.com/linux/
+      sudo curl -fsSLo /usr/share/keyrings/brave-browser-archive-keyring.gpg https://brave-browser-apt-release.s3.brave.com/brave-browser-archive-keyring.gpg
+      echo "deb [signed-by=/usr/share/keyrings/brave-browser-archive-keyring.gpg] https://brave-browser-apt-release.s3.brave.com/ stable main" | sudo tee /etc/apt/sources.list.d/brave-browser-release.list
+
+      apt_update
+      apt_install brave-browser
+    fi
+
+    # screencaps
+    apt_install peek screenkey
+
+    #  graphics, screencaps, video and sound recording, etc.
+    apt_install sox gimp drawing
+
+    #  office tools
+    apt_install gnumeric
+
     #
     #  things i have to manually install (pending further automation)
     #
-    if missing_cmd google-chrome-stable ; then
-      open https://www.google.com/intl/en/chrome/browser/desktop/index.html
-    fi
-
     if missing_cmd discord ; then
       open https://discord.com/download
     fi
@@ -562,56 +558,33 @@ EOF
       open https://support.1password.com/get-the-apps/
     fi
 
-    if $mint_p ; then
-      ##
-      ##  cinnamon
-      ##
-      apt_install gir1.2-gtop-2.0 # for cinnamon system monitor
-
-      apt_install redshift redshift-gtk geoclue-2.0 geoclue-2-demo
-
-      if missing_cmd indicator-sound-switcher ; then
-        sudo apt-add-repository ppa:yktooo/ppa
-        apt_update
-        apt_install indicator-sound-switcher
-      fi
-    fi
-
-    # screencaps
-    apt_install peek screenkey
-
-    # steam - obsidian://open?vault=flavorjones&file=Games%2FSteam
-    if missing_cmd steam ; then
-      sudo dpkg --add-architecture i386
-      apt_update
-      apt_install steam
-    fi
-
-    #  virtualbox
-    apt_install virtualbox
-    if missing_cmd vagrant ; then
-      # open https://developer.hashicorp.com/vagrant/install
-      wget -O- https://apt.releases.hashicorp.com/gpg | sudo gpg --dearmor -o /usr/share/keyrings/hashicorp-archive-keyring.gpg
-      echo "deb [signed-by=/usr/share/keyrings/hashicorp-archive-keyring.gpg] https://apt.releases.hashicorp.com $(lsb_release -cs) main" | sudo tee /etc/apt/sources.list.d/hashicorp.list
-      sudo apt update && sudo apt install vagrant
-    fi
-
-    #  graphics, screencaps, video and sound recording, etc.
-    apt_install sox gimp drawing
-
-    #  office tools
-    apt_install gnumeric
-
     ###
     ###  things below here need to be scripted again, or I'm not sure I need them
     ###
+    # # steam - obsidian://open?vault=flavorjones&file=Games%2FSteam
+    # if missing_cmd steam ; then
+    #   sudo dpkg --add-architecture i386
+    #   apt_update
+    #   apt_install steam
+    # fi
+    #
+    # #  virtualbox and vagrant
+    # apt_install virtualbox
+    # if missing_cmd vagrant ; then
+    #   # open https://developer.hashicorp.com/vagrant/install
+    #   wget -O- https://apt.releases.hashicorp.com/gpg | sudo gpg --dearmor -o /usr/share/keyrings/hashicorp-archive-keyring.gpg
+    #   echo "deb [signed-by=/usr/share/keyrings/hashicorp-archive-keyring.gpg] https://apt.releases.hashicorp.com $(lsb_release -cs) main" | sudo tee /etc/apt/sources.list.d/hashicorp.list
+    #   sudo apt update && sudo apt install vagrant
+    # fi
+    #
+    # apt_install \
     #            libsox-fmt-mp3 \
     #            krita kazam gnome-sound-recorder \
     #            libmagickcore-dev libmagick++-dev \
     #            v4l2loopback-dkms v4l2loopback-utils
-    # flatpak_install org.gimp.GIMP
+    #
     # snap_install shotcut
-
+    #
     # # from https://github.com/snapcrafters/obs-studio
     # #
     # # use the flatpak, not the snap, because it renders better with
@@ -663,121 +636,97 @@ EOF
   fi
 
   if $linux_p && test -n "$DISPLAY" ; then
-    if $mint_p ; then
-      ##
-      ##  cinnamon
-      ##
-      gsettings set org.cinnamon.desktop.wm.preferences focus-mode 'mouse'
-      gsettings set org.cinnamon.desktop.wm.preferences num-workspaces 4
-      gsettings set org.cinnamon.desktop.peripherals.touchpad tap-to-click false
-      gsettings set org.gnome.desktop.peripherals.touchpad tap-to-click false
-      gsettings set org.cinnamon.desktop.peripherals.touchpad disable-while-typing true
-      gsettings set org.gnome.desktop.peripherals.touchpad disable-while-typing true
-      gsettings set org.cinnamon.desktop.peripherals.touchpad two-finger-scrolling-enabled true
-      gsettings set org.gnome.desktop.peripherals.touchpad two-finger-scrolling-enabled true
-      gsettings set org.gnome.libgnomekbd.keyboard options "['Compose key\tcompose:ralt', 'caps\tcaps:ctrl_modifier']"
-      gsettings set org.cinnamon.desktop.keybindings.wm toggle-maximized "['<Alt>F10', '<Alt><Super>Up']"
-      gsettings set org.cinnamon.desktop.keybindings.wm minimize "['<Alt><Super>Down']"
+    ##
+    ##  gnome-shell
+    ##
+    #
+    #  use "dconf watch /" to see what changes when you use the UI, then add the command here.
+    #
+    # keyboard bindings
+    dconf write /org/gnome/desktop/input-sources/xkb-options "['compose:ralt', 'caps:ctrl_modifier']"
+    dconf write /org/gnome/shell/keybindings/show-screen-recording-ui "['<Shift><Control><Alt>Print']"
+    dconf write /org/gnome/desktop/wm/keybindings/toggle-maximized "['<Control><Super>Return']"
+    dconf write /org/gnome/shell/extensions/tiling-assistant/restore-window "['<Control><Super>BackSpace']"
+    dconf write /org/gnome/shell/extensions/tiling-assistant/tile-top-half "['<Control><Super>Up']"
+    dconf write /org/gnome/shell/extensions/tiling-assistant/tile-bottom-half "['<Control><Super>Down']"
+    dconf write /org/gnome/shell/extensions/tiling-assistant/tile-right-half "['<Control><Super>Right']"
+    dconf write /org/gnome/shell/extensions/tiling-assistant/tile-left-half "['<Control><Super>Left']"
+    # also bind "gnome-toggle-dark-mode" to a custom keybinding, maybe S+C+F12
 
-      # move alt-space keybinding from "window menu" to rofi
-      gsettings set org.cinnamon.desktop.keybindings.wm activate-window-menu "[]"
-      dconf write /org/cinnamon/desktop/keybindings/custom-keybindings/rofi-binding/command "'rofi-launcher'"
-      dconf write /org/cinnamon/desktop/keybindings/custom-keybindings/rofi-binding/name "'rofi-launcher'"
-      dconf write /org/cinnamon/desktop/keybindings/custom-keybindings/rofi-binding/binding "['<Alt>space']"
-      dconf write /org/cinnamon/desktop/keybindings/custom-list "['rofi-binding']"
-    else
-      ##
-      ##  gnome-shell
-      ##
-      #
-      #  use "dconf watch /" to see what changes when you use the UI, then add the command here.
-      #
-      # keyboard bindings
-      dconf write /org/gnome/desktop/input-sources/xkb-options "['compose:ralt', 'caps:ctrl_modifier']"
-      dconf write /org/gnome/shell/keybindings/show-screen-recording-ui "['<Shift><Control><Alt>Print']"
-      dconf write /org/gnome/desktop/wm/keybindings/toggle-maximized "['<Control><Super>Return']"
-      dconf write /org/gnome/shell/extensions/tiling-assistant/restore-window "['<Control><Super>BackSpace']"
-      dconf write /org/gnome/shell/extensions/tiling-assistant/tile-top-half "['<Control><Super>Up']"
-      dconf write /org/gnome/shell/extensions/tiling-assistant/tile-bottom-half "['<Control><Super>Down']"
-      dconf write /org/gnome/shell/extensions/tiling-assistant/tile-right-half "['<Control><Super>Right']"
-      dconf write /org/gnome/shell/extensions/tiling-assistant/tile-left-half "['<Control><Super>Left']"
-      # also bind "gnome-toggle-dark-mode" to a custom keybinding, maybe S+C+F12
+    # gnome-shell dock: detached, auto-hide, on the bottom
+    dconf write /org/gnome/shell/extensions/dash-to-dock/dock-fixed "false"
+    dconf write /org/gnome/shell/extensions/dash-to-dock/extend-height "false"
+    dconf write /org/gnome/shell/extensions/dash-to-dock/dock-position "'BOTTOM'"
 
-      # gnome-shell dock: detached, auto-hide, on the bottom
-      dconf write /org/gnome/shell/extensions/dash-to-dock/dock-fixed "false"
-      dconf write /org/gnome/shell/extensions/dash-to-dock/extend-height "false"
-      dconf write /org/gnome/shell/extensions/dash-to-dock/dock-position "'BOTTOM'"
+    # icons: top bar size, do not show home folder on desktop
+    dconf write /org/gnome/shell/extensions/appindicator/icon-size "20"
+    dconf write /org/gnome/shell/extensions/ding/show-home "false"
 
-      # icons: top bar size, do not show home folder on desktop
-      dconf write /org/gnome/shell/extensions/appindicator/icon-size "20"
-      dconf write /org/gnome/shell/extensions/ding/show-home "false"
+    # fixed number of workspaces
+    dconf write /org/gnome/mutter/dynamic-workspaces "false"
+    dconf write /org/gnome/desktop/wm/preferences/num-workspaces 5
 
-      # fixed number of workspaces
-      dconf write /org/gnome/mutter/dynamic-workspaces "false"
-      dconf write /org/gnome/desktop/wm/preferences/num-workspaces 5
+    # use window tiling state; do not offer tiling popup; do not raise all tiled windows together
+    dconf write /org/gnome/shell/extensions/tiling-assistant/dynamic-keybinding-behavior 2
+    dconf write /org/gnome/shell/extensions/tiling-assistant/enable-tiling-popup "false"
+    dconf write /org/gnome/shell/extensions/tiling-assistant/disable-tile-groups "true"
+    dconf write /org/gnome/shell/extensions/tiling-assistant/enable-raise-tile-group "false"
 
-      # use window tiling state; do not offer tiling popup; do not raise all tiled windows together
-      dconf write /org/gnome/shell/extensions/tiling-assistant/dynamic-keybinding-behavior 2
-      dconf write /org/gnome/shell/extensions/tiling-assistant/enable-tiling-popup "false"
-      dconf write /org/gnome/shell/extensions/tiling-assistant/disable-tile-groups "true"
-      dconf write /org/gnome/shell/extensions/tiling-assistant/enable-raise-tile-group "false"
+    # night light
+    dconf write /org/gnome/settings-daemon/plugins/color/night-light-enabled "true"
 
-      # night light
-      dconf write /org/gnome/settings-daemon/plugins/color/night-light-enabled "true"
+    # time: format, change timezones automatically
+    dconf write /org/gnome/desktop/interface/clock-show-weekday "true"
+    dconf write /org/gnome/desktop/interface/clock-format "'12h'"
+    dconf write /org/gtk/settings/file-chooser/clock-format "'12h'"
+    dconf write /org/gnome/desktop/datetime/automatic-timezone "true"
 
-      # time: format, change timezones automatically
-      dconf write /org/gnome/desktop/interface/clock-show-weekday "true"
-      dconf write /org/gnome/desktop/interface/clock-format "'12h'"
-      dconf write /org/gtk/settings/file-chooser/clock-format "'12h'"
-      dconf write /org/gnome/desktop/datetime/automatic-timezone "true"
+    # mouse and touchpad settings
+    # - <alt>+click to move and resize windows
+    # - two-finger right-click
+    # - disable touchpad tap-to-click
+    # - focus-follows-mouse
+    dconf write /org/gnome/desktop/wm/preferences/resize-with-right-button "true"
+    dconf write /org/gnome/desktop/peripherals/touchpad/click-method "'fingers'"
+    dconf write /org/gnome/desktop/wm/preferences/mouse-button-modifier "'<Alt>'"
+    dconf write /org/gnome/desktop/peripherals/touchpad/tap-to-click "false"
+    dconf write /org/gnome/desktop/wm/preferences/focus-mode "'sloppy'"
 
-      # mouse and touchpad settings
-      # - <alt>+click to move and resize windows
-      # - two-finger right-click
-      # - disable touchpad tap-to-click
-      # - focus-follows-mouse
-      dconf write /org/gnome/desktop/wm/preferences/resize-with-right-button "true"
-      dconf write /org/gnome/desktop/peripherals/touchpad/click-method "'fingers'"
-      dconf write /org/gnome/desktop/wm/preferences/mouse-button-modifier "'<Alt>'"
-      dconf write /org/gnome/desktop/peripherals/touchpad/tap-to-click "false"
-      dconf write /org/gnome/desktop/wm/preferences/focus-mode "'sloppy'"
+    # do not attach modal dialog windows
+    dconf write /org/gnome/mutter/attach-modal-dialogs "false"
 
-      # do not attach modal dialog windows
-      dconf write /org/gnome/mutter/attach-modal-dialogs "false"
+    # lock screen, suspend when plugged in
+    dconf write /org/gnome/desktop/session/idle-delay "uint32 900"
+    dconf write /org/gnome/desktop/screensaver/lock-delay "uint32 30"
+    dconf write /org/gnome/settings-daemon/plugins/power/sleep-inactive-ac-type "'suspend'"
 
-      # lock screen, suspend when plugged in
-      dconf write /org/gnome/desktop/session/idle-delay "uint32 900"
-      dconf write /org/gnome/desktop/screensaver/lock-delay "uint32 30"
-      dconf write /org/gnome/settings-daemon/plugins/power/sleep-inactive-ac-type "'suspend'"
+    # privacy
+    dconf write /org/gnome/desktop/privacy/recent-files-max-age "30"
+    dconf write /org/gnome/desktop/privacy/remove-old-trash-files "true"
+    dconf write /org/gnome/desktop/privacy/remove-old-temp-files "true"
 
-      # privacy
-      dconf write /org/gnome/desktop/privacy/recent-files-max-age "30"
-      dconf write /org/gnome/desktop/privacy/remove-old-trash-files "true"
-      dconf write /org/gnome/desktop/privacy/remove-old-temp-files "true"
+    # app: quake
+    dconf write /org/guake/general/use-trayicon "false"
+    dconf write /org/guake/general/window-losefocus "true"
+    dconf write /org/guake/general/use-popup "false"
+    dconf write /org/guake/general/use-default-font "false"
+    dconf write /org/guake/style/font/style "'JetBrains Mono 10'"
 
-      # app: quake
-      dconf write /org/guake/general/use-trayicon "false"
-      dconf write /org/guake/general/window-losefocus "true"
-      dconf write /org/guake/general/use-popup "false"
-      dconf write /org/guake/general/use-default-font "false"
-      dconf write /org/guake/style/font/style "'JetBrains Mono 10'"
+    # app: gnome-terminal
+    dconf write /org/gnome/terminal/legacy/theme-variant "'system'"
+    dconf write /org/gnome/terminal/legacy/new-tab-position "'next'"
+    dconf write /org/gnome/terminal/legacy/keybindings/copy "'<Alt>c'"
+    dconf write /org/gnome/terminal/legacy/keybindings/paste "'<Alt>v'"
 
-      # app: gnome-terminal
-      dconf write /org/gnome/terminal/legacy/theme-variant "'system'"
-      dconf write /org/gnome/terminal/legacy/new-tab-position "'next'"
-      dconf write /org/gnome/terminal/legacy/keybindings/copy "'<Alt>c'"
-      dconf write /org/gnome/terminal/legacy/keybindings/paste "'<Alt>v'"
-
-      # configure the default gnome-terminal profile
-      default_profile=$(dconf read /org/gnome/terminal/legacy/profiles:/default | cut -d\' -f2)
-      if [[ -z "$default_profile" ]] ; then
-        default_profile=$(dconf read /org/gnome/terminal/legacy/profiles:/list | cut -d\' -f2)
-      fi
-      if [[ -n "$default_profile" ]] ; then
-        dconf write /org/gnome/terminal/legacy/profiles:/:${default_profile}/use-system-font "false"
-        dconf write /org/gnome/terminal/legacy/profiles:/:${default_profile}/font "'JetBrains Mono 10'"
-        dconf write /org/gnome/terminal/legacy/profiles:/:${default_profile}/audible-bell "false"
-      fi
+    # configure the default gnome-terminal profile
+    default_profile=$(dconf read /org/gnome/terminal/legacy/profiles:/default | cut -d\' -f2)
+    if [[ -z "$default_profile" ]] ; then
+      default_profile=$(dconf read /org/gnome/terminal/legacy/profiles:/list | cut -d\' -f2)
+    fi
+    if [[ -n "$default_profile" ]] ; then
+      dconf write /org/gnome/terminal/legacy/profiles:/:${default_profile}/use-system-font "false"
+      dconf write /org/gnome/terminal/legacy/profiles:/:${default_profile}/font "'JetBrains Mono 10'"
+      dconf write /org/gnome/terminal/legacy/profiles:/:${default_profile}/audible-bell "false"
     fi
   fi
 fi
