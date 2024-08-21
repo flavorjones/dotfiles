@@ -17,8 +17,10 @@ module ThemeSettings
     def toggle
       if dark_mode?
         set_light_mode
+        # GhosttySettings.new.set_light_mode
       else
         set_dark_mode
+        # GhosttySettings.new.set_dark_mode
       end
     end
 
@@ -70,6 +72,71 @@ module ThemeSettings
       %x{#{command}}.strip
         .delete_prefix("'")
         .delete_suffix("'")
+    end
+  end
+
+  class GhosttySettings
+    SETTINGS_FILE = "#{ENV["HOME"]}/.config/ghostty/config"
+
+    class << self
+      def toggle
+        new.toggle
+      end
+    end
+
+    def toggle
+      if dark_mode?
+        set_light_mode
+      else
+        set_dark_mode
+      end
+    end
+
+    def dark_mode?
+      active_theme_line = settings.find { |line| line =~ /^theme\s*=/ }
+      active_theme_line.include?("Dark")
+    end
+
+    def set_light_mode
+      settings.each_with_index do |line, j|
+        next unless line =~ /^#?\s*theme\s*=/
+        settings[j] = if line.include?("Light")
+          ensure_line_uncommented(line)
+        else
+          ensure_line_commented(line)
+        end
+      end
+      write_settings
+    end
+
+    def set_dark_mode
+      settings.each_with_index do |line, j|
+        next unless line =~ /^#?\s*theme\s*=/
+
+        settings[j] = if line.include?("Dark")
+          ensure_line_uncommented(line)
+        else
+          ensure_line_commented(line)
+        end
+      end
+      write_settings
+    end
+
+    def ensure_line_uncommented(line)
+      line.sub(/^\s*#\s*/, "")
+    end
+
+    def ensure_line_commented(line)
+      ensure_line_uncommented(line).sub(/^/, "# ")
+    end
+
+    def settings
+      @settings ||= File.read(SETTINGS_FILE).lines
+    end
+
+    def write_settings
+      puts settings
+      File.write(SETTINGS_FILE, settings.join)
     end
   end
 end
