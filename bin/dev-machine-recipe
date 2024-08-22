@@ -652,7 +652,10 @@ EOF
     dconf write /org/gnome/shell/extensions/tiling-assistant/tile-bottom-half "['<Control><Super>Down']"
     dconf write /org/gnome/shell/extensions/tiling-assistant/tile-right-half "['<Control><Super>Right']"
     dconf write /org/gnome/shell/extensions/tiling-assistant/tile-left-half "['<Control><Super>Left']"
+
     # also bind "gnome-toggle-dark-mode" to a custom keybinding, maybe S+C+F12
+    dconf write /org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom0/binding "'<Shift><Control>F12'"
+    dconf write /org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom0/name "'toggle dark mode'"
 
     # gnome-shell dock: detached, auto-hide, on the bottom
     dconf write /org/gnome/shell/extensions/dash-to-dock/dock-fixed "false"
