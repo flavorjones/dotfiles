@@ -76,8 +76,11 @@
 (use-package lsp-mode
   :init (setq lsp-keymap-prefix "C-c C-e")
   :config (lsp-enable-which-key-integration t) ; which-key is hot
-  :hook ((ruby-mode . lsp-deferred)
-         (c-mode . lsp-deferred)))
+  :hook (
+         (ruby-mode . lsp-deferred)
+         (c-mode . lsp-deferred)
+         (c++-mode . lsp-deferred)
+         ))
 (require 'lsp-mode)
 
 ; see https://emacs-lsp.github.io/lsp-mode/page/performance/
