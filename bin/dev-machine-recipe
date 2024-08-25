@@ -32,18 +32,17 @@
 #     > sudo ufw allow from 192.168.86.0/24 proto tcp to any port 24800 # synergy/barrier
 #  3. create a postgres user role for yourself: `sudo -u postgres createuser -s flavorjones`
 #  4. add guake to startup applications, may have to remap from F12 (S+F12?)
-#  5. https://extensions.gnome.org/extension/1460/vitals/
+#  5. install gnome extensions
+#     - [Window State Manager - GNOME Shell Extensions](https://extensions.gnome.org/extension/5353/window-state-manager/)
+#     - [Resource Monitor - GNOME Shell Extensions](https://extensions.gnome.org/extension/1634/resource-monitor/)
 #
 #  ## Low Priority
 #
-#  1. configure gnome-terminal to use solarized-dark theme
-#     - the default solarized-dark is not good, use Gogh
-#     - clone https://github.com/Mayccoll/Gogh and create a profile for "Solarized Dark"
-#     - make it the default profile
-#     - run this script's "config" command to set up the rest of your terminal defaults
+#  1. build and install ghostty
+#     - snap install zig --class --beta
+#     - zig build -p $HOME/.local -Doptimize=ReleaseFast
 #  2. clone https://github.com/seebi/dircolors-solarized and use the 'ansi-dark' config
 #  3. mouse theme for screencasts https://github.com/iPAS/DMZ-White-Highlighted
-#  4. https://extensions.gnome.org/extension/5353/window-state-manager/
 #
 #
 #  # Chrome
@@ -250,7 +249,7 @@ if $linux_p ; then
     xdg-open $*
   }
 
-  # delete with `snap uninstall` or `snap uninstall --purge`
+  # delete with `snap remove` or `snap remove --purge`
   # delete old snapshots with `snap forget <id>`
   function snap_install {
     sudo snap install $*
@@ -349,6 +348,7 @@ if $install_p ; then
 
     # basics for development and related activities
     apt_install \
+      emacs \
       gitk subversion mercurial bzr \
       valgrind \
       direnv \
