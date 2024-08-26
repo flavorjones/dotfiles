@@ -57,7 +57,7 @@ if [[ $I_AM_LINUX == 1 ]] ; then
   alias bat=batcat
 fi
 
-export BROWSER="google-chrome"
+export BROWSER="brave-browser"
 
 if [[ $I_AM_A_MAC == 1 ]] ; then
   # for emacsclient
