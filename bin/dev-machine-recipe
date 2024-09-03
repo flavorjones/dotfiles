@@ -672,11 +672,18 @@ EOF
     dconf write /org/gnome/mutter/dynamic-workspaces "false"
     dconf write /org/gnome/desktop/wm/preferences/num-workspaces 5
 
-    # use window tiling state; do not offer tiling popup; do not raise all tiled windows together
+    # ubuntu tiling assistant
+    dconf write /org/gnome/shell/extensions/tiling-assistant/enable-advanced-experimental-features true
     dconf write /org/gnome/shell/extensions/tiling-assistant/dynamic-keybinding-behavior 2
     dconf write /org/gnome/shell/extensions/tiling-assistant/enable-tiling-popup "false"
     dconf write /org/gnome/shell/extensions/tiling-assistant/disable-tile-groups "true"
     dconf write /org/gnome/shell/extensions/tiling-assistant/enable-raise-tile-group "false"
+    dconf write /org/gnome/shell/extensions/tiling-assistant/window-gap 12
+    dconf write /org/gnome/shell/extensions/tiling-assistant/single-screen-gap 12
+    dconf write /org/gnome/shell/extensions/tiling-assistant/screen-top-gap 12
+    dconf write /org/gnome/shell/extensions/tiling-assistant/screen-left-gap 12
+    dconf write /org/gnome/shell/extensions/tiling-assistant/screen-right-gap 12
+    dconf write /org/gnome/shell/extensions/tiling-assistant/monitor-switch-grace-period "false"
 
     # night light
     dconf write /org/gnome/settings-daemon/plugins/color/night-light-enabled "true"
