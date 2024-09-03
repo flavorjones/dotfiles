@@ -199,3 +199,19 @@ File.join(HOME, ".bashrc").tap do |path|
     end
   end
 end
+
+File.join(HOME, ".inputrc").tap do |path|
+  unless File.exist?(path)
+    puts "writing new #{path} ..."
+    File.open(path, "w") do |f|
+      f.write(<<~EOF)
+        # this is a local file with ephemeral edits.
+
+        # the permanent, generic profile is here:
+        \$include ~/.inputrc_generic
+
+        # local edits folloow.
+      EOF
+    end
+  end
+end
