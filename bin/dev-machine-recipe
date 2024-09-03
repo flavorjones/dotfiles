@@ -41,6 +41,12 @@
 #  1. build and install ghostty
 #     - snap install zig --class --beta
 #     - zig build -p $HOME/.local -Doptimize=ReleaseFast
+#     - add to .bashrc:
+#       # ghostty
+#       export GHOSTTY_SHELL_INTEGRATION_NO_TITLE=1
+#       if [ -n "$GHOSTTY_RESOURCES_DIR" ]; then
+#         builtin source "${GHOSTTY_RESOURCES_DIR}/shell-integration/bash/ghostty.bash"
+#       fi
 #  2. clone https://github.com/seebi/dircolors-solarized and use the 'ansi-dark' config
 #  3. mouse theme for screencasts https://github.com/iPAS/DMZ-White-Highlighted
 #
