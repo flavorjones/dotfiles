@@ -70,6 +70,12 @@
 
 (editorconfig-mode 1)
 
+;;; windsize
+(require 'windsize)
+(windsize-default-keybindings)
+(setq windsize-cols 2)
+(setq windsize-rows 1)
+
 ;;;
 ;;; lsp-mode
 ;;;
