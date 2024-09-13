@@ -207,7 +207,7 @@ fi
 alias xc="xclip -selection clipboard"
 
 function gem_push {
-  gem push --otp $(op item get rubygems.org --otp) $*
+  gem push --otp $(op item get flavorjones@rubygems.org --otp) $*
 }
 
 function psg {
