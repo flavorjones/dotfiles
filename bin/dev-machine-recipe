@@ -321,7 +321,6 @@ if $install_p ; then
       gpg \
       htop \
       ispell \
-      marked \
       pkg-config libxml2 libxslt \
       ruby ruby-build \
       starship \
@@ -563,6 +562,23 @@ EOF
     if missing_cmd 1password ; then
       # install 1password and 1password-cli packages
       open https://support.1password.com/get-the-apps/
+    fi
+
+    # cmark-gfm
+    if missing_cmd cmark-gfm ; then
+      if [[ ! -d ${ossdir}/cmark-gfm ]] ; then
+        pushd ${ossdir}
+        git clone "https://github.com/github/cmark-gfm"
+        popd
+      fi
+
+      pushd ${ossdir}/cmark-gfm
+        mkdir build
+        pushd build
+          cmake .. -DCMAKE_INSTALL_PREFIX=${HOME_LOCAL}
+          make install
+        popd
+      popd
     fi
 
     ###

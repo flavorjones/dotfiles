@@ -319,7 +319,7 @@
              (local-set-key (kbd "C-S-SPC") 'markdown-toggle-gfm-checkbox)
              (local-set-key (kbd "C-c C-s >") 'markdown-insert-blockquote)
              )))
-(setq markdown-command "marked --no-mangle --no-header-ids")
+(setq markdown-command "cmark-gfm -e footnotes") ; https://github.com/github/cmark-gfm
 (setq markdown-css-paths '("__DIR__/github.css"))
 ;; (setq markdown-xhtml-header-content
 ;;       "<meta http-equiv=\"refresh\" content=\"5\">")
