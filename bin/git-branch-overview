@@ -18,6 +18,7 @@ gemfile do
   gem "slop"
   gem "ruby-progressbar"
   gem "concurrent-ruby"
+  gem "logger" # standard library bullshit
 end
 
 require "concurrent-ruby"
@@ -107,12 +108,14 @@ thread_pool do |pool|
   end
 end
 
+ttyopts = $stdout.tty? ? "--color" : ""
+
 # get the commit message of each branch's HEAD commit
 branches_logs = Concurrent::Hash.new
 thread_pool do |pool|
   branch_commits.each do |branch|
     pool.post do
-      log = %x(git log --color --decorate=short --date=iso8601 -n1 "#{branch}")
+      log = %x(git log #{ttyopts} --decorate=short --date=iso8601 -n1 "#{branch}")
       progress_bar.increment if progress_bar
       branches_logs[branch] = log
     end
