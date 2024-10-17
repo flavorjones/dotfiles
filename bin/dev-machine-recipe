@@ -383,9 +383,11 @@ if $install_p ; then
 
     # key mapping with https://gitlab.com/interception/linux/tools
     # (see etc/dev/interception/udevmon.yaml)
-    sudo add-apt-repository ppa:deafmute/interception
-    apt_update
-    apt_install interception-tools interception-caps2esc
+    if missing_cmd udevmon ; then
+      sudo add-apt-repository ppa:deafmute/interception
+      apt_update
+      apt_install interception-tools interception-caps2esc
+    fi
 
     # fonts
     apt_install \
