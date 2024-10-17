@@ -381,6 +381,12 @@ if $install_p ; then
     apt_install flatpak gnome-software-plugin-flatpak
     flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
 
+    # key mapping with https://gitlab.com/interception/linux/tools
+    # (see etc/dev/interception/udevmon.yaml)
+    sudo add-apt-repository ppa:deafmute/interception
+    apt_update
+    apt_install interception-tools interception-caps2esc
+
     # fonts
     apt_install \
       fonts-cmu ttf-mscorefonts-installer \
@@ -666,7 +672,7 @@ EOF
     #  use "dconf watch /" to see what changes when you use the UI, then add the command here.
     #
     # keyboard bindings
-    dconf write /org/gnome/desktop/input-sources/xkb-options "['compose:ralt', 'caps:ctrl_modifier']"
+    dconf write /org/gnome/desktop/input-sources/xkb-options "['compose:ralt']"
     dconf write /org/gnome/shell/keybindings/show-screen-recording-ui "['<Shift><Control><Alt>Print']"
     dconf write /org/gnome/desktop/wm/keybindings/toggle-maximized "['<Control><Super>Return']"
     dconf write /org/gnome/shell/extensions/tiling-assistant/restore-window "['<Control><Super>BackSpace']"
