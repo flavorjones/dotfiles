@@ -1,5 +1,10 @@
-- JOB: interception -g $DEVNODE | caps2esc -m 1 | uinput -d $DEVNODE
+- CMD: mux -c caps2esc
+- JOB: mux -i caps2esc | caps2esc -m 1 | uinput -c /etc/interception/keyboard.yaml
+- JOB: interception -g $DEVNODE | mux -o caps2esc
   DEVICE:
     EVENTS:
       EV_KEY: [[KEY_CAPSLOCK, KEY_ESC]]
     LINK: .*-event-kbd
+- JOB: interception $DEVNODE | mux -o caps2esc
+  DEVICE:
+    LINK: .*-event-mouse
