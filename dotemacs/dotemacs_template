@@ -1104,7 +1104,7 @@ The key typed is executed unless it is SPC."
 (setq flavorjones:font-size 10)
 (flavorjones:enact-font)
 
-(global-set-key [?\C-+] 'flavorjones:increase-font-size)
+(global-set-key [?\C-=] 'flavorjones:increase-font-size)
 (global-set-key [?\C--] 'flavorjones:decrease-font-size)
 (global-set-key (kbd "C-M-_") 'flavorjones:next-font)
 
@@ -1140,7 +1140,7 @@ The key typed is executed unless it is SPC."
 (setq solarized-use-variable-pitch nil)
 (flavorjones:set-theme 'solarized-dark)
 
-(global-set-key [?\C-=] 'flavorjones:next-color-theme)
+(global-set-key [?\C-+] 'flavorjones:next-color-theme)
 
 ;;; interaction log
 (require 'interaction-log)
