@@ -95,7 +95,8 @@
 (setq read-process-output-max (* 1024 1024)) ;; 1mb
 (setq gc-cons-threshold 100000000)
 
-;; opt out of higher-ranked servers that we don't want (we prefer ruby-lsp over rubocop-ls)
+;; opt out of higher-ranked servers that we don't want
+(add-to-list 'lsp-disabled-clients 'typeprof-ls)
 (add-to-list 'lsp-disabled-clients 'rubocop-ls)
 
 ; save buffers after refactoring operations
@@ -219,7 +220,7 @@
 
 ;;; hipsters say i need a tree
 ;; (global-set-key "\C-c\C-fs" 'speedbar)
-(define-key global-map [C-f12] 'neotree)
+(define-key global-map [C-f12] 'neotree-toggle)
 
 ;;;  these so we can resize buffer windows using the mouse
 (global-set-key [mode-line down-mouse-1] 'mouse-drag-mode-line)
@@ -301,7 +302,7 @@
 ;;;
 ;;;  markdown
 ;;;
-;(autoload 'gfm-mode "gfm-mode" nil t)
+;;; if files start opening in a weird browser, make sure the xdg-open is configured correctly!!
 (setq auto-mode-alist (append '(("\\.markdown$"  . gfm-mode)
                                 ("\\.mdml$"      . gfm-mode)
                                 ("\\.md$"        . gfm-mode)
@@ -311,20 +312,13 @@
 (add-hook 'gfm-mode-hook
           (function
            (lambda ()
-             ;; (add-hook 'after-save-hook
-             ;;           'markdown-export
-             ;;           nil t) ;; the t is for making the hook local to buffer
-             ;; (add-hook 'auto-save-hook
-             ;;           'markdown-export
-             ;;           nil t) ;; the t is for making the hook local to buffer
              (electric-pair-mode 0)
              (local-set-key (kbd "C-S-SPC") 'markdown-toggle-gfm-checkbox)
              (local-set-key (kbd "C-c C-s >") 'markdown-insert-blockquote)
              )))
-(setq markdown-command "cmark-gfm -e footnotes") ; https://github.com/github/cmark-gfm
+; https://github.com/github/cmark-gfm
+(setq markdown-command "cmark-gfm -e footnotes -e autolink")
 (setq markdown-css-paths '("__DIR__/github.css"))
-;; (setq markdown-xhtml-header-content
-;;       "<meta http-equiv=\"refresh\" content=\"5\">")
 
 (add-hook 'markdown-mode-hook 'outline-minor-mode)
 
