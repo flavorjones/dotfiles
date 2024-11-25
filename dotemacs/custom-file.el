@@ -5,6 +5,8 @@
  ;; If there is more than one, they won't work right.
  '(ac-delay 0.5)
  '(ac-trigger-key "")
+ '(auto-dark-mode t)
+ '(auto-dark-themes '((solarized-dark) (solarized-light)))
  '(browse-url-temp-dir "/home/flavorjones/tmp")
  '(create-lockfiles nil)
  '(custom-safe-themes
@@ -34,8 +36,10 @@
  '(markdown-fontify-code-blocks-natively t)
  '(markdown-link-space-sub-char "-")
  '(markdown-wiki-link-search-subdirectories t)
+ '(neo-autorefresh t)
  '(neo-keymap-style 'concise)
  '(neo-smart-open t)
+ '(neo-theme 'arrow)
  '(neo-window-fixed-size nil)
  '(org-agenda-files '("~/docs/notes/todo.org"))
  '(org-file-apps
@@ -51,7 +55,7 @@
  '(org-odd-levels-only t)
  '(org-startup-folded 'content)
  '(package-selected-packages
-   '(swift-mode sort-words mise windsize diminish ligature zig-mode which-key minitest rust-mode lsp-ui lsp-mode nginx-mode copilot quelpa-use-package quelpa monokai-theme night-owl-theme atomic-chrome protobuf-mode bison-mode git-link poly-ruby polymode hide-mode-line projectile-rails edit-indirect editorconfig rubocopfmt interaction-log bazel-mode ivy json-mode projectile nix-mode auto-compile crystal-mode csharp-mode direnv dockerfile-mode elm-mode exec-path-from-shell feature-mode go-mode haml-mode hl-todo julia-mode lua-mode magit markdown-toc neotree powershell rspec-mode ruby-hash-syntax sass-mode use-package yaml-mode markdown-mode udev-mode bicycle web-mode solarized-theme gnu-elpa-keyring-update ruby-additional ruby-end ruby-refactor rvm slim-mode toml-mode unicode-fonts markdown-mode+ go-autocomplete go-snippets golint gitattributes-mode gitconfig-mode gitignore-mode flymake-ruby rufo flycheck-julia undo-tree rnc-mode org minimap git-blame css-mode auto-highlight-symbol))
+   '(auto-dark swift-mode sort-words mise windsize diminish ligature zig-mode which-key minitest rust-mode lsp-ui lsp-mode nginx-mode copilot quelpa-use-package quelpa monokai-theme night-owl-theme atomic-chrome protobuf-mode bison-mode git-link poly-ruby polymode hide-mode-line projectile-rails edit-indirect editorconfig rubocopfmt interaction-log bazel-mode ivy json-mode projectile nix-mode auto-compile crystal-mode csharp-mode direnv dockerfile-mode elm-mode exec-path-from-shell feature-mode go-mode haml-mode hl-todo julia-mode lua-mode magit markdown-toc neotree powershell rspec-mode ruby-hash-syntax sass-mode use-package yaml-mode markdown-mode udev-mode bicycle web-mode solarized-theme gnu-elpa-keyring-update ruby-additional ruby-end ruby-refactor rvm slim-mode toml-mode unicode-fonts markdown-mode+ go-autocomplete go-snippets golint gitattributes-mode gitconfig-mode gitignore-mode flymake-ruby rufo flycheck-julia undo-tree rnc-mode org minimap git-blame css-mode auto-highlight-symbol))
  '(paradox-github-token t)
  '(pixel-scroll-mode t)
  '(pixel-scroll-precision-mode t)

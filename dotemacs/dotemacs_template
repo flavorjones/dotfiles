@@ -1108,35 +1108,9 @@ The key typed is executed unless it is SPC."
   (set-fontset-font
     t 'symbol (font-spec :family "Noto Color Emoji") nil 'prepend))
 
-;;;
-;;;  personal theme stuff
-;;;
-(setq flavorjones:theme-list (list
-                              'solarized-dark
-                              'solarized-gruvbox-dark
-                              'solarized-light
-                              'night-owl
-                              'monokai
-                              ))
-
-(defun flavorjones:set-theme (theme)
-  (load-theme theme)
-  (setq flavorjones:theme theme)
-  (prin1 theme))
-
-(defun flavorjones:next-color-theme ()
-  (interactive)
-  (let* ((curpos (cl-position flavorjones:theme flavorjones:theme-list))
-         (nextpos (if curpos (mod (1+ curpos) (cl-list-length flavorjones:theme-list)) 0))
-         (nexttheme (nth nextpos flavorjones:theme-list)))
-    (flavorjones:set-theme nexttheme)
-    ))
-
+;;; solarized themes are set via `M-x customize-group auto-dark`
 (setq solarized-scale-org-headlines nil)
 (setq solarized-use-variable-pitch nil)
-(flavorjones:set-theme 'solarized-dark)
-
-(global-set-key [?\C-+] 'flavorjones:next-color-theme)
 
 ;;; interaction log
 (require 'interaction-log)
