@@ -535,7 +535,8 @@ EOF
     fi
 
     # screencaps
-    apt_install peek screenkey
+    apt_install kooha peek screenkey
+    flatpak_install easyeffects
 
     #  graphics, screencaps, video and sound recording, etc.
     apt_install sox gimp drawing
