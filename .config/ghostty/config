@@ -1,6 +1,6 @@
 font-family = JetBrains Mono Medium
 font-size = 10
-theme = Builtin Solarized Dark
+theme = dark:Builtin Solarized Dark,light:Builtin Solarized Light
 window-theme = system
 selection-foreground = #ffffff
 selection-background = #000000
