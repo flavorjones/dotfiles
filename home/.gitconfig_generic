@@ -28,7 +28,7 @@
 
 [push]
 	default = upstream
-	# followtags = true # causes problems when pushing to other people's branches
+	followtags = false # true causes warning messages when pushing to other people's branches
 
 [merge]
 	conflictStyle = zdiff3
@@ -111,9 +111,9 @@
 [url "https://github.com/"]
 	insteadOf = "gh:"
 
-[url "git@github.com:"]
-	pushInsteadOf = "gh:"
-	pushInsteadOf = "https://github.com/"
+# [url "git@github.com:"]
+# 	pushInsteadOf = "gh:"
+# 	pushInsteadOf = "https://github.com/"
 
 [url "git@ssh.gitlab.gnome.org:"]
 	pushInsteadOf = "https://gitlab.gnome.org"
