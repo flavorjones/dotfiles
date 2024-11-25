@@ -18,9 +18,13 @@ include "/%H/code/bootstrap/xcompose/emoji.compose"
 <Multi_key> <Multi_key> <r> <o> <f> <l>                 : "🤣" # rofl
 <Multi_key> <Multi_key> <s> <w> <e> <a> <t>             : "😅" # cold sweat and a smile
 <Multi_key> <Multi_key> <l> <o> <l>                     : "😆" # LOL
+<Multi_key> <Multi_key> <s> <i> <g> <h>                 : "😮‍💨" # sigh
 <Multi_key> <Multi_key> <w> <a> <v> <e>                 : "👋" # wave
 <Multi_key> <Multi_key> <s> <u> <n>                     : "☀️" # sun
 <Multi_key> <Multi_key> <p> <c> <l> <o> <u> <d>         : "⛅" # partly cloudy
+<Multi_key> <Multi_key> <r> <a> <i> <n>                 : "🌧"   U1F327	# CLOUD WITH RAIN
+<Multi_key> <Multi_key> <r> <e> <d> <less> <3>          : "❤️"
+<Multi_key> <Multi_key> <c> <h> <e> <f>                 : "👨‍🍳"
 
 # Money
 <Multi_key> <Multi_key> <e> <u> <r> <o>                 : "€"
