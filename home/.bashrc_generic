@@ -144,7 +144,7 @@ fi
 if [[ $I_AM_A_MAC == 1 ]] ; then
   export MY_LSARGS="-F --color=auto -G"
 else
-  export MY_LSARGS="-F --color=auto --time-style=long-iso --hyperlink"
+  export MY_LSARGS="-F --color=auto --time-style=long-iso --hyperlink=auto"
 fi
 alias ls="ls \${MY_LSARGS}"
 alias lsa="ls -a \${MY_LSARGS}"
@@ -180,6 +180,7 @@ alias valgrind-ruby-mem="valgrind --num-callers=50 --error-limit=no --partial-lo
 #
 #  ruby dev
 #
+export BUNDLER_EDITOR="emacsclient -n"
 alias be="bundle exec"
 alias bi="bundle install"
 export JRUBY_OPTS="${JRUBY_OPTS} --dev"
