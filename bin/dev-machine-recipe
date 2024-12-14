@@ -363,7 +363,7 @@ if $install_p ; then
       direnv \
       autocutsel \
       universal-ctags \
-      mariadb-server mariadb-client libmysqlclient-dev \
+      libmysqlclient-dev \
       postgresql postgresql-client libpq-dev postgresql-contrib \
       openjdk-21-jdk \
       ack-grep \
