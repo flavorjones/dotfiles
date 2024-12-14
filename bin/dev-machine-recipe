@@ -221,6 +221,10 @@ function missing_cmd {
   ! have_cmd $1
 }
 
+function missing_flatpak {
+  ! flatpak info $1 &> /dev/null
+}
+
 # "ensure_install <command_name> <action>" runs the action if the command is not found
 function ensure_install {
   if missing_cmd $1 ; then
@@ -521,8 +525,11 @@ EOF
       mv starship ${HOME_LOCAL}/bin/
     fi
 
-    # slack
+    # chat tool
     ensure_install slack "snap_install slack"
+    if missing_flatpak com.discordapp.Discord ; then
+      flatpak install flathub com.discordapp.Discord
+    fi
 
     # brave browser
     if missing_cmd brave ; then
@@ -547,10 +554,6 @@ EOF
     #
     #  things i have to manually install (pending further automation)
     #
-    if missing_cmd discord ; then
-      open https://discord.com/download
-    fi
-
     if missing_cmd /opt/zoom/ZoomLauncher ; then
       open https://zoom.us/download
     fi
