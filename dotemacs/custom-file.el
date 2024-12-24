@@ -34,6 +34,7 @@
  '(js2-enter-indents-newline nil)
  '(js2-mirror-mode nil)
  '(js2-mode-indent-ignore-first-tab t)
+ '(lsp-enable-indentation nil)
  '(markdown-fontify-code-blocks-natively t)
  '(markdown-link-space-sub-char "-")
  '(markdown-wiki-link-search-subdirectories t)
