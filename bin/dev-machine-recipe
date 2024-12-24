@@ -35,6 +35,7 @@
 #  5. install gnome extensions
 #     - [Window State Manager - GNOME Shell Extensions](https://extensions.gnome.org/extension/5353/window-state-manager/)
 #     - [Resource Monitor - GNOME Shell Extensions](https://extensions.gnome.org/extension/1634/resource-monitor/)
+#     - [Brightness control using ddcutil - GNOME Shell Extensions](https://extensions.gnome.org/extension/2645/brightness-control-using-ddcutil/)
 #
 #  ## Low Priority
 #
@@ -379,7 +380,8 @@ if $install_p ; then
       zip \
       graphviz gv \
       bat hexyl \
-      fzf
+      fzf \
+      ddcutil
 
     # flatpak on ubuntu
     apt_install flatpak gnome-software-plugin-flatpak
