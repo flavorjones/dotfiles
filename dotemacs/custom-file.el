@@ -19,6 +19,7 @@
  '(frame-inhibit-implied-resize t)
  '(frame-resize-pixelwise t)
  '(fringe-mode nil nil (fringe))
+ '(git-link-open-in-browser t)
  '(global-goto-address-mode t)
  '(global-undo-tree-mode t)
  '(goto-address-fontify-p nil)
