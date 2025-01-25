@@ -4,6 +4,7 @@ theme = dark:Builtin Solarized Dark,light:Builtin Solarized Light
 window-theme = system
 selection-foreground = #ffffff
 selection-background = #000000
+clipboard-paste-protection = false
 keybind = f11=toggle_fullscreen
 keybind = ctrl+enter=ignore
 keybind = alt+c=copy_to_clipboard
