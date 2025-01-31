@@ -25,6 +25,9 @@ include "/%H/code/bootstrap/xcompose/emoji.compose"
 <Multi_key> <Multi_key> <r> <a> <i> <n>                 : "🌧"   U1F327	# CLOUD WITH RAIN
 <Multi_key> <Multi_key> <r> <e> <d> <less> <3>          : "❤️"
 <Multi_key> <Multi_key> <c> <h> <e> <f>                 : "👨‍🍳"
+<Multi_key> <Multi_key> <c> <l> <a> <p>                 : "👏"
+<Multi_key> <Multi_key> <1> <0> <0>                     : "💯"
+<Multi_key> <Multi_key> <s> <t> <a> <r>                 : "⭐"
 
 # Money
 <Multi_key> <Multi_key> <e> <u> <r> <o>                 : "€"
