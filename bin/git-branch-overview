@@ -21,9 +21,6 @@ gemfile do
   gem "logger" # standard library bullshit
 end
 
-require "concurrent-ruby"
-require "ruby-progressbar"
-require "slop"
 require "time"
 
 # if this fails with "fatal: ref refs/remotes/origin/HEAD is not a symbolic ref"
