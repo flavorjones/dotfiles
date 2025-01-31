@@ -233,7 +233,7 @@
 
 ;;;  miscellaneous
 (global-set-key (kbd "C-x j") #'duplicate-dwim)
-(global-set-key "\C-x\C-g" 'git-link)
+(global-set-key (kbd "C-x G") 'git-link)
 
 ;; based on thansmann's diary stuff
 (defun mark-datetime (arg) "insert a unique string and the date as a subject break"
