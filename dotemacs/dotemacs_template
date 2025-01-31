@@ -301,7 +301,7 @@
              (local-set-key (kbd "C-c C-s >") 'markdown-insert-blockquote)
              )))
 ; https://github.com/github/cmark-gfm
-(setq markdown-command "cmark-gfm -e footnotes -e autolink")
+(setq markdown-command "cmark-gfm --unsafe -e footnotes -e autolink")
 (setq markdown-css-paths '("__DIR__/github.css"))
 
 (add-hook 'markdown-mode-hook 'outline-minor-mode)

@@ -452,7 +452,7 @@ body li>p {
     margin-top: 16px;
 }
 
-body p, body blockquote, body ul, body ol, body dl, body table, body pre {
+body p, body blockquote, body ul, body ol, body dl, body table, body pre, body details {
     margin-top: 0;
     margin-bottom: 16px;
     -webkit-margin-start: 0px;
@@ -662,4 +662,10 @@ body h4 {
 body h5 {
   font-size: 11pt;
   font-weight: bold;
+}
+
+details > summary:first-of-type {
+    display: list-item;
+    counter-increment: list-item 0;
+    list-style: inside disclosure-closed;
 }
