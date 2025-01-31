@@ -2,5 +2,5 @@
 # name: shebang
 # key: #!
 # --
-#! /usr/bin/env ${1:ruby}
+#!/usr/bin/env ${1:ruby}
 
