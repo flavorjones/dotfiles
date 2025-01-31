@@ -1081,7 +1081,7 @@ The key typed is executed unless it is SPC."
     ))
 
 (setq flavorjones:font-face (cl-first flavorjones:font-list))
-(setq flavorjones:font-size 10)
+(setq flavorjones:font-size 8)
 (flavorjones:enact-font)
 
 (global-set-key [?\C-=] 'flavorjones:increase-font-size)
