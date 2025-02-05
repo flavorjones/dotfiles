@@ -1092,9 +1092,49 @@ The key typed is executed unless it is SPC."
   (set-fontset-font
     t 'symbol (font-spec :family "Noto Color Emoji") nil 'prepend))
 
-;;; solarized themes are set via `M-x customize-group auto-dark`
+
+;;; solarized themes
+;; load the themes so we can set custom faces below
+(require 'solarized)
+
+; other settings, see https://github.com/bbatsov/solarized-emacs
 (setq solarized-scale-org-headlines nil)
 (setq solarized-use-variable-pitch nil)
+
+;; not sure why solarized-emacs's default "region" faces overrides foreground, it makes
+;; transient-mark-mode less readable, IMHO.
+;;
+;; the easiest way to redefine the face is to create a new custom theme, and specify the "region"
+;; face to inherit the foreground color and have a less severe background color.
+;;
+;; these themes are using stock solarized palettes, I'm only changing the "region" face.
+(solarized-create-theme-file-with-palette 'dark 'solarized-flavorjones-dark
+  '("#002b36" "#fdf6e3"
+    "#b58900" "#cb4b16" "#dc322f" "#d33682" "#6c71c4" "#268bd2" "#2aa198" "#859900")
+  '((custom-theme-set-faces
+     theme-name
+     '(region ((t (:background "#073642")))) ; base02
+     ))
+  t)
+
+(solarized-create-theme-file-with-palette 'light 'solarized-flavorjones-light
+  '("#002b36" "#fdf6e3"
+    "#b58900" "#cb4b16" "#dc322f" "#d33682" "#6c71c4" "#268bd2" "#2aa198" "#859900")
+  '((custom-theme-set-faces
+     theme-name
+     '(region ((t (:background "#eee8d5")))) ; base2
+     ))
+  t)
+
+;; make sure I don't get prompted for the above themes
+(setq custom-safe-themes t)
+
+;; fire up auto-dark to manage this for us
+(use-package auto-dark
+  :custom
+  (auto-dark-mode t)
+  (auto-dark-themes '((solarized-flavorjones-dark) (solarized-flavorjones-light))))
+
 
 ;;; interaction log
 (require 'interaction-log)
@@ -1109,6 +1149,7 @@ The key typed is executed unless it is SPC."
 ;; (define-key yas-minor-mode-map [(tab)] nil) ; undo default because I want to use TAB for copilot
 ;; (define-key yas-minor-mode-map (kbd "TAB") nil) ; undo default because I want to use TAB for copilot
 ;; (define-key yas-minor-mode-map (kbd "M-C-<return>") 'yas-expand)
+
 
 ;;; copilot - see https://robert.kra.hn/posts/2023-02-22-copilot-emacs-setup/
 (use-package copilot
@@ -1158,3 +1199,4 @@ The key typed is executed unless it is SPC."
 (diminish 'ruby-end-mode)
 (diminish 'ruby-refactor-mode)
 (diminish 'lsp-lens-mode)
+(diminish 'auto-dark-mode)
