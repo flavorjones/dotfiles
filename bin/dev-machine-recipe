@@ -40,7 +40,7 @@
 #  ## Low Priority
 #
 #  1. build and install ghostty
-#     - snap install zig --class --beta
+#     - snap install zig --classic --beta
 #     - zig build -p $HOME/.local -Doptimize=ReleaseFast
 #     - add to .bashrc:
 #       # ghostty
@@ -382,13 +382,14 @@ if $install_p ; then
       bat hexyl \
       fzf \
       ddcutil
+    sudo snap install copilot-language-server
 
     # flatpak on ubuntu
     apt_install flatpak gnome-software-plugin-flatpak
     flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
 
     # key mapping with https://gitlab.com/interception/linux/tools
-    # (see etc/dev/interception/udevmon.yaml)
+    # (see etc/interception/udevmon.yaml)
     apt_install interception-tools interception-caps2esc
 
     # fonts
