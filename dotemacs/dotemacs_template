@@ -85,6 +85,7 @@
   :init (setq lsp-keymap-prefix "C-c C-e")
   :config (lsp-enable-which-key-integration t) ; which-key is hot
   :hook (
+         ;; (web-mode . lsp-deferred) ;; ERB files TODO
          (ruby-mode . lsp-deferred)
          (c-mode . lsp-deferred)
          (c++-mode . lsp-deferred)
@@ -98,6 +99,10 @@
 ;; opt out of higher-ranked servers that we don't want
 (add-to-list 'lsp-disabled-clients 'typeprof-ls)
 (add-to-list 'lsp-disabled-clients 'rubocop-ls)
+(add-to-list 'lsp-disabled-clients 'sorbet-ls)
+
+;; ;; good enough for now? ;; ERB files TODO
+;; (add-to-list 'lsp-language-id-configuration '(".*\\.html.erb$" . "ruby"))
 
 ; save buffers after refactoring operations
 (add-hook 'lsp-after-apply-edits-hook
