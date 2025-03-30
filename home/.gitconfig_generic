@@ -13,9 +13,6 @@
 	commitGraph = true
 	attributesfile = /home/flavorjones/.gitattributes
 
-# [feature]
-# 	manyFiles = true
-
 [pager]
 	branch = false
 	tag = false
@@ -34,11 +31,11 @@
 	conflictStyle = zdiff3
 
 [diff]
-	renames = copies
-	compactionHeuristic = true
-	wordRegex = "[^[:space:]_:.,()/`]+"
-	# https://luppeng.wordpress.com/2020/10/10/when-to-use-each-of-the-git-diff-algorithms/
 	algorithm = histogram
+	colorMoved = plain
+	compactionHeuristic = true
+	renames = copies
+	wordRegex = "[^[:space:]_:.,()/`]+"
 
 [log]
 	abbrevCommit = true
@@ -50,10 +47,12 @@
 
 [rebase]
 	autoStash = true
-	# updateRefs = true
+	autoSquash = true
+	updateRefs = true
 
 [rerere]
 	enabled = true
+	autoupdate = true
 
 [alias]
 	c = commit -v
@@ -86,9 +85,6 @@
 
 	bo = branch-overview
 
-[color]
-	ui = true
-
 [color.status]
 	added = green
 	untracked = red
@@ -96,17 +92,18 @@
 
 [color.diff]
 	meta = yellow
-	frag = magenta bold
+	frag = blue bold
 	commit = yellow bold
 	old = red bold
 	new = green bold
 	whitespace = red reverse
+	oldMoved = red italic
+	newMoved = green italic
 
+# diff-so-fancy
 [color.diff-highlight]
-	oldNormal = red bold
-	oldHighlight = red bold 52
-	newNormal = green bold
-	newHighlight = green bold 22
+	oldNormal = red
+	newNormal = green
 
 [url "https://github.com/"]
 	insteadOf = "gh:"
