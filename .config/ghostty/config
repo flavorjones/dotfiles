@@ -11,10 +11,10 @@ keybind = ctrl+enter=ignore
 keybind = alt+c=copy_to_clipboard
 keybind = alt+v=paste_from_clipboard
 
-keybind = ctrl+shift+up=resize_split:up,20
-keybind = ctrl+shift+down=resize_split:down,20
-keybind = ctrl+shift+left=resize_split:left,20
-keybind = ctrl+shift+right=resize_split:right,20
+keybind = ctrl+shift+up=resize_split:up,50
+keybind = ctrl+shift+down=resize_split:down,50
+keybind = ctrl+shift+left=resize_split:left,50
+keybind = ctrl+shift+right=resize_split:right,50
 
 keybind = shift+up=goto_split:top
 keybind = shift+down=goto_split:bottom
