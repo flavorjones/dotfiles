@@ -5,6 +5,8 @@ window-theme = system
 selection-foreground = #ffffff
 selection-background = #000000
 clipboard-paste-protection = false
+shell-integration = bash
+shell-integration-features = no-title
 
 keybind = f11=toggle_fullscreen
 keybind = ctrl+enter=ignore
