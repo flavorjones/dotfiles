@@ -35,13 +35,13 @@ branches_dates
       puts branches_logs[branch]
       puts
 
-      cmd = %Q{git branch -r --contains #{branches_commits[branch]} | egrep "  origin/master$" > /dev/null}
+      cmd = %Q{git branch -r --contains #{branches_commits[branch]} | egrep "  origin/main$" > /dev/null}
       puts cmd
-      on_master = system cmd
-      if on_master
-        puts "This commit is on origin/master and so we can almost definitely delete this branch."
+      on_main = system cmd
+      if on_main
+        puts "This commit is on origin/main and so we can almost definitely delete this branch."
       else
-        puts "Couldn't find this commit on origin/master, so think hard about this."
+        puts "Couldn't find this commit on origin/main, so think hard about this."
       end
       puts
 
