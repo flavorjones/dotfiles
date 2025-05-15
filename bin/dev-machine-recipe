@@ -374,9 +374,8 @@ if $install_p ; then
       fzf \
       ddcutil
 
-    snap_install \
-      copilot-language-server \
-      ghostty
+    snap_install copilot-language-server
+    snap_install ghostty --classic
 
     # flatpak on ubuntu
     apt_install flatpak gnome-software-plugin-flatpak
