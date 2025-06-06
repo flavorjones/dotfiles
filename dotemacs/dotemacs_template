@@ -239,6 +239,7 @@
 ;;;  miscellaneous
 (global-set-key (kbd "C-x j") #'duplicate-dwim)
 (global-set-key (kbd "C-x G") 'git-link)
+(global-set-key (kbd "C-x C-b") 'ibuffer) ;; use ibuffer instead of list-buffers
 
 ;; based on thansmann's diary stuff
 (defun mark-datetime (arg) "insert a unique string and the date as a subject break"
