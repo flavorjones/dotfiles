@@ -1086,13 +1086,18 @@ The key typed is executed unless it is SPC."
     (flavorjones:enact-font)
     ))
 
-(setq flavorjones:font-face (cl-first flavorjones:font-list))
-(setq flavorjones:font-size 8)
-(flavorjones:enact-font)
+(defun flavorjones:reset-font ()
+  (interactive)
+  (setq flavorjones:font-face (cl-first flavorjones:font-list))
+  (setq flavorjones:font-size 9)
+  (flavorjones:enact-font))
 
-(global-set-key [?\C-=] 'flavorjones:increase-font-size)
-(global-set-key [?\C--] 'flavorjones:decrease-font-size)
+(flavorjones:reset-font)
+
+(global-set-key (kbd "C-=") 'flavorjones:increase-font-size)
+(global-set-key (kbd "C--") 'flavorjones:decrease-font-size)
 (global-set-key (kbd "C-M-_") 'flavorjones:next-font)
+(global-set-key (kbd "C-)") 'flavorjones:reset-font)
 
 (when (member "Noto Color Emoji" (font-family-list))
   (set-fontset-font
