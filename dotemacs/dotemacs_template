@@ -236,6 +236,23 @@
 (define-key projectile-rails-mode-map (kbd "C-c p r") 'projectile-rails-command-map)
 (setq projectile-completion-system 'ivy)
 
+(defun my-projectile-gc-projects ()
+  "Keep only existing projects under `~/Work/` or `~/code/` in `projectile-known-projects`."
+  (interactive)
+  (let* ((old-length (length projectile-known-projects))
+         (work-dir "~/Work/")
+         (code-dir "~/code/"))
+    (setq projectile-known-projects
+          (cl-remove-if-not
+           (lambda (project-path)
+             (and (file-directory-p project-path)
+                  (or (string-prefix-p work-dir project-path)
+                      (string-prefix-p code-dir project-path))))
+           projectile-known-projects))
+    (message "Projectile: Cleaned up %d obsolete projects."
+             (- old-length (length projectile-known-projects)))))
+(add-hook 'emacs-startup-hook #'my-projectile-gc-projects)
+
 ;;;  miscellaneous
 (global-set-key (kbd "C-x j") #'duplicate-dwim)
 (global-set-key (kbd "C-x G") 'git-link)
