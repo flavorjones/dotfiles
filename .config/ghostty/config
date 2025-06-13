@@ -8,6 +8,8 @@ clipboard-paste-protection = false
 shell-integration = bash
 shell-integration-features = no-title
 
+keybind = ctrl+shift+r=reset
+
 keybind = f11=toggle_fullscreen
 keybind = ctrl+enter=ignore
 keybind = alt+c=copy_to_clipboard
