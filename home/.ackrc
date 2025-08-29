@@ -7,4 +7,5 @@
 --color
 --pager=less
 --ignore-dir=tmp
+--ignore-dir=log
 --ignore-dir=coverage
