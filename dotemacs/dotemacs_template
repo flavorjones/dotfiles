@@ -89,6 +89,7 @@
          (ruby-mode . lsp-deferred)
          (c-mode . lsp-deferred)
          (c++-mode . lsp-deferred)
+         (js-mode . lsp-deferred)
          ))
 (require 'lsp-mode)
 
