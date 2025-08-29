@@ -57,6 +57,8 @@ if [[ $I_AM_LINUX == 1 ]] ; then
   alias bat=batcat
 fi
 
+alias ag="ag --pager=less"
+
 export BROWSER="brave-browser"
 
 if [[ $I_AM_A_MAC == 1 ]] ; then
