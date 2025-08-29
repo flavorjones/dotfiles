@@ -91,7 +91,7 @@
 	changed = yellow
 
 [color.diff]
-	meta = yellow
+	meta = magenta
 	frag = blue bold
 	commit = yellow bold
 	old = red bold
