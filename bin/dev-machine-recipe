@@ -36,11 +36,19 @@
 #     - [Window State Manager - GNOME Shell Extensions](https://extensions.gnome.org/extension/5353/window-state-manager/)
 #     - [Resource Monitor - GNOME Shell Extensions](https://extensions.gnome.org/extension/1634/resource-monitor/)
 #     - [Brightness control using ddcutil - GNOME Shell Extensions](https://extensions.gnome.org/extension/2645/brightness-control-using-ddcutil/)
+#     - Tailscale, one of:
+#       - [Tailscale Status - GNOME Shell Extensions](https://extensions.gnome.org/extension/5112/tailscale-status/)
+#       - [Tailscale QS - GNOME Shell Extensions](https://extensions.gnome.org/extension/6139/tailscale-qs/)
+#  6. Tailscale MTU
+#     - run https://github.com/luizbizzio/tailscale-mtu/blob/main/linux-setup.sh
 #
 #  ## Low Priority
 #
 #  1. clone https://github.com/seebi/dircolors-solarized and use the 'ansi-dark' config
 #  2. mouse theme for screencasts https://github.com/iPAS/DMZ-White-Highlighted
+#  3. enable PAM module for fingerprint login:
+#     - `sudo pam-auth-update`, or
+#     - `sudo pam-auth-update --enable gdm-fingerprint`
 #
 #
 #  # Chrome
@@ -358,7 +366,7 @@ if $install_p ; then
       libmysqlclient-dev \
       postgresql postgresql-client libpq-dev postgresql-contrib \
       openjdk-21-jdk \
-      ack-grep \
+      ack-grep silversearcher-ag \
       colordiff \
       markdown \
       jq \
@@ -411,7 +419,8 @@ if $install_p ; then
       network-manager-vpnc-gnome \
       gufw \
       timeshift \
-      openssh-server
+      openssh-server \
+      wtmpdb
 
     #
     #  docker
@@ -666,6 +675,9 @@ EOF
     ##
     ##  gnome-shell
     ##
+    # experimental! log out and back in, turn this on and it may save battery life
+    gsettings set org.gnome.mutter experimental-features "['variable-refresh-rate']"
+
     #
     #  use "dconf watch /" to see what changes when you use the UI, then add the command here.
     #
