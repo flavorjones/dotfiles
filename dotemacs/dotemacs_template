@@ -1160,9 +1160,11 @@ The key typed is executed unless it is SPC."
 
 ;; fire up auto-dark to manage this for us
 (use-package auto-dark
+  :ensure t
   :custom
-  (auto-dark-mode t)
-  (auto-dark-themes '((solarized-flavorjones-dark) (solarized-flavorjones-light))))
+  (auto-dark-themes '((solarized-flavorjones-dark) (solarized-flavorjones-light)))
+  :init
+  (auto-dark-mode))
 
 
 ;;; interaction log

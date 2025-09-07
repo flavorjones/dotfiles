@@ -41,19 +41,25 @@
  '(neo-window-fixed-size nil)
  '(org-agenda-files '("~/docs/notes/todo.org"))
  '(org-file-apps
-   '(("txt" . emacs)
-     ("tex" . emacs)
-     ("ltx" . emacs)
-     ("org" . emacs)
-     ("el" . emacs)
-     ("bib" . emacs)
+   '(("txt" . emacs) ("tex" . emacs) ("ltx" . emacs) ("org" . emacs) ("el" . emacs) ("bib" . emacs)
      ("pdf" . "evince '%s'")))
  '(org-hide-leading-stars t)
  '(org-log-done 'time)
  '(org-odd-levels-only t)
  '(org-startup-folded 'content)
  '(package-selected-packages
-   '(ag auto-dark swift-mode sort-words mise windsize diminish ligature zig-mode which-key minitest rust-mode lsp-ui lsp-mode nginx-mode copilot quelpa-use-package quelpa monokai-theme night-owl-theme atomic-chrome protobuf-mode bison-mode git-link poly-ruby polymode hide-mode-line projectile-rails edit-indirect editorconfig rubocopfmt interaction-log bazel-mode ivy json-mode projectile nix-mode crystal-mode csharp-mode direnv dockerfile-mode elm-mode exec-path-from-shell feature-mode go-mode haml-mode hl-todo julia-mode lua-mode magit markdown-toc neotree powershell rspec-mode ruby-hash-syntax sass-mode use-package yaml-mode markdown-mode udev-mode bicycle web-mode solarized-theme gnu-elpa-keyring-update ruby-additional ruby-end ruby-refactor rvm slim-mode toml-mode unicode-fonts markdown-mode+ go-autocomplete go-snippets golint gitattributes-mode gitconfig-mode gitignore-mode flymake-ruby rufo flycheck-julia undo-tree rnc-mode org minimap git-blame css-mode auto-highlight-symbol))
+   '(ag atomic-chrome auto-dark auto-highlight-symbol bazel-mode bicycle bison-mode copilot
+        crystal-mode csharp-mode css-mode diminish direnv dockerfile-mode edit-indirect editorconfig
+        elm-mode exec-path-from-shell feature-mode flycheck-julia flymake-ruby git-blame git-link
+        gitattributes-mode gitconfig-mode gitignore-mode gnu-elpa-keyring-update go-autocomplete
+        go-mode go-snippets golint haml-mode hide-mode-line hl-todo interaction-log ivy json-mode
+        julia-mode ligature lsp-mode lsp-ui lua-mode magit markdown-mode markdown-mode+ markdown-toc
+        minimap minitest mise monokai-theme neotree nginx-mode night-owl-theme nix-mode org
+        poly-ruby polymode powershell projectile projectile-rails protobuf-mode quelpa
+        quelpa-use-package rnc-mode rspec-mode rubocopfmt ruby-additional ruby-end ruby-hash-syntax
+        ruby-refactor rufo rust-mode rvm sass-mode slim-mode solarized-theme sort-words swift-mode
+        toml-mode udev-mode undo-tree unicode-fonts use-package web-mode which-key windsize
+        yaml-mode zig-mode))
  '(paradox-github-token t)
  '(pixel-scroll-mode t)
  '(pixel-scroll-precision-mode t)
@@ -64,28 +70,15 @@
  '(ruby-align-to-stmt-keywords t)
  '(ruby-flymake-use-rubocop-if-available nil)
  '(safe-local-variable-values
-   '((frozen_string_literal . true)
-     (eval c-set-offset 'inlambda 0)
-     (eval c-set-offset 'access-label '-)
-     (eval c-set-offset 'substatement-open 0)
-     (eval c-set-offset 'arglist-cont-nonempty '+)
-     (eval c-set-offset 'arglist-cont 0)
-     (eval c-set-offset 'arglist-intro '+)
-     (eval c-set-offset 'inline-open 0)
-     (eval c-set-offset 'defun-open 0)
-     (eval c-set-offset 'innamespace 0)
-     (indicate-empty-lines . t)
-     (whitespace-line-column . 80)
-     (eval when
-           (fboundp 'rainbow-mode)
-           (rainbow-mode 1))
-     (require-final-newline . t)
-     (mangle-whitespace . t)
-     (encoding . utf-8)
-     (ruby-compilation-executable . "ruby")
-     (ruby-compilation-executable . "ruby1.8")
-     (ruby-compilation-executable . "ruby1.9")
-     (ruby-compilation-executable . "rbx")
+   '((frozen_string_literal . true) (eval c-set-offset 'inlambda 0)
+     (eval c-set-offset 'access-label '-) (eval c-set-offset 'substatement-open 0)
+     (eval c-set-offset 'arglist-cont-nonempty '+) (eval c-set-offset 'arglist-cont 0)
+     (eval c-set-offset 'arglist-intro '+) (eval c-set-offset 'inline-open 0)
+     (eval c-set-offset 'defun-open 0) (eval c-set-offset 'innamespace 0) (indicate-empty-lines . t)
+     (whitespace-line-column . 80) (eval when (fboundp 'rainbow-mode) (rainbow-mode 1))
+     (require-final-newline . t) (mangle-whitespace . t) (encoding . utf-8)
+     (ruby-compilation-executable . "ruby") (ruby-compilation-executable . "ruby1.8")
+     (ruby-compilation-executable . "ruby1.9") (ruby-compilation-executable . "rbx")
      (ruby-compilation-executable . "jruby")))
  '(sh-basic-offset 2)
  '(solarized-scale-org-headlines nil)
@@ -104,5 +97,5 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(default ((t (:family "JetBrains Mono" :foundry "JB  " :slant normal :weight medium :height 69 :width normal))))
+ '(default ((t (:inherit nil :extend nil :stipple nil :foreground "#657576" :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight medium :height 90 :width normal :foundry "JB" :family "JetBrainsMono Nerd Font Mono"))))
  '(copilot-overlay-face ((t (:inherit (shadow highlight italic))))))
