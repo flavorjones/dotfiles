@@ -53,7 +53,7 @@ export PAGER=less
 export LC_COLLATE=C # so sort acts the way i want it to
 
 export BAT_THEME="TwoDark"
-if [[ $I_AM_LINUX == 1 ]] ; then
+if [[ `which batcat 2> /dev/null` != "" ]] ; then
   alias bat=batcat
 fi
 
