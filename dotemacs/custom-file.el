@@ -80,6 +80,8 @@
      (ruby-compilation-executable . "ruby") (ruby-compilation-executable . "ruby1.8")
      (ruby-compilation-executable . "ruby1.9") (ruby-compilation-executable . "rbx")
      (ruby-compilation-executable . "jruby")))
+ '(select-enable-clipboard t)
+ '(select-enable-primary t)
  '(sh-basic-offset 2)
  '(solarized-scale-org-headlines nil)
  '(solarized-use-variable-pitch nil)
