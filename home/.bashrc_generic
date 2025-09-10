@@ -46,7 +46,7 @@ done
 #  application-related
 #
 export LESS="-i -j5 -M -x4 -R"
-if [[ `which lesspipe` != "" ]] ; then
+if [[ `which lesspipe 2> /dev/null` != "" ]] ; then
   eval "$(lesspipe)" # for reading .gz files and such
 fi
 export PAGER=less
@@ -77,7 +77,7 @@ function en {
   TERM=xterm-24bits emacsclient -nw $*
 }
 
-if [[ `which nproc` != "" ]] ; then
+if [[ `which nproc 2> /dev/null` != "" ]] ; then
   export NCPU=$(nproc)
 elif [[ -a /proc/cpuinfo ]] ; then
   export NCPU=$(grep -c processor /proc/cpuinfo)
@@ -279,7 +279,7 @@ function make-targets {
 #
 #  kubernetes hacks - thanks to colin humphreys
 #
-if [[ `which kubectl` != "" ]] ; then
+if [[ `which kubectl 2> /dev/null` != "" ]] ; then
   alias k=kubectl
   alias ka='kubectl apply'
   alias kaf='kubectl apply -f'
