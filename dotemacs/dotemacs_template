@@ -279,6 +279,7 @@
 ;;;
 ;;; git-commit-mode
 ;;;
+(require 'git-commit)
 (setq auto-mode-alist (append '(("COMMIT_EDITMSG" . text-mode)) auto-mode-alist))
 (add-hook 'git-commit-mode-hook
           (function
