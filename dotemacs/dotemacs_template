@@ -1074,26 +1074,10 @@ The key typed is executed unless it is SPC."
   (flavorjones:modify-font-size -1))
 
 (setq flavorjones:font-list (list
-                             ;; sans-serif monospace
                              "JetBrains Mono"
-                             "Menlo"
-                             "SFMono"
-                             "Ubuntu Mono"
-
-                             ;; serif monospace
-                             "Courier New"
-                             "CMU Typewriter Text"
-
-                             ;; sans-serif proportional
-                             "Input"
-                             "Verdana"
-                             "Ubuntu"
-                             "CMU Sans Serif"
-
-                             ;; serif proportional
-                             "Georgia"
-                             "CMU Serif"
+                             "JetBrainsMono NF"
                              ))
+(set-fontset-font "fontset-default" 'unicode (font-spec :family "JetBrainsMono NF") nil 'prepend)
 
 (defun flavorjones:next-font ()
   (interactive)
@@ -1116,11 +1100,6 @@ The key typed is executed unless it is SPC."
 (global-set-key (kbd "C--") 'flavorjones:decrease-font-size)
 (global-set-key (kbd "C-M-_") 'flavorjones:next-font)
 (global-set-key (kbd "C-)") 'flavorjones:reset-font)
-
-(when (member "Noto Color Emoji" (font-family-list))
-  (set-fontset-font
-    t 'symbol (font-spec :family "Noto Color Emoji") nil 'prepend))
-
 
 ;;; solarized themes
 ;; load the themes so we can set custom faces below
