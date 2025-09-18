@@ -67,7 +67,7 @@ if [[ $I_AM_A_MAC == 1 ]] ; then
   # for bash utilities
   export PATH="$(brew --prefix coreutils)/libexec/gnubin:${PATH}"
 fi
-export EDITOR="emacsclient -c"
+export EDITOR="emacsclientc" # wrapper for emacsclient -c
 export GIT_EDITOR=$EDITOR
 export VISUAL=$EDITOR
 alias ed="ed -p '*'"
