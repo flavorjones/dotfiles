@@ -49,7 +49,6 @@
 (set-input-mode nil nil t)       ; so we can use ALT as a META key (?)
 (setq-default indent-tabs-mode nil)
 (setq-default tab-width 2)
-(when window-system (mwheel-install)) ;; enable wheelmouse support by default
 
 ;;; turn off all the decorations and gui-helpful bullshit
 (if (fboundp 'tool-bar-mode) (tool-bar-mode -1))
@@ -130,9 +129,8 @@
 ;; x clipboard
 (if (fboundp 'menu-bar-enable-clipboard) (menu-bar-enable-clipboard))
 
-(when window-system
-  (desktop-save-mode 1)
-  (run-with-idle-timer 30 t (lambda () (desktop-save-in-desktop-dir))))
+(desktop-save-mode 1)
+(run-with-idle-timer 30 t (lambda () (desktop-save-in-desktop-dir)))
 
 ;;;
 ;;;  miscellaneous file types linked to modes
@@ -923,8 +921,10 @@ The key typed is executed unless it is SPC."
 
 (add-to-list 'after-make-frame-functions
              (lambda (frame)
+               (select-frame frame)
                (flavorjones:enact-font-frame frame)
                (set-frame-size frame 100 40)
+               (load-theme 'solarized-dark t) ;; needed in daemon mode
                ))
 
 ;;;
@@ -937,10 +937,8 @@ The key typed is executed unless it is SPC."
 ;;;  go-mode
 ;;;  with help from https://johnsogg.github.io/emacs-golang
 ;;;
-(when window-system
-  (exec-path-from-shell-initialize)
-  (exec-path-from-shell-copy-env "GOPATH")
-  )
+(exec-path-from-shell-initialize)
+(exec-path-from-shell-copy-env "GOPATH")
 (add-hook 'go-mode-hook
           (function
            (lambda ()
