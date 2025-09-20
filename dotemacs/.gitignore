@@ -22,3 +22,6 @@ elpa/archives/
 # lsp
 .lsp-session-v1
 projects
+
+# command history
+eshell/history
