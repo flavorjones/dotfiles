@@ -26,14 +26,15 @@ truncation_length = 10
 #
 [[battery.display]]
 threshold = 15
+style = 'white'
 discharging_symbol = "💀 "
 
 [[battery.display]]
-threshold = 50
-discharging_symbol = "⚠️ "
+threshold = 30
+style = 'red'
 
 [[battery.display]]
-threshold = 80
+threshold = 70
 style = 'blue'
 
 [[battery.display]]
