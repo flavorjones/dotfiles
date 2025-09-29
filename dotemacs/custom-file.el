@@ -7,6 +7,9 @@
  '(ac-trigger-key "")
  '(browse-url-temp-dir "/home/flavorjones/tmp")
  '(create-lockfiles nil)
+ '(custom-safe-themes
+   '("2b0fcc7cc9be4c09ec5c75405260a85e41691abb1ee28d29fcd5521e4fca575b"
+     "7fea145741b3ca719ae45e6533ad1f49b2a43bf199d9afaee5b6135fd9e6f9b8" default))
  '(dired-listing-switches "-alG")
  '(dired-use-ls-dired t)
  '(electric-pair-pairs '((34 . 34) (8216 . 8217) (8220 . 8221) (96 . 96)))
@@ -99,5 +102,4 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(default ((t (:inherit nil :extend nil :stipple nil :foreground "#657576" :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight medium :height 90 :width normal :foundry "JB" :family "JetBrainsMono Nerd Font Mono"))))
  '(copilot-overlay-face ((t (:inherit (shadow highlight italic))))))

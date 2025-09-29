@@ -924,7 +924,6 @@ The key typed is executed unless it is SPC."
                (select-frame frame)
                (flavorjones:enact-font-frame frame)
                (set-frame-size frame 100 40)
-               (load-theme 'solarized-dark t) ;; needed in daemon mode
                ))
 
 ;;;
@@ -1112,39 +1111,11 @@ The key typed is executed unless it is SPC."
 (setq solarized-scale-org-headlines nil)
 (setq solarized-use-variable-pitch nil)
 
-;; not sure why solarized-emacs's default "region" faces overrides foreground, it makes
-;; transient-mark-mode less readable, IMHO.
-;;
-;; the easiest way to redefine the face is to create a new custom theme, and specify the "region"
-;; face to inherit the foreground color and have a less severe background color.
-;;
-;; these themes are using stock solarized palettes, I'm only changing the "region" face.
-(solarized-create-theme-file-with-palette 'dark 'solarized-flavorjones-dark
-  '("#002b36" "#fdf6e3"
-    "#b58900" "#cb4b16" "#dc322f" "#d33682" "#6c71c4" "#268bd2" "#2aa198" "#859900")
-  '((custom-theme-set-faces
-     theme-name
-     '(region ((t (:background "#073642")))) ; base02
-     ))
-  t)
-
-(solarized-create-theme-file-with-palette 'light 'solarized-flavorjones-light
-  '("#002b36" "#fdf6e3"
-    "#b58900" "#cb4b16" "#dc322f" "#d33682" "#6c71c4" "#268bd2" "#2aa198" "#859900")
-  '((custom-theme-set-faces
-     theme-name
-     '(region ((t (:background "#eee8d5")))) ; base2
-     ))
-  t)
-
-;; make sure I don't get prompted for the above themes
-(setq custom-safe-themes t)
-
 ;; fire up auto-dark to manage this for us
 (use-package auto-dark
   :ensure t
   :custom
-  (auto-dark-themes '((solarized-flavorjones-dark) (solarized-flavorjones-light)))
+  (auto-dark-themes '((solarized-dark) (solarized-light)))
   :init
   (auto-dark-mode))
 
