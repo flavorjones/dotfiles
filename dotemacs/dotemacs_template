@@ -130,6 +130,7 @@
 (if (fboundp 'menu-bar-enable-clipboard) (menu-bar-enable-clipboard))
 
 (desktop-save-mode 1)
+(setq desktop-load-locked-desktop t)
 (run-with-idle-timer 30 t (lambda () (desktop-save-in-desktop-dir)))
 
 ;;;
