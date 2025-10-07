@@ -292,17 +292,6 @@ if [[ `which kubectl 2> /dev/null` != "" ]] ; then
     kubectl config set-context --current --namespace=$1
   }
 
-  if [[ `which kapp` != "" ]] ; then
-    alias kf='kapp deploy -a auto-kapp-$(date +%s) -f'
-  fi
-
-  if [[ `which kind` != "" ]] ; then
-    alias kind-create='kind create cluster && kind-kubeconfig'
-    alias kind-delete='kind delete cluster'
-    alias kind-reset='kind-delete && kind-create'
-    alias kind-kubeconfig='export KUBECONFIG="$(kind get kubeconfig-path --name="kind")"'
-  fi
-
   source <(kubectl completion bash)
 fi
 
