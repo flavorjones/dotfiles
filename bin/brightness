@@ -1,0 +1,24 @@
+#!/usr/bin/env bash
+
+set -x
+
+valid_displays() {
+  ddcutil detect --brief | grep "^Display" | awk '{print $2}'
+}
+
+toggle_value() {
+  local d="$1"
+  current_value=$(ddcutil getvcp 10 -d $d --brief | awk '{print $4}')
+  if [ "$current_value" -lt 100 ] ; then
+    echo 100
+  else
+    echo 50
+  fi
+}
+
+displays=$(valid_displays)
+next_value=$(toggle_value $displays)
+
+for d in $displays ; do
+  ddcutil setvcp 10 $next_value -d $d &
+done
