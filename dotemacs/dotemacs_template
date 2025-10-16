@@ -77,6 +77,10 @@
 (setq windsize-cols 2)
 (setq windsize-rows 1)
 
+;;; mise support
+(require 'mise)
+(add-hook 'after-init-hook #'global-mise-mode)
+
 ;;;
 ;;; lsp-mode
 ;;;
