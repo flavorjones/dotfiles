@@ -1,7 +1,5 @@
 #!/usr/bin/env bash
 
-set -x
-
 valid_displays() {
   ddcutil detect --brief | grep "^Display" | awk '{print $2}'
 }
@@ -9,16 +7,23 @@ valid_displays() {
 toggle_value() {
   local d="$1"
   current_value=$(ddcutil getvcp 10 -d $d --brief | awk '{print $4}')
-  if [ "$current_value" -lt 100 ] ; then
-    echo 100
-  else
+  if [ "$current_value" -eq 100 ] ; then
     echo 50
+  else
+    echo 100
   fi
 }
 
 displays=$(valid_displays)
-next_value=$(toggle_value $displays)
+
+if [ -n "$1" ]; then
+  next_value="$1"
+else
+  next_value=$(toggle_value $displays)
+fi
 
 for d in $displays ; do
   ddcutil setvcp 10 $next_value -d $d &
 done
+
+notify-send "🔆  Brightness set to $next_value"
