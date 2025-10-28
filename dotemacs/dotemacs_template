@@ -130,9 +130,28 @@
 (setq fido-mode t)
 (setq fido-vertical-mode t)
 
-;; x clipboard
-(if (fboundp 'menu-bar-enable-clipboard) (menu-bar-enable-clipboard))
+(when (string= (getenv "XDG_SESSION_TYPE") "wayland")
+  ;; wayland clipboard https://www.emacswiki.org/emacs/CopyAndPaste
+  (setopt select-active-regions nil)
 
+  (setq wl-copy-process nil)
+  (defun wl-copy (text)
+    (setq wl-copy-process (make-process :name "wl-copy"
+                                        :buffer nil
+                                        :command '("wl-copy" "-f" "-n")
+                                        :connection-type 'pipe
+                                        :noquery t))
+    (process-send-string wl-copy-process text)
+    (process-send-eof wl-copy-process))
+  (defun wl-paste ()
+    (if (and wl-copy-process (process-live-p wl-copy-process))
+        nil ; should return nil if we're the current paste owner
+      (shell-command-to-string "wl-paste -n | tr -d \r")))
+  (setq interprogram-cut-function 'wl-copy)
+  (setq interprogram-paste-function 'wl-paste)
+)
+
+;; desktop save
 (desktop-save-mode 1)
 (setq desktop-load-locked-desktop t)
 (run-with-idle-timer 30 t (lambda () (desktop-save-in-desktop-dir)))
