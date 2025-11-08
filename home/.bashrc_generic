@@ -22,14 +22,10 @@ fi
 export HOST=$(hostname -s)
 
 #
-#  it's-a-me
+#  local paths
+#  TODO: consider moving everything to ~/.local and then standard profile/bashrc init takes care of it.
 #
-export TZ="America/New_York" # home sweet home
 export PATH=${PATH}:${HOME}/bin
-
-#
-#  ~/local/ and ~/.local/
-#
 for localdir in ${HOME}/local ${HOME}/.local ; do
   if test -a ${localdir} ; then
     export PATH=${localdir}/bin:${PATH}
