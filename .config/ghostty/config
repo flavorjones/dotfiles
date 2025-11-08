@@ -8,7 +8,7 @@ selection-foreground = #ffffff
 selection-background = #000000
 clipboard-paste-protection = false
 shell-integration = bash
-shell-integration-features = no-title
+shell-integration-features = no-title,ssh-env
 
 keybind = ctrl+shift+r=reset
 
