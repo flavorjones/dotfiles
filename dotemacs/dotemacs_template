@@ -81,6 +81,9 @@
 (require 'mise)
 (add-hook 'after-init-hook #'global-mise-mode)
 
+;; trick browse-url into using xdg-open. shouldnt' affect anything since I'm on wayland now.
+(setenv "DISPLAY" ":0")
+
 ;;;
 ;;; lsp-mode
 ;;;
