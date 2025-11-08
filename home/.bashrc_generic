@@ -100,6 +100,13 @@ export INPUTRC="~/.inputrc"
 #
 #  PS1 using starship
 #
+if command -v starship &> /dev/null ; then
+  eval "$(starship init bash)"
+fi
+
+#
+#  Set the window title
+#
 function ps1_working_directory {
   if [[ -n "${GOPATH}" && $PWD =~ "${GOPATH}/src" ]] ; then
     echo "(${gvm_go_name}) $(realpath --relative-to "${GOPATH}/src" "${PWD}")"
@@ -117,23 +124,21 @@ function ps1_working_directory {
     echo $PWD
   fi
 }
+
 function ps1_host {
   if [[ -n "$SSH_TTY" ]] ; then
     echo "${HOST}:"
   fi
 }
+
 function set_window_title {
   echo -ne "\033]0;$(ps1_host)$(ps1_working_directory)\007"
 }
-if [[ "$INSIDE_EMACS" == "" ]] ; then
-  starship_precmd_user_func=set_window_title
-else
-  unset starship_precmd_user_func
-fi
 
-if command -v starship &> /dev/null ; then
-  eval "$(starship init bash)"
-fi
+PROMPT_COMMAND+=(set_window_title)
+
+# prevent /etc/bash.bashrc from injecting its prompt command in subprocesses, sigh.
+export BASHRCSOURCED=Y
 
 
 #########################################
