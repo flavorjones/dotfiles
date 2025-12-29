@@ -25,3 +25,6 @@ projects
 
 # command history
 eshell/history
+
+# url library
+url/cookies
