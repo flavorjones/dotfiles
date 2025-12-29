@@ -55,7 +55,7 @@ fi
 
 alias ag="ag --pager=less"
 
-export BROWSER="brave-browser"
+export BROWSER="brave"
 
 if [[ $I_AM_A_MAC == 1 ]] ; then
   # for emacsclient
