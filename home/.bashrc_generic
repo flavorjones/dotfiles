@@ -135,11 +135,16 @@ function set_window_title {
   echo -ne "\033]0;$(ps1_host)$(ps1_working_directory)\007"
 }
 
-PROMPT_COMMAND+=(set_window_title)
-
-# prevent /etc/bash.bashrc from injecting its prompt command in subprocesses, sigh.
+# Remove system's window title command from PROMPT_COMMAND (set by /etc/bash.bashrc)
+for command in "${!PROMPT_COMMAND[@]}"; do
+  if [[ "${PROMPT_COMMAND[$command]}" == *'printf "\033'* ]]; then
+    unset "PROMPT_COMMAND[$command]"
+  fi
+done
+# and prevent /etc/bash.bashrc from injecting its prompt command in subprocesses, sigh.
 export BASHRCSOURCED=Y
 
+PROMPT_COMMAND+=(set_window_title)
 
 #########################################
 #  aliases
