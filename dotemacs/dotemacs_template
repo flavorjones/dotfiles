@@ -1040,6 +1040,18 @@ The key typed is executed unless it is SPC."
 (setq custom-file "__DIR__/custom-file.el")
 (load custom-file)
 
+;; Prevent solarized default face from being saved to custom-file
+;; by removing the saved/customized flags after theme loads
+(defun my-reset-face-customizations ()
+  "Prevent certain faces from polluting custom-file."
+  (dolist (face '(default))
+    (put face 'saved-face nil)
+    (put face 'customized-face nil)))
+
+(add-hook 'auto-dark-dark-mode-hook #'my-reset-face-customizations)
+(add-hook 'auto-dark-light-mode-hook #'my-reset-face-customizations)
+(add-hook 'after-init-hook #'my-reset-face-customizations)
+
 
 ;;;
 ;;;  personal font stuff
