@@ -658,9 +658,9 @@
              (hide-body)             ; hide everything except headings
              )))
 
-;;;;;;;;;;
-;;;  hideshow mode
-;;;;;;;;;;
+;;;
+;;;  bicycle - outline mode and hideshow mode folding
+;;;
 (add-hook 'hs-minor-mode-hook
           (function
            (lambda ()
@@ -670,19 +670,17 @@
              (local-set-key "\C-cl" 'hs-hide-level)
              )))
 
-;;;
-;;;  bicycle - outline mode and hideshow mode folding
-;;;
 (use-package bicycle
              :after outline
              :bind (:map outline-minor-mode-map
                          ([C-tab] . bicycle-cycle)
-                         ([S-tab] . bicycle-cycle-global)))
+                         ([S-tab] . bicycle-cycle-global)
+                         ([backtab] . bicycle-cycle-global)))
 
 (use-package prog-mode
-             :config
-             (add-hook 'prog-mode-hook 'hs-minor-mode))
-
+  :config
+  (add-hook 'prog-mode-hook 'outline-minor-mode)
+  (add-hook 'prog-mode-hook 'hs-minor-mode))
 
 ;;;;;;;;;;
 ;;;  scheme mode
@@ -1194,8 +1192,7 @@ The key typed is executed unless it is SPC."
       (copilot-previous-completion)
     (previous-line)))
 
-(define-key copilot-mode-map (kbd "S-<tab>") #'my-copilot-tab)
-(define-key copilot-mode-map (kbd "<backtab>") #'my-copilot-tab)
+(define-key copilot-mode-map (kbd "<right>") #'my-copilot-tab)
 (define-key copilot-mode-map (kbd "<down>") #'my-copilot-next)
 (define-key copilot-mode-map (kbd "<up>") #'my-copilot-previous)
 
