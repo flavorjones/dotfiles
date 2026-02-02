@@ -934,10 +934,13 @@ The key typed is executed unless it is SPC."
       `((".*" ,user-temporary-file-directory t)))
 
 
-;;;
-;;;  edit servers for emacsclient and ghost text browser extension
-;;;
+;;  server for emacsclient
 (server-start)
+
+;;  server for chrome-emacs browser extension
+;;  https://github.com/KarimAziev/chrome-emacs
+(add-to-list 'load-path "~/__DIR__/atomic-chrome/")
+(require 'atomic-chrome)
 (atomic-chrome-start-server)
 
 ;;;  raise the window when we launch a file from the commandline
