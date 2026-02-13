@@ -355,8 +355,10 @@
              (local-set-key (kbd "C-c C-s >") 'markdown-insert-blockquote)
              )))
 ; https://github.com/github/cmark-gfm
-(setq markdown-command "cmark-gfm --unsafe -e footnotes -e autolink -e table")
-(setq markdown-css-paths '("__DIR__/github.css"))
+(setq markdown-command "cmark-gfm --unsafe -e footnotes -e autolink -e table -e strikethrough -e tasklist")
+(setq markdown-css-paths '("__DIR__/github.css")) ; https://github.com/sindresorhus/github-markdown-css
+(setq markdown-xhtml-body-preamble "<article class=\"markdown-body\">")
+(setq markdown-xhtml-body-epilogue "</article>")
 
 (add-hook 'markdown-mode-hook 'outline-minor-mode)
 
