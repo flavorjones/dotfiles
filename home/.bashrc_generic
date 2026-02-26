@@ -300,7 +300,11 @@ gwta() {
     local base="$(basename "$PWD")"
     local path="../${base}--${branch}"
 
-    git worktree add -b "$branch" "$path"
+    if git show-ref --verify --quiet "refs/heads/$branch"; then
+      git worktree add "$path" "$branch"
+    else
+      git worktree add -b "$branch" "$path"
+    fi
     mise trust "$path"
     cd "$path"
   fi
@@ -323,6 +327,8 @@ gwtd() {
     if [[ "$root" != "$worktree" ]]; then
       cd "../$root"
       git worktree remove "$worktree" --force
+      # remove leftover ignored files (e.g. ./tmp/) that git doesn't clean up
+      [[ -d "../$worktree" ]] && rm -rfv "../$worktree"
       git branch -D "$branch"
     fi
   fi
