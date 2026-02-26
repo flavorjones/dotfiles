@@ -106,12 +106,8 @@
 	oldNormal = red
 	newNormal = green
 
-[url "https://github.com/"]
+[url "git@github.com:"]
 	insteadOf = "gh:"
-
-# [url "git@github.com:"]
-# 	pushInsteadOf = "gh:"
-# 	pushInsteadOf = "https://github.com/"
 
 [url "git@ssh.gitlab.gnome.org:"]
 	pushInsteadOf = "https://gitlab.gnome.org"
