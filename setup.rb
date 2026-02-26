@@ -7,7 +7,6 @@ require "rake"
 
 HOME = ENV["HOME"]
 PWD = File.dirname(__FILE__)
-DESKTOP_DIR = File.join(ENV["HOME"], ".local/share/applications")
 
 class SyncSpec
   module Commands
@@ -161,7 +160,6 @@ specs = [
 
 specs += [
   SyncSpec.new(".fonts", options),
-  SyncSpec.new("desktop", options.merge(dest_dir: DESKTOP_DIR)),
   WholeDirectorySyncSpec.new("fontconfig", options.merge(dest_dir: File.join(HOME, ".config/fontconfig"))),
   PrivilegedFileSyncSpec.new("etc", options.merge(dest_dir: "/etc")),
 ] if ENV['I_AM_LINUX'] == "1" && ENV['DISPLAY']
@@ -195,7 +193,7 @@ File.join(HOME, ".bashrc").tap do |path|
         # the permanent, generic profile is here:
         source ~/.bashrc_generic
 
-        # local edits folloow.
+        # local edits follow.
       EOF
     end
   end
@@ -211,7 +209,7 @@ File.join(HOME, ".inputrc").tap do |path|
         # the permanent, generic profile is here:
         \$include ~/.inputrc_generic
 
-        # local edits folloow.
+        # local edits follow.
       EOF
     end
   end
