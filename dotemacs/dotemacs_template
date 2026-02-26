@@ -941,6 +941,7 @@ The key typed is executed unless it is SPC."
 ;;  https://github.com/KarimAziev/chrome-emacs
 (add-to-list 'load-path "~/__DIR__/atomic-chrome/")
 (require 'atomic-chrome)
+(setq atomic-chrome-extension-type-list '(atomic-chrome)) ; do not listen on port 4001 for ghost text
 (atomic-chrome-start-server)
 
 ;;;  raise the window when we launch a file from the commandline
@@ -1072,8 +1073,8 @@ The key typed is executed unless it is SPC."
                             "~>" "~-" "**" "*>" "*/" "||" "|}" "|]" "|=" "|>" "|-" "{|"
                             "[|" "]#" "::" ":=" ":>" ":<" "$>" "==" "=>" "!=" "!!" ">:"
                             ">=" ">>" ">-" "-~" "-|" "->" "--" "-<" "<~" "<*" "<|" "<:"
-                            "<$" "<=" "<>" "<-" "<<" "<+" "</" "#{" "#[" "#:" "#=" "#!"
-                            "##" "#(" "#?" "#_" "%%" ".=" ".-" ".." ".?" "+>" "++" "?:"
+                            "<$" "<=" "<>" "<-" "<<" "<+" "</" "#{" "#[" "#:" "#!" ;; "#=" "#_"
+                            "##" "#(" "#?" "%%" ".=" ".-" ".." ".?" "+>" "++" "?:"
                             "?=" "?." "??" ";;" "/*" "/=" "/>" "//" "__" "~~" "(*" "*)"
                             "\\\\" "://"))
   ;; Enables ligature checks globally in all buffers.  You can also do it
