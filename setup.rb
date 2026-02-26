@@ -156,6 +156,7 @@ specs = [
   SyncSpec.new("home", options.merge(dest_dir: HOME)),
   SyncSpec.new(".gdb", options),
   SyncSpec.new(".config", options),
+  SyncSpec.new(".claude", options),
 ]
 
 specs += [

@@ -127,6 +127,9 @@ function set_window_title {
 
 PROMPT_COMMAND+=(set_window_title)
 
+# see ~/.claude/statusline-command.sh
+export CLAUDE_CODE_DISABLE_TERMINAL_TITLE=1
+
 #########################################
 #  aliases
 #
