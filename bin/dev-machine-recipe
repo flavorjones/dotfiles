@@ -391,7 +391,7 @@ if $install_p ; then
 
     # key mapping with https://gitlab.com/interception/linux/tools
     # (see etc/interception/udevmon.yaml)
-    apt_install interception-tools interception-caps2esc
+    apt_install interception-tools interception-dual-function-keys
 
     # fonts
     apt_install \
