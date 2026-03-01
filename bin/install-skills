@@ -1,0 +1,50 @@
+#!/bin/bash
+#
+# Create symlinks for each skill in this repo's skills/ directory.
+#
+# Usage: install-skills [SKILLS_DIR]
+#
+# When SKILLS_DIR is given, install those skills into ./.claude/skills/ (current directory).
+# Otherwise, install from ./skills/ into ~/.claude/skills/.
+#
+
+set -e
+
+if [ -n "$1" ]; then
+  SKILLS_SRC="$1"
+  SKILLS_DEST="$(pwd)/.claude/skills"
+else
+  SKILLS_SRC="$(pwd)/skills"
+  SKILLS_DEST="${HOME}/.claude/skills"
+fi
+
+mkdir -p "${SKILLS_DEST}"
+
+# Remove broken symlinks
+for link in "${SKILLS_DEST}"/*; do
+  [ -L "${link}" ] && [ ! -e "${link}" ] || continue
+  echo "remove: $(basename "${link}") (broken symlink -> $(readlink "${link}"))"
+  rm "${link}"
+done
+
+for skill_dir in "${SKILLS_SRC}"/*/; do
+  skill_name="$(basename "${skill_dir}")"
+  link="${SKILLS_DEST}/${skill_name}"
+
+  if [ -L "${link}" ]; then
+    existing="$(readlink "${link}")"
+    if [ "${existing}" = "${skill_dir%/}" ]; then
+      echo "ok: ${skill_name}"
+      continue
+    fi
+    echo "update: ${skill_name} (was ${existing})"
+    rm "${link}"
+  elif [ -e "${link}" ]; then
+    echo "skip: ${skill_name} (non-symlink already exists)"
+    continue
+  else
+    echo "create: ${skill_name}"
+  fi
+
+  ln -s "${skill_dir%/}" "${link}"
+done
