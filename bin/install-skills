@@ -11,7 +11,7 @@
 set -e
 
 if [ -n "$1" ]; then
-  SKILLS_SRC="$1"
+  SKILLS_SRC="$(realpath "$1")"
   SKILLS_DEST="$(pwd)/.claude/skills"
 else
   SKILLS_SRC="$(pwd)/skills"
