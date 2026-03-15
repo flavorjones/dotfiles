@@ -98,8 +98,8 @@
 	old = red bold
 	new = green bold
 	whitespace = red reverse
-	oldMoved = red italic
-	newMoved = green italic
+	oldMoved = italic red black
+	newMoved = italic green black
 
 # diff-so-fancy
 [color.diff-highlight]
