@@ -78,3 +78,6 @@ keybind = ctrl+alt+3=new_split:right
 # keybind = alt+two=goto_tab:2
 # keybind = ctrl+shift+right=next_tab
 # keybind = ctrl+enter=toggle_fullscreen
+
+# Fix general slowness on hyprland (https://github.com/ghostty-org/ghostty/discussions/3224)
+async-backend = epoll
