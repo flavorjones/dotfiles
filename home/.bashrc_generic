@@ -294,10 +294,11 @@ which direnv > /dev/null && eval "$(direnv hook bash)"
 # Create a new worktree and branch from within current git directory.
 gwta() {
   if [[ -z "$1" ]]; then
-    echo "Usage: ga [branch name]"
+    echo "Usage: gwta [branch name]"
   else
     local branch="$1"
-    local base="$(basename "$PWD")"
+    local pwd="$(basename "$PWD")"
+    local base="${pwd%%--*}"
     local path="../${base}--${branch}"
 
     if git show-ref --verify --quiet "refs/heads/$branch"; then
