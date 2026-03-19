@@ -166,6 +166,18 @@ specs += [
 
 specs.each(&:sync!)
 
+# CLAUDE.md is a symlink to AGENTS.md
+File.join(HOME, "CLAUDE.md").tap do |path|
+  target = "AGENTS.md"
+  if File.symlink?(path) && File.readlink(path) == target
+    puts "WARN: same, skipping: CLAUDE.md → #{target}" if options[:verbose]
+  else
+    FileUtils.rm_f(path)
+    FileUtils.ln_s(target, path)
+    puts "LINK: CLAUDE.md → #{target}"
+  end
+end
+
 File.join(HOME, ".gitconfig").tap do |path|
   unless File.exist?(path)
     puts "writing new #{path} ..."
