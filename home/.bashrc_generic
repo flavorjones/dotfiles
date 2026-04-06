@@ -44,6 +44,7 @@ done
 export LESS="-i -j5 -M -x4 -R"
 export PAGER=less
 export BAT_THEME="TwoDark"
+export LESSOPEN='|bat --color=always --style=plain %s'
 
 alias ag="ag --pager=less"
 
