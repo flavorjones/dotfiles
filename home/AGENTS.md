@@ -42,8 +42,8 @@ Important: do not write comments in tests unless it is to reveal a non-obvious f
 ## Git Worktrees
 
 When creating git worktrees:
-- Use a meaningful branch name (not just the upstream branch name).
-- Name the worktree directory `<reponame>--<branchname>` in the same parent directory as the repo.
+- Branch name: Use a meaningful name that is likely to be unique. Do not use a "/" in the branch name.
+- Directory: Name `<reponame>--<branchname>` in the same parent directory as the repo.
 - After creating a worktree from a remote branch (`git worktree add <path> -b <new-branch> origin/<upstream>`), the local branch tracks the upstream branch. Before pushing, ALWAYS use explicit refspec: `git push origin <new-branch>:<new-branch>`. NEVER use bare `git push` or `git push -u origin <branch>` in a worktree — it will push to the tracked upstream branch, not create a new remote branch.
 
 ## Temporary files
