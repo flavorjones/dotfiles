@@ -1,0 +1,32 @@
+#!/bin/bash
+
+# Handle laptop lid open/close events.
+#
+# When closing with external monitors: disable eDP-1 (true clamshell, workspaces migrate).
+# When closing without external monitors: DPMS off only (preserves wl_output so clients
+#   don't crash during suspend/resume).
+# When opening: re-enable eDP-1.
+#
+# Usage: omarchy-lid-switch [open|close]
+
+INTERNAL="eDP-1"
+MONITOR_SPEC="eDP-1, preferred, auto-down, 1.175"
+
+case "$1" in
+    close)
+        external_count=$(hyprctl monitors -j | jq '[.[] | select(.name != "'"$INTERNAL"'")] | length')
+        if [ "$external_count" -gt 0 ]; then
+            hyprctl keyword monitor "$INTERNAL, disable"
+        else
+            hyprctl dispatch dpms off "$INTERNAL"
+        fi
+        ;;
+    open)
+        hyprctl dispatch dpms on "$INTERNAL"
+        hyprctl keyword monitor "$MONITOR_SPEC"
+        ;;
+    *)
+        echo "Usage: omarchy-lid-switch [open|close]" >&2
+        exit 1
+        ;;
+esac
