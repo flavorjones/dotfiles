@@ -61,8 +61,8 @@
         poly-ruby polymode powershell projectile projectile-rails protobuf-mode quelpa
         quelpa-use-package rnc-mode rspec-mode rubocopfmt ruby-additional ruby-end ruby-hash-syntax
         ruby-refactor rufo rust-mode rvm sass-mode slim-mode solarized-theme sort-words swift-mode
-        toml-mode udev-mode undo-tree unicode-fonts use-package web-mode which-key windsize
-        yaml-mode zig-mode))
+        toml-mode typescript-mode udev-mode undo-tree unicode-fonts use-package web-mode which-key
+        windsize yaml-mode zig-mode))
  '(paradox-github-token t)
  '(pixel-scroll-mode t)
  '(pixel-scroll-precision-mode t)
