@@ -1,21 +1,8 @@
 @~/Work/basecamp/shipyard/share/AGENTS.md
 
-# Personal agent instructions
+## In general
 
-## Commit messages
-
-Do not credit yourself in commit messages.
-
-## Creating pull requests
-
-Do not credit yourself in pull requests.
-
-## "superpowers" skills
-
-You have been given a set of skills named "superpowers":
-- Whenever I say "brainstorm", I want to use the "brainstorm" skill.
-- Whenever I say "TDD", I want to use the "test-driven-development" skill.
-- Whenever I say "debug", I want to use the "systematic-debugging" skill.
+Follow instructions carefully. Don't be stupid.
 
 ## Programming guidelines
 
@@ -39,12 +26,30 @@ When writing tests, first check existing test files for patterns, naming convent
 
 Important: do not write comments in tests unless it is to reveal a non-obvious fact. Try to write tests that clearly express the intent of the test and thus do not need many comments.
 
-## Git Worktrees
+## Git
+
+### Creating a worktree
 
 When creating git worktrees:
-- Branch name: Use a meaningful name that is likely to be unique. Do not use a "/" in the branch name.
-- Directory: Name `<reponame>--<branchname>` in the same parent directory as the repo.
-- After creating a worktree from a remote branch (`git worktree add <path> -b <new-branch> origin/<upstream>`), the local branch tracks the upstream branch. Before pushing, ALWAYS use explicit refspec: `git push origin <new-branch>:<new-branch>`. NEVER use bare `git push` or `git push -u origin <branch>` in a worktree — it will push to the tracked upstream branch, not create a new remote branch.
+
+- Branch name: meaningful and likely unique. Do not use a "/" in the branch name.
+- Directory: `<reponame>--<branchname>` in the same parent directory as the repo.
+
+**Never** create a worktree that tracks a remote branch. Always use this syntax:
+
+    git worktree add $path $branch
+
+or
+
+    git worktree add -b $branch $path
+
+where $branch **MUST** be a local branch (and not an origin branch).
+
+### Pushing a worktree
+
+If the remote tracking branch is `origin/main` or `origin/master` DO NOT PUSH. STOP. Unset tracking first.
+
+If there is no remote tracking branch, push with the `--set-upstream` option to create one.
 
 ## Temporary files
 
