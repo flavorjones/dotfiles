@@ -121,6 +121,18 @@
             (when (eq operation 'rename)
               (save-buffer))))
 
+; not sure what the best way to do this is, but worktrees make it a problem
+(defun lsp-cleanup-dead-workspaces ()
+    "Shut down LSP sessions whose workspace folders no longer exist on disk."
+    (interactive)
+    (let* ((session (lsp-session))
+           (dead-folders (--filter (not (file-directory-p it))
+                                  (lsp-session-folders session)))
+           (count (length dead-folders)))
+      (dolist (folder dead-folders)
+        (ignore-errors (lsp-workspace-folders-remove folder)))
+      (message "Removed %d dead workspace folder(s)" count)))
+
 ;; completion
 ;; see https://www.masteringemacs.org/article/understanding-minibuffer-completion
 ;; also see "M-x customize-group icomplete"
