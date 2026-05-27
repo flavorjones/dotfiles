@@ -325,7 +325,7 @@
 (add-hook 'git-commit-mode-hook
           (function
            (lambda ()
-             (setq fill-column 70)
+             (set-fill-column 70)
              )))
 
 
@@ -1018,9 +1018,8 @@ The key typed is executed unless it is SPC."
 (add-hook 'yaml-mode-hook
           (function
            (lambda ()
-             ; for some reason yaml-mode inherits from text mode, wtf?
-             ;; (face-remap-add-relative 'default '(:family "Menlo")) ;; only needed if we're overriding in text-mode
-             (flyspell-prog-mode)
+             (flyspell-prog-mode) ; for some reason yaml-mode inherits from text mode, wtf?
+             (set-fill-column 80) ; hat tip to @postmodern
              )))
 
 (add-hook `dockerfile-mode-hook
