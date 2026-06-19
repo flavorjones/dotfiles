@@ -5,8 +5,12 @@ font-size = 10
 theme = dark:iTerm2 Solarized Dark,light:iTerm2 Solarized Light
 
 window-theme = system
-selection-foreground = #ffffff
-selection-background = #000000
+window-padding-x = 10
+window-padding-y = 10
+window-padding-balance = true
+
+selection-foreground = cell-background
+selection-background = cell-foreground
 clipboard-paste-protection = false
 shell-integration = bash
 shell-integration-features = no-cursor,sudo,no-title,ssh-env,no-ssh-terminfo,path
