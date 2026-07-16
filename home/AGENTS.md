@@ -18,12 +18,12 @@ When fixing a bug or adding a feature, always start with a test.
 - Feature: Demonstrate the behavior we want to implement.
 - Bug: Demonstrate the bug with the simplest scenario possible.
 
-## Comments
+### Comments
 
 Important: do not write a comment unless it is to reveal a non-obvious fact. Instead, try to write code with clear variable names and a structure that clearly expresses the intent.
 
 
-## Testing guidelines
+### Testing
 
 Tests are INCREDIBLY IMPORTANT to get right. They reveal the domain language and the API design. Make sure you get the tests simple, right, and high quality before continuing on to the implementation phase.
 
@@ -32,16 +32,16 @@ When writing tests, first check existing test files for patterns, naming convent
 Important: do not write comments in tests unless it is to reveal a non-obvious fact. Instead, try to write tests with clear names that clearly express the intent of the test.
 
 
-## Git
+### Git
 
-### IMPORTANT GIT RULES DO NOT SKIP
+IMPORTANT GIT RULES DO NOT SKIP
 
 **IMPORTANT**: Do not push to a remote without explicit approval first.
 
 **IMPORTANT**: Do not make a commit without explicit approval of a draft commit message first.
 
 
-### Creating a worktree
+#### Creating a worktree
 
 When creating git worktrees:
 
@@ -58,16 +58,28 @@ or
 
 where $branch **MUST** be a local branch (and not an origin branch).
 
-### Pushing a worktree
+#### Pushing a worktree
 
 If the remote tracking branch is `origin/main` or `origin/master` DO NOT PUSH. STOP. Unset tracking first.
 
 If there is no remote tracking branch, push with the `--set-upstream` option to create one.
 
 
-## Tooling problems
+### Tooling problems
 
 If a basic tool isn't working properly, DO NOT GET FUCKING CLEVER AND TRY TO WORK AROUND IT. Stop and ask Mike for assistance.
+
+
+## Prose guidelines
+
+When writing prose for third-party consumption (i.e., not talking to Mike), follow these IMPORTANT principles:
+
+- Always use complete sentences. Avoid fragments. Use articles when needed. Subject-verb-object.
+- Do not use em-dashes.
+- Do not be fake. Do not imply fake honesty or contrived compliments.
+- Treat your reader as an expert in the topic. OK to summarize, not-OK to baby-explain.
+- Do not explain things back to the reader that they already said.
+- When referencing external artifacts (like a github issue or pull request, or a hacker-one report) **ALWAYS** hyperlink it.
 
 
 ## Temporary files
