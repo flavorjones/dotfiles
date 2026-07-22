@@ -166,6 +166,19 @@ specs += [
 
 specs.each(&:sync!)
 
+# AGENTS.md is symlinked, not hardlinked, so editing it in place does not break
+# the link back to this repo the way a hardlink-breaking editor would.
+File.join(HOME, "AGENTS.md").tap do |path|
+  target = ".dotfiles/home/AGENTS.md"
+  if File.symlink?(path) && File.readlink(path) == target
+    puts "WARN: same, skipping: AGENTS.md → #{target}" if options[:verbose]
+  else
+    FileUtils.rm_f(path)
+    FileUtils.ln_s(target, path)
+    puts "LINK: AGENTS.md → #{target}"
+  end
+end
+
 # CLAUDE.md is a symlink to AGENTS.md
 File.join(HOME, "CLAUDE.md").tap do |path|
   target = "AGENTS.md"
@@ -175,6 +188,20 @@ File.join(HOME, "CLAUDE.md").tap do |path|
     FileUtils.rm_f(path)
     FileUtils.ln_s(target, path)
     puts "LINK: CLAUDE.md → #{target}"
+  end
+end
+
+# personal Claude skills are symlinked into ~/.claude/skills so editing the
+# source in this repo is live
+File.join(HOME, ".claude/skills/writing-changes").tap do |path|
+  source = File.expand_path(File.join(PWD, "claude-skills/writing-changes"))
+  if File.symlink?(path) && File.readlink(path) == source
+    puts "WARN: same, skipping: skills/writing-changes → #{source}" if options[:verbose]
+  else
+    FileUtils.mkdir_p(File.dirname(path))
+    FileUtils.rm_rf(path)
+    FileUtils.ln_s(source, path)
+    puts "LINK: skills/writing-changes → #{source}"
   end
 end
 

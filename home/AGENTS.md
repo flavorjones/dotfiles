@@ -38,7 +38,7 @@ IMPORTANT GIT RULES DO NOT SKIP
 
 **IMPORTANT**: Do not push to a remote without explicit approval first.
 
-**IMPORTANT**: Do not make a commit without explicit approval of a draft commit message first.
+**IMPORTANT**: Do not make a commit without explicit approval of a draft commit message first. Draft the message using the `writing-changes` skill.
 
 
 #### Creating a worktree
@@ -80,6 +80,11 @@ When writing prose for third-party consumption (i.e., not talking to Mike), foll
 - Treat your reader as an expert in the topic. OK to summarize, not-OK to baby-explain.
 - Do not explain things back to the reader that they already said.
 - When referencing external artifacts (like a github issue or pull request, or a hacker-one report) **ALWAYS** hyperlink it.
+
+
+### Commit messages and pull request descriptions
+
+Before drafting or revising a commit message or pull request description, invoke the `writing-changes` skill and follow it. It holds the required structure, tense, precision, reference, and voice conventions, along with the PR template-matching process.
 
 
 ## Temporary files
