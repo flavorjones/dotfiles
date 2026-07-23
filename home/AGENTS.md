@@ -72,7 +72,7 @@ If a basic tool isn't working properly, DO NOT GET FUCKING CLEVER AND TRY TO WOR
 
 ## Prose guidelines
 
-When writing prose for third-party consumption (i.e., not talking to Mike), follow these IMPORTANT principles:
+When writing prose for third-party consumption (even when talking to Mike), follow these IMPORTANT principles:
 
 - Always use complete sentences. Avoid fragments. Use articles when needed. Subject-verb-object.
 - Use precise language. State exactly what happened. Avoid vague verbs like "got it executed".
