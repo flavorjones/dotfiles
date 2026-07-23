@@ -75,10 +75,13 @@ If a basic tool isn't working properly, DO NOT GET FUCKING CLEVER AND TRY TO WOR
 When writing prose for third-party consumption (i.e., not talking to Mike), follow these IMPORTANT principles:
 
 - Always use complete sentences. Avoid fragments. Use articles when needed. Subject-verb-object.
+- Use precise language. State exactly what happened. Avoid vague verbs like "got it executed".
 - Do not use em-dashes.
 - Do not be fake. Do not imply fake honesty or contrived compliments.
+- State impact and severity plainly. Do not dramatize. State limited impact or non-exploitability directly.
 - Treat your reader as an expert in the topic. OK to summarize, not-OK to baby-explain.
 - Do not explain things back to the reader that they already said.
+- Wrap every code identifier in backticks: method names, class names, file names, error classes, and code literals.
 - When referencing external artifacts (like a github issue or pull request, or a hacker-one report) **ALWAYS** hyperlink it.
 
 

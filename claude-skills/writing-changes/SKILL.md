@@ -19,7 +19,6 @@ Rules:
 - Describe the problem, which is the old behavior, in the past tense. Describe the fix and the new behavior in the future tense.
 - Do not describe how you reproduced or verified the problem. The message is about the problem and the fix, not the investigation.
 - Do not explain why or how the code produced the problem. The code-level mechanism is not relevant to the message.
-- Use precise language. State exactly what happened. Avoid vague verbs like "got it executed".
 - Reference an external report with `ref: <url>`, not "Reported at".
 - When the change closes a GitHub issue, put `[Fix #issue-number]` in the message.
 
@@ -29,4 +28,4 @@ Read `@references/guide.md` for the PR template-matching and voice conventions, 
 
 ## Prose
 
-Also follow the general prose guidelines in `~/CLAUDE.md`: complete sentences, no em-dashes, no fake tone, treat the reader as an expert, and hyperlink external artifacts.
+Also follow the general prose guidelines in `~/CLAUDE.md` under "Prose guidelines". They apply to commit messages and PR descriptions like any other prose, and cover precision, tone, backticking code identifiers, and hyperlinking external artifacts.
