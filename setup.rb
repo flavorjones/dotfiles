@@ -112,13 +112,10 @@ class WholeDirectorySyncSpec < SyncSpec
   end
 end
 
-# use a symlink, so I can edit locally and iterate without having to re-run setup
-class PrivilegedFileSyncSpec < SyncSpec
-  def initialize(source_dir, options = {})
-    options[:sudo] = true
-    super
-  end
-
+# use a symlink, so I can edit locally and iterate without having to re-run
+# setup, and so that a tool which rewrites the destination file in place cannot
+# break the link back to this repo
+class SymlinkFileSyncSpec < SyncSpec
   def sync_file(source_file, dest_file, relative_file)
     if !force?
       if File.symlink?(dest_file) && (File.readlink(dest_file) == source_file)
@@ -128,6 +125,13 @@ class PrivilegedFileSyncSpec < SyncSpec
     end
     sh %Q{#{Commands::REMOVE_FILE} "#{dest_file}"}
     sh %Q{#{Commands::SYMLINK} "#{source_file}" "#{dest_file}"}
+  end
+end
+
+class PrivilegedFileSyncSpec < SymlinkFileSyncSpec
+  def initialize(source_dir, options = {})
+    options[:sudo] = true
+    super
   end
 end
 
@@ -155,7 +159,7 @@ specs = [
   SyncSpec.new("home", options.merge(dest_dir: HOME)),
   SyncSpec.new(".gdb", options),
   SyncSpec.new(".config", options),
-  SyncSpec.new(".claude", options),
+  SymlinkFileSyncSpec.new(".claude", options),
 ]
 
 specs += [
