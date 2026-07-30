@@ -187,6 +187,9 @@ function dockerdocker {
   docker run -it --detach-keys="ctrl-@" --mount=type=bind,source=${pwd},target=/$(basename $pwd)-mount $*
 }
 
+# because containerd no longer sorts by CreatedAt, WTF how is alphabetical order useful for anybody
+alias docker-ls='docker image ls --format "table {{.CreatedAt}}\t{{.Repository}}\t{{.Tag}}\t{{.ID}}\t{{.Size}}" | (read -r h; echo "$h"; sort -r)'
+
 # calendar assistant FTW
 alias ca="calendar-assistant"
 
