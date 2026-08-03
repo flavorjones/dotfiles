@@ -72,11 +72,9 @@ If a basic tool isn't working properly, DO NOT GET FUCKING CLEVER AND TRY TO WOR
 
 ## Prose guidelines
 
-When writing prose for third-party consumption (even when talking to Mike), follow these IMPORTANT principles:
+When writing prose (even when talking to Mike), follow these IMPORTANT principles:
 
-- Always use complete sentences. Avoid fragments. Use articles when needed. Subject-verb-object.
-- Use precise language. State exactly what happened. Avoid vague verbs like "got it executed".
-- Do not use em-dashes.
+- OMIT NEEDLESS WORDS. OMIT NEEDLESS INFORMATION.
 - Do not be fake. Do not imply fake honesty or contrived compliments.
 - State impact and severity plainly. Do not dramatize. State limited impact or non-exploitability directly.
 - Treat your reader as an expert in the topic. OK to summarize, not-OK to baby-explain.

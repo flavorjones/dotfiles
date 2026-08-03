@@ -76,6 +76,7 @@ class SyncSpec
       # so "foo" becomes "#{full_path_to_dest_dir}/foo"
       dest_file = File.expand_path(File.join(dest_dir, relative_file))
 
+      FileUtils.mkdir_p File.dirname(dest_file)
       sync_file source_file, dest_file, file
     end
   end

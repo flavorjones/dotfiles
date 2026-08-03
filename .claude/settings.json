@@ -22,5 +22,6 @@
     "clangd-lsp@claude-plugins-official": true,
     "ruby-lsp@claude-plugins-official": true
   },
+  "outputStyle": "STE",
   "skipDangerousModePermissionPrompt": true
 }
