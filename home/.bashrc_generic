@@ -183,8 +183,10 @@ export JRUBY_OPTS="${JRUBY_OPTS} --dev"
 #
 function dockerdocker {
   pwd=$(pwd)
+  mount=/$(basename $pwd)-mount
+  image=$1 ; shift
   echo -ne "\033]0;docker run ${*}\007"
-  docker run -it --detach-keys="ctrl-@" --mount=type=bind,source=${pwd},target=/$(basename $pwd)-mount $*
+  docker run -it --detach-keys="ctrl-@" --user=$(id -u):$(id -g) --mount=type=bind,source=${pwd},target=${mount} --workdir=${mount} ${image} bash -c "$*"
 }
 
 # because containerd no longer sorts by CreatedAt, WTF how is alphabetical order useful for anybody
