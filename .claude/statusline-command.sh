@@ -2,6 +2,16 @@
 
 input=$(cat)
 
+# claude-swap points CLAUDE_CONFIG_DIR at a per-account directory, and Claude Code
+# keeps .claude.json inside it rather than in $HOME.
+if [[ -n "$CLAUDE_CONFIG_DIR" ]]; then
+  config_dir="$CLAUDE_CONFIG_DIR"
+  config_json="$CLAUDE_CONFIG_DIR/.claude.json"
+else
+  config_dir="$HOME/.claude"
+  config_json="$HOME/.claude.json"
+fi
+
 # copied from .bashrc_generic
 function ps1_working_directory {
   if [[ -n "${GOPATH}" && $PWD =~ "${GOPATH}/src" ]] ; then
@@ -69,7 +79,7 @@ function format_quota {
 }
 
 function refresh_usage_cache {
-  local cache="$1" credentials="$HOME/.claude/.credentials.json" token
+  local cache="$1" credentials="$config_dir/.credentials.json" token
 
   [[ -f "$credentials" ]] || return
   if [[ -f "$cache" && $(($(date +%s) - $(stat -c %Y "$cache"))) -lt 300 ]]; then
@@ -90,7 +100,7 @@ function refresh_usage_cache {
 }
 
 function fable_quota_from_usage_cache {
-  local cache="$HOME/.claude/statusline-usage-cache.json"
+  local cache="$config_dir/statusline-usage-cache.json"
 
   refresh_usage_cache "$cache"
   [[ -f "$cache" ]] || return
@@ -188,7 +198,7 @@ done
 [[ -n "$effort" ]] && model="$model $effort"
 [[ -n "$model" ]] && segments+=("$model")
 
-email=$(jq -r '.oauthAccount.emailAddress // empty' "$HOME/.claude.json" 2>/dev/null)
+email=$(jq -r '.oauthAccount.emailAddress // empty' "$config_json" 2>/dev/null)
 [[ -n "$email" ]] && segments+=("$email")
 
 highest_pct=$context_pct
