@@ -2,6 +2,10 @@
 
 input=$(cat)
 
+GREY='\033[90m'
+RED='\033[91m'
+UNCOLORED='\033[0m'
+
 # claude-swap points CLAUDE_CONFIG_DIR at a per-account directory, and Claude Code
 # keeps .claude.json inside it rather than in $HOME.
 if [[ -n "$CLAUDE_CONFIG_DIR" ]]; then
@@ -114,6 +118,16 @@ function fable_quota_from_usage_cache {
   ' "$cache" 2>/dev/null
 }
 
+function warn_if_hot {
+  local percent="$1" text="$2" color="${3:-$RED}"
+
+  if [[ -n "$percent" && $percent -ge 80 ]]; then
+    echo "${color}⚠ ${text}${GREY}"
+  else
+    echo "$text"
+  fi
+}
+
 function join_with {
   local separator="$1" joined
   shift
@@ -137,6 +151,7 @@ mapfile -t status < <(jq -r '
         (($usage.input_tokens // 0) + ($usage.cache_creation_input_tokens // 0) + ($usage.cache_read_input_tokens // 0)),
         (.context_window.context_window_size // 200000),
         (.model.display_name // ""),
+        (.model.id // ""),
         (.effort.level // "")
       ]
       + ($limits.five_hour | quota)
@@ -149,18 +164,26 @@ cwd=${status[0]}
 used=${status[1]}
 context_size=${status[2]}
 model=${status[3]}
-effort=${status[4]}
-five_hour_pct=${status[5]}
-five_hour_reset=${status[6]}
-seven_day_pct=${status[7]}
-seven_day_reset=${status[8]}
-fable_pct=${status[9]}
-fable_reset=${status[10]}
+model_id=${status[4]}
+effort=${status[5]}
+five_hour_pct=${status[6]}
+five_hour_reset=${status[7]}
+seven_day_pct=${status[8]}
+seven_day_reset=${status[9]}
+fable_pct=${status[10]}
+fable_reset=${status[11]}
+
+# The Fable quota belongs to a model you may not be running, so warn about it
+# quietly unless it is the model spending the quota.
+fable_color=$GREY
+if [[ "${model_id,,}" == *fable* || "${model,,}" == *fable* ]]; then
+  fable_color=$RED
+fi
 
 if [[ -z "$fable_pct" ]]; then
-  mapfile -t fable_quota < <(fable_quota_from_usage_cache)
-  fable_pct=${fable_quota[0]}
-  fable_reset=${fable_quota[1]}
+  mapfile -t cached_fable < <(fable_quota_from_usage_cache)
+  fable_pct=${cached_fable[0]}
+  fable_reset=${cached_fable[1]}
 fi
 
 dir=$(basename "$cwd")
@@ -178,41 +201,34 @@ else
   used_fmt="$used"
 fi
 
-segments=()
+identity=()
 
 if [[ -n "$branch" ]]; then
-  segments+=("$dir ($branch)")
+  identity+=("$dir ($branch)")
 else
-  segments+=("$dir")
+  identity+=("$dir")
 fi
-
-segments+=("${used_fmt} (${context_pct}%)")
-
-quotas=()
-for window in "$five_hour_pct|$five_hour_reset" "$seven_day_pct|$seven_day_reset" "$fable_pct|$fable_reset"; do
-  quota=$(format_quota "${window%%|*}" "${window#*|}")
-  [[ -n "$quota" ]] && quotas+=("$quota")
-done
-[[ ${#quotas[@]} -gt 0 ]] && segments+=("$(join_with ", " "${quotas[@]}")")
 
 [[ -n "$effort" ]] && model="$model $effort"
-[[ -n "$model" ]] && segments+=("$model")
+[[ -n "$model" ]] && identity+=("$model")
 
 email=$(jq -r '.oauthAccount.emailAddress // empty' "$config_json" 2>/dev/null)
-[[ -n "$email" ]] && segments+=("$email")
+[[ -n "$email" ]] && identity+=("$email")
 
-highest_pct=$context_pct
-for percent in "$five_hour_pct" "$seven_day_pct" "$fable_pct"; do
-  [[ -n "$percent" && $percent -gt $highest_pct ]] && highest_pct=$percent
-done
+usage=("$(warn_if_hot "$context_pct" "${used_fmt} (${context_pct}%)")")
 
-if [[ $highest_pct -ge 80 ]]; then
-  color="\033[91m"  # bright red
-  prefix="⚠ "
-else
-  color="\033[90m"  # grey
-  prefix=""
-fi
+quotas=()
+
+five_hour_quota=$(format_quota "$five_hour_pct" "$five_hour_reset")
+[[ -n "$five_hour_quota" ]] && quotas+=("$(warn_if_hot "$five_hour_pct" "$five_hour_quota")")
+
+seven_day_quota=$(format_quota "$seven_day_pct" "$seven_day_reset")
+[[ -n "$seven_day_quota" ]] && quotas+=("$(warn_if_hot "$seven_day_pct" "$seven_day_quota")")
+
+fable_quota=$(format_quota "$fable_pct" "$fable_reset")
+[[ -n "$fable_quota" ]] && quotas+=("$(warn_if_hot "$fable_pct" "$fable_quota" "$fable_color")")
+[[ ${#quotas[@]} -gt 0 ]] && usage+=("$(join_with ", " "${quotas[@]}")")
 
 set_claude_code_window_title
-echo -ne "${color}${prefix}$(join_with " | " "${segments[@]}")\033[0m"
+echo -e "${GREY}$(join_with " | " "${identity[@]}")${UNCOLORED}"
+echo -ne "${GREY}$(join_with " | " "${usage[@]}")${UNCOLORED}"
