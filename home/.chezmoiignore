@@ -1,0 +1,5 @@
+# Files listed here are present in the source directory but are NOT applied to
+# the target ($HOME). This file is itself a template, so entries can be made
+# conditional on the machine.
+#
+# Nothing is ignored yet.
