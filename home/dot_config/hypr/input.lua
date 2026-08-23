@@ -21,5 +21,11 @@ hl.config({
     --                               default, because Caps Lock no longer has a
     --                               key of its own.
     kb_options = "ctrl:nocaps,compose:ralt,shift:both_capslock_cancel",
+
+    touchpad = {
+      -- Omarchy defaults this to false. Invert it, so dragging two fingers
+      -- down pushes the content down, the way a phone or a Mac does.
+      natural_scroll = true,
+    },
   },
 })
