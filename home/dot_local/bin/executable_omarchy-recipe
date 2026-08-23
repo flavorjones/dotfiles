@@ -17,6 +17,7 @@ set -euo pipefail
 # source go here and do not need to be kept apart.
 PACKAGES=(
   figlet # big ASCII-art banner text
+  wayvnc # VNC server for wlroots-based Wayland compositors
 )
 
 main() {
