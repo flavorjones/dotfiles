@@ -1,0 +1,39 @@
+#!/usr/bin/env bash
+#
+# Install the packages this machine needs.
+#
+# Idempotent. Run it as often as you like. It reads the local package database
+# first and calls yay only for what is actually missing, so a run with nothing
+# to do never asks for a password.
+#
+# Managed by chezmoi: home/dot_local/bin/executable_omarchy-recipe
+#
+# Usage: omarchy-recipe
+#
+
+set -euo pipefail
+
+# One list. yay covers the Arch repos and the AUR, so packages from either
+# source go here and do not need to be kept apart.
+PACKAGES=(
+  figlet # big ASCII-art banner text
+)
+
+main() {
+  local pkg
+  local missing=()
+
+  for pkg in "${PACKAGES[@]}"; do
+    pacman -Qq "$pkg" &>/dev/null || missing+=("$pkg")
+  done
+
+  if ((${#missing[@]} == 0)); then
+    echo "packages: all ${#PACKAGES[@]} present, nothing to do"
+    return
+  fi
+
+  echo "packages: installing ${missing[*]}"
+  yay -S --needed --noconfirm "${missing[@]}"
+}
+
+main "$@"

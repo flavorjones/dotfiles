@@ -12,10 +12,25 @@ branch and shares no history with this one.
 ```sh
 sudo pacman -S --needed chezmoi
 chezmoi init --apply --branch chezmoi https://github.com/flavorjones/dotfiles.git
+omarchy-recipe
 ```
 
 Once this branch becomes the default branch, the second command shortens to
 `chezmoi init --apply flavorjones`.
+
+## Packages
+
+`chezmoi apply` only writes files. It deliberately does not install packages,
+because that needs `sudo` and should not happen behind your back on every
+apply.
+
+Packages are installed by `omarchy-recipe`, whose source is
+`home/dot_local/bin/executable_omarchy-recipe`. Add a package by adding a line
+to the `PACKAGES` array in that script, then run it.
+
+The script is idempotent. It checks the local package database first and only
+calls `yay` for what is missing, so a run with nothing to do never asks for a
+password. `yay` covers both the Arch repos and the AUR, so one list is enough.
 
 ## Design rules
 
@@ -39,6 +54,13 @@ Once this branch becomes the default branch, the second command shortens to
 .chezmoiroot        contains "home", so the chezmoi source directory is home/
 home/               the chezmoi source state — everything under here maps to $HOME
 README.md           this file
+```
+
+Notable files inside `home/`:
+
+```
+dot_config/hypr/input.lua             keyboard and touchpad overrides for Hyprland
+dot_local/bin/executable_omarchy-recipe   the package installer described above
 ```
 
 Keeping the source state in `home/` leaves the repository root free for
