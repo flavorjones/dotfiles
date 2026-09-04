@@ -51,18 +51,18 @@
  '(org-odd-levels-only t)
  '(org-startup-folded 'content)
  '(package-selected-packages
-   '(ag atomic-chrome auto-dark auto-highlight-symbol bazel-mode bicycle bison-mode copilot
-        crystal-mode csharp-mode css-mode diminish direnv dockerfile-mode edit-indirect editorconfig
-        elm-mode exec-path-from-shell feature-mode flycheck-julia flymake-ruby git-blame git-link
+   '(ag atomic-chrome auto-highlight-symbol bazel-mode bicycle bison-mode crystal-mode csharp-mode
+        css-mode diminish direnv dockerfile-mode edit-indirect editorconfig elm-mode
+        exec-path-from-shell feature-mode flycheck-julia flymake-ruby git-blame git-link
         gitattributes-mode gitconfig-mode gitignore-mode gnu-elpa-keyring-update go-autocomplete
         go-mode go-snippets golint haml-mode hide-mode-line hl-todo interaction-log ivy json-mode
-        julia-mode ligature lsp-mode lsp-ui lua-mode magit markdown-mode markdown-mode+ markdown-toc
-        minimap minitest mise monokai-theme neotree nginx-mode night-owl-theme nix-mode org
-        poly-ruby polymode powershell projectile projectile-rails protobuf-mode quelpa
-        quelpa-use-package rnc-mode rspec-mode rubocopfmt ruby-additional ruby-end ruby-hash-syntax
-        ruby-refactor rufo rust-mode rvm sass-mode slim-mode solarized-theme sort-words swift-mode
-        toml-mode typescript-mode udev-mode undo-tree unicode-fonts use-package web-mode which-key
-        windsize yaml-mode zig-mode))
+        julia-mode ligature lsp-ui lua-mode magit markdown-mode markdown-mode+ markdown-toc minimap
+        minitest mise monokai-theme neotree nginx-mode night-owl-theme nix-mode org poly-ruby
+        polymode powershell projectile projectile-rails protobuf-mode quelpa quelpa-use-package
+        rnc-mode rspec-mode rubocopfmt ruby-additional ruby-end ruby-hash-syntax ruby-refactor rufo
+        rust-mode rvm sass-mode slim-mode solarized-theme sort-words swift-mode toml-mode
+        typescript-mode udev-mode undo-tree unicode-fonts use-package web-mode which-key windsize
+        yaml-mode zig-mode))
  '(paradox-github-token t)
  '(pixel-scroll-mode t)
  '(pixel-scroll-precision-mode t)
