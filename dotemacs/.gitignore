@@ -9,7 +9,6 @@ ac-comphist.dat
 auto-save
 elpa/*readme.txt
 ido.last
-projectile-bookmarks.eld
 session.*
 tramp
 transient/
@@ -28,3 +27,7 @@ eshell/history
 
 # url library
 url/cookies
+
+# projectile local-machine files
+projectile-bookmarks.eld
+projectile-frecency.eld
