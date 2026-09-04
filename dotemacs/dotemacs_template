@@ -875,10 +875,9 @@ The key typed is executed unless it is SPC."
 
 
 ;;;
-;;;  camelCase
+;;;  camelCase: subword-mode makes word commands stop at camelCase and snake_case boundaries
 ;;;
-(autoload 'camelCase-mode "camelCase-mode" nil t)
-(add-hook 'find-file-hook '(lambda () (camelCase-mode 1))) ; all files. (all buffers?)
+(global-subword-mode 1)
 
 ;;; I need a mode where I can edit a file without a trailing newline (for test input files)
 (add-hook 'fundamental-mode-hook
@@ -911,7 +910,7 @@ The key typed is executed unless it is SPC."
 (add-hook 'org-mode-hook
           '(lambda ()
              ;; set the org-mode-map to override any and all minor modes, because there are
-             ;; critical collisions with camelCase mode (M-right, M-left).
+             ;; critical collisions with subword mode (M-right, M-left).
              (setq minor-mode-overriding-map-alist (list (cons t (copy-keymap org-mode-map))))
 
              (local-set-key (kbd "C-S-SPC") 'org-toggle-checkbox)
@@ -1226,7 +1225,7 @@ The key typed is executed unless it is SPC."
 ;;  todo: if mode hasn't been loaded when this is run it doesn't seem to work?
 (require 'diminish)
 (diminish 'hs-minor-mode)
-(diminish 'camelCase-mode)
+(diminish 'subword-mode)
 (diminish 'copilot-mode)
 (diminish 'yas-minor-mode)
 (diminish 'editorconfig-mode)
