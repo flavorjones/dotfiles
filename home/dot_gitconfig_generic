@@ -108,9 +108,9 @@
 
 [url "git@github.com:"]
 	insteadOf = "gh:"
-	# Existing https remotes are rewritten to ssh at use time, so the 1Password
-	# agent authenticates them. The remote in .git/config is left alone.
-	insteadOf = "https://github.com/"
+	# Fetches over https stay anonymous. Only pushes are rewritten to ssh, so
+	# the 1Password agent is asked for a key only when a push needs one.
+	pushInsteadOf = "https://github.com/"
 
 [url "git@ssh.gitlab.gnome.org:"]
 	pushInsteadOf = "https://gitlab.gnome.org"
