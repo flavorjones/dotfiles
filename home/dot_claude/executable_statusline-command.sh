@@ -16,29 +16,6 @@ else
   config_json="$HOME/.claude.json"
 fi
 
-# copied from .bashrc_generic
-function ps1_working_directory {
-  if [[ -n "${GOPATH}" && $PWD =~ "${GOPATH}/src" ]] ; then
-    echo "(${gvm_go_name}) $(realpath --relative-to "${GOPATH}/src" "${PWD}")"
-  elif [[ $PWD == $HOME ]] ; then
-    echo "~"
-  elif GITDIR=$(git rev-parse --show-toplevel 2> /dev/null) ; then
-    if [[ ${PWD} == ${GITDIR} ]] ; then
-      basename "${GITDIR}"
-    else
-      echo "$(basename "${GITDIR}")/$(realpath --relative-to "${GITDIR}" "${PWD}")"
-    fi
-  elif [[ $PWD =~ "${HOME}/" ]] ; then
-    echo "~/$(realpath --relative-to "${HOME}" "${PWD}")"
-  else
-    echo $PWD
-  fi
-}
-
-function set_claude_code_window_title {
-  echo -ne "\033]0;🤖 $(ps1_working_directory)\007" > /dev/tty
-}
-
 function format_duration_until {
   local resets_at="$1" now seconds days hours minutes
 
@@ -229,6 +206,5 @@ fable_quota=$(format_quota "$fable_pct" "$fable_reset")
 [[ -n "$fable_quota" ]] && quotas+=("$(warn_if_hot "$fable_pct" "$fable_quota" "$fable_color")")
 [[ ${#quotas[@]} -gt 0 ]] && usage+=("$(join_with ", " "${quotas[@]}")")
 
-set_claude_code_window_title
 echo -e "${GREY}$(join_with " | " "${identity[@]}")${UNCOLORED}"
 echo -ne "${GREY}$(join_with " | " "${usage[@]}")${UNCOLORED}"
