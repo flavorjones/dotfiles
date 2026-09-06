@@ -1,0 +1,30 @@
+#!/usr/bin/env bash
+#
+# A chezmoi "modify_" script. chezmoi feeds it the CURRENT ~/.config/ghostty/config
+# on stdin, and whatever it writes to stdout becomes the new file.
+#
+# Omarchy ships ~/.config/ghostty/config and rewrites it on refresh, so this does
+# not replace the file. It passes the existing content through untouched and
+# appends one config-file include, but only when that include is not already
+# present. ghostty applies included files after the main file, so anything in
+# ~/.config/ghostty/overrides wins over Omarchy's defaults.
+#
+# The leading "?" makes the include optional, so a missing overrides file is not
+# an error. That matters on a fresh machine, where the two files can land in
+# either order.
+#
+
+set -euo pipefail
+
+marker='config-file = ?"~/.config/ghostty/overrides"'
+content=$(cat)
+
+printf '%s\n' "$content"
+
+if ! printf '%s' "$content" | grep -qF -- "$marker"; then
+  cat <<'ADDITION'
+
+# Personal overrides, managed by chezmoi. Loaded last, so they win.
+config-file = ?"~/.config/ghostty/overrides"
+ADDITION
+fi
