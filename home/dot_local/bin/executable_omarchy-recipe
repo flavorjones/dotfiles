@@ -8,10 +8,35 @@
 #
 # Managed by chezmoi: home/dot_local/bin/executable_omarchy-recipe
 #
-# Usage: omarchy-recipe
+# Usage: omarchy-recipe [--update]
+#
+#   --update  run `omarchy update` first. Worth doing when a package install
+#             fails with 404s from the mirror, which means the local pacman
+#             database has gone stale. It is opt-in because a full system
+#             update is slow, and most runs only re-check configuration.
 #
 
 set -euo pipefail
+
+usage() {
+  echo "usage: omarchy-recipe [--update]"
+}
+
+RUN_UPDATE=false
+for arg in "$@"; do
+  case "$arg" in
+  --update) RUN_UPDATE=true ;;
+  -h | --help)
+    usage
+    exit 0
+    ;;
+  *)
+    echo "omarchy-recipe: unknown argument '$arg'" >&2
+    usage >&2
+    exit 2
+    ;;
+  esac
+done
 
 # One list. yay covers the Arch repos and the AUR, so packages from either
 # source go here and do not need to be kept apart.
@@ -40,11 +65,28 @@ USER_SERVICES=( # `systemctl --user` units
 
 BROWSER_NAME="chromium"
 
+# git reaches github over ssh, and ~/.ssh/config points ssh at this socket.
+ONEPASSWORD_AGENT_SOCK="$HOME/.1password/agent.sock"
+
 # github.com has no AAAA record. That makes it the canary for a broken DNS
 # search list: with no IPv6 answer to return, glibc walks the search domains,
 # and one unreachable nameserver there turns a 0.3s lookup into a 10s one.
 DNS_CANARY="github.com"
 DNS_BUDGET_MS=2000
+
+# The pacman database goes stale, and then an install fails with 404s from the
+# mirror: it is asking for package versions that have already been superseded.
+# A full update first is the fix. A bare `pacman -Sy` is not, because a partial
+# upgrade on Arch is how you get a broken system.
+update_system() {
+  if [ "$RUN_UPDATE" = "false" ]; then
+    echo "update: skipped, pass --update to run one"
+    return
+  fi
+
+  echo "update: running omarchy update"
+  omarchy update
+}
 
 install_packages() {
   local pkg
@@ -201,8 +243,32 @@ configure_tailscale() {
 verify() {
   local failures=0
   local skipped=0
+  local rc
   local start end ms current state
 
+
+  rc=0
+  timeout 10 env SSH_AUTH_SOCK="$ONEPASSWORD_AGENT_SOCK" ssh-add -l >/dev/null 2>&1 || rc=$?
+  case "$rc" in
+  0)
+    echo "verify: 1Password ssh agent is serving keys"
+    ;;
+  1)
+    echo "verify: FAIL the 1Password ssh agent is reachable but has no keys" >&2
+    echo "        1Password is probably locked. Unlock it, or check that the" >&2
+    echo "        keys are shared with the agent." >&2
+    failures=$((failures + 1))
+    ;;
+  *)
+    echo "verify: FAIL cannot reach the 1Password ssh agent" >&2
+    echo "        socket: $ONEPASSWORD_AGENT_SOCK" >&2
+    echo "        git reaches github over ssh with a key from 1Password, so" >&2
+    echo "        push and fetch will fail with 'Permission denied (publickey)'." >&2
+    echo "        Open 1Password and turn on:" >&2
+    echo "          Settings > Developer > Use the SSH agent" >&2
+    failures=$((failures + 1))
+    ;;
+  esac
 
   if emacsclient --eval t &>/dev/null; then
     echo "verify: emacs daemon responds"
@@ -259,6 +325,7 @@ verify() {
 }
 
 main() {
+  update_system
   install_packages
   enable_services
   enable_user_services

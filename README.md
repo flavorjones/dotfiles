@@ -41,10 +41,13 @@ rewrites `https://github.com/` to `git@github.com:` at use time. So an https
 remote still authenticates with the 1Password key, and nothing has to be
 re-cloned. No credential helper and no stored token is involved.
 
-One step is not automatable, because it is a GUI setting. In the 1Password app,
-enable **Settings > Developer > Use the SSH agent**. Without it the socket
+This depends on one setting that only exists in the 1Password GUI:
+**Settings > Developer > Use the SSH agent**. Without it the socket file still
 exists but refuses connections, and every push fails with
-`Permission denied (publickey)`.
+`Permission denied (publickey)` — which looks nothing like a 1Password problem.
+
+`omarchy-recipe` checks for exactly this and tells you how to fix it, so it does
+not need remembering.
 
 ## Design rules
 
