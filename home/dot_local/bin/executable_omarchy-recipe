@@ -46,6 +46,7 @@ done
 PACKAGES=(
   emacs-wayland       # Emacs, PGTK build, the one that is native on Wayland
   figlet              # big ASCII-art banner text
+  fizzy-cli           # AUR: fizzy, the Fizzy boards and cards CLI
   fwupd               # firmware updates via LVFS (fwupdmgr)
   github-cli          # gh, for PRs and issues from the terminal
   jq                  # JSON parsing, used by this script
