@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 #
-# Set this Omarchy machine up: packages, services, and Tailscale.
+# Set this Omarchy machine up: packages, services, browser, editor, Tailscale.
 #
 # Idempotent. Run it as often as you like. Every step checks the current state
 # first and changes nothing when it is already correct, so a run with nothing
@@ -15,25 +15,35 @@ set -euo pipefail
 
 # One list. yay covers the Arch repos and the AUR, so packages from either
 # source go here and do not need to be kept apart.
+#
+# Chromium is deliberately absent: it is installed through Omarchy's own
+# browser installer below, which also wires up the flags and extensions.
 PACKAGES=(
-  brave-bin           # Brave browser (AUR); $BROWSER points at it
+  emacs-wayland       # Emacs, PGTK build, the one that is native on Wayland
   figlet              # big ASCII-art banner text
   fwupd               # firmware updates via LVFS (fwupdmgr)
   jq                  # JSON parsing, used by this script
+  omarchy-emacs       # AUR: syncs the Omarchy theme and font into Emacs
   smartmontools       # SMART disk health (smartctl)
   tailscale           # mesh VPN
   the_silver_searcher # ag, fast recursive code search
 )
 
-SERVICES=(
+SERVICES=( # system units
   tailscaled
 )
+
+USER_SERVICES=( # `systemctl --user` units
+  emacs         # emacsclient -c talks to this daemon, and $EDITOR needs it
+)
+
+BROWSER_NAME="chromium"
 
 # github.com has no AAAA record. That makes it the canary for a broken DNS
 # search list: with no IPv6 answer to return, glibc walks the search domains,
 # and one unreachable nameserver there turns a 0.3s lookup into a 10s one.
 DNS_CANARY="github.com"
-DNS_BUDGET_MS=1000
+DNS_BUDGET_MS=2000
 
 install_packages() {
   local pkg
@@ -65,18 +75,88 @@ enable_services() {
   done
 }
 
+enable_user_services() {
+  local svc
+
+  for svc in "${USER_SERVICES[@]}"; do
+    if systemctl --user is-enabled --quiet "$svc" && systemctl --user is-active --quiet "$svc"; then
+      echo "user service $svc: enabled and running"
+    else
+      echo "user service $svc: enabling"
+      systemctl --user enable --now "$svc"
+    fi
+  done
+}
+
+# Omarchy's browser installer copies its own chromium-flags.conf over whatever
+# is there, which would throw away the Google OAuth flags. So only install when
+# the browser is genuinely missing, and always add the OAuth flags afterwards.
+configure_browser() {
+  if pacman -Qq "$BROWSER_NAME" &>/dev/null; then
+    echo "browser: $BROWSER_NAME already installed"
+  else
+    echo "browser: installing $BROWSER_NAME"
+    omarchy install browser "$BROWSER_NAME"
+  fi
+
+  if grep -q 'oauth2-client-id' ~/.config/chromium-flags.conf 2>/dev/null; then
+    echo "browser: Google account sign-in already enabled"
+  else
+    echo "browser: enabling Google account sign-in"
+    omarchy install chromium google account
+  fi
+
+  if [ "$(omarchy default browser)" = "$BROWSER_NAME" ]; then
+    echo "browser: $BROWSER_NAME is already the default"
+  else
+    echo "browser: making $BROWSER_NAME the default"
+    omarchy default browser "$BROWSER_NAME"
+  fi
+}
+
+# The omarchy-emacs package alone does nothing. omarchy-emacs-setup is what
+# writes ~/.config/emacs and installs the theme-set and font-set hooks that
+# keep Emacs matching the desktop. Run it only when those hooks are missing:
+# the script prompts for input if it finds a legacy ~/.emacs or ~/.emacs.d,
+# and a prompt would hang an unattended run.
+configure_emacs() {
+  local hook="$HOME/.config/omarchy/hooks/theme-set.d/omarchy-emacs"
+
+  if [ -e "$hook" ]; then
+    echo "emacs: omarchy theme and font hooks already installed"
+  else
+    echo "emacs: running omarchy-emacs-setup"
+    omarchy-emacs-setup
+  fi
+
+  if [ "$(cat "$HOME/.local/state/omarchy/defaults/editor" 2>/dev/null)" = "emacs" ]; then
+    echo "emacs: already the omarchy default editor"
+  else
+    echo "emacs: making it the omarchy default editor"
+    omarchy default editor emacs
+  fi
+}
+
 # This tailnet pushes internal search domains and split-DNS rules that point at
 # internal nameservers. Those nameservers are only reachable over subnet routes
 # that peers advertise. With accept-routes off, every lookup that has to fall
 # through to the search list waits for those unreachable servers to time out.
 # So accept-routes is not optional here; it is what keeps DNS fast.
 configure_tailscale() {
-  if ! tailscale status &>/dev/null; then
-    echo "tailscale: not logged in" >&2
+  local state
+  state=$(tailscale status --json 2>/dev/null | jq -r '.BackendState // "Unknown"')
+
+  # `tailscale status` exits non-zero for both "logged out" and "logged in but
+  # stopped", which are very different problems. Read the backend state instead.
+  case "$state" in
+  NoState | NeedsLogin | NeedsMachineAuth)
+    echo "tailscale: not logged in (backend state: $state)" >&2
     echo "           run 'sudo tailscale up', then run this script again" >&2
     return 1
-  fi
+    ;;
+  esac
 
+  # Prefs survive a stopped backend, so this is worth setting either way.
   # There is no stable public command for reading prefs, so use the debug one.
   if [ "$(tailscale debug prefs | jq -r '.RouteAll')" = "true" ]; then
     echo "tailscale: accept-routes already on"
@@ -84,18 +164,49 @@ configure_tailscale() {
     echo "tailscale: turning accept-routes on"
     sudo tailscale set --accept-routes=true
   fi
+
+  # Deliberately does not run `tailscale up` on its own. That joins a network,
+  # and a stopped backend usually means someone stopped it on purpose.
+  if [ "$state" = "Running" ]; then
+    echo "tailscale: running"
+  else
+    echo "tailscale: logged in but $state; run 'sudo tailscale up' to connect"
+  fi
 }
 
 verify() {
   local failures=0
-  local start end ms
+  local start end ms current
 
-  if tailscale status &>/dev/null; then
-    echo "verify: tailscale is up"
+  current=$(tailscale status --json 2>/dev/null | jq -r '.BackendState // "Unknown"')
+  if [ "$current" = "Running" ]; then
+    echo "verify: tailscale is running"
   else
-    echo "verify: FAIL tailscale is not up" >&2
+    echo "verify: FAIL tailscale backend state is '$current', expected 'Running'" >&2
+    echo "        run 'sudo tailscale up' to connect" >&2
     failures=$((failures + 1))
   fi
+
+  if emacsclient --eval t &>/dev/null; then
+    echo "verify: emacs daemon responds"
+  else
+    echo "verify: FAIL emacs daemon is not responding" >&2
+    echo "        \$EDITOR is emacsclientc, which needs it" >&2
+    failures=$((failures + 1))
+  fi
+
+  current=$(omarchy default browser 2>/dev/null || echo "unknown")
+  if [ "$current" = "$BROWSER_NAME" ]; then
+    echo "verify: default browser is $BROWSER_NAME"
+  else
+    echo "verify: FAIL default browser is '$current', expected '$BROWSER_NAME'" >&2
+    failures=$((failures + 1))
+  fi
+
+  # Warm the resolver cache first. A cold lookup right after the network
+  # changes can take over a second on its own, and that is not the failure
+  # this is looking for: the broken case is ten seconds, every single time.
+  getent hosts "$DNS_CANARY" >/dev/null 2>&1 || true
 
   start=$(date +%s%N)
   getent hosts "$DNS_CANARY" >/dev/null 2>&1 || true
@@ -120,6 +231,9 @@ verify() {
 main() {
   install_packages
   enable_services
+  enable_user_services
+  configure_browser
+  configure_emacs
   configure_tailscale
   verify
   echo "recipe: done"
