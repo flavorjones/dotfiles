@@ -22,6 +22,10 @@ hl.config({
     --                               key of its own.
     kb_options = "ctrl:nocaps,compose:ralt,shift:both_capslock_cancel",
 
+    -- Mouse wheel. Hyprland keeps these separate from the touchpad settings.
+    natural_scroll = true,
+    scroll_factor = 1.5,
+
     touchpad = {
       -- Omarchy defaults this to false. Invert it, so dragging two fingers
       -- down pushes the content down, the way a phone or a Mac does.
