@@ -1,9 +1,9 @@
 #!/usr/bin/env bash
 #
-# Install the packages this machine needs.
+# Set this Omarchy machine up: packages, services, and Tailscale.
 #
-# Idempotent. Run it as often as you like. It reads the local package database
-# first and calls yay only for what is actually missing, so a run with nothing
+# Idempotent. Run it as often as you like. Every step checks the current state
+# first and changes nothing when it is already correct, so a run with nothing
 # to do never asks for a password.
 #
 # Managed by chezmoi: home/dot_local/bin/executable_omarchy-recipe
@@ -18,11 +18,23 @@ set -euo pipefail
 PACKAGES=(
   figlet              # big ASCII-art banner text
   fwupd               # firmware updates via LVFS (fwupdmgr)
+  jq                  # JSON parsing, used by this script
   smartmontools       # SMART disk health (smartctl)
+  tailscale           # mesh VPN
   the_silver_searcher # ag, fast recursive code search
 )
 
-main() {
+SERVICES=(
+  tailscaled
+)
+
+# github.com has no AAAA record. That makes it the canary for a broken DNS
+# search list: with no IPv6 answer to return, glibc walks the search domains,
+# and one unreachable nameserver there turns a 0.3s lookup into a 10s one.
+DNS_CANARY="github.com"
+DNS_BUDGET_MS=1000
+
+install_packages() {
   local pkg
   local missing=()
 
@@ -31,12 +43,85 @@ main() {
   done
 
   if ((${#missing[@]} == 0)); then
-    echo "packages: all ${#PACKAGES[@]} present, nothing to do"
+    echo "packages: all ${#PACKAGES[@]} present"
     return
   fi
 
   echo "packages: installing ${missing[*]}"
   yay -S --needed --noconfirm "${missing[@]}"
+}
+
+enable_services() {
+  local svc
+
+  for svc in "${SERVICES[@]}"; do
+    if systemctl is-enabled --quiet "$svc" && systemctl is-active --quiet "$svc"; then
+      echo "service $svc: enabled and running"
+    else
+      echo "service $svc: enabling"
+      sudo systemctl enable --now "$svc"
+    fi
+  done
+}
+
+# This tailnet pushes internal search domains and split-DNS rules that point at
+# internal nameservers. Those nameservers are only reachable over subnet routes
+# that peers advertise. With accept-routes off, every lookup that has to fall
+# through to the search list waits for those unreachable servers to time out.
+# So accept-routes is not optional here; it is what keeps DNS fast.
+configure_tailscale() {
+  if ! tailscale status &>/dev/null; then
+    echo "tailscale: not logged in" >&2
+    echo "           run 'sudo tailscale up', then run this script again" >&2
+    return 1
+  fi
+
+  # There is no stable public command for reading prefs, so use the debug one.
+  if [ "$(tailscale debug prefs | jq -r '.RouteAll')" = "true" ]; then
+    echo "tailscale: accept-routes already on"
+  else
+    echo "tailscale: turning accept-routes on"
+    sudo tailscale set --accept-routes=true
+  fi
+}
+
+verify() {
+  local failures=0
+  local start end ms
+
+  if tailscale status &>/dev/null; then
+    echo "verify: tailscale is up"
+  else
+    echo "verify: FAIL tailscale is not up" >&2
+    failures=$((failures + 1))
+  fi
+
+  start=$(date +%s%N)
+  getent hosts "$DNS_CANARY" >/dev/null 2>&1 || true
+  end=$(date +%s%N)
+  ms=$(((end - start) / 1000000))
+
+  if ((ms <= DNS_BUDGET_MS)); then
+    echo "verify: resolved $DNS_CANARY in ${ms}ms"
+  else
+    echo "verify: FAIL resolving $DNS_CANARY took ${ms}ms, budget is ${DNS_BUDGET_MS}ms" >&2
+    echo "        the DNS search list probably points at unreachable servers" >&2
+    echo "        inspect it with: resolvectl domain" >&2
+    failures=$((failures + 1))
+  fi
+
+  if ((failures > 0)); then
+    echo "verify: $failures check(s) failed" >&2
+    return 1
+  fi
+}
+
+main() {
+  install_packages
+  enable_services
+  configure_tailscale
+  verify
+  echo "recipe: done"
 }
 
 main "$@"
