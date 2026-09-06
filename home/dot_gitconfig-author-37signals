@@ -1,0 +1,7 @@
+# -*- gitconfig -*-
+#
+# Alternative identity for 37signals work. Pulled in by .gitconfig_generic for
+# anything under ~/Work/basecamp/, and by nothing else.
+[user]
+	name = Mike Dalessio
+	email = mike@37signals.com

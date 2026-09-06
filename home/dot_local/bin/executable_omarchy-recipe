@@ -22,6 +22,7 @@ PACKAGES=(
   emacs-wayland       # Emacs, PGTK build, the one that is native on Wayland
   figlet              # big ASCII-art banner text
   fwupd               # firmware updates via LVFS (fwupdmgr)
+  github-cli          # gh, for PRs and issues from the terminal
   jq                  # JSON parsing, used by this script
   omarchy-emacs       # AUR: syncs the Omarchy theme and font into Emacs
   smartmontools       # SMART disk health (smartctl)
@@ -142,28 +143,51 @@ configure_emacs() {
 # that peers advertise. With accept-routes off, every lookup that has to fall
 # through to the search list waits for those unreachable servers to time out.
 # So accept-routes is not optional here; it is what keeps DNS fast.
+# `tailscale status` exits non-zero for both "logged out" and "logged in but
+# stopped", which are very different problems. Read the backend state instead.
+# Never fails: an unreachable daemon reports "Unknown", which callers handle.
+tailscale_state() {
+  tailscale status --json 2>/dev/null | jq -r '.BackendState // "Unknown"' 2>/dev/null ||
+    echo "Unknown"
+}
+
 configure_tailscale() {
   local state
-  state=$(tailscale status --json 2>/dev/null | jq -r '.BackendState // "Unknown"')
+  state=$(tailscale_state)
 
-  # `tailscale status` exits non-zero for both "logged out" and "logged in but
-  # stopped", which are very different problems. Read the backend state instead.
+  # Being logged out is worth saying loudly, but it does not stop the rest of
+  # the setup, so do not abort on it.
   case "$state" in
   NoState | NeedsLogin | NeedsMachineAuth)
     echo "tailscale: not logged in (backend state: $state)" >&2
-    echo "           run 'sudo tailscale up', then run this script again" >&2
-    return 1
+    echo "           run 'sudo tailscale up' to finish setting it up" >&2
+    return 0
+    ;;
+  Unknown)
+    echo "tailscale: cannot reach the daemon; skipping tailscale setup" >&2
+    return 0
     ;;
   esac
 
-  # Prefs survive a stopped backend, so this is worth setting either way.
-  # There is no stable public command for reading prefs, so use the debug one.
-  if [ "$(tailscale debug prefs | jq -r '.RouteAll')" = "true" ]; then
+  # Prefs usually survive a stopped backend, so this is worth setting either
+  # way. There is no stable public command for reading them, so use the debug
+  # one, and only write when the current value was actually readable. Guessing
+  # would mean asking for a sudo password to set something already set.
+  local routeall
+  routeall=$(tailscale debug prefs 2>/dev/null | jq -r '.RouteAll' 2>/dev/null || echo "unknown")
+
+  case "$routeall" in
+  true)
     echo "tailscale: accept-routes already on"
-  else
+    ;;
+  false)
     echo "tailscale: turning accept-routes on"
     sudo tailscale set --accept-routes=true
-  fi
+    ;;
+  *)
+    echo "tailscale: cannot read prefs, leaving accept-routes alone" >&2
+    ;;
+  esac
 
   # Deliberately does not run `tailscale up` on its own. That joins a network,
   # and a stopped backend usually means someone stopped it on purpose.
@@ -176,16 +200,9 @@ configure_tailscale() {
 
 verify() {
   local failures=0
-  local start end ms current
+  local skipped=0
+  local start end ms current state
 
-  current=$(tailscale status --json 2>/dev/null | jq -r '.BackendState // "Unknown"')
-  if [ "$current" = "Running" ]; then
-    echo "verify: tailscale is running"
-  else
-    echo "verify: FAIL tailscale backend state is '$current', expected 'Running'" >&2
-    echo "        run 'sudo tailscale up' to connect" >&2
-    failures=$((failures + 1))
-  fi
 
   if emacsclient --eval t &>/dev/null; then
     echo "verify: emacs daemon responds"
@@ -203,24 +220,37 @@ verify() {
     failures=$((failures + 1))
   fi
 
-  # Warm the resolver cache first. A cold lookup right after the network
-  # changes can take over a second on its own, and that is not the failure
-  # this is looking for: the broken case is ten seconds, every single time.
-  getent hosts "$DNS_CANARY" >/dev/null 2>&1 || true
-
-  start=$(date +%s%N)
-  getent hosts "$DNS_CANARY" >/dev/null 2>&1 || true
-  end=$(date +%s%N)
-  ms=$(((end - start) / 1000000))
-
-  if ((ms <= DNS_BUDGET_MS)); then
-    echo "verify: resolved $DNS_CANARY in ${ms}ms"
+  # Everything below only means something while Tailscale is up. The DNS stall
+  # this guards against comes from the tailnet's own search domains, so with
+  # the backend stopped there is nothing to measure. Skip, do not fail.
+  state=$(tailscale_state)
+  if [ "$state" != "Running" ]; then
+    echo "verify: SKIP tailscale is '$state', so the DNS check has nothing to test"
+    skipped=$((skipped + 1))
   else
-    echo "verify: FAIL resolving $DNS_CANARY took ${ms}ms, budget is ${DNS_BUDGET_MS}ms" >&2
-    echo "        the DNS search list probably points at unreachable servers" >&2
-    echo "        inspect it with: resolvectl domain" >&2
-    failures=$((failures + 1))
+    echo "verify: tailscale is running"
+
+    # Warm the resolver cache first. A cold lookup right after the network
+    # changes can take over a second on its own, and that is not the failure
+    # this is looking for: the broken case is ten seconds, every single time.
+    getent hosts "$DNS_CANARY" >/dev/null 2>&1 || true
+
+    start=$(date +%s%N)
+    getent hosts "$DNS_CANARY" >/dev/null 2>&1 || true
+    end=$(date +%s%N)
+    ms=$(((end - start) / 1000000))
+
+    if ((ms <= DNS_BUDGET_MS)); then
+      echo "verify: resolved $DNS_CANARY in ${ms}ms"
+    else
+      echo "verify: FAIL resolving $DNS_CANARY took ${ms}ms, budget is ${DNS_BUDGET_MS}ms" >&2
+      echo "        the DNS search list probably points at unreachable servers" >&2
+      echo "        inspect it with: resolvectl domain" >&2
+      failures=$((failures + 1))
+    fi
   fi
+
+  ((skipped == 0)) || echo "verify: $skipped check(s) skipped"
 
   if ((failures > 0)); then
     echo "verify: $failures check(s) failed" >&2

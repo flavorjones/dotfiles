@@ -108,9 +108,17 @@
 
 [url "git@github.com:"]
 	insteadOf = "gh:"
+	# Existing https remotes are rewritten to ssh at use time, so the 1Password
+	# agent authenticates them. The remote in .git/config is left alone.
+	insteadOf = "https://github.com/"
 
 [url "git@ssh.gitlab.gnome.org:"]
 	pushInsteadOf = "https://gitlab.gnome.org"
 
 [gc]
 	writeCommitGraph = true
+
+# Work identity. Must stay at the bottom of this file: git takes the last
+# value it reads, so an include above [user] would be overridden by it.
+[includeIf "gitdir/i:~/Work/basecamp/"]
+	path = ~/.gitconfig-author-37signals

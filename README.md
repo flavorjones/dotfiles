@@ -32,6 +32,20 @@ The script is idempotent. It checks the local package database first and only
 calls `yay` for what is missing, so a run with nothing to do never asks for a
 password. `yay` covers both the Arch repos and the AUR, so one list is enough.
 
+## GitHub authentication
+
+Git talks to GitHub over SSH, with the key held in 1Password.
+
+`~/.ssh/config` points ssh at the 1Password agent socket, and `.gitconfig_generic`
+rewrites `https://github.com/` to `git@github.com:` at use time. So an https
+remote still authenticates with the 1Password key, and nothing has to be
+re-cloned. No credential helper and no stored token is involved.
+
+One step is not automatable, because it is a GUI setting. In the 1Password app,
+enable **Settings > Developer > Use the SSH agent**. Without it the socket
+exists but refuses connections, and every push fails with
+`Permission denied (publickey)`.
+
 ## Design rules
 
 1. **Omarchy is the only target.** No macOS, no other distribution. Do not add
