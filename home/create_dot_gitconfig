@@ -1,0 +1,10 @@
+# This is a local file with ephemeral, machine-specific edits.
+#
+# chezmoi creates it once and then never touches it again, so anything you add
+# below survives. `git config --global ...` writes here too.
+#
+# The permanent, version-controlled profile is included from here:
+[include]
+	path = .gitconfig_generic
+
+# Local edits follow.

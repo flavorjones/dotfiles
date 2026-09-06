@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+# wrapper for hyprland/omarchy
+emacsclient -c $*

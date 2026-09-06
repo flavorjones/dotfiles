@@ -1,0 +1,116 @@
+# -*- gitconfig -*-
+[user]
+	name = Mike Dalessio
+	email = mike.dalessio@gmail.com
+
+[github]
+	user = flavorjones
+
+[core]
+	compression = 1
+	loosecompression = 1
+	abbrev = 8
+	commitGraph = true
+	attributesfile = ~/.gitattributes
+	excludesfile = ~/.gitignore
+
+[pager]
+	branch = false
+	tag = false
+
+[branch]
+	autosetupmerge = true
+
+[init]
+	defaultBranch = main
+
+[push]
+	default = upstream
+	followtags = false # true causes warning messages when pushing to other people's branches
+
+[merge]
+	conflictStyle = zdiff3
+
+[diff]
+	algorithm = histogram
+	colorMoved = plain
+	compactionHeuristic = true
+	renames = copies
+	wordRegex = "[^[:space:]_:.,()/`]+"
+
+[log]
+	abbrevCommit = true
+	decorate = short
+	date = iso8601
+
+[tag]
+	sort=version:refname
+
+[rebase]
+	autoStash = true
+	autoSquash = true
+	updateRefs = true
+
+[rerere]
+	enabled = true
+	autoupdate = true
+
+[alias]
+	c = commit -v
+	ci = commit
+	co = checkout
+	sw = switch
+
+	d = diff -w -b
+	ds = diff -w -b --staged
+	dw = diff -w -b --word-diff
+	dsw = diff -w -b --word-diff --staged
+	lw = log -p --word-diff
+
+	showw = show -w -b --word-diff
+
+	pr = pull --rebase
+	ru = remote update
+	rup = remote update --prune
+
+	ss = status --short
+	w = log --name-status
+	st = status
+
+	lt = log --topo-order
+	logp = log --pretty='format:"%h %C(yellow)%ci%Creset %Cgreen%an%Creset | %s"'
+	logf = log --pretty=fuller --decorate
+	logg = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative
+	logl = log --graph --decorate --oneline
+	logla = log --graph --decorate --oneline --all
+
+	bo = branch-overview
+
+[color.status]
+	added = green
+	untracked = red
+	changed = yellow
+
+[color.diff]
+	meta = magenta
+	frag = blue bold
+	commit = yellow bold
+	old = red bold
+	new = green bold
+	whitespace = red reverse
+	oldMoved = italic red
+	newMoved = italic green
+
+# diff-so-fancy
+[color.diff-highlight]
+	oldNormal = red
+	newNormal = green
+
+[url "git@github.com:"]
+	insteadOf = "gh:"
+
+[url "git@ssh.gitlab.gnome.org:"]
+	pushInsteadOf = "https://gitlab.gnome.org"
+
+[gc]
+	writeCommitGraph = true

@@ -1,0 +1,24 @@
+#!/usr/bin/env bash
+#
+# A chezmoi "modify_" script. chezmoi feeds it the CURRENT ~/.bashrc on stdin,
+# and whatever it writes to stdout becomes the new ~/.bashrc.
+#
+# Omarchy ships ~/.bashrc and may improve it, so this does not replace the file.
+# It passes the existing content through untouched and appends one source line,
+# but only when that line is not already present. That makes it idempotent.
+#
+
+set -euo pipefail
+
+marker="source ~/.bashrc_generic"
+content=$(cat)
+
+printf '%s\n' "$content"
+
+if ! printf '%s' "$content" | grep -qF -- "$marker"; then
+  cat <<'ADDITION'
+
+# the permanent, generic profile is here:
+source ~/.bashrc_generic
+ADDITION
+fi
