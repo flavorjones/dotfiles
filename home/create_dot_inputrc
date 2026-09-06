@@ -1,0 +1,8 @@
+# This is a local file with ephemeral, machine-specific edits.
+#
+# chezmoi creates it once and then never touches it again.
+#
+# The permanent, version-controlled settings are included from here:
+$include ~/.inputrc_generic
+
+# Local edits follow.

@@ -16,6 +16,7 @@ set -euo pipefail
 # One list. yay covers the Arch repos and the AUR, so packages from either
 # source go here and do not need to be kept apart.
 PACKAGES=(
+  brave-bin           # Brave browser (AUR); $BROWSER points at it
   figlet              # big ASCII-art banner text
   fwupd               # firmware updates via LVFS (fwupdmgr)
   jq                  # JSON parsing, used by this script
