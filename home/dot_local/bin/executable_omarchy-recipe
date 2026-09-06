@@ -16,7 +16,10 @@ set -euo pipefail
 # One list. yay covers the Arch repos and the AUR, so packages from either
 # source go here and do not need to be kept apart.
 PACKAGES=(
-  figlet # big ASCII-art banner text
+  figlet              # big ASCII-art banner text
+  fwupd               # firmware updates via LVFS (fwupdmgr)
+  smartmontools       # SMART disk health (smartctl)
+  the_silver_searcher # ag, fast recursive code search
 )
 
 main() {
