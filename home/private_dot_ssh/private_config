@@ -1,5 +1,5 @@
-Host *
-    IdentityAgent ~/.1password/agent.sock
+Match host * exec "test -z $SSH_TTY"
+  IdentityAgent ~/.1password/agent.sock
 
 Host gateway.*.37signals.com
   User mike
