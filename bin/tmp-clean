@@ -1,0 +1,47 @@
+#!/usr/bin/env bash
+# Free RAM by removing stale build/test artifacts from the /tmp tmpfs.
+# Usage: tmp-clean [-n]   (-n = dry run)
+set -euo pipefail
+
+dry_run=false
+[[ "${1:-}" == "-n" ]] && dry_run=true
+
+remove() {
+  local label="$1"; shift
+  local -a paths=()
+  for p in "$@"; do [[ -e "$p" ]] && paths+=("$p"); done
+  [[ ${#paths[@]} -eq 0 ]] && return
+  local size
+  size=$(du -shc "${paths[@]}" 2>/dev/null | tail -1 | cut -f1)
+  echo "$label: ${#paths[@]} entries, $size"
+  $dry_run || { chmod -R u+w "${paths[@]}" 2>/dev/null; rm -rf "${paths[@]}"; }
+}
+
+skip_if_running() {
+  local label="$1" pattern="$2"
+  if pgrep -f "$pattern" >/dev/null; then
+    echo "$label: skipped, matching process running ($pattern)"
+    return 1
+  fi
+}
+
+echo "before: $(df -h /tmp | awk 'NR==2{print $3" used"}')"
+
+skip_if_running "kamal clones" 'kamal (deploy|build|redeploy)' && \
+  remove "kamal clones" /tmp/kamal-clones/*
+
+skip_if_running "active_storage tests" 'rails test|bin/rails t\b' && \
+  remove "active_storage tests" /tmp/active_storage_tests*
+
+# Claude scratchpads whose directory name (the session cwd with / -> -) does not
+# match the cwd of any running claude process. lsof is useless here: claude does
+# not hold scratchpad files open.
+live_cwds=$(for pid in $(pgrep -x claude); do readlink "/proc/$pid/cwd" 2>/dev/null | tr / -; done | sort -u)
+scratch=()
+for d in /tmp/claude-1000/-*/; do
+  d=${d%/}
+  grep -qxF -- "$(basename "$d")" <<<"$live_cwds" || scratch+=("$d")
+done
+remove "claude scratchpads (no live session)" "${scratch[@]}"
+
+$dry_run || echo "after:  $(df -h /tmp | awk 'NR==2{print $3" used"}')"
