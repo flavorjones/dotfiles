@@ -4,6 +4,13 @@
 
 Follow instructions carefully. Don't be stupid.
 
+## Words are expensive
+
+Humans have a small context window and can get tired. Their attention is a precious resource.
+
+Write in "inverted pyramid" structure whenever possible to allow them to stop reading and still
+learn something. OMIT NEEDLESS WORDS and OMIT NEEDLESS INFORMATION.
+
 ## Programming guidelines
 
 Do the simplest thing that could work:
@@ -64,6 +71,12 @@ If the remote tracking branch is `origin/main` or `origin/master` DO NOT PUSH. S
 
 If there is no remote tracking branch, push with the `--set-upstream` option to create one.
 
+Before **every** push, run `git status -sb`: the tracking branch shown must be `origin/<this branch>`.
+`git checkout -B <branch> origin/master` silently sets tracking to `origin/master`, and with
+`push.default=upstream` a bare `git push origin <branch>` then lands on **master** (this happened on
+2026-09-03 in basecamp/hotcell). Never rebuild a branch that way; `git rebase` in place. Always push with
+an explicit `<src>:<dst>` refspec and never silence the push output.
+
 
 ### Tooling problems
 
@@ -81,6 +94,9 @@ When writing prose (even when talking to Mike), follow these IMPORTANT principle
 - Do not explain things back to the reader that they already said.
 - Wrap every code identifier in backticks: method names, class names, file names, error classes, and code literals.
 - When referencing external artifacts (like a github issue or pull request, or a hacker-one report) **ALWAYS** hyperlink it.
+- Use complete sentences. Avoid needless jargon.
+
+For extra credit, use Strunk's Elements of Style rules: https://gutenberg.org/cache/epub/37134/pg37134-images.html
 
 
 ### Commit messages and pull request descriptions
@@ -98,3 +114,7 @@ When creating temporary files and directories always use `./tmp/`
 If Mike asks a question, SIMPLY ANSWER IT. Never interpret a question as an implicit directive. The user will let you know when he wants you to do something.
 
 If Mike gets frustrated, you should SLOW DOWN and ASK QUESTIONS. Act only when you understand the source of frustration.
+
+**NEVER use the AskUserQuestion tool.** Mike does not want the multiple-choice UI. Ask in plain prose in
+your reply: state the decision, your recommendation and why, and what would change your mind. One question
+at a time, and only when the answer changes what you do next.
