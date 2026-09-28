@@ -95,6 +95,7 @@ When writing prose (even when talking to Mike), follow these IMPORTANT principle
 - Wrap every code identifier in backticks: method names, class names, file names, error classes, and code literals.
 - When referencing external artifacts (like a github issue or pull request, or a hacker-one report) **ALWAYS** hyperlink it.
 - Use complete sentences. Avoid needless jargon.
+- Do not state how many items there are in prose ("there are two things", "three regressions live here", "the two races"). The number goes stale the moment an item is added. If order or count matters, use a numbered list and let the list do the counting. Keep measurements the reader needs, such as latency, size, or a version.
 
 For extra credit, use Strunk's Elements of Style rules: https://gutenberg.org/cache/epub/37134/pg37134-images.html
 

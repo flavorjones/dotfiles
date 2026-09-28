@@ -20,7 +20,7 @@ that lost any of this is a worse document.
 identifiers — exactly as they appeared, punctuation and all. Someone hits that error in two years,
 searches for the string, and has to land here. A paraphrased error message is unfindable.
 
-**Specificity.** The number, the version, the name. "Several" is not a summary of "seventeen."
+**Specificity.** The measurement, the version, the name. "Several" is not a summary of "seventeen" — but prose never announces how many items follow ("there are two things"); a numbered list does the counting.
 
 **Antecedents.** "It" and "this" get vaguer as everything around them goes away.
 
