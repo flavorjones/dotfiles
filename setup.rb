@@ -198,15 +198,17 @@ end
 
 # personal Claude skills are symlinked into ~/.claude/skills so editing the
 # source in this repo is live
-File.join(HOME, ".claude/skills/writing-changes").tap do |path|
-  source = File.expand_path(File.join(PWD, "claude-skills/writing-changes"))
+Dir.glob(File.join(PWD, "claude-skills/*/")).sort.each do |dir|
+  skill = File.basename(dir)
+  path = File.join(HOME, ".claude/skills", skill)
+  source = File.expand_path(dir)
   if File.symlink?(path) && File.readlink(path) == source
-    puts "WARN: same, skipping: skills/writing-changes → #{source}" if options[:verbose]
+    puts "WARN: same, skipping: skills/#{skill} → #{source}" if options[:verbose]
   else
     FileUtils.mkdir_p(File.dirname(path))
     FileUtils.rm_rf(path)
     FileUtils.ln_s(source, path)
-    puts "LINK: skills/writing-changes → #{source}"
+    puts "LINK: skills/#{skill} → #{source}"
   end
 end
 
