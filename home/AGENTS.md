@@ -103,6 +103,7 @@ For extra credit, use Strunk's Elements of Style rules: https://gutenberg.org/ca
 
 Before drafting or revising a commit message or pull request description, invoke the `writing-changes` skill and follow it. It holds the required structure, tense, precision, reference, and voice conventions, along with the PR template-matching process.
 
+Never add agent attribution to commits, PRs, or issues.
 
 ## Temporary files
 

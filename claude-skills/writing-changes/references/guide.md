@@ -13,6 +13,17 @@ structure and voice:
 Follow the template's section headers exactly. For Rails these are `### Motivation / Background`,
 `### Detail`, `### Additional information`, and `### Checklist`, and you fill in the checklist.
 
+**No template and no repo-specific rule: use `## Motivation`, `## Details`, and an optional
+`## Additional information`.** Never post the commit body alone as the PR description. Mike said
+this on 2026-09-18 (card 5274, activerecord-tenanted#350) after a body-only PR: "i'm tired of
+repeating myself".
+
+**Length is proportional to the diff.** The headings are fixed; the text under them is not. A
+one-line change gets one or two sentences per section, drawn from the commit message. A
+multi-paragraph body on a one-line pin drew "Why did you write a PhD thesis in the pull request
+description?" on the same PR twenty minutes later. Reproduction narrative, verification output, and
+CI tables belong on the card, not in the PR.
+
 Style Mike uses, learned from his Rails PRs (on top of the prose guidelines in `~/CLAUDE.md`):
 
 - **Motivation / Background** traces the concrete code path and names the actual method and file
