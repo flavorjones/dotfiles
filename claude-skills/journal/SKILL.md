@@ -18,7 +18,7 @@ that accumulates entries until he posts them to his team, so it has no dates: on
 
 ## Layout
 
-- One `###` heading per topic, such as "HotCell", "On Call", "Security" or "Odds and ends".
+- One `<h3>` heading per topic, such as "HotCell", "On Call", "Security" or "Odds and ends".
 - No date headings.
 - A new entry goes at the **bottom** of its topic's list, so each topic reads oldest to newest.
 - If the topic has no heading yet, add one at the end of the note.
@@ -30,34 +30,44 @@ that accumulates entries until he posts them to his team, so it has no dates: on
   when they exist, and what is still open.
 - Plain voice, past tense. Don't narrate process.
 
-```markdown
-### HotCell
+The note stores HTML. An entry is one `<li>` in its topic's `<ul>`:
 
-- [hotcell#39: ship the two health probes instead of leaving them as examples](https://github.com/basecamp/hotcell/pull/39). Took over Donal's PR: rebased it, made `hot_cell/health_operations` loadable on its own, and pointed the README and CHANGELOG at the shipped probes. Merged. HEY can delete its copy once a release ships them. Opened [hotcell#66](https://github.com/basecamp/hotcell/issues/66) for a devcell check that flakes on ruby head.
+```html
+<h3 dir="auto">HotCell</h3>
+<p dir="auto"><br></p>
+<ul dir="auto">
+<li>
+<a href="https://github.com/basecamp/hotcell/pull/39" target="_blank" rel="noreferrer">hotcell#39: ship the two health probes instead of leaving them as examples</a>. Took over Donal's PR: rebased it, made <code>hot_cell/health_operations</code> loadable on its own, and pointed the README and CHANGELOG at the shipped probes. Merged. HEY can delete its copy once a release ships them. Opened <a href="https://github.com/basecamp/hotcell/issues/66" target="_blank" rel="noreferrer">hotcell#66</a> for a devcell check that flakes on ruby head.</li>
+</ul>
 ```
 
 ## Steps
 
 1. Save the current note: `basecamp notes show --json --jq '.data.content' > ./tmp/notes-before.html`.
    Don't use `--md`; it flattens the content onto one line.
-2. Write the whole note as markdown to `./tmp/notes.md`: every existing heading, bullet, link and
-   code span, plus the new entry. `notes set` replaces the note; anything left out is gone.
-3. `basecamp notes set --file ./tmp/notes.md --json`. The CLI converts markdown to HTML.
-4. Read it back with `basecamp notes show --json --jq '.data.content'` and run the checks below.
+2. Copy `./tmp/notes-before.html` to `./tmp/notes.html` and insert the new entry as a `<li>` at the
+   end of its topic's `<ul>`. For a new topic, append an `<h3>`, a `<p dir="auto"><br></p>` spacer
+   and a `<ul>` holding the entry at the end of the note. Change nothing else: `notes set` replaces
+   the note, so the file must carry every existing byte.
+3. `basecamp notes set --file ./tmp/notes.html --json`. The CLI stores HTML as is. Never write the
+   note as markdown: the note's `<p><br></p>` spacers make the CLI treat the file as HTML, so the
+   markdown is stored unconverted.
+4. Read it back with `basecamp notes show --json --jq '.data.content' > ./tmp/notes-after.html` and
+   run the checks below.
 5. Tell Mike which topic got the entry. On a card, say it in the card reply.
 
 ## Checks
 
 | # | Check | Pass | If fail |
 |---|-------|------|---------|
-| 1 | Entry count: `grep -o '<li' <file> \| wc -l`, before and after | After is before + 1 | Restore the lost entries from `./tmp/notes-before.html` and set again |
-| 2 | Headings, before and after: `grep -o '<h3[^>]*>[^<]*' <file>` | Same list, plus the new topic if one was added | Restore from `./tmp/notes-before.html` |
-| 3 | The new entry | Last item under its topic's heading | Move it and set again |
+| 1 | `diff ./tmp/notes-before.html ./tmp/notes-after.html` | Only the new entry's lines (and the new topic's heading, spacer and list, if one was added) | Set `./tmp/notes-before.html` again to restore the note, then redo step 2 |
+| 2 | The new entry | Last item under its topic's heading | Move it and set again |
 
 ## Failure modes
 
 | Symptom | Cause | Fix |
 |---------|-------|-----|
 | `not_found` on the note or a linked document | `BASECAMP_PROFILE=fetchbot` still exported | `unset BASECAMP_PROFILE` |
-| Earlier entries disappeared | `notes set` replaces the whole note | Rebuild from `./tmp/notes-before.html` |
+| Earlier entries disappeared | `notes set` replaces the whole note | Set `./tmp/notes-before.html` again |
+| The note shows literal `###` and `- [` text | The note was written as markdown | Set `./tmp/notes-before.html` again, then follow step 2 |
 | Wrote to the linked document | Took the style reference for the target | The target is always `basecamp notes` |
