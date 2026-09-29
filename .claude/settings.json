@@ -5,9 +5,9 @@
     "ENABLE_LSP_TOOL": "1"
   },
   "attribution": {
-    "sessionUrl": false,
     "commit": "",
-    "pr": ""
+    "pr": "",
+    "sessionUrl": false
   },
   "permissions": {
     "defaultMode": "bypassPermissions"
@@ -22,8 +22,19 @@
     "clangd-lsp@claude-plugins-official": true,
     "ruby-lsp@claude-plugins-official": true
   },
-  "outputStyle": "STE",
-  "effortLevel": "xhigh",
+  "outputStyle": "Concise",
+  "effortLevel": "medium",
+  "modelSettings": {
+    "claude-fable-5-1": {
+      "effortLevel": "low"
+    },
+    "claude-opus-5": {
+      "effortLevel": "xhigh"
+    },
+    "claude-opus-5-5": {
+      "effortLevel": "medium"
+    }
+  },
   "skipDangerousModePermissionPrompt": true,
   "theme": "auto",
   "autoCompactEnabled": true
