@@ -1,6 +1,6 @@
 ---
 name: rewrite-slop
-description: Tighten prose that already exists by looping until it converges. Use when asked to rewrite, tighten, de-slop, or cut down a document, message, comment, or draft.
+description: Tighten prose that already exists by looping until it converges, then prove it reads clearly to a cold reader. Use when asked to rewrite, tighten, de-slop, or cut down a document, message, comment, or draft, and before posting any explanation to Mike.
 ---
 
 # rewrite-slop
@@ -32,6 +32,19 @@ follow.
 **Voice**, when the author is a person. Terse is not flat.
 
 The test: can the reader still do the thing the document is for?
+
+## Cold read
+
+You can't judge your own clarity: you know what every term means. After the loop converges, and
+before the text goes to a person, spawn a fresh subagent. Give it only the text, with no card, code,
+or context, and ask it:
+
+1. Explain this back in plain words.
+2. List every term you had to guess at.
+
+If the explain-back is wrong, reuses a term from the text instead of explaining it, or the list is
+not empty, rewrite and run the loop and the cold read again. When you post, report the result in one
+line: "Cold read: clean on round N."
 
 ## Scope
 
