@@ -5,9 +5,13 @@ description: Tighten prose that already exists by looping until it converges. Us
 
 # rewrite-slop
 
-Ask one question of what was written, and keep asking until the answer stops changing anything:
+Ask these questions of what was written, and keep asking until the answers stop changing anything:
 
 > **Is this as simple and concise as possible without sacrificing clarity?**
+
+> **Can every subject actually do what its verb says?**
+
+If not, name the person who acts or state the fact.
 
 Converged means a full pass changes nothing.
 

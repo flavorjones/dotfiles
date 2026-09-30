@@ -21,14 +21,20 @@ that accumulates entries until he posts them to his team, so it has no dates: on
 - One `<h3>` heading per topic, such as "HotCell", "On Call", "Security" or "Odds and ends".
 - No date headings.
 - A new entry goes at the **bottom** of its topic's list, so each topic reads oldest to newest.
+- An entry for work we decided not to do starts with `<strong>Not now:</strong>` and stays
+  below every other entry in its topic. Insert a new regular entry above the first "Not now"
+  entry, not at the end of the list.
 - If the topic has no heading yet, add one at the end of the note.
 
 ## Entry style
 
-- Start with the linked title of the card, PR or issue, followed by a period.
-- Follow with one to three short, factual sentences: what shipped (PR links as `repo#N`), numbers
-  when they exist, and what is still open.
-- Plain voice, past tense. Don't narrate process.
+- Lead with the issue or pull request, linked, with a phrase describing the change:
+  `hotcell#78: log every HotCell call to the Rails log by default`. Then a period.
+- Follow with one sentence saying what we did. Use two only when the work is complex or
+  noteworthy.
+- A follow-up that readers can act on goes in one parenthetical at the end, such as
+  "(Once a release ships it, we can delete the copies in our applications.)".
+- Leave out process, review rounds, verification steps, and anything already said by the link.
 
 The note stores HTML. An entry is one `<li>` in its topic's `<ul>`:
 
@@ -37,7 +43,7 @@ The note stores HTML. An entry is one `<li>` in its topic's `<ul>`:
 <p dir="auto"><br></p>
 <ul dir="auto">
 <li>
-<a href="https://github.com/basecamp/hotcell/pull/39" target="_blank" rel="noreferrer">hotcell#39: ship the two health probes instead of leaving them as examples</a>. Took over Donal's PR: rebased it, made <code>hot_cell/health_operations</code> loadable on its own, and pointed the README and CHANGELOG at the shipped probes. Merged. HEY can delete its copy once a release ships them. Opened <a href="https://github.com/basecamp/hotcell/issues/66" target="_blank" rel="noreferrer">hotcell#66</a> for a devcell check that flakes on ruby head.</li>
+<a href="https://github.com/basecamp/hotcell/pull/67" target="_blank" rel="noreferrer">hotcell#67: pre-fork workers so requests don't wait on fork</a>. The supervisor forks a worker into each free slot before requests arrive; a small thumbnail went from 23.8ms to 17.1ms per request.</li>
 </ul>
 ```
 
@@ -46,7 +52,7 @@ The note stores HTML. An entry is one `<li>` in its topic's `<ul>`:
 1. Save the current note: `basecamp notes show --json --jq '.data.content' > ./tmp/notes-before.html`.
    Don't use `--md`; it flattens the content onto one line.
 2. Copy `./tmp/notes-before.html` to `./tmp/notes.html` and insert the new entry as a `<li>` at the
-   end of its topic's `<ul>`. For a new topic, append an `<h3>`, a `<p dir="auto"><br></p>` spacer
+   end of its topic's `<ul>`, above any "Not now" entries. For a new topic, append an `<h3>`, a `<p dir="auto"><br></p>` spacer
    and a `<ul>` holding the entry at the end of the note. Change nothing else: `notes set` replaces
    the note, so the file must carry every existing byte.
 3. `basecamp notes set --file ./tmp/notes.html --json`. The CLI stores HTML as is. Never write the
@@ -61,7 +67,7 @@ The note stores HTML. An entry is one `<li>` in its topic's `<ul>`:
 | # | Check | Pass | If fail |
 |---|-------|------|---------|
 | 1 | `diff ./tmp/notes-before.html ./tmp/notes-after.html` | Only the new entry's lines (and the new topic's heading, spacer and list, if one was added) | Set `./tmp/notes-before.html` again to restore the note, then redo step 2 |
-| 2 | The new entry | Last item under its topic's heading | Move it and set again |
+| 2 | The new entry | Last regular entry under its topic, above any "Not now" entries | Move it and set again |
 
 ## Failure modes
 
