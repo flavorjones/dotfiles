@@ -17,6 +17,7 @@ When writing prose (even when talking to Mike), follow these IMPORTANT principle
 - When referencing external artifacts (like a github issue or pull request, or a hacker-one report) **ALWAYS** hyperlink it.
 - Use complete sentences. Avoid needless jargon.
 - Do not state how many items there are in prose ("there are two things", "three regressions live here", "the two races"). The number goes stale the moment an item is added. If order or count matters, use a numbered list and let the list do the counting. Keep measurements the reader needs, such as latency, size, or a version.
+- Give a verb only to something that can do it. Software, fixes, releases, PRs, bugs and advisories do not wait, want, know, decide, try, need or make mistakes. Name the person ("I'll release the fix in 2.25.3") or state the fact ("The fix is unreleased; it ships in 2.25.3"). Saying what code does is fine: "the supervisor forks a worker".
 
 For extra credit, use Strunk's Elements of Style rules: https://gutenberg.org/cache/epub/37134/pg37134-images.html
 
@@ -99,7 +100,7 @@ Before **every** push, run `git status -sb`: the tracking branch shown must be `
 2026-09-03 in basecamp/hotcell). Never rebuild a branch that way; `git rebase` in place. Always push with
 an explicit `<src>:<dst>` refspec and never silence the push output.
 
-# Referenceable lists (non-negotiable)
+### Referenceable lists (non-negotiable)
 
 Give every list item that may be referenced a unique prefixed ID, so anyone can later say "do S3" and mean exactly one thing. This applies in the terminal and in anything an agent posts:
 
