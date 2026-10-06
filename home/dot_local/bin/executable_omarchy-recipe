@@ -49,11 +49,21 @@ PACKAGES=(
   fizzy-cli           # AUR: fizzy, the Fizzy boards and cards CLI
   fwupd               # firmware updates via LVFS (fwupdmgr)
   github-cli          # gh, for PRs and issues from the terminal
+  herdr               # terminal workspace manager for AI coding agents
   jq                  # JSON parsing, used by this script
   omarchy-emacs       # AUR: syncs the Omarchy theme and font into Emacs
   smartmontools       # SMART disk health (smartctl)
   tailscale           # mesh VPN
   the_silver_searcher # ag, fast recursive code search
+  uv                  # Python tool installer, used by this script
+)
+
+UV_TOOLS=( # `uv tool install`, checked by the command each one provides
+  "claude-swap:cswap"
+)
+
+NPM_TOOLS=( # `npm install -g`, checked by the command each one provides
+  "@loongphy/codex-auth:codex-auth"
 )
 
 SERVICES=( # system units
@@ -104,6 +114,29 @@ install_packages() {
 
   echo "packages: installing ${missing[*]}"
   yay -S --needed --noconfirm "${missing[@]}"
+}
+
+# npm is mise's node, so a node upgrade drops these. The next run reinstalls.
+install_tools() {
+  local entry
+
+  for entry in "${UV_TOOLS[@]}"; do
+    if command -v "${entry#*:}" &>/dev/null; then
+      echo "uv tool ${entry%%:*}: present"
+    else
+      echo "uv tool ${entry%%:*}: installing"
+      uv tool install "${entry%%:*}"
+    fi
+  done
+
+  for entry in "${NPM_TOOLS[@]}"; do
+    if command -v "${entry#*:}" &>/dev/null; then
+      echo "npm tool ${entry%%:*}: present"
+    else
+      echo "npm tool ${entry%%:*}: installing"
+      npm install -g "${entry%%:*}"
+    fi
+  done
 }
 
 enable_services() {
@@ -328,6 +361,7 @@ verify() {
 main() {
   update_system
   install_packages
+  install_tools
   enable_services
   enable_user_services
   configure_browser
