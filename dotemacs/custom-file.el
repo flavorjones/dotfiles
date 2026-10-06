@@ -52,8 +52,8 @@
  '(org-odd-levels-only t)
  '(org-startup-folded 'content)
  '(package-selected-packages
-   '(ag atomic-chrome auto-highlight-symbol bazel-mode bicycle bison-mode crystal-mode csharp-mode
-        css-mode diminish direnv dockerfile-mode edit-indirect editorconfig elm-mode
+   '(ag atomic-chrome auto-highlight-symbol bazel-mode bicycle bison-mode copilot crystal-mode
+        csharp-mode css-mode diminish direnv dockerfile-mode edit-indirect editorconfig elm-mode
         exec-path-from-shell feature-mode flycheck-julia flymake-ruby git-blame git-link
         gitattributes-mode gitconfig-mode gitignore-mode gnu-elpa-keyring-update go-autocomplete
         go-mode go-snippets golint haml-mode hide-mode-line hl-todo interaction-log ivy json-mode
