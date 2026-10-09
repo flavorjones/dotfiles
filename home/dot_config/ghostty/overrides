@@ -13,7 +13,6 @@ window-padding-balance = true
 selection-foreground = cell-background
 selection-background = cell-foreground
 clipboard-paste-protection = false
-shell-integration = bash
 shell-integration-features = no-cursor,sudo,no-title,ssh-env,no-ssh-terminfo,path
 
 keybind = ctrl+shift+r=reset
