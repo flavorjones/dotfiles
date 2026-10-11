@@ -139,6 +139,18 @@ install_tools() {
   done
 }
 
+# `katami setup` installs shell completion and downloads ~120MB of models, so
+# it runs once, right after the first install.
+install_katami() {
+  if command -v katami &>/dev/null; then
+    echo "katami: present"
+  else
+    echo "katami: installing"
+    omarchy-mise-install github:monorkin/katami katami
+    katami setup
+  fi
+}
+
 enable_services() {
   local svc
 
@@ -362,6 +374,7 @@ main() {
   update_system
   install_packages
   install_tools
+  install_katami
   enable_services
   enable_user_services
   configure_browser
