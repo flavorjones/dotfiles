@@ -5,9 +5,13 @@ description: Tighten prose that already exists by looping until it converges. Us
 
 # rewrite-slop
 
-Ask one question of what was written, and keep asking until the answer stops changing anything:
+Ask these questions of what was written, and keep asking until the answers stop changing anything:
 
 > **Is this as simple and concise as possible without sacrificing clarity?**
+
+> **Can every subject actually do what its verb says?**
+
+If not, name the person who acts or state the fact.
 
 Converged means a full pass changes nothing.
 
@@ -20,7 +24,7 @@ that lost any of this is a worse document.
 identifiers — exactly as they appeared, punctuation and all. Someone hits that error in two years,
 searches for the string, and has to land here. A paraphrased error message is unfindable.
 
-**Specificity.** The number, the version, the name. "Several" is not a summary of "seventeen."
+**Specificity.** The measurement, the version, the name. "Several" is not a summary of "seventeen" — but prose never announces how many items follow ("there are two things"); a numbered list does the counting.
 
 **Antecedents.** "It" and "this" get vaguer as everything around them goes away.
 
