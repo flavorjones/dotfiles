@@ -3,3 +3,10 @@ Match host * exec "test -z $SSH_TTY"
 
 Host gateway.*.37signals.com
   User mike
+
+# on a new machine create a dedicated ssh key for the machine
+# > ssh-keygen -t ed25519 -C user@host
+Host github.com
+  IdentityAgent none
+  IdentityFile ~/.ssh/id_ed25519
+  IdentitiesOnly yes
