@@ -67,6 +67,15 @@ NPM_TOOLS=( # `npm install -g`, checked by the command each one provides
   "@loongphy/codex-auth:codex-auth"
 )
 
+# Agents that read skills from ~/.agents/skills. Claude Code is deliberately
+# absent: chezmoi owns ~/.claude/skills, and `skills add` for Claude Code would
+# replace those directories with symlinks into ~/.agents/skills.
+SKILLS_AGENTS=(
+  codex
+  opencode
+  pi
+)
+
 SERVICES=( # system units
   tailscaled
 )
@@ -150,6 +159,26 @@ install_katami() {
     omarchy-mise-install github:monorkin/katami katami
     katami setup
   fi
+}
+
+# Copy the Claude skills that chezmoi manages into ~/.agents/skills, where the
+# other agents look for them.
+install_agent_skills() {
+  local src dir
+  local stale=false
+
+  src=$(chezmoi source-path "$HOME/.claude/skills")
+  for dir in "$src"/*/; do
+    diff -rq "$dir" "$HOME/.agents/skills/$(basename "$dir")" &>/dev/null || stale=true
+  done
+
+  if [ "$stale" = "false" ]; then
+    echo "agent skills: up to date"
+    return
+  fi
+
+  echo "agent skills: installing for ${SKILLS_AGENTS[*]}"
+  npx --yes skills add "$src" -g -y -a "${SKILLS_AGENTS[@]}"
 }
 
 enable_services() {
@@ -376,6 +405,7 @@ main() {
   install_packages
   install_tools
   install_katami
+  install_agent_skills
   enable_services
   enable_user_services
   configure_browser
