@@ -57,6 +57,7 @@ PACKAGES=(
   tailscale           # mesh VPN
   the_silver_searcher # ag, fast recursive code search
   uv                  # Python tool installer, used by this script
+  valgrind            # memory error and leak checker
 )
 
 UV_TOOLS=( # `uv tool install`, checked by the command each one provides
