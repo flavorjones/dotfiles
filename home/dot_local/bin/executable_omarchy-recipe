@@ -45,6 +45,7 @@ done
 # browser installer below, which also wires up the flags and extensions.
 PACKAGES=(
   bind                # dig, for DNS queries
+  cmake               # C and C++ build system generator
   emacs-wayland       # Emacs, PGTK build, the one that is native on Wayland
   figlet              # big ASCII-art banner text
   fizzy-cli           # AUR: fizzy, the Fizzy boards and cards CLI
