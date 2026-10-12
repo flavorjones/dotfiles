@@ -32,6 +32,11 @@ read -r -d '' MANAGED <<'JSON' || true
     "clangd-lsp@claude-plugins-official": true,
     "ruby-lsp@claude-plugins-official": true
   },
+  "attribution": {
+    "commit": "",
+    "pr": "",
+    "sessionUrl": false
+  },
   "outputStyle": "STE",
   "skipDangerousModePermissionPrompt": true,
   "theme": "auto",
