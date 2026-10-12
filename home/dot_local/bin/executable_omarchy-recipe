@@ -77,6 +77,10 @@ SKILLS_AGENTS=(
   pi
 )
 
+CLAUDE_PLUGINS=( # `claude plugin install`, each from the marketplace in that GitHub repo
+  "warm-compact@monorkin:monorkin/warm-compact"
+)
+
 SERVICES=( # system units
   tailscaled
 )
@@ -196,6 +200,22 @@ install_agent_skills() {
 
   echo "agent skills: installing for ${SKILLS_AGENTS[*]}"
   npx --yes skills add "$src" -g -y -a "${SKILLS_AGENTS[@]}"
+}
+
+# `--marketplace` adds the plugin's marketplace first when it is missing.
+install_claude_plugins() {
+  local entry plugin installed
+
+  installed=$(cd / && claude plugin list --json | jq -r '.[] | select(.scope == "user" and .enabled) | .id')
+  for entry in "${CLAUDE_PLUGINS[@]}"; do
+    plugin=${entry%%:*}
+    if grep -qxF "$plugin" <<<"$installed"; then
+      echo "claude plugin $plugin: present"
+    else
+      echo "claude plugin $plugin: installing"
+      claude plugin install "${plugin%@*}" --marketplace "${entry#*:}"
+    fi
+  done
 }
 
 enable_services() {
@@ -424,6 +444,7 @@ main() {
   install_tools
   install_katami
   install_agent_skills
+  install_claude_plugins
   enable_services
   enable_user_services
   configure_browser
