@@ -180,6 +180,10 @@ fi
 
 identity=()
 
+if [[ -n "$SSH_CONNECTION$SSH_CLIENT$SSH_TTY" ]]; then
+  identity+=("🌐 ${HOSTNAME%%.*}")
+fi
+
 if [[ -n "$branch" ]]; then
   identity+=("$dir ($branch)")
 else
