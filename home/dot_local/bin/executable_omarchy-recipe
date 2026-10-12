@@ -64,8 +64,8 @@ UV_TOOLS=( # `uv tool install`, checked by the command each one provides
   "claude-swap:cswap"
 )
 
-NPM_TOOLS=( # `npm install -g`, checked by the command each one provides
-  "@loongphy/codex-auth:codex-auth"
+MISE_TOOLS=( # `mise use -g`, checked by the command each one provides
+  "npm:@loongphy/codex-auth:codex-auth"
 )
 
 # Agents that read skills from ~/.agents/skills. Claude Code is deliberately
@@ -147,7 +147,8 @@ install_packages() {
   yay -S --needed --noconfirm "${missing[@]}"
 }
 
-# npm is mise's node, so a node upgrade drops these. The next run reinstalls.
+# A mise shim outlives the tool it points at, so `command -v` cannot tell
+# whether a mise tool works. `mise which` can.
 install_tools() {
   local entry
 
@@ -160,12 +161,12 @@ install_tools() {
     fi
   done
 
-  for entry in "${NPM_TOOLS[@]}"; do
-    if command -v "${entry#*:}" &>/dev/null; then
-      echo "npm tool ${entry%%:*}: present"
+  for entry in "${MISE_TOOLS[@]}"; do
+    if mise which "${entry##*:}" &>/dev/null; then
+      echo "mise tool ${entry%:*}: present"
     else
-      echo "npm tool ${entry%%:*}: installing"
-      npm install -g "${entry%%:*}"
+      echo "mise tool ${entry%:*}: installing"
+      mise use -g "${entry%:*}"
     fi
   done
 }
