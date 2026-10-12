@@ -67,6 +67,7 @@ UV_TOOLS=( # `uv tool install`, checked by the command each one provides
 
 MISE_TOOLS=( # `mise use -g`, checked by the command each one provides
   "npm:@loongphy/codex-auth:codex-auth"
+  "npm:@tobilu/qmd:qmd"
 )
 
 # Agents that read skills from ~/.agents/skills. Claude Code is deliberately
