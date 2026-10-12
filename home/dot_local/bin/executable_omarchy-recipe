@@ -85,6 +85,8 @@ USER_SERVICES=( # `systemctl --user` units
   emacs         # emacsclient -c talks to this daemon, and $EDITOR needs it
 )
 
+OMARCHY_CHANNEL="edge"
+
 BROWSER_NAME="chromium"
 
 # git reaches github over ssh, and ~/.ssh/config points ssh at this socket.
@@ -95,6 +97,20 @@ ONEPASSWORD_AGENT_SOCK="$HOME/.1password/agent.sock"
 # and one unreachable nameserver there turns a 0.3s lookup into a 10s one.
 DNS_CANARY="github.com"
 DNS_BUDGET_MS=2000
+
+# `omarchy channel set` swaps the package repos and runs a full update itself.
+set_channel() {
+  local current
+  current=$(omarchy channel current)
+
+  if [ "$current" = "$OMARCHY_CHANNEL" ]; then
+    echo "channel: $OMARCHY_CHANNEL"
+    return
+  fi
+
+  echo "channel: switching from $current to $OMARCHY_CHANNEL"
+  omarchy channel set "$OMARCHY_CHANNEL"
+}
 
 # The pacman database goes stale, and then an install fails with 404s from the
 # mirror: it is asking for package versions that have already been superseded.
@@ -402,6 +418,7 @@ verify() {
 }
 
 main() {
+  set_channel
   update_system
   install_packages
   install_tools
