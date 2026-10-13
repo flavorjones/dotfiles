@@ -115,6 +115,11 @@
 [url "git@ssh.gitlab.gnome.org:"]
 	pushInsteadOf = "https://gitlab.gnome.org"
 
+[credential "https://github.com"]
+    helper = !gh auth git-credential
+[credential "https://gist.github.com"]
+    helper = !gh auth git-credential
+
 [gc]
 	writeCommitGraph = true
 
