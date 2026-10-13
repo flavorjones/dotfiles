@@ -80,6 +80,10 @@ SKILLS_AGENTS=(
   pi
 )
 
+GH_EXTENSIONS=( # `gh extension install`, by GitHub repo
+  basecamp/gh-signoff
+)
+
 CLAUDE_PLUGINS=( # `claude plugin install`, each from the marketplace in that GitHub repo
   "warm-compact@monorkin:monorkin/warm-compact"
 )
@@ -204,6 +208,20 @@ install_agent_skills() {
 
   echo "agent skills: installing for ${SKILLS_AGENTS[*]}"
   npx --yes skills add "$src" -g -y -a "${SKILLS_AGENTS[@]}"
+}
+
+install_gh_extensions() {
+  local repo installed
+
+  installed=$(gh extension list | cut -f2)
+  for repo in "${GH_EXTENSIONS[@]}"; do
+    if grep -qxF "$repo" <<<"$installed"; then
+      echo "gh extension $repo: present"
+    else
+      echo "gh extension $repo: installing"
+      gh extension install "$repo"
+    fi
+  done
 }
 
 # `--marketplace` adds the plugin's marketplace first when it is missing.
@@ -448,6 +466,7 @@ main() {
   install_tools
   install_katami
   install_agent_skills
+  install_gh_extensions
   install_claude_plugins
   enable_services
   enable_user_services
