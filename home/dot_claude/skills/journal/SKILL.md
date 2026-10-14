@@ -35,6 +35,15 @@ that accumulates entries until he posts them to his team, so it has no dates: on
 - A follow-up that readers can act on goes in one parenthetical at the end, such as
   "(Once a release ships it, we can delete the copies in our applications.)".
 - Leave out process, review rounds, verification steps, and anything already said by the link.
+- Start the entry with an emoji and a space when it is one of these kinds. Other entries get none.
+
+  | Emoji | Kind |
+  |-------|------|
+  | ✨ | Small feature |
+  | 🚀 | Big feature |
+  | 🔧 | Bug fix, or an improvement such as performance or portability |
+  | 📦️ | Release |
+  | 🍄 | Upgrade or other "levelling up", such as moving to a new version of Rails |
 
 The note stores HTML. An entry is one `<li>` in its topic's `<ul>`:
 
@@ -43,7 +52,7 @@ The note stores HTML. An entry is one `<li>` in its topic's `<ul>`:
 <p dir="auto"><br></p>
 <ul dir="auto">
 <li>
-<a href="https://github.com/basecamp/hotcell/pull/67" target="_blank" rel="noreferrer">hotcell#67: pre-fork workers so requests don't wait on fork</a>. The supervisor forks a worker into each free slot before requests arrive; a small thumbnail went from 23.8ms to 17.1ms per request.</li>
+🔧 <a href="https://github.com/basecamp/hotcell/pull/67" target="_blank" rel="noreferrer">hotcell#67: pre-fork workers so requests don't wait on fork</a>. The supervisor forks a worker into each free slot before requests arrive; a small thumbnail went from 23.8ms to 17.1ms per request.</li>
 </ul>
 ```
 
@@ -55,9 +64,8 @@ The note stores HTML. An entry is one `<li>` in its topic's `<ul>`:
    end of its topic's `<ul>`, above any "Not now" entries. For a new topic, append an `<h3>`, a `<p dir="auto"><br></p>` spacer
    and a `<ul>` holding the entry at the end of the note. Change nothing else: `notes set` replaces
    the note, so the file must carry every existing byte.
-3. `basecamp notes set --file ./tmp/notes.html --json`. The CLI stores HTML as is. Never write the
-   note as markdown: the note's `<p><br></p>` spacers make the CLI treat the file as HTML, so the
-   markdown is stored unconverted.
+3. `basecamp notes set --file ./tmp/notes.html --format html --json`. Without `--format html` the
+   CLI reads the file as Markdown and converts the text around the tags.
 4. Read it back with `basecamp notes show --json --jq '.data.content' > ./tmp/notes-after.html` and
    run the checks below.
 5. Tell Mike which topic got the entry. On a card, say it in the card reply.
@@ -76,4 +84,5 @@ The note stores HTML. An entry is one `<li>` in its topic's `<ul>`:
 | `not_found` on the note or a linked document | `BASECAMP_PROFILE=fetchbot` still exported | `unset BASECAMP_PROFILE` |
 | Earlier entries disappeared | `notes set` replaces the whole note | Set `./tmp/notes-before.html` again |
 | The note shows literal `###` and `- [` text | The note was written as markdown | Set `./tmp/notes-before.html` again, then follow step 2 |
+| `Warning: content contains HTML tags and was read as Markdown` | `--format html` left off | Set `./tmp/notes-before.html` again with `--format html`, then redo step 3 |
 | Wrote to the linked document | Took the style reference for the target | The target is always `basecamp notes` |
