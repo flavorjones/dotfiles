@@ -43,9 +43,6 @@
           "id": "omarchy.tailscale"
         },
         {
-          "id": "omarchy.agents"
-        },
-        {
           "id": "omarchy.bluetooth"
         },
         {
@@ -53,9 +50,6 @@
         },
         {
           "id": "omarchy.audio"
-        },
-        {
-          "id": "omarchy.monitor"
         },
         {
           "id": "temperature",
@@ -79,6 +73,14 @@
         },
         {
           "id": "omarchy.power"
+        }
+      ],
+      "tray": [
+        {
+          "id": "omarchy.agents"
+        },
+        {
+          "id": "omarchy.monitor"
         }
       ]
     },
