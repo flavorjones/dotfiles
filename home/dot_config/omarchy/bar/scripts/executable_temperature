@@ -1,0 +1,10 @@
+#!/bin/bash
+
+for hwmon in /sys/class/hwmon/hwmon*; do
+  case "$(cat "$hwmon/name")" in
+    k10temp|coretemp|zenpower)
+      echo "$(( ($(cat "$hwmon/temp1_input") + 500) / 1000 ))°C"
+      exit
+      ;;
+  esac
+done

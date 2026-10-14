@@ -1,0 +1,93 @@
+{
+  "bar": {
+    "background": "none",
+    "centerAnchor": "omarchy.clock",
+    "layout": {
+      "center": [
+        {
+          "id": "omarchy.indicators"
+        },
+        {
+          "format": "dddd HH:mm",
+          "formatAlt": "d MMMM 'W'ww yyyy",
+          "id": "omarchy.clock",
+          "verticalFormat": "HH\n—\nmm"
+        },
+        {
+          "id": "omarchy.elsewhen",
+          "zones": "New York|America/New_York, London|Europe/London, Dubai|Asia/Dubai, Los Angeles|America/Los_Angeles, Tokyo|Asia/Tokyo"
+        },
+        {
+          "id": "omarchy.weather"
+        },
+        {
+          "id": "omarchy.system-update"
+        }
+      ],
+      "left": [
+        {
+          "id": "omarchy.menu"
+        },
+        {
+          "id": "omarchy.workspaces"
+        }
+      ],
+      "right": [
+        {
+          "id": "omarchy.keyboard-layout"
+        },
+        {
+          "id": "omarchy.tray"
+        },
+        {
+          "id": "omarchy.tailscale"
+        },
+        {
+          "id": "omarchy.agents"
+        },
+        {
+          "id": "omarchy.bluetooth"
+        },
+        {
+          "id": "omarchy.network"
+        },
+        {
+          "id": "omarchy.audio"
+        },
+        {
+          "id": "omarchy.monitor"
+        },
+        {
+          "id": "temperature",
+          "type": "command",
+          "exec": "~/.config/omarchy/bar/scripts/temperature",
+          "interval": 5
+        },
+        {
+          "id": "cpu",
+          "type": "command",
+          "exec": "~/.config/omarchy/bar/scripts/cpu",
+          "interval": 5,
+          "onClick": "omarchy-launch-or-focus-tui btop"
+        },
+        {
+          "id": "memory",
+          "type": "command",
+          "exec": "~/.config/omarchy/bar/scripts/memory",
+          "interval": 5,
+          "onClick": "omarchy-launch-or-focus-tui btop"
+        },
+        {
+          "id": "omarchy.power"
+        }
+      ]
+    },
+    "position": "top"
+  },
+  "idle": {
+    "lock": 300,
+    "screensaver": 150
+  },
+  "plugins": [],
+  "version": 1
+}

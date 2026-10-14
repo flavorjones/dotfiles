@@ -1,0 +1,15 @@
+#!/bin/bash
+
+read -r _ user nice system idle iowait irq softirq steal _ < /proc/stat
+busy_before=$((user + nice + system + irq + softirq + steal))
+total_before=$((busy_before + idle + iowait))
+
+sleep 1
+
+read -r _ user nice system idle iowait irq softirq steal _ < /proc/stat
+busy_after=$((user + nice + system + irq + softirq + steal))
+total_after=$((busy_after + idle + iowait))
+
+usage=$(( (200 * (busy_after - busy_before) / (total_after - total_before) + 1) / 2 ))
+
+printf '{"text":"󰍛 %d%%","tooltip":"%d%%"}\n' "$usage" "$usage"
