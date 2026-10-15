@@ -44,6 +44,8 @@ that accumulates entries until he posts them to his team, so it has no dates: on
   | 🔧 | Bug fix, or an improvement such as performance or portability |
   | 📦️ | Release |
   | 🍄 | Upgrade or other "levelling up", such as moving to a new version of Rails |
+  | 🔍️ | Pull request review |
+  | 🔒 | Security item that has no better emoji |
 
 The note stores HTML. An entry is one `<li>` in its topic's `<ul>`:
 
