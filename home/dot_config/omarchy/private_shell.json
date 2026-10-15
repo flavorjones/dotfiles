@@ -1,27 +1,13 @@
 {
   "bar": {
     "background": "none",
-    "centerAnchor": "omarchy.clock",
     "layout": {
       "center": [
-        {
-          "id": "omarchy.indicators"
-        },
         {
           "format": "dddd HH:mm",
           "formatAlt": "d MMMM 'W'ww yyyy",
           "id": "omarchy.clock",
           "verticalFormat": "HH\n—\nmm"
-        },
-        {
-          "id": "omarchy.elsewhen",
-          "zones": "New York|America/New_York, London|Europe/London, Dubai|Asia/Dubai, Los Angeles|America/Los_Angeles, Tokyo|Asia/Tokyo"
-        },
-        {
-          "id": "omarchy.weather"
-        },
-        {
-          "id": "omarchy.system-update"
         }
       ],
       "left": [
@@ -34,10 +20,10 @@
       ],
       "right": [
         {
-          "id": "omarchy.keyboard-layout"
+          "id": "omarchy.tray"
         },
         {
-          "id": "omarchy.tray"
+          "id": "omarchy.keyboard-layout"
         },
         {
           "id": "omarchy.tailscale"
@@ -81,6 +67,23 @@
         },
         {
           "id": "omarchy.monitor"
+        }
+      ],
+      "centerBegin": [
+        {
+          "id": "omarchy.indicators"
+        }
+      ],
+      "centerEnd": [
+        {
+          "id": "omarchy.elsewhen",
+          "zones": "New York|America/New_York, London|Europe/London, Dubai|Asia/Dubai, Los Angeles|America/Los_Angeles, Tokyo|Asia/Tokyo"
+        },
+        {
+          "id": "omarchy.weather"
+        },
+        {
+          "id": "omarchy.system-update"
         }
       ]
     },
