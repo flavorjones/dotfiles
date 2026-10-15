@@ -2,6 +2,10 @@
 
 input=$(cat)
 
+if command -v radar-claude-statusline >/dev/null; then
+  radar-claude-statusline <<< "$input"
+fi
+
 GREY='\033[90m'
 RED='\033[91m'
 UNCOLORED='\033[0m'
