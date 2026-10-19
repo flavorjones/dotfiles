@@ -12,8 +12,9 @@ that accumulates entries until he posts them to his team, so it has no dates: on
 
 - It is the personal notebook note: `basecamp notes show` and `basecamp notes set`. There is one per
   person and no id to pass. Web URL: <https://app.basecamp.com/2914079/my/navigation/notes>.
-- Read and write it as Mike, with the default profile: `unset BASECAMP_PROFILE`. This is the one
-  exception to the rule that agents write to Basecamp as `fetchbot`, which gets `not_found` here.
+- Read and write it as Mike: pass `--profile mike` on every `notes` call. Never rely on the default
+  profile; it can be `harry`, whose own note Mike never sees. This is the one exception to the rule
+  that agents write to Basecamp as `harry`.
 - A Basecamp document Mike links is a style reference. Never write to it.
 
 ## Layout
@@ -60,15 +61,15 @@ The note stores HTML. An entry is one `<li>` in its topic's `<ul>`:
 
 ## Steps
 
-1. Save the current note: `basecamp notes show --json --jq '.data.content' > ./tmp/notes-before.html`.
+1. Save the current note: `basecamp --profile mike notes show --json --jq '.data.content' > ./tmp/notes-before.html`.
    Don't use `--md`; it flattens the content onto one line.
 2. Copy `./tmp/notes-before.html` to `./tmp/notes.html` and insert the new entry as a `<li>` at the
    end of its topic's `<ul>`, above any "Not now" entries. For a new topic, append an `<h3>`, a `<p dir="auto"><br></p>` spacer
    and a `<ul>` holding the entry at the end of the note. Change nothing else: `notes set` replaces
    the note, so the file must carry every existing byte.
-3. `basecamp notes set --file ./tmp/notes.html --format html --json`. Without `--format html` the
+3. `basecamp --profile mike notes set --file ./tmp/notes.html --format html --json`. Without `--format html` the
    CLI reads the file as Markdown and converts the text around the tags.
-4. Read it back with `basecamp notes show --json --jq '.data.content' > ./tmp/notes-after.html` and
+4. Read it back with `basecamp --profile mike notes show --json --jq '.data.content' > ./tmp/notes-after.html` and
    run the checks below.
 5. Tell Mike which topic got the entry. On a card, say it in the card reply.
 
@@ -83,7 +84,7 @@ The note stores HTML. An entry is one `<li>` in its topic's `<ul>`:
 
 | Symptom | Cause | Fix |
 |---------|-------|-----|
-| `not_found` on the note or a linked document | `BASECAMP_PROFILE=fetchbot` still exported | `unset BASECAMP_PROFILE` |
+| Mike doesn't see the entry | Wrote without `--profile mike`, so it landed in the default profile's note (`harry`) | Redo the steps with `--profile mike`; copy any entries from `basecamp --profile harry notes show` |
 | Earlier entries disappeared | `notes set` replaces the whole note | Set `./tmp/notes-before.html` again |
 | The note shows literal `###` and `- [` text | The note was written as markdown | Set `./tmp/notes-before.html` again, then follow step 2 |
 | `Warning: content contains HTML tags and was read as Markdown` | `--format html` left off | Set `./tmp/notes-before.html` again with `--format html`, then redo step 3 |
