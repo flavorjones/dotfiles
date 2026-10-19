@@ -78,11 +78,7 @@ Important: do not write comments in tests unless it is to reveal a non-obvious f
 
 ### Git
 
-IMPORTANT GIT RULES DO NOT SKIP
-
 **IMPORTANT**: Do not push to a remote without explicit approval first.
-
-**IMPORTANT**: Do not make a commit without explicit approval of a draft commit message first. Draft the message using the `writing-changes` skill.
 
 #### Creating a worktree
 
