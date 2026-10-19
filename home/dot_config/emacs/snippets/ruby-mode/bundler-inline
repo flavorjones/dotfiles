@@ -1,0 +1,10 @@
+# -*- mode:snippet -*-
+# name: bundler-inline
+# key: bi
+# --
+require "bundler/inline"
+
+gemfile do
+  source "https://rubygems.org"
+  gem "${1:nokogiri}", path: "."
+end

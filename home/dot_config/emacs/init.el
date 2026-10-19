@@ -1,0 +1,1094 @@
+;;;;;;;;;; -*- mode: emacs-lisp; lexical-binding: nil -*-
+;;;  emacs init file
+;;;;;;;;;;
+
+(setq native-comp-async-report-warnings-errors nil)
+
+;; Omarchy theme and font integration, from the omarchy-emacs package.
+(load (expand-file-name "omarchy" user-emacs-directory))
+
+;;;
+;;;  for blocks executed conditionally based on emacs version number
+;;;
+(defun requires-emacs-version (at-least function)
+  (if (>= emacs-major-version at-least)
+      (funcall function)))
+
+
+;;;
+;;;  our external resources.
+;;;
+(add-to-list 'load-path (expand-file-name "lisp" user-emacs-directory))
+
+;;;
+;;; package managers
+;;;
+(load (expand-file-name "packages" user-emacs-directory))
+(require 'use-package)
+
+;;;;;;;;;;
+;;; general variables, functions
+;;;;;;;;;;
+(setq flavorjones:i-am-a-mac (boundp 'mac-command-modifier))
+(if flavorjones:i-am-a-mac (setq mac-command-modifier 'meta))
+
+(setq frame-title-format "%b")
+
+(global-display-line-numbers-mode t)
+
+(global-hl-todo-mode)
+
+(transient-mark-mode t)
+(setq default-major-mode 'gfm-mode)
+(put 'downcase-region 'disabled nil)
+(put 'upcase-region 'disabled nil)
+(set-input-mode nil nil t)       ; so we can use ALT as a META key (?)
+(setq-default indent-tabs-mode nil)
+(setq-default tab-width 2)
+
+;;; turn off all the decorations and gui-helpful bullshit
+(if (fboundp 'tool-bar-mode) (tool-bar-mode -1))
+(if (fboundp 'menu-bar-mode) (menu-bar-mode -1))
+
+(set-scroll-bar-mode 'right) ;; but i like the scrollbar. having an analog indicator of position in a buffer is good.
+
+(auto-compression-mode 1) ;; allow opening of .gz (et al) files directly
+
+(global-undo-tree-mode) ;; better
+
+(direnv-mode)
+
+(put 'narrow-to-region 'disabled nil) ;; enable narrowing via C-x n n and C-x n w
+
+(windmove-default-keybindings) ;; use S-<arrow> to move between buffers
+
+;; make a file executable if it's got a shebang
+(add-hook 'after-save-hook 'executable-make-buffer-file-executable-if-script-p)
+
+(editorconfig-mode 1)
+
+;;; windsize
+(require 'windsize)
+(windsize-default-keybindings)
+(setq windsize-cols 2)
+(setq windsize-rows 1)
+
+;;; mise support
+(require 'mise)
+(add-hook 'after-init-hook #'global-mise-mode)
+
+;;;
+;;; lsp-mode
+;;;
+(use-package lsp-mode
+  :init (setq lsp-keymap-prefix "C-c C-e")
+  :config (lsp-enable-which-key-integration t) ; which-key is hot
+  :hook (
+         (web-mode . lsp-deferred)
+         (ruby-mode . lsp-deferred)
+         (c-mode . lsp-deferred)
+         (c++-mode . lsp-deferred)
+         (js-mode . lsp-deferred)
+         ))
+(require 'lsp-mode)
+
+; see https://emacs-lsp.github.io/lsp-mode/page/performance/
+(setq read-process-output-max (* 1024 1024)) ;; 1mb
+(setq gc-cons-threshold 100000000)
+
+;; opt out of higher-ranked servers that we don't want
+(add-to-list 'lsp-disabled-clients 'typeprof-ls)
+(add-to-list 'lsp-disabled-clients 'rubocop-ls)
+(add-to-list 'lsp-disabled-clients 'sorbet-ls)
+
+;; npm install -g @herb-tools/language-server
+(add-to-list 'lsp-language-id-configuration '(".*\\.html.erb$" . "herb"))
+(lsp-register-client (make-lsp-client
+                      :new-connection (lsp-stdio-connection '("herb-language-server" "--stdio"))
+                      :activation-fn (lsp-activate-on "herb")
+                      :server-id 'herb-ls))
+
+; save buffers after refactoring operations
+(add-hook 'lsp-after-apply-edits-hook
+          (lambda (operation)
+            (when (eq operation 'rename)
+              (save-buffer))))
+
+; not sure what the best way to do this is, but worktrees make it a problem
+(defun lsp-cleanup-dead-workspaces ()
+    "Shut down LSP sessions whose workspace folders no longer exist on disk."
+    (interactive)
+    (let* ((session (lsp-session))
+           (dead-folders (--filter (not (file-directory-p it))
+                                  (lsp-session-folders session)))
+           (count (length dead-folders)))
+      (dolist (folder dead-folders)
+        (ignore-errors (lsp-workspace-folders-remove folder)))
+      (message "Removed %d dead workspace folder(s)" count)))
+
+;; completion
+;; see https://www.masteringemacs.org/article/understanding-minibuffer-completion
+;; also see "M-x customize-group icomplete"
+(setq completion-cycle-threshold 3)
+(setq completion-styles '(flex basic partial-completion emacs22))
+(setq read-buffer-completion-ignore-case t)
+(setq read-file-name-completion-ignore-case t)
+(setq icomplete-mode t)
+(setq icomplete-vertical-mode t)
+(setq fido-mode t)
+(setq fido-vertical-mode t)
+
+;; desktop save
+(desktop-save-mode 1)
+(setq desktop-load-locked-desktop t)
+(run-with-idle-timer 30 t (lambda () (desktop-save-in-desktop-dir)))
+
+;;;
+;;;  miscellaneous file types linked to modes
+;;;
+(setq auto-mode-alist (append '(
+                                ("\\.xml$" . xml-mode)
+                                ("\\.mxml$" . xml-mode)
+                                ("\\.rnc$" . rnc-mode)
+                                ("\\.html$" . html-mode)
+                                ("\\.css$" . css-mode)
+                                ("\\.sass$" . sass-mode)
+                                ("\\.scss$" . sass-mode)
+                                ("\\.as$" . java-mode) ; actionscript
+                                ("\\.m$" . matlab-mode) ; actionscript
+                                ("\\.liquid$" . web-mode)
+                                ("\\.star$" . bazel-starlark-mode)
+                                ("\\.rhtml$" . web-mode)
+                                ("\\.html.erb$" . web-mode)
+                                )
+                              auto-mode-alist))
+(setq auto-mode-alist
+      (append '(("\\.c$"  . c-mode)     ; to edit C code
+                ("\\.h$"  . c-mode)     ; to edit C code
+                ("\\.ec$" . c-mode)
+                ("\\.php$" . c-mode)
+                ) auto-mode-alist))
+(setq auto-mode-alist
+      (append
+       '(("\\.cpp$" . c++-mode))
+       '(("\\.h$" . c++-mode))
+       '(("\\.inl$" . c++-mode))
+       '(("\\.dox$" . c++-mode))
+       auto-mode-alist))
+(setq auto-mode-alist
+      (append
+       '(("\\.cmake$" . cmake-mode))
+       '(("CMakeLists\\.txt$" . cmake-mode))
+       auto-mode-alist))
+(setq auto-mode-alist
+      (append
+       '(("\\.rb$" . ruby-mode)
+         ("\\.cap$" . ruby-mode)
+         ("\\.rake$" . ruby-mode)
+         ("Rakefile" . ruby-mode)
+         ("Thorfile" . ruby-mode)
+         ("\\.thor$" . ruby-mode)
+         ("Gemfile" . ruby-mode)
+         ("Vagrantfile" . ruby-mode)
+         ("Capfile" . ruby-mode)
+         ("\\.gemspec$" . ruby-mode)
+         )
+       auto-mode-alist))
+(setq auto-mode-alist (cons '("\\.F$" . fortran-mode) auto-mode-alist))
+(setq auto-mode-alist (cons '("\\.hf$" . fortran-mode) auto-mode-alist))
+(setq auto-mode-alist (cons '("\\.inc$" . fortran-mode) auto-mode-alist))
+(add-to-list 'auto-mode-alist '("\\.gob$" . c-mode))
+(setq auto-mode-alist (append (list (cons "\\.pl$" 'perl-mode))
+                              auto-mode-alist))
+(setq auto-mode-alist (append '(("\\.el$" . emacs-lisp-mode)
+                                ("\\.cl$" . lisp-mode)
+                                ("\\.lisp$" . lisp-mode))
+                              auto-mode-alist))
+
+;;;;;;;;;;
+;;;  minibuffer resizes dynamically
+;;;;;;;;;;
+(if (load "rsz-mini" t) (resize-minibuffer-mode))
+
+;;;;;;;;;;
+;;; key bindings
+;;;;;;;;;;
+(global-set-key "\C-c\C-k" 'copy-region-as-kill)
+(global-set-key "\C-x\C-w" 'kill-rectangle)
+(global-set-key "\C-x\C-y" 'yank-rectangle)
+(global-set-key "\C-cg" 'goto-line)
+(global-set-key "\C-cr" 'replace-regexp)
+(global-set-key "\er" 'query-replace-regexp)
+(global-set-key "\C-c\C-a" 'auto-fill-mode)
+(global-set-key "\C-cj" 'join-line)
+(global-set-key "\C-c\t" 'tab-to-tab-stop)
+(global-set-key "\C-x\C-q" 'read-only-mode)
+(global-set-key "\C-co" 'my-find-other-file)
+(global-set-key [\C-return] [?\C-a ?\C-n ?\C-o tab]) ; open a new line below point without splitting the line
+(global-set-key "\C-c;" 'comment-or-uncomment-region)
+(global-set-key "\C-cl" 'visual-line-mode)
+
+;;; frame-related bindings
+(global-set-key "\C-c\C-fo" 'other-frame)
+(global-set-key "\C-c\C-fn" 'new-frame)
+(global-set-key "\C-c\C-fd" 'delete-frame)
+
+;;; hipsters say i need a tree
+;; (global-set-key "\C-c\C-fs" 'speedbar)
+(define-key global-map [C-f12] 'neotree-toggle)
+
+;;;  these so we can resize buffer windows using the mouse
+(global-set-key [mode-line down-mouse-1] 'mouse-drag-mode-line)
+(global-set-key [vertical-line down-mouse-1] 'mouse-drag-vertical-line)
+(global-set-key [vertical-scroll-bar S-down-mouse-1] 'mouse-drag-vertical-line)
+
+;;;  use projectile (instead of ffip)
+(projectile-mode +1)
+(projectile-rails-global-mode)
+(define-key projectile-mode-map (kbd "s-p") 'projectile-command-map)
+(define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map)
+(define-key projectile-rails-mode-map (kbd "C-c p r") 'projectile-rails-command-map)
+(setq projectile-completion-system 'ivy)
+
+(defun my-projectile-gc-projects ()
+  "Keep only existing projects under `~/Work/` or `~/code/` in `projectile-known-projects`."
+  (interactive)
+  (let* ((old-length (length projectile-known-projects))
+         (work-dir "~/Work/")
+         (code-dir "~/code/"))
+    (setq projectile-known-projects
+          (cl-remove-if-not
+           (lambda (project-path)
+             (and (file-directory-p project-path)
+                  (or (string-prefix-p work-dir project-path)
+                      (string-prefix-p code-dir project-path))))
+           projectile-known-projects))
+    (message "Projectile: Cleaned up %d obsolete projects."
+             (- old-length (length projectile-known-projects)))))
+(add-hook 'emacs-startup-hook #'my-projectile-gc-projects)
+
+;;;  miscellaneous
+(global-set-key (kbd "C-x j") #'duplicate-dwim)
+(global-set-key (kbd "C-x G") 'git-link)
+(global-set-key (kbd "C-x C-b") 'ibuffer) ;; use ibuffer instead of list-buffers
+
+;; based on thansmann's diary stuff
+(defun mark-datetime (arg) "insert a unique string and the date as a subject break"
+  (interactive "*p")
+  (move-beginning-of-line 1)
+  (open-line 1) (next-line 1)
+  (open-line 1) (next-line 1)
+  (insert "@#---------\n")
+  (insert   (format-time-string "%F %T %Z %a" (current-time)))
+  (insert " // ")
+  (insert   (format-time-string "%F %T %Z" (current-time)  'universal))
+  (open-line 1) (next-line 1)
+  (open-line 1) (next-line 1)
+  (open-line 1)
+  )
+(define-key global-map [C-f2] 'mark-datetime)
+
+
+;;;
+;;; git-commit-mode
+;;;
+(require 'git-commit)
+(setq auto-mode-alist (append '(("COMMIT_EDITMSG" . text-mode)) auto-mode-alist))
+(add-hook 'git-commit-mode-hook
+          (function
+           (lambda ()
+             (set-fill-column 70)
+             )))
+
+
+;;;
+;;;  text-mode
+;;;
+(add-hook 'text-mode-hook
+          (function
+           (lambda ()
+             (flyspell-mode)
+
+             ; set buffer-local font to proportional font
+             ; - elisp: https://stackoverflow.com/questions/12283538/emacs-buffer-local-font
+             ; - font choice: http://nickgravgaard.com/elastic-tabstops/programming-fonts
+             ;; (face-remap-add-relative 'default '(:family "Verdana")) ;; i'm not sure i like it
+             )))
+
+;;;
+;;;  treetop-mode
+;;;
+(autoload 'treetop-mode "treetop" "Treetop mode." t)
+(add-to-list 'auto-mode-alist '("\\.treetop$"  . treetop-mode))
+
+;;;
+;;;  markdown
+;;;
+;;; if files start opening in a weird browser, make sure the xdg-open is configured correctly!!
+(setq auto-mode-alist (append '(("\\.markdown$"  . gfm-mode)
+                                ("\\.mdml$"      . gfm-mode)
+                                ("\\.md$"        . gfm-mode)
+                                ("\\.slidedown$" . gfm-mode)
+                                ("\\.prolific$"  . gfm-mode)) auto-mode-alist
+                                ))
+(add-hook 'gfm-mode-hook
+          (function
+           (lambda ()
+             (electric-pair-mode 0)
+             (local-set-key (kbd "C-S-SPC") 'markdown-toggle-gfm-checkbox)
+             (local-set-key (kbd "C-c C-s >") 'markdown-insert-blockquote)
+             )))
+; https://github.com/github/cmark-gfm
+(setq markdown-command "cmark-gfm --unsafe -e footnotes -e autolink -e table -e strikethrough -e tasklist")
+(setq markdown-css-paths (list (expand-file-name "github.css" user-emacs-directory))) ; https://github.com/sindresorhus/github-markdown-css
+(setq markdown-xhtml-body-preamble "<article class=\"markdown-body\">")
+(setq markdown-xhtml-body-epilogue "</article>")
+
+(add-hook 'markdown-mode-hook 'outline-minor-mode)
+
+;;;
+;;;  css-mode
+;;;
+(add-hook 'css-mode-hook
+          '(lambda ()
+             (setq css-indent-offset 2)
+             ))
+
+;;;;;;;;;;
+;;;  common c modes
+;;;;;;;;;;
+(add-hook 'c-mode-common-hook
+          (function
+           (lambda ()
+             (setq indent-tabs-mode nil)
+             (c-set-style "k&r")
+             (setq c-basic-offset 2)
+             (c-set-offset 'case-label '+)
+             (editorconfig-apply)
+
+             (auto-fill-mode)
+
+             (fset 'my-cpp-comment-wide
+                   [?\C-o tab ?/ ?/ escape ?9 ?* return tab ?/ ?/ return tab ?/ ?/ escape ?9 ?* ?\C-p ?  ? ])
+             (fset 'my-cpp-comment
+                   [?\C-o tab ?/ ?/ return tab ?/ ?/ return tab ?/ ?/ ?\C-p ?  ? ])
+             (fset 'my-c-comment-wide
+                   [?\C-o tab ?/ escape ?1 ?0 ?* return ?* tab return escape ?1 ?0 ?* ?/ ?\C-p ?  ? ])
+             (fset 'my-c-comment
+                   [?\C-o tab ?/ ?* return ?* tab return ?* ?/ ?\C-p ?  ? ])
+             (fset 'my-c-dox-comment
+                   [?\C-o tab ?/ ?* ?* return ?* tab return ?* ?/ ?\C-p ?  ? ])
+
+             (local-set-key "\C-c\C-v" 'my-c-dox-comment)
+
+             ;;; override c-electric-star
+             (local-set-key "*" 'self-insert-command )
+             )))
+
+;;;;;;;;;;
+;;; cc-mode (c-mode)
+;;;;;;;;;;
+(add-hook 'c-mode-hook
+          (function
+           (lambda ()
+             (local-set-key "\C-cc" 'my-c-comment-wide)
+             (local-set-key "\C-cv" 'my-c-comment))))
+
+;;;;;;;;;;
+;;;  c++-mode
+;;;;;;;;;;
+(add-hook 'c++-mode-hook
+          (function
+           (lambda ()
+             (local-set-key "\C-cc" 'my-cpp-comment-wide)
+             (local-set-key "\C-cv" 'my-cpp-comment))))
+
+
+;;;;;;;;;;
+;;;  csharp-mode
+;;;;;;;;;;
+(add-hook 'csharp-mode-hook
+          (function
+           (lambda ()
+             (setq c-basic-offset 4)
+             (editorconfig-apply)
+             )))
+
+;;;;;;;;;;
+;;;  cmake-mode
+;;;;;;;;;;
+(add-hook 'cmake-mode-hook
+          (function
+           (lambda ()
+             ;;
+             ;; this rocking one-line command makes '_' a word delimiter
+             ;; just like in cc-mode
+             ;;
+             (modify-syntax-entry ?_  "_" )
+
+             (fset 'my-perl-comment
+                   [15 32 escape 49 48 35 tab return 32 35 tab return
+                       32 escape 49 48 35 tab 16 32 32])
+             (fset 'my-perl-comment2
+                   (read-kbd-macro
+                    "C-o TAB # RET TAB # RET TAB # C-p C-e 2*SPC"))
+             (local-set-key "\C-cc" 'my-perl-comment)
+             (local-set-key "\C-cv" 'my-perl-comment2)
+             )))
+
+
+;;;;;;;;;;
+;;;  ruby-mode
+;;;;;;;;;;
+(rvm-use-default) ;; use rvm's default ruby for the current Emacs session
+(add-hook 'ruby-mode-hook 'flymake-ruby-load)
+(add-hook 'ruby-mode-hook 'ruby-refactor-mode-launch)
+
+(add-hook 'ruby-mode-hook
+          (function
+           (lambda ()
+             (fset 'my-ruby-comment
+                   [?\C-o tab escape ?1 ?0 ?# return tab ?# ?  ?  return tab escape ?1 ?0 ?# ?\C-p])
+             (fset 'my-ruby-comment2
+                   [?\C-o tab ?# return tab ?# ?  ?  return tab ?# ?\C-p ?\C-e])
+             (local-set-key "\C-cc" 'my-ruby-comment)
+             (local-set-key "\C-cv" 'my-ruby-comment2)
+
+             (setq case-fold-search t) ;; this should be in ruby-mode, imho.
+             (local-set-key "\t" 'indent-for-tab-command) ;; this should be in ruby-mode, imho.
+             (setq ruby-deep-indent-paren nil)
+
+             (local-set-key (kbd "C-c :") 'ruby-toggle-hash-syntax) ;; matches "C-c {" for toggle-block
+             (local-set-key (kbd "C-c , R m") 'ruby-refactor-extract-to-method)
+             (local-set-key (kbd "C-c , R l") 'ruby-refactor-extract-to-let )
+             (local-set-key (kbd "C-c , R v") 'ruby-refactor-extract-local-variable )
+             (local-set-key (kbd "C-c , R c") 'ruby-refactor-extract-constant)
+
+             ;; Don't want flymake mode for ruby regions in rhtml files and also on read only files
+             (if (and (not (null buffer-file-name)) (file-writable-p buffer-file-name))
+                 (flymake-mode))
+             )))
+
+(eval-after-load 'rspec-mode '(rspec-install-snippets))
+(define-key ruby-mode-map (kbd "C-c m") 'toggle-poly-ruby-mode)
+
+
+;;;;;;;;;;
+;;;  sql-mode
+;;;;;;;;;;
+(add-hook 'sql-mode-hook
+          (function
+           (lambda ()
+             (fset 'my-sql-comment
+                   [?\C-o tab escape ?1 ?0 ?- return tab ?- ?- ?- ?  ?  return tab escape ?1 ?0 ?- ?\C-p])
+             (fset 'my-sql-comment2
+                   [?\C-o tab ?- ?- ?- return tab ?- ?- ?- ?  ?  return tab ?- ?- ?- ?\C-p ?\C-e])
+             (local-set-key "\C-cc" 'my-sql-comment)
+             (local-set-key "\C-cv" 'my-sql-comment2)
+             )))
+
+;;;;;;;;;;
+;;;  java mode
+;;;;;;;;;;
+(add-hook 'java-mode-hook
+          (function
+           (lambda ()
+             (local-set-key "\C-cc" 'my-cpp-comment-wide)
+             (local-set-key "\C-cv" 'my-cpp-comment)
+             (setq c-basic-offset 4)
+             (editorconfig-apply)
+             ))
+          )
+
+
+;;;;;;;;;;
+;;;  fortran mode
+;;;;;;;;;;
+(setq fortran-mode-hook
+      '(lambda ()
+         (fortran-auto-fill-mode 72)
+         (abbrev-mode t)
+         (setq
+          fortran-comment-region "c"
+          fortran-comment-indent-style 'relative
+          fortran-blink-matching-if t
+          fortran-do-indent 2
+          fortran-if-indent 2
+          fortran-structure-indent 2
+          fortran-comment-line-extra-indent -2
+          fortran-continuation-indent 5
+          fortran-continuation-string ".")
+         (fset 'fortranchow
+               [67 32 32 32 67 104 111 119 32 114 117 108 101 115 return 42 tab escape 49 48 42])
+         (fset 'my-fortran-comment1
+               [15 escape 49 48 42 return 42 return escape 49 48 42 16
+                   32 32])
+         (fset 'my-fortran-comment2
+               [15 42 32 escape 49 48 42 tab return 42 32 42 tab
+                   return 42 32 escape 49 48 42 tab 16 32 32])
+         (local-set-key "\C-cp" 'fortranchow)
+         (local-set-key "\C-cc" 'my-fortran-comment1)
+         (local-set-key "\C-cv" 'my-fortran-comment2)
+;;;        (cond (window-system
+;;;               (setq hilit-mode-enable-list  '(fortran-mode)
+;;;                     hilit-background-mode   'light
+;;;                     hilit-auto-highlight    t
+;;;                     hilit-inhibit-hooks     nil
+;;;                     hilit-inhibit-rebinding nil)
+;;;               (require 'hilit19)
+;;;               ))
+
+         ;;
+         ;; this rocking one-line command makes '_' a word delimiter
+         ;; just like in cc-mode
+         ;;
+         (modify-syntax-entry ?_  "_" )
+
+         ))
+
+
+;;;;;;;;;;
+;;; perl-mode
+;;;;;;;;;;
+(autoload 'perl-mode "perl-mode" "Perl mode." t)
+(add-hook 'perl-mode-hook
+          (function
+           (lambda ()
+             (setq
+              perl-tab-to-comment nil
+              perl-indent-level 2
+              perl-continued-brace-offset -2
+              perl-label-offset 0
+              )
+             (fset 'my-perl-comment
+                   [15 32 escape 49 48 35 tab return 32 35 tab return
+                       32 escape 49 48 35 tab 16 32 32])
+             (fset 'my-perl-comment2
+                   (read-kbd-macro
+                    "C-o TAB # RET TAB # RET TAB # C-p C-e 2*SPC"))
+             (local-set-key "\C-cc" 'my-perl-comment)
+             (local-set-key "\C-cv" 'my-perl-comment2)
+             )))
+
+;;;;;;;;;;
+;;;  sh-mode
+;;;;;;;;;;
+(add-hook 'sh-mode-hook
+          (function
+           (lambda ()
+             (fset 'my-sh-comment
+                   [?# return ?# return ?# return ?\C-p ?\C-p ?\C-e ?  ? ])
+             (local-set-key "\C-cv" 'my-sh-comment)
+             (setq sh-basic-offset 2
+                   sh-indentation 2))))
+
+
+;;;;;;;;;;
+;;;  mail mode
+;;;;;;;;;;
+(autoload 'mail-comment-region "mailfunc" "" t)
+(autoload 'mail-yank-and-comment-original "mailfunc" "" t)
+(add-hook 'mail-mode-hook
+          (function
+           (lambda ()
+             (local-set-key "\C-i" "     ")
+             (local-set-key "\C-c;" 'mail-comment-region)
+             (local-set-key "\C-c\C-y" 'mail-yank-and-comment-original)
+             (auto-fill-mode)
+             (setq mail-self-blind t)
+             (setq mail-default-reply-to "mike@csa.net")
+             )))
+
+;;;;;;;;;;
+;;;  rmail mode
+;;;;;;;;;;
+(add-hook 'rmail-mode-hook
+          (function
+           (lambda ()
+             (setq
+              next-screen-context-lines 5
+              )
+             )))
+(setq rmail-file-name "~/.rmail/incoming")
+(setq rmail-last-rmail-file "~/.rmail/received")
+(setq rmail-default-rmail-file "~/.rmail/received")
+(setq rmail-primary-inbox-list
+      (append rmail-primary-inbox-list
+              (list "~/.rmail/MBOX" )
+              ))
+
+
+;;;;;;;;;;
+;;;  lisps
+;;;;;;;;;;
+(defun my-lisp-mode-hook ()
+  (fset 'my-lisp-comment
+        [15 escape 49 48 59 return 59 59 59 return escape
+            49 48 59 16 32 32])
+  (fset 'my-lisp-comment2
+        [?\C-o tab ?\; ?\; ?\; return tab ?\; ?\; ?\; return tab ?\; ?\; ?\; ?\C-p ?  ? ])
+  (local-set-key "\C-cc" 'my-lisp-comment)
+  (local-set-key "\C-cv" 'my-lisp-comment2)
+  )
+(add-hook 'emacs-lisp-mode-hook
+          (function my-lisp-mode-hook))
+(add-hook 'lisp-mode-hook
+          (function my-lisp-mode-hook))
+
+;;;;;;;;;;
+;;;  outline mode
+;;;;;;;;;;
+(add-hook 'outline-mode-hook
+          (function
+           (lambda ()
+             (hide-body)             ; hide everything except headings
+             )))
+
+;;;
+;;;  bicycle - outline mode and hideshow mode folding
+;;;
+(add-hook 'hs-minor-mode-hook
+          (function
+           (lambda ()
+             (setq hs-hide-comments-when-hiding-all nil)
+             (setq hs-isearch-open t)
+             (setq hs-show-hidden-short-form nil)
+             (local-set-key "\C-cl" 'hs-hide-level)
+             )))
+
+(use-package bicycle
+             :after outline
+             :bind (:map outline-minor-mode-map
+                         ([C-tab] . bicycle-cycle)
+                         ([S-tab] . bicycle-cycle-global)
+                         ([backtab] . bicycle-cycle-global)))
+
+(use-package prog-mode
+  :config
+  (add-hook 'prog-mode-hook 'outline-minor-mode)
+  (add-hook 'prog-mode-hook 'hs-minor-mode))
+
+;;;;;;;;;;
+;;;  scheme mode
+;;;;;;;;;;
+(add-hook 'scheme-mode-hook
+          (function
+           (lambda ()
+             (fset 'my-scheme-comment
+                   [15 escape 49 48 59 return 59 59 59 return escape
+                       49 48 59 16 32 32])
+             (local-set-key "\C-cc" 'my-scheme-comment)
+             )))
+
+;;;;;;;;;;
+;;;  tex mode
+;;;;;;;;;;
+(add-hook 'tex-mode-hook
+          (function
+           (lambda ()
+             (setq tex-dvi-view-command "xdvi")
+             (fset 'my-tex-comment-wide
+                   [?\C-o tab ?% escape ?9 ?* return tab ?%
+                          return tab ?% escape ?9 ?* ?\C-p ?  ? ])
+             (fset 'my-tex-comment
+                   [?\C-o tab ?% return tab ?% return tab ?%
+                          ?\C-p ?  ? ])
+             (local-set-key "\C-cc" 'my-tex-comment-wide)
+             (local-set-key "\C-cv" 'my-tex-comment)
+             )))
+
+
+;;;;;;;;;;
+;;;  latex mode
+;;;;;;;;;;
+(add-hook 'latex-mode-hook
+          (function
+           (lambda ()
+             (setq tex-command "pdflatex")
+             )))
+
+;;;;;;;;;;
+;;;  html mode
+;;;;;;;;;;
+(add-hook 'html-mode-hook
+          (function (lambda ()
+                      (local-set-key "\C-c\C-i" 'indent-relative) ;; for embedded js
+                      )))
+
+;;;;;;;;;;
+;;;  my ruler
+;;;;;;;;;;
+(defvar my-column-ruler
+  (concat
+   "        10        20        30        40"
+   "        50        60        70        80        90       100\n"
+   "    +    |    +    |    +    |    +    |\n"
+   "    +    |    +    |    +    |    +    |    +    |    +    |\n")
+  "*String displayed above current line by \\[my-column-ruler].")
+
+(defun my-column-ruler ()
+  "Inserts a column ruler momentarily above current line, till next keystroke.
+The ruler is defined by the value of my-column-ruler.
+The key typed is executed unless it is SPC."
+  (interactive)
+  (momentary-string-display
+   my-column-ruler (save-excursion (beginning-of-line) (point))
+   nil "Type SPC or any command to erase ruler."))
+
+(global-set-key "\C-c\C-r" 'my-column-ruler)
+
+
+;;;;;;;;;;
+;;;  these in case I am on an XON/OFF or really, really dumb terminal
+;;;;;;;;;;
+;(global-set-key "\C-cs" 'isearch-forward-regexp)
+;(global-set-key "\C-\\" 'isearch-repeat-forward-regexp)
+;(global-set-key "\C-c\C-c " 'set-mark-command)
+
+;;;;;;;;;;
+;;;  my-find-other-file is intended to help browse lots of source files
+;;;  my-load-if-exists is a helper function
+;;;;;;;;;;
+(defun my-load-if-exists (list)
+  (cond (list
+         (cond ((file-exists-p (car list))
+                (find-file-other-window (car list)))
+               ((my-load-if-exists (cdr list)))))
+        ((error "Could not find a matching file."))))
+
+(defun my-find-other-file ()
+  "Given a source code file, will load the header file into a new buffer."
+  (interactive)
+  (let ((curbuf (buffer-name)))
+    (cond ((string-match "\.cpp$" curbuf)
+           (my-load-if-exists (list (replace-match ".h" t t curbuf))))
+          ((string-match "\.c$" curbuf)
+           (my-load-if-exists (list (replace-match ".h" t t curbuf))))
+          ((string-match "\.inl$" curbuf)
+           (my-load-if-exists (list (replace-match ".h" t t curbuf))))
+          ((string-match "\.h$" curbuf)
+           (my-load-if-exists (list (replace-match ".cpp" t t curbuf)
+                                    (replace-match ".c" t t curbuf)
+                                    (replace-match ".inl" t t curbuf)))
+           ))))
+
+
+;;;;;;;;;;
+;;;  ripped off from yaroslav
+;;;;;;;;;;
+(defun yic-ignore (str)
+  (or
+   ;;buffers I don't want to switch to
+   (string-match "\\*Buffer List\\*" str)
+   (string-match "^TAGS" str)
+   (string-match "^\\*Messages\\*$" str)
+   (string-match "^\\*Completions\\*$" str)
+   (string-match "^ " str)
+
+   ;;Test to see if the window is visible on an existing visible frame.
+   ;;Because I can always ALT-TAB to that visible frame, I never want to
+   ;;Ctrl-TAB to that buffer in the current frame.  That would cause
+   ;;a duplicate top-level buffer inside two frames.
+   (memq str
+         (mapcar
+          (lambda (x)
+            (buffer-name
+             (window-buffer
+              (frame-selected-window x))))
+          (visible-frame-list)))
+   ))
+
+(defun yic-next (ls)
+  "Switch to next buffer in ls skipping unwanted ones."
+  (let* ((ptr ls)
+         bf bn go
+         )
+    (while (and ptr (null go))
+      (setq bf (car ptr)  bn (buffer-name bf))
+      (if (null (yic-ignore bn))        ;skip over
+          (setq go bf)
+        (setq ptr (cdr ptr))
+        )
+      )
+    (if go
+        (switch-to-buffer go))))
+
+(defun yic-prev-buffer ()
+  "Switch to previous buffer in current window."
+  (interactive)
+  (yic-next (reverse (buffer-list))))
+
+(defun yic-next-buffer ()
+  "Switch to the other buffer (2nd in list-buffer) in current window."
+  (interactive)
+  (bury-buffer (current-buffer))
+  (yic-next (buffer-list)))
+
+;;;
+;;;  dos whisperer
+;;;
+(defun omg-this-is-a-dos-file ()
+  (interactive)
+  (revert-buffer-with-coding-system 'us-ascii-dos))
+
+
+;;;
+;;;  @jvshahid's magic hide-show / folding hack. seriously awesome.
+;;;
+(defun toggle-magic-code-folding (&optional delta)
+  "Trigger selective display to hide lines that have more indentation than the current line. If DELTA was provided it will be added to the current line's indentation."
+  (interactive "P")
+  (let ((indentation (current-indentation)))
+    (if selective-display
+        (set-selective-display nil)
+      (set-selective-display (+ indentation 1
+                                (if delta delta 0))))))
+(define-key global-map (kbd "C-c C-h") 'toggle-magic-code-folding)
+
+
+;;;
+;;;  camelCase: subword-mode makes word commands stop at camelCase and snake_case boundaries
+;;;
+(global-subword-mode 1)
+
+;;; I need a mode where I can edit a file without a trailing newline (for test input files)
+(add-hook 'fundamental-mode-hook
+          '(lambda ()
+             (setq require-final-newline nil)
+             ))
+
+;;;  js mode
+(add-to-list 'auto-mode-alist '("\\.js$" . js-mode))
+(add-to-list 'auto-mode-alist '("\\.json$" . js-mode))
+(add-to-list 'auto-mode-alist '("\\.mjs$" . js-mode))
+(setq js-indent-level 2)
+(add-hook 'js-mode-hook
+          (function
+           (lambda ()
+             (fset 'my-cpp-comment-wide
+                   [?\C-o tab ?/ ?/ escape ?9 ?* return tab ?/ ?/
+                          return tab ?/ ?/ escape ?9 ?* ?\C-p ?  ? ])
+             (fset 'my-cpp-comment
+                   [?\C-o tab ?/ ?/ return tab ?/ ?/ return tab ?/ ?/
+                          ?\C-p ?  ? ])
+             (local-set-key "\C-cc" 'my-cpp-comment-wide)
+             (local-set-key "\C-cv" 'my-cpp-comment)
+             )))
+
+
+;;;
+;;;  org-mode
+;;;
+(global-set-key "\C-ca" 'org-agenda)
+(add-hook 'org-mode-hook
+          '(lambda ()
+             ;; set the org-mode-map to override any and all minor modes, because there are
+             ;; critical collisions with subword mode (M-right, M-left).
+             (setq minor-mode-overriding-map-alist (list (cons t (copy-keymap org-mode-map))))
+
+             (local-set-key (kbd "C-S-SPC") 'org-toggle-checkbox)
+             ))
+
+
+;;;
+;;;  let's get ansi color support in shell
+;;;
+(autoload 'ansi-color-for-comint-mode-on "ansi-color" nil t)
+(add-hook 'shell-mode-hook 'ansi-color-for-comint-mode-on)
+
+;;;  let's try global-auto-revert in case i need to pair program
+(global-auto-revert-mode 1)
+
+;;;  also mo'better auto-save behavior
+(setq auto-save-timeout 10) ; long enough it won't happen during editing, only if I forget
+(setq auto-save-visited-file-name t)
+
+
+;;  move autosave files somewhere out of the directory path
+;;  http://amitp.blogspot.com/2007/03/emacs-move-autosave-and-backup-files.html
+(defvar user-temporary-file-directory (expand-file-name "auto-save/" user-emacs-directory))
+(make-directory user-temporary-file-directory t)
+(setq backup-by-copying t)
+(setq backup-directory-alist
+      `(("." . ,user-temporary-file-directory)
+        (,tramp-file-name-regexp nil)))
+(setq auto-save-list-file-prefix
+      (concat user-temporary-file-directory ".auto-saves-"))
+(setq auto-save-file-name-transforms
+      `((".*" ,user-temporary-file-directory t)))
+
+
+;;  server for chrome-emacs browser extension
+;;  https://github.com/KarimAziev/chrome-emacs
+(require 'atomic-chrome)
+(setq atomic-chrome-extension-type-list '(atomic-chrome)) ; do not listen on port 4001 for ghost text
+(atomic-chrome-start-server)
+
+;;;  raise the window when we launch a file from the commandline
+(add-hook 'server-switch-hook
+          (lambda ()
+            (select-frame-set-input-focus (selected-frame))
+            ))
+
+;;;
+;;;  rdoc-mode
+;;;
+(autoload 'rdoc-mode "rdoc-mode" "RDoc mode." t)
+(add-to-list 'auto-mode-alist '("\\.rdoc$" . rdoc-mode))
+
+;;;
+;;;  go-mode
+;;;  with help from https://johnsogg.github.io/emacs-golang
+;;;
+(exec-path-from-shell-initialize)
+(exec-path-from-shell-copy-env "GOPATH")
+(add-hook 'go-mode-hook
+          (function
+           (lambda ()
+             (add-hook 'before-save-hook 'gofmt-before-save) ; gofmt before every save
+             (setq gofmt-command "goimports")                ; gofmt uses invokes goimports
+             (if (not (string-match "go" compile-command))   ; set compile command default
+                 (set (make-local-variable 'compile-command)
+                      "go build -v && go test -v && go vet"))
+
+             (go-guru-hl-identifier-mode)                    ; highlight identifiers
+
+             (local-set-key (kbd "M-.") 'godef-jump)         ; Go to definition
+             (local-set-key (kbd "M-*") 'pop-tag-mark)       ; Return from whence you came
+             ;; (local-set-key (kbd "M-p") 'compile)            ; Invoke compiler
+             ;; (local-set-key (kbd "M-P") 'recompile)          ; Redo most recent compile cmd
+             (local-set-key (kbd "M-]") 'next-error)         ; Go to next error (or msg)
+             (local-set-key (kbd "M-[") 'previous-error)     ; Go to previous error or msg
+
+             (auto-complete-mode 1)                         ; Enable auto-complete mode
+
+             (local-set-key "\C-cc" 'my-cpp-comment-wide)
+             (local-set-key "\C-cv" 'my-cpp-comment)
+
+             (ginkgo-mode-on)
+             )))
+(with-eval-after-load 'go-mode
+   (require 'go-autocomplete))
+(require 'go-guru)
+(require 'go-flycheck)
+(require 'ginkgo-mode)
+
+;;; yaml
+(add-to-list 'auto-mode-alist '("\\.yml$" . yaml-mode))
+(add-to-list 'auto-mode-alist '("\\.yml.erb$" . yaml-mode))
+(add-hook 'yaml-mode-hook
+          (function
+           (lambda ()
+             (flyspell-prog-mode) ; for some reason yaml-mode inherits from text mode, wtf?
+             (set-fill-column 80) ; hat tip to @postmodern
+             )))
+
+(add-hook `dockerfile-mode-hook
+          (function (lambda ()
+                      (setq tab-width 8)
+                      )))
+
+;;;
+;;;  move lines up and down
+;;;  https://emacsredux.com/blog/2013/04/02/move-current-line-up-or-down/
+;;;
+(defun move-line-up ()
+  "Move up the current line."
+  (interactive)
+  (transpose-lines 1)
+  (forward-line -2)
+  (indent-according-to-mode))
+
+(defun move-line-down ()
+  "Move down the current line."
+  (interactive)
+  (forward-line 1)
+  (transpose-lines 1)
+  (forward-line -1)
+  (indent-according-to-mode))
+(global-set-key "\M-p" 'move-line-up)
+(global-set-key "\M-n" 'move-line-down)
+
+;;;
+;;;  personal font stuff
+;;;
+; https://github.com/mickeynp/ligature.el/blob/master/ligature.el
+(use-package ligature
+  :config
+  ;; Enable all Cascadia Code ligatures in programming modes
+  (ligature-set-ligatures '(html-mode nxml-mode prog-mode)
+                          '("|||>" "<|||" "<==>" "<!--" "####" "~~>" "***" "||=" "||>"
+                            ":::" "::=" "=:=" "===" "==>" "=!=" "=>>" "=<<" "=/=" "!=="
+                            "!!." ">=>" ">>=" ">>>" ">>-" ">->" "->>" "-->" "---" "-<<"
+                            "<~~" "<~>" "<*>" "<||" "<|>" "<$>" "<==" "<=>" "<=<" "<->"
+                            "<--" "<-<" "<<=" "<<-" "<<<" "<+>" "</>" "###" "#_(" "..<"
+                            "..." "+++" "/==" "///" "_|_" "www" "&&" "^=" "~~" "~@" "~="
+                            "~>" "~-" "**" "*>" "*/" "||" "|}" "|]" "|=" "|>" "|-" "{|"
+                            "[|" "]#" "::" ":=" ":>" ":<" "$>" "==" "=>" "!=" "!!" ">:"
+                            ">=" ">>" ">-" "-~" "-|" "->" "--" "-<" "<~" "<*" "<|" "<:"
+                            "<$" "<=" "<>" "<-" "<<" "<+" "</" "#{" "#[" "#:" "#!" ;; "#=" "#_"
+                            "##" "#(" "#?" "%%" ".=" ".-" ".." ".?" "+>" "++" "?:"
+                            "?=" "?." "??" ";;" "/*" "/=" "/>" "//" "__" "~~" "(*" "*)"
+                            "\\\\" "://"))
+  ;; Enables ligature checks globally in all buffers.  You can also do it
+  ;; per mode with `ligature-mode'.
+  (global-ligature-mode t))
+
+;;; interaction log
+(require 'interaction-log)
+(global-set-key
+ (kbd "C-h C-l")
+ (lambda () (interactive) (display-buffer ilog-buffer-name)))
+
+
+;;; yasnippet
+(yas-global-mode t)
+
+;; (define-key yas-minor-mode-map [(tab)] nil) ; undo default because I want to use TAB for copilot
+;; (define-key yas-minor-mode-map (kbd "TAB") nil) ; undo default because I want to use TAB for copilot
+;; (define-key yas-minor-mode-map (kbd "M-C-<return>") 'yas-expand)
+
+
+;;; copilot - see https://robert.kra.hn/posts/2023-02-22-copilot-emacs-setup/
+(use-package copilot)
+(add-hook 'prog-mode-hook 'copilot-mode)
+(add-hook 'yaml-mode-hook 'copilot-mode)
+
+(defun my-copilot-tab ()
+  "Command that will complete with copilot if a completion is available, or else fall back to tab-indent"
+  (interactive)
+  (or (copilot-accept-completion)
+      (indent-for-tab-command)))
+
+(defun my-copilot-next ()
+  "Command that will move to the next copilot completion if copilot is active, or else fall back to next-line"
+  (interactive)
+  (if (copilot--overlay-visible)
+      (copilot-next-completion)
+    (next-line)))
+
+(defun my-copilot-previous ()
+  "Command that will move to the previous copilot completion if copilot is active, or else fall back to previous-line"
+  (interactive)
+  (if (copilot--overlay-visible)
+      (copilot-previous-completion)
+    (previous-line)))
+
+(define-key copilot-mode-map (kbd "<right>") #'my-copilot-tab)
+(define-key copilot-mode-map (kbd "<down>") #'my-copilot-next)
+(define-key copilot-mode-map (kbd "<up>") #'my-copilot-previous)
+
+;;; diminish removes shit from the modeline
+;;  todo: if mode hasn't been loaded when this is run it doesn't seem to work?
+(require 'diminish)
+(diminish 'hs-minor-mode)
+(diminish 'subword-mode)
+(diminish 'copilot-mode)
+(diminish 'yas-minor-mode)
+(diminish 'editorconfig-mode)
+(diminish 'undo-tree-mode)
+(diminish 'eldoc-mode)
+(diminish 'flymake-mode)
+(diminish 'ruby-end-mode)
+(diminish 'ruby-refactor-mode)
+(diminish 'lsp-lens-mode)
