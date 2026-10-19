@@ -294,19 +294,35 @@ configure_browser() {
 }
 
 # The omarchy-emacs package alone does nothing. omarchy-emacs-setup is what
-# writes ~/.config/emacs and installs the theme-set and font-set hooks that
-# keep Emacs matching the desktop. Run it only when those hooks are missing:
-# the script prompts for input if it finds a legacy ~/.emacs or ~/.emacs.d,
-# and a prompt would hang an unattended run.
+# writes ~/.config/emacs/omarchy.el and the theme, and installs the theme-set
+# and font-set hooks that keep Emacs matching the desktop. A package upgrade
+# does not refresh the theme file, so run setup again when it differs. Setup
+# also runs omarchy-theme-set, so skip it when nothing changed.
+# Setup prompts for input if it finds a legacy ~/.emacs or ~/.emacs.d. Either
+# one makes Emacs skip ~/.config/emacs/init.el, so stop and say so instead.
 configure_emacs() {
   local hook="$HOME/.config/omarchy/hooks/theme-set.d/omarchy-emacs"
+  local packaged_theme="/usr/share/omarchy-emacs/config/themes/omarchy-theme.el"
+  local legacy
 
-  if [ -e "$hook" ]; then
-    echo "emacs: omarchy theme and font hooks already installed"
+  for legacy in "$HOME/.emacs" "$HOME/.emacs.d"; do
+    if [ -e "$legacy" ]; then
+      echo "emacs: FAIL $legacy makes Emacs skip ~/.config/emacs/init.el; remove it" >&2
+      return 1
+    fi
+  done
+
+  if [ -e "$hook" ] && cmp -s "$packaged_theme" "$HOME/.config/emacs/themes/omarchy-theme.el"; then
+    echo "emacs: omarchy integration is up to date"
   else
     echo "emacs: running omarchy-emacs-setup"
     omarchy-emacs-setup
   fi
+
+  # Install packages before the daemon starts: the first install can take
+  # longer than systemd's start timeout.
+  echo "emacs: installing missing packages"
+  emacs --batch -l "$HOME/.config/emacs/packages.el"
 
   if [ "$(cat "$HOME/.local/state/omarchy/defaults/editor" 2>/dev/null)" = "emacs" ]; then
     echo "emacs: already the omarchy default editor"
@@ -470,9 +486,9 @@ main() {
   install_gh_extensions
   install_claude_plugins
   enable_services
+  configure_emacs
   enable_user_services
   configure_browser
-  configure_emacs
   configure_tailscale
   verify
   echo "recipe: done"
