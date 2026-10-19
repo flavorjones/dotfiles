@@ -53,6 +53,7 @@ PACKAGES=(
   fwupd               # firmware updates via LVFS (fwupdmgr)
   github-cli          # gh, for PRs and issues from the terminal
   herdr               # terminal workspace manager for AI coding agents
+  hunspell-en_us      # US English dictionary; Emacs Flyspell needs one
   jq                  # JSON parsing, used by this script
   omarchy-emacs       # AUR: syncs the Omarchy theme and font into Emacs
   smartmontools       # SMART disk health (smartctl)
