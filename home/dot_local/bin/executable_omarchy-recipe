@@ -46,6 +46,7 @@ done
 PACKAGES=(
   bind                # dig, for DNS queries
   cmake               # C and C++ build system generator
+  direnv              # per-directory environments; Emacs direnv-mode runs it
   emacs-wayland       # Emacs, PGTK build, the one that is native on Wayland
   figlet              # big ASCII-art banner text
   fizzy-cli           # AUR: fizzy, the Fizzy boards and cards CLI
@@ -323,6 +324,17 @@ configure_emacs() {
   # longer than systemd's start timeout.
   echo "emacs: installing missing packages"
   emacs --batch -l "$HOME/.config/emacs/packages.el"
+
+  # copilot.el needs a separate language server, which it looks for under
+  # copilot-install-dir. This is the npm command M-x copilot-install-server
+  # runs; that command is asynchronous, so it can't run in batch mode.
+  local copilot_dir="$HOME/.config/emacs/.cache/copilot"
+  if [ -x "$copilot_dir/bin/copilot-language-server" ]; then
+    echo "emacs: copilot language server present"
+  else
+    echo "emacs: installing the copilot language server"
+    npm -g --prefix "$copilot_dir" install @github/copilot-language-server
+  fi
 
   if [ "$(cat "$HOME/.local/state/omarchy/defaults/editor" 2>/dev/null)" = "emacs" ]; then
     echo "emacs: already the omarchy default editor"
