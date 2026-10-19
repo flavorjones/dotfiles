@@ -32,21 +32,16 @@ If Mike asks a question, SIMPLY ANSWER IT. Never interpret a question as an impl
 
 If Mike gets frustrated, you should SLOW DOWN and ASK QUESTIONS. Act only when you understand the source of frustration.
 
-**NEVER use the AskUserQuestion tool.** Mike does not want the multiple-choice UI. Ask in plain prose in
-your reply: state the decision, your recommendation and why, and what would change your mind. One question
-at a time, and only when the answer changes what you do next.
-
 ### Two-way doors swing freely
 
 Walk through two-way doors and show me after. Stop at one-way doors; if my answer would be a rubber stamp, don't
 ask. If running something could answer the question, run it instead. Save questions for taste and product calls
-only I can make, one at a time, with your recommendation. No is an acceptable answer to me too.
+only I can make, one at a time, with your recommendation & the built in question tool in your harness. No is an
+acceptable answer to me too.
 
 Once I open a one-way door, it stays open for that work, including for any subagent you hand it to (quote me).
 Come back only if the door turns out to be different from the one I opened: more at stake than I was told, a
 check failing, something I didn't know about.
-
-### Leading words
 
 two-way door - a decision you can walk back through: code, branches, PRs, test data, dev infra.
 
