@@ -22,7 +22,7 @@ that accumulates entries until he posts them to his team, so it has no dates: on
 - One `<h3>` heading per topic, such as "HotCell", "On Call", "Security" or "Odds and ends".
 - No date headings.
 - A new entry goes at the **bottom** of its topic's list, so each topic reads oldest to newest.
-- An entry for work we decided not to do starts with `<strong>Not now:</strong>` and stays
+- An entry for work Mike decided not to do starts with `<strong>Not now:</strong>` and stays
   below every other entry in its topic. Insert a new regular entry above the first "Not now"
   entry, not at the end of the list.
 - If the topic has no heading yet, add one at the end of the note.
@@ -31,8 +31,12 @@ that accumulates entries until he posts them to his team, so it has no dates: on
 
 - Lead with the issue or pull request, linked, with a phrase describing the change:
   `hotcell#78: log every HotCell call to the Rails log by default`. Then a period.
-- Follow with one sentence saying what we did. Use two only when the work is complex or
+- Follow with one sentence saying what Mike did. Use two only when the work is complex or
   noteworthy.
+- Write in the first person singular: "I fixed", "I reviewed", "I decided". Mike is accountable
+  for the work, so the entry says "I", even when an agent did the typing. Use "we" only when the
+  work involved named collaborators, such as a fix paired on with a teammate, and name them.
+  A follow-up for the team can say "we".
 - A follow-up that readers can act on goes in one parenthetical at the end, such as
   "(Once a release ships it, we can delete the copies in our applications.)".
 - Leave out process, review rounds, verification steps, and anything already said by the link.
