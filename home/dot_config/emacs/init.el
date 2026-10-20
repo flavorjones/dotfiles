@@ -916,6 +916,8 @@ The key typed is executed unless it is SPC."
       (concat user-temporary-file-directory ".auto-saves-"))
 (setq auto-save-file-name-transforms
       `((".*" ,user-temporary-file-directory t)))
+(setq undo-tree-history-directory-alist
+      `(("." . ,user-temporary-file-directory)))
 
 
 ;;  server for chrome-emacs browser extension
