@@ -29,8 +29,9 @@ that accumulates entries until he posts them to his team, so it has no dates: on
 
 ## Entry style
 
-- Lead with the issue or pull request, linked, with a phrase describing the change:
-  `hotcell#78: log every HotCell call to the Rails log by default`. Then a period.
+- If the work has a Basecamp card, lead with the card, linked, with the card's title as the link
+  text. Otherwise lead with the issue or pull request, linked, with a phrase describing the
+  change: `hotcell#78: log every HotCell call to the Rails log by default`. Then a period.
 - Follow with one sentence saying what Mike did. Use two only when the work is complex or
   noteworthy.
 - Write in the first person singular: "I fixed", "I reviewed", "I decided". Mike is accountable
