@@ -10,3 +10,7 @@ Host github.com
   IdentityAgent none
   IdentityFile ~/.ssh/id_ed25519
   IdentitiesOnly yes
+
+# Placed under Match all so it is not part of the Host block above.
+Match all
+Include ~/.ssh/*.conf
