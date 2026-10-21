@@ -1,8 +1,5 @@
-Match host * exec "test -z $SSH_TTY"
-  IdentityAgent ~/.1password/agent.sock
-
-Host gateway.*.37signals.com
-  User mike
+# ssh uses the first value it finds for each setting, so specific hosts come
+# before general rules.
 
 # on a new machine create a dedicated ssh key for the machine
 # > ssh-keygen -t ed25519 -C user@host
@@ -11,6 +8,12 @@ Host github.com
   IdentityFile ~/.ssh/id_ed25519
   IdentitiesOnly yes
 
-# Placed under Match all so it is not part of the Host block above.
+Host gateway.*.37signals.com
+  User mike
+
+Match host * exec "test -z $SSH_TTY"
+  IdentityAgent ~/.1password/agent.sock
+
+# Match all ends the block above, so the Include applies to every host.
 Match all
 Include ~/.ssh/*.conf
