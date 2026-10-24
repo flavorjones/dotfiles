@@ -40,7 +40,8 @@ read -r -d '' MANAGED <<'JSON' || true
   "outputStyle": "STE",
   "skipDangerousModePermissionPrompt": true,
   "theme": "auto",
-  "autoCompactEnabled": true
+  "autoCompactEnabled": true,
+  "subagentPromptCacheTtl": "1h"
 }
 JSON
 
