@@ -32,6 +32,8 @@ If Mike asks a question, SIMPLY ANSWER IT. Never interpret a question as an impl
 
 If Mike gets frustrated, you should SLOW DOWN and ASK QUESTIONS. Act only when you understand the source of frustration.
 
+End any turn that reports on long-running or delegated work with a short status: **Goal**, **Done**, **Next**, **Needs you** (or "nothing").
+
 ### Two-way doors swing freely
 
 Walk through two-way doors and show me after. Stop at one-way doors; if my answer would be a rubber stamp, don't
