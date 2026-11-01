@@ -148,6 +148,7 @@ alias fyeo="chmod g-r-w-x,o-r-w-x"
 #  C dev
 #
 export VALGRIND_OPTS="--num-callers=50 --error-limit=no"
+[ -r /etc/profile.d/debuginfod.sh ] && source /etc/profile.d/debuginfod.sh # valgrind needs ld.so symbols on distros that strip it
 alias valgrind-m="valgrind --leak-check=yes --show-reachable=yes"
 alias valgrind-ruby="valgrind --num-callers=50 --error-limit=no --partial-loads-ok=yes --undef-value-errors=no"
 alias valgrind-ruby-mem0="valgrind --num-callers=50 --error-limit=no --partial-loads-ok=yes --undef-value-errors=no --freelist-vol=100000000 --malloc-fill=00 --free-fill=00"
