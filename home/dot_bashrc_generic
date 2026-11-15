@@ -116,7 +116,12 @@ function set_window_title {
 PROMPT_COMMAND+=(set_window_title)
 
 # see ~/.claude/statusline-command.sh
-export CLAUDE_CODE_DISABLE_TERMINAL_TITLE=1
+# except under herdr-core (hc), which needs Claude's OSC 7501 status reports
+if [[ -z $HC_TERMINAL_ID ]]; then
+  export CLAUDE_CODE_DISABLE_TERMINAL_TITLE=1
+else
+  unset CLAUDE_CODE_DISABLE_TERMINAL_TITLE
+fi
 
 #########################################
 #  aliases
