@@ -39,7 +39,7 @@ read -r -d '' MANAGED <<'JSON' || true
   },
   "outputStyle": "STE",
   "skipDangerousModePermissionPrompt": true,
-  "theme": "auto",
+  "theme": "custom:omarchy",
   "autoCompactEnabled": true,
   "subagentPromptCacheTtl": "1h"
 }

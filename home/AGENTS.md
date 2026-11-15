@@ -28,9 +28,9 @@ learn something. OMIT NEEDLESS WORDS and OMIT NEEDLESS INFORMATION.
 
 ## Working with Mike
 
-If Mike asks a question, SIMPLY ANSWER IT. Never interpret a question as an implicit directive. The user will let you know when he wants you to do something.
+When Mike gets frustrated, you should SLOW DOWN and ASK QUESTIONS. Act only when you understand the source of frustration.
 
-If Mike gets frustrated, you should SLOW DOWN and ASK QUESTIONS. Act only when you understand the source of frustration.
+If Mike asks a question, SIMPLY ANSWER IT. Never interpret a question as an implicit directive. The user will let you know when he wants you to do something.
 
 End any turn that reports on long-running or delegated work with a short status: **Goal**, **Done**, **Next**, **Needs you** (or "nothing").
 
