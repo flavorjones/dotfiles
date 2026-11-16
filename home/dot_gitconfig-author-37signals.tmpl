@@ -5,3 +5,6 @@
 [user]
 	name = Mike Dalessio
 	email = mike@37signals.com
+{{- if not .unattended }}
+	signingkey = ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOpXnjUeq2GN1qsB2m+saVDWmCXYHeiZrAUlbs65TR6a
+{{- end }}

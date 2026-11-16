@@ -1,6 +1,7 @@
 # ssh uses the first value it finds for each setting, so specific hosts come
 # before general rules.
 
+{{ if .unattended -}}
 # on a new machine create a dedicated ssh key for the machine
 # > ssh-keygen -t ed25519 -C user@host
 Host github.com
@@ -8,6 +9,7 @@ Host github.com
   IdentityFile ~/.ssh/id_ed25519
   IdentitiesOnly yes
 
+{{ end -}}
 Host gateway.*.37signals.com
   User mike
 
