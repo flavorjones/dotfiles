@@ -4,9 +4,9 @@
     "layout": {
       "center": [
         {
-          "format": "dddd HH:mm",
-          "formatAlt": "d MMMM 'W'ww yyyy",
           "id": "omarchy.clock",
+          "format": "ddd d MMM h:mm AP",
+          "formatAlt": "d MMMM 'W'ww yyyy",
           "verticalFormat": "HH\n—\nmm"
         }
       ],
@@ -21,6 +21,9 @@
       "right": [
         {
           "id": "omarchy.tray"
+        },
+        {
+          "id": "omarchy.dropbox"
         },
         {
           "id": "37signals.hey"
@@ -80,7 +83,31 @@
       "centerEnd": [
         {
           "id": "omarchy.elsewhen",
-          "zones": "New York|America/New_York, London|Europe/London, Dubai|Asia/Dubai, Los Angeles|America/Los_Angeles, Tokyo|Asia/Tokyo"
+          "cities": [
+            {
+              "name": "Los Angeles",
+              "zone": "America/Los_Angeles"
+            },
+            {
+              "name": "New York",
+              "zone": "America/New_York"
+            },
+            {
+              "name": "London",
+              "zone": "Europe/London"
+            },
+            {
+              "name": "Madrid",
+              "zone": "Europe/Madrid",
+              "lat": 40.4165,
+              "lon": -3.70256,
+              "region": "ES"
+            },
+            {
+              "name": "Tokyo",
+              "zone": "Asia/Tokyo"
+            }
+          ]
         },
         {
           "id": "omarchy.weather"
