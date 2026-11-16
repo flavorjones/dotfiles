@@ -33,6 +33,9 @@ hl.config({
       -- Omarchy defaults this to false. Invert it, so dragging two fingers
       -- down pushes the content down, the way a phone or a Mac does.
       natural_scroll = true,
+
+      -- Click by pressing the pad, not by tapping it.
+      tap_to_click = false,
     },
   },
 })
