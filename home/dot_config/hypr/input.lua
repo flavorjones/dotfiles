@@ -23,11 +23,11 @@ hl.config({
     kb_options = "ctrl:nocaps,compose:ralt,shift:both_capslock_cancel",
 
     -- Pointer speed, -1.0 to 1.0. Omarchy leaves it at 0.
-    sensitivity = -0.4,
+    sensitivity = -0.6,
 
     -- Mouse wheel. Hyprland keeps these separate from the touchpad settings.
     natural_scroll = true,
-    scroll_factor = 1.5,
+    scroll_factor = 1.0,
 
     touchpad = {
       -- Omarchy defaults this to false. Invert it, so dragging two fingers
