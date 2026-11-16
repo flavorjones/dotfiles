@@ -36,3 +36,10 @@ hl.config({
     },
   },
 })
+
+-- Built-in touchpad. A device's sensitivity overrides the global one
+-- above, so the touchpad moves faster without speeding up the mouse.
+hl.device({
+  name = "pixa3854:00-093a:0274-touchpad",
+  sensitivity = -0.3,
+})
