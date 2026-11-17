@@ -89,6 +89,7 @@ GH_EXTENSIONS=( # `gh extension install`, by GitHub repo
 CLAUDE_PLUGINS=( # `claude plugin install`, each from the marketplace in that GitHub repo
   "warm-compact@monorkin:monorkin/warm-compact"
   "chrome-devtools-mcp@chrome-devtools-plugins:ChromeDevTools/chrome-devtools-mcp"
+  "persistent-monitor@persistent-monitor:ruihe774/cc-persistent-monitor"
 )
 
 SERVICES=( # system units
