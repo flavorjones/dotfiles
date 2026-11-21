@@ -36,6 +36,8 @@ End any turn that reports on long-running or delegated work with a short status:
 
 While a question you asked me is unanswered, end every turn with **Needs you**, even a one-line turn. Restate the question and your recommendation; an ID alone is not enough, because I don't read scrollback. An offered choice ("if you prefer…") is a question. Write "nothing" only when nothing waits on me.
 
+While a watcher runs (`basecamp-watch`, `fizzy-watch`), its skill decides what the terminal shows, and the two status rules above do not apply.
+
 ### Two-way doors swing freely
 
 Walk through two-way doors and show me after. Stop at one-way doors; if my answer would be a rubber stamp, don't

@@ -41,6 +41,10 @@ that accumulates entries until he posts them to his team, so it has no dates: on
 - A follow-up that readers can act on goes in one parenthetical at the end, such as
   "(Once a release ships it, we can delete the copies in our applications.)".
 - Leave out process, review rounds, verification steps, and anything already said by the link.
+- When Mike asks to journal a day's work, write one entry, not one per card: counts at a high
+  level ("I wrote 8 fixes, carried 5 to convergence and triaged 6 reports"), a lead link to the
+  board, and at most one follow-up parenthetical. No sub-lists. "Go longer" means a longer single
+  entry, not more entries.
 - Start the entry with an emoji and a space when it is one of these kinds. Other entries get none.
 
   | Emoji | Kind |
